@@ -1,0 +1,22 @@
+{
+  "name": "Disease Detectives Practice",
+  "short_name": "DD Practice",
+  "description": "Science Olympiad Disease Detectives daily practice app",
+  "start_url": "/marketing/olympiad/",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#e94560",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

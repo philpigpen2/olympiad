@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="DD Practice">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="robots" content="noindex, nofollow">
+<link rel="manifest" href="manifest.json">
+<title>Disease Detectives Practice</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#1a1a2e;color:#eaeaea;overflow-x:hidden}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+
+/* LAYOUT */
+.screen{display:none;min-height:100vh;padding:20px 16px 40px;max-width:480px;margin:0 auto}
+.screen.active{display:flex;flex-direction:column}
+
+/* HOME */
+#home{align-items:center;justify-content:center;text-align:center;gap:20px}
+.home-title{font-size:2rem;font-weight:800;color:#e94560;line-height:1.2}
+.home-sub{font-size:1rem;color:#aaa;margin-top:-10px}
+.mode-btn{width:100%;padding:22px 20px;border-radius:16px;border:none;font-size:1.2rem;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform 0.15s,filter 0.15s}
+.mode-btn:active{transform:scale(0.97);filter:brightness(1.15)}
+.mode-btn.blue{background:#0f3460}
+.mode-btn.red{background:#e94560}
+.mode-btn.green{background:#1a6b4a}
+.mode-icon{font-size:2rem}
+.mode-info{text-align:left}
+.mode-label{font-size:1.1rem}
+.mode-desc{font-size:0.8rem;opacity:0.8;font-weight:400}
+.stats-bar{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.stat-chip{background:#16213e;padding:10px 18px;border-radius:999px;font-size:0.9rem;display:flex;align-items:center;gap:6px}
+
+/* HEADER */
+.screen-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.back-btn{background:#16213e;border:none;color:#eaeaea;font-size:1.4rem;width:44px;height:44px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.screen-title{font-size:1.3rem;font-weight:700;flex:1}
+
+/* PROGRESS BAR */
+.progress-wrap{margin-bottom:18px}
+.progress-label{font-size:0.85rem;color:#aaa;margin-bottom:6px}
+.progress-bar{background:#16213e;border-radius:999px;height:8px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#e94560,#f5a623);border-radius:999px;transition:width 0.4s}
+
+/* FLASHCARD */
+.card-scene{perspective:1000px;width:100%;margin:0 auto 24px}
+.card{width:100%;min-height:220px;position:relative;transform-style:preserve-3d;transition:transform 0.5s;cursor:pointer;border-radius:20px}
+.card.flipped{transform:rotateY(180deg)}
+.card-face{position:absolute;width:100%;min-height:220px;border-radius:20px;padding:32px 24px;display:flex;align-items:center;justify-content:center;text-align:center;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.card-front{background:#16213e;border:2px solid #0f3460}
+.card-back{background:#0f3460;transform:rotateY(180deg)}
+.card-term{font-size:1.8rem;font-weight:800;color:#e94560}
+.card-def{font-size:1.1rem;line-height:1.6;color:#eaeaea}
+.card-hint{font-size:0.8rem;color:#888;margin-top:12px}
+.card-btns{display:flex;gap:12px;margin-bottom:16px}
+.card-btns button{flex:1;padding:16px;border-radius:14px;border:none;font-size:1rem;font-weight:700;cursor:pointer;transition:transform 0.15s}
+.card-btns button:active{transform:scale(0.96)}
+.btn-mastered{background:#1a6b4a;color:#fff}
+.btn-again{background:#b45309;color:#fff}
+.card-actions{display:flex;gap:10px;justify-content:center}
+.shuffle-btn{background:#16213e;border:none;color:#eaeaea;padding:10px 20px;border-radius:10px;cursor:pointer;font-size:0.9rem}
+
+/* SCENARIOS */
+.scenario-story{background:#16213e;border-radius:16px;padding:20px;margin-bottom:20px;font-size:1rem;line-height:1.7;border-left:4px solid #e94560}
+.scenario-emoji{font-size:2.5rem;margin-bottom:8px}
+.scenario-name{font-size:1.1rem;font-weight:700;margin-bottom:12px;color:#e94560}
+.question-text{font-size:1.1rem;font-weight:600;margin-bottom:16px;line-height:1.5}
+.choices{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.choice-btn{background:#16213e;border:2px solid #0f3460;color:#eaeaea;padding:16px 18px;border-radius:14px;font-size:1rem;text-align:left;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.choice-btn:active{transform:scale(0.98)}
+.choice-btn.correct{background:#1a6b4a;border-color:#4ecca3;color:#fff}
+.choice-btn.wrong{background:#7f1d1d;border-color:#e94560;color:#fff}
+.feedback{background:#16213e;border-radius:14px;padding:16px;margin-bottom:16px;font-size:0.95rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.correct{border-left:4px solid #4ecca3}
+.feedback.wrong{border-left:4px solid #e94560}
+.next-btn{width:100%;padding:18px;background:#e94560;border:none;color:#fff;border-radius:14px;font-size:1.1rem;font-weight:700;cursor:pointer;display:none;font-family:inherit}
+.next-btn.show{display:block}
+
+/* RESULTS */
+.result-card{background:#16213e;border-radius:20px;padding:32px 24px;text-align:center;margin-bottom:20px}
+.result-emoji{font-size:4rem;margin-bottom:12px}
+.result-title{font-size:1.5rem;font-weight:800;margin-bottom:8px}
+.result-score{font-size:3rem;font-weight:800;color:#e94560}
+.result-label{font-size:1rem;color:#aaa;margin-bottom:20px}
+.result-next{width:100%;padding:18px;background:#0f3460;border:none;color:#fff;border-radius:14px;font-size:1.1rem;font-weight:700;cursor:pointer;margin-bottom:10px;font-family:inherit}
+.result-home{width:100%;padding:16px;background:#16213e;border:none;color:#aaa;border-radius:14px;font-size:1rem;cursor:pointer;font-family:inherit}
+
+/* MATH */
+.formula-box{background:#0f3460;border-radius:14px;padding:16px;text-align:center;margin-bottom:20px;font-size:1rem;font-weight:600}
+.formula{font-size:1.1rem;color:#4ecca3;font-weight:700;margin-top:4px}
+.math-problem{background:#16213e;border-radius:16px;padding:24px;margin-bottom:20px;font-size:1.1rem;line-height:1.6;text-align:center;font-weight:600}
+.math-input-wrap{display:flex;gap:10px;align-items:center;margin-bottom:16px}
+.math-input{flex:1;background:#16213e;border:2px solid #0f3460;color:#eaeaea;padding:16px;border-radius:14px;font-size:1.5rem;font-weight:700;text-align:center;font-family:inherit;appearance:none;-webkit-appearance:none}
+.math-input:focus{outline:none;border-color:#e94560}
+.pct-label{font-size:1.5rem;font-weight:700}
+.check-btn{width:100%;padding:18px;background:#e94560;border:none;color:#fff;border-radius:14px;font-size:1.1rem;font-weight:700;cursor:pointer;margin-bottom:12px;font-family:inherit}
+.check-btn:disabled{opacity:0.4}
+.math-feedback{background:#16213e;border-radius:14px;padding:18px;margin-bottom:16px;font-size:1rem;line-height:1.7;display:none}
+.math-feedback.show{display:block}
+.math-feedback.correct{border-left:4px solid #4ecca3}
+.math-feedback.wrong{border-left:4px solid #e94560}
+.math-next{width:100%;padding:18px;background:#0f3460;border:none;color:#fff;border-radius:14px;font-size:1.1rem;font-weight:700;cursor:pointer;display:none;font-family:inherit}
+.math-next.show{display:block}
+</style>
+</head>
+<body>
+
+<!-- HOME SCREEN -->
+<div id="home" class="screen active">
+  <div class="home-title">🔬 Disease<br>Detectives</div>
+  <div class="home-sub">State Competition Practice</div>
+  <div class="stats-bar">
+    <div class="stat-chip" id="streak-chip">🔥 <span id="streak-val">0</span> day streak</div>
+    <div class="stat-chip">⭐ <span id="total-score">0</span> pts</div>
+  </div>
+  <button class="mode-btn blue" onclick="showScreen('flashcards')">
+    <span class="mode-icon">📚</span>
+    <div class="mode-info">
+      <div class="mode-label">Flashcards</div>
+      <div class="mode-desc">25 vocab terms · tap to flip</div>
+    </div>
+  </button>
+  <button class="mode-btn red" onclick="showScreen('scenarios')">
+    <span class="mode-icon">🕵️</span>
+    <div class="mode-info">
+      <div class="mode-label">Outbreak Scenarios</div>
+      <div class="mode-desc">5 mysteries to solve</div>
+    </div>
+  </button>
+  <button class="mode-btn green" onclick="showScreen('math')">
+    <span class="mode-icon">🧮</span>
+    <div class="mode-info">
+      <div class="mode-label">Attack Rate Math</div>
+      <div class="mode-desc">8 calculation problems</div>
+    </div>
+  </button>
+</div>
+
+<!-- FLASHCARDS SCREEN -->
+<div id="flashcards" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <div class="screen-title">📚 Flashcards</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label" id="fc-label">Card 1 of 25</div>
+    <div class="progress-bar"><div class="progress-fill" id="fc-bar" style="width:4%"></div></div>
+  </div>
+  <div class="card-scene">
+    <div class="card" id="fc-card" onclick="flipCard()">
+      <div class="card-face card-front">
+        <div>
+          <div class="card-term" id="fc-term"></div>
+          <div class="card-hint">Tap to see definition</div>
+        </div>
+      </div>
+      <div class="card-face card-back">
+        <div class="card-def" id="fc-def"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card-btns" id="fc-btns" style="display:none">
+    <button class="btn-again" onclick="cardAgain()">Study Again ↺</button>
+    <button class="btn-mastered" onclick="cardMastered()">Got it ✓</button>
+  </div>
+  <div class="card-actions">
+    <button class="shuffle-btn" onclick="shuffleCards()">🔀 Shuffle</button>
+    <button class="shuffle-btn" id="fc-mastered-count">⭐ 0 mastered</button>
+  </div>
+</div>
+
+<!-- SCENARIOS SCREEN -->
+<div id="scenarios" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <div class="screen-title">🕵️ Scenarios</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label" id="sc-label">Scenario 1 of 5</div>
+    <div class="progress-bar"><div class="progress-fill" id="sc-bar" style="width:20%"></div></div>
+  </div>
+  <div id="sc-story" class="scenario-story"></div>
+  <div id="sc-question-wrap">
+    <div class="question-text" id="sc-question"></div>
+    <div class="choices" id="sc-choices"></div>
+    <div class="feedback" id="sc-feedback"></div>
+    <button class="next-btn" id="sc-next" onclick="nextQuestion()">Next →</button>
+  </div>
+  <div id="sc-result" style="display:none">
+    <div class="result-card">
+      <div class="result-emoji" id="sc-res-emoji">🎉</div>
+      <div class="result-title" id="sc-res-title"></div>
+      <div class="result-score" id="sc-res-score"></div>
+      <div class="result-label">questions correct</div>
+    </div>
+    <button class="result-next" id="sc-res-next" onclick="nextScenario()">Next Scenario →</button>
+    <button class="result-home" onclick="showScreen('home')">Back to Home</button>
+  </div>
+</div>
+
+<!-- MATH SCREEN -->
+<div id="math" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <div class="screen-title">🧮 Attack Rate Math</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label" id="math-label">Problem 1 of 8</div>
+    <div class="progress-bar"><div class="progress-fill" id="math-bar" style="width:12.5%"></div></div>
+  </div>
+  <div class="formula-box">
+    Attack Rate Formula:<br>
+    <div class="formula">( Sick ÷ Exposed ) × 100 = Attack Rate %</div>
+  </div>
+  <div class="math-problem" id="math-problem"></div>
+  <div class="math-input-wrap">
+    <input class="math-input" id="math-input" type="number" min="0" max="100" placeholder="?">
+    <span class="pct-label">%</span>
+  </div>
+  <button class="check-btn" id="math-check" onclick="checkMath()">Check Answer ✓</button>
+  <div class="math-feedback" id="math-feedback"></div>
+  <button class="math-next" id="math-next" onclick="nextMath()">Next Problem →</button>
+  <div id="math-result" style="display:none">
+    <div class="result-card">
+      <div class="result-emoji" id="math-res-emoji">🧮</div>
+      <div class="result-title" id="math-res-title"></div>
+      <div class="result-score" id="math-res-score"></div>
+      <div class="result-label">problems correct</div>
+    </div>
+    <button class="result-home" onclick="resetMath()">Try Again</button>
+    <br><br>
+    <button class="result-home" onclick="showScreen('home')">Back to Home</button>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────
+const VOCAB = [
+  { term:"Epidemic",        def:"A disease that quickly spreads to LOTS of people in an area at the same time" },
+  { term:"Endemic",         def:"A disease that is ALWAYS present in a certain place or population" },
+  { term:"Pandemic",        def:"An epidemic that spreads across the WHOLE WORLD" },
+  { term:"Outbreak",        def:"A sudden surprise jump in disease cases in a specific area" },
+  { term:"Incubation Period",def:"The waiting time between catching a germ and starting to feel sick" },
+  { term:"Transmission",    def:"How a disease travels from one person (or animal) to another" },
+  { term:"Vector",          def:"An animal that carries and spreads disease — like a mosquito or tick!" },
+  { term:"Host",            def:"The person or animal that a germ lives and grows inside" },
+  { term:"Attack Rate",     def:"How many people got sick out of everyone exposed: (Sick ÷ Exposed) × 100" },
+  { term:"Case Definition", def:"The checklist scientists use to decide if someone officially HAS the disease" },
+  { term:"Index Case",      def:"The VERY FIRST person known to get sick in an outbreak" },
+  { term:"Epidemic Curve",  def:"A bar graph showing how many people got sick each day — reveals the outbreak pattern" },
+  { term:"Point Source Outbreak", def:"Everyone got sick from ONE source at ONE time (like bad potato salad at a party)" },
+  { term:"Propagated Outbreak",   def:"Disease keeps jumping person-to-person in waves over days or weeks" },
+  { term:"Morbidity",       def:"How many people got SICK — the illness rate in a population" },
+  { term:"Mortality",       def:"How many people DIED from a disease" },
+  { term:"Pathogen",        def:"A tiny germ that causes disease — could be a virus, bacteria, or parasite" },
+  { term:"Reservoir",       def:"Where the pathogen normally hides and lives between outbreaks" },
+  { term:"Incidence",       def:"The number of BRAND NEW cases appearing in a set time period" },
+  { term:"Prevalence",      def:"ALL cases — old and new — at one moment in time" },
+  { term:"Zoonosis",        def:"A disease that jumped from ANIMALS to humans (like rabies or bird flu)" },
+  { term:"Herd Immunity",   def:"When so many people are immune, the germ cannot find enough new victims to spread" },
+  { term:"Foodborne Illness",def:"Getting sick from eating contaminated food" },
+  { term:"Waterborne Illness",def:"Getting sick from drinking or swimming in contaminated water" },
+  { term:"Contact Tracing", def:"Hunting down everyone who may have been near a sick person to stop the spread" }
+];
+
+const SCENARIOS = [
+  { title:"The Cafeteria Mystery", emoji:"🍝",
+    story:"On Tuesday, 40 students ate the pasta salad at lunch. By Wednesday morning, 24 of them had stomachaches, vomiting, and diarrhea. Students who chose pizza instead felt totally fine.",
+    questions:[
+      { q:"What is the attack rate?", choices:["40%","60%","24%","80%"], correct:1, explain:"24 sick ÷ 40 exposed × 100 = 60%! More than half got sick!" },
+      { q:"What is the most likely source?", choices:["The pizza","The pasta salad","The water","The air"], correct:1, explain:"Only pasta salad eaters got sick — it was definitely the source!" },
+      { q:"What type of outbreak is this?", choices:["Propagated","Point source","Endemic","Pandemic"], correct:1, explain:"Everyone got sick from ONE source at ONE time = point source outbreak!" }
+    ]},
+  { title:"The Pool Problem", emoji:"🏊",
+    story:"50 kids went to the community pool on Saturday. By Monday, 15 of them had watery diarrhea that lasted over a week. Kids who only played on the pool deck felt totally fine.",
+    questions:[
+      { q:"What is the attack rate?", choices:["15%","50%","30%","25%"], correct:2, explain:"15 sick ÷ 50 exposed × 100 = 30%!" },
+      { q:"What pathogen is MOST likely?", choices:["Salmonella","Cryptosporidium","E. coli","Influenza"], correct:1, explain:"Crypto loves pools — it resists chlorine and causes week-long diarrhea!" },
+      { q:"How did the disease spread?", choices:["Person to person","Through the air","Contaminated water","Insect bite"], correct:2, explain:"Waterborne — spread through the pool water they swallowed!" }
+    ]},
+  { title:"The Birthday Bash", emoji:"🎂",
+    story:"At a birthday party, 20 kids ate hamburgers. Over the next 4 days, kids kept getting sick in waves — first 3, then 5, then 6, then 3 more. The burgers were a little pink inside.",
+    questions:[
+      { q:"What type of epidemic curve does this suggest?", choices:["Point source","Propagated","Endemic","No pattern"], correct:1, explain:"Cases kept appearing in waves over many days = propagated outbreak!" },
+      { q:"What pathogen is MOST likely?", choices:["Cryptosporidium","Influenza","E. coli O157:H7","Rabies"], correct:2, explain:"Undercooked beef = E. coli O157:H7. Always cook burgers all the way through!" },
+      { q:"What was probably wrong with the hamburgers?", choices:["Too much salt","Undercooked","Too old","Wrong flavor"], correct:1, explain:"Pink inside = undercooked = germs not killed by heat!" }
+    ]},
+  { title:"The Classroom Cold", emoji:"🤧",
+    story:"In a class of 25 students, 2 kids came back from winter break sneezing and coughing. Over the next two weeks, 14 more classmates got sick — a few new kids each day.",
+    questions:[
+      { q:"What is the attack rate (all 25 students)?", choices:["8%","64%","25%","50%"], correct:1, explain:"16 total sick (2+14) ÷ 25 students × 100 = 64%!" },
+      { q:"How did this spread?", choices:["Contaminated food","Mosquito bites","Person to person","Contaminated water"], correct:2, explain:"Coughing and sneezing spread it from person to person in the classroom!" },
+      { q:"What type of outbreak is this?", choices:["Point source","Propagated","Pandemic","Endemic"], correct:1, explain:"New cases kept appearing over weeks as it spread person to person = propagated!" }
+    ]},
+  { title:"The Water Fountain", emoji:"💧",
+    story:"A school water fountain was repaired on Monday after being broken. By Friday, 36 out of 90 students who drank from it had stomach cramps and diarrhea. Students in the other wing felt fine.",
+    questions:[
+      { q:"What is the attack rate?", choices:["36%","90%","40%","25%"], correct:2, explain:"36 sick ÷ 90 exposed × 100 = 40%!" },
+      { q:"What type of illness is this?", choices:["Foodborne","Airborne","Waterborne","Vector-borne"], correct:2, explain:"It spread through contaminated drinking water = waterborne illness!" },
+      { q:"What was the most likely contamination source?", choices:["A sick student","The repaired pipe","A mosquito","The cafeteria"], correct:1, explain:"The repair likely introduced contamination into the fountain's pipes!" }
+    ]}
+];
+
+const MATH = [
+  { exposed:30,  sick:18, context:"30 people ate the chicken salad. 18 got sick." },
+  { exposed:60,  sick:15, context:"60 students drank from the fountain. 15 got sick." },
+  { exposed:25,  sick:10, context:"25 kids played in the sandbox. 10 got sick." },
+  { exposed:45,  sick:27, context:"45 people attended a party. 27 got sick." },
+  { exposed:80,  sick:12, context:"80 campers swam in the lake. 12 got sick." },
+  { exposed:50,  sick:35, context:"50 people ate at the restaurant. 35 got sick." },
+  { exposed:40,  sick:8,  context:"40 students ate the school pizza. 8 got sick." },
+  { exposed:100, sick:55, context:"100 people drank the tap water. 55 got sick." }
+];
+</script>
+<script>
+// ── STATE ─────────────────────────────────────────────────────────
+let fcIndices = [], fcPos = 0, fcFlipped = false;
+let scIdx = 0, scQIdx = 0, scScore = 0, scAnswered = false;
+let mathIdx = 0, mathScore = 0, mathAnswered = false;
+
+// ── STORAGE ───────────────────────────────────────────────────────
+function load(k, def) { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } }
+function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+
+function updateStreak() {
+  const today = new Date().toDateString();
+  const last  = load('dd_last', null);
+  let streak  = load('dd_streak', 0);
+  if (last !== today) {
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    streak = (last === yesterday) ? streak + 1 : 1;
+    save('dd_last', today);
+    save('dd_streak', streak);
+  }
+  return streak;
+}
+
+function totalPoints() {
+  return load('dd_vocab', 0) * 2 + load('dd_sc_score', 0) * 5 + load('dd_math', 0) * 3;
+}
+
+// ── SCREENS ───────────────────────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (id === 'home') refreshHome();
+  if (id === 'flashcards') initFlashcards();
+  if (id === 'scenarios') initScenarios();
+  if (id === 'math') initMath();
+  window.scrollTo(0, 0);
+}
+
+function refreshHome() {
+  const streak = updateStreak();
+  document.getElementById('streak-val').textContent = streak;
+  document.getElementById('total-score').textContent = totalPoints();
+}
+
+// ── FLASHCARDS ────────────────────────────────────────────────────
+function initFlashcards() {
+  fcIndices = [...Array(VOCAB.length).keys()];
+  fcPos = 0; fcFlipped = false;
+  showCard();
+}
+
+function showCard() {
+  const card = document.getElementById('fc-card');
+  card.classList.remove('flipped');
+  fcFlipped = false;
+  document.getElementById('fc-btns').style.display = 'none';
+
+  const v = VOCAB[fcIndices[fcPos]];
+  document.getElementById('fc-term').textContent = v.term;
+  document.getElementById('fc-def').textContent = v.def;
+
+  const pct = Math.round(((fcPos + 1) / VOCAB.length) * 100);
+  document.getElementById('fc-label').textContent = `Card ${fcPos + 1} of ${VOCAB.length}`;
+  document.getElementById('fc-bar').style.width = pct + '%';
+
+  const mastered = load('dd_vocab', 0);
+  document.getElementById('fc-mastered-count').textContent = `⭐ ${mastered} mastered`;
+}
+
+function flipCard() {
+  if (fcFlipped) return;
+  document.getElementById('fc-card').classList.add('flipped');
+  fcFlipped = true;
+  document.getElementById('fc-btns').style.display = 'flex';
+}
+
+function cardMastered() {
+  const m = load('dd_vocab', 0) + 1;
+  save('dd_vocab', m);
+  advanceCard();
+}
+
+function cardAgain() { advanceCard(); }
+
+function advanceCard() {
+  if (fcPos < VOCAB.length - 1) {
+    fcPos++;
+    showCard();
+  } else {
+    fcPos = 0;
+    showCard();
+  }
+}
+
+function shuffleCards() {
+  for (let i = fcIndices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [fcIndices[i], fcIndices[j]] = [fcIndices[j], fcIndices[i]];
+  }
+  fcPos = 0;
+  showCard();
+}
+
+// ── SCENARIOS ─────────────────────────────────────────────────────
+function initScenarios() {
+  scIdx = 0; scQIdx = 0; scScore = 0;
+  loadScenario();
+}
+
+function loadScenario() {
+  const sc = SCENARIOS[scIdx];
+  document.getElementById('sc-story').innerHTML =
+    `<div class="scenario-emoji">${sc.emoji}</div><div class="scenario-name">${sc.title}</div>${sc.story}`;
+  document.getElementById('sc-question-wrap').style.display = 'block';
+  document.getElementById('sc-result').style.display = 'none';
+
+  const pct = Math.round(((scIdx + 1) / SCENARIOS.length) * 100);
+  document.getElementById('sc-label').textContent = `Scenario ${scIdx + 1} of ${SCENARIOS.length}`;
+  document.getElementById('sc-bar').style.width = pct + '%';
+
+  loadQuestion();
+}
+
+function loadQuestion() {
+  const q = SCENARIOS[scIdx].questions[scQIdx];
+  scAnswered = false;
+
+  document.getElementById('sc-question').textContent = `Q${scQIdx + 1}: ${q.q}`;
+  document.getElementById('sc-feedback').className = 'feedback';
+  document.getElementById('sc-feedback').textContent = '';
+  document.getElementById('sc-next').className = 'next-btn';
+
+  const choicesEl = document.getElementById('sc-choices');
+  choicesEl.innerHTML = '';
+  q.choices.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c;
+    btn.onclick = () => answerQuestion(i, btn);
+    choicesEl.appendChild(btn);
+  });
+}
+
+function answerQuestion(idx, btn) {
+  if (scAnswered) return;
+  scAnswered = true;
+  const q = SCENARIOS[scIdx].questions[scQIdx];
+  const correct = idx === q.correct;
+  if (correct) scScore++;
+
+  document.querySelectorAll('.choice-btn').forEach((b, i) => {
+    b.onclick = null;
+    if (i === q.correct) b.classList.add('correct');
+    else if (i === idx && !correct) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('sc-feedback');
+  fb.textContent = (correct ? '✅ ' : '❌ ') + q.explain;
+  fb.className = 'feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('sc-next').className = 'next-btn show';
+}
+
+function nextQuestion() {
+  const sc = SCENARIOS[scIdx];
+  if (scQIdx < sc.questions.length - 1) {
+    scQIdx++;
+    loadQuestion();
+  } else {
+    showScenarioResult();
+  }
+}
+
+function showScenarioResult() {
+  const total = SCENARIOS[scIdx].questions.length;
+  document.getElementById('sc-question-wrap').style.display = 'none';
+  document.getElementById('sc-result').style.display = 'block';
+
+  const pct = scScore / total;
+  document.getElementById('sc-res-emoji').textContent = pct === 1 ? '🎉' : pct >= 0.6 ? '👍' : '💪';
+  document.getElementById('sc-res-title').textContent = pct === 1 ? 'Perfect Score!' : pct >= 0.6 ? 'Great Work!' : 'Keep Practicing!';
+  document.getElementById('sc-res-score').textContent = `${scScore}/${total}`;
+
+  const saved = load('dd_sc_score', 0) + scScore;
+  save('dd_sc_score', saved);
+
+  const nextBtn = document.getElementById('sc-res-next');
+  if (scIdx < SCENARIOS.length - 1) {
+    nextBtn.style.display = 'block';
+    nextBtn.textContent = 'Next Scenario →';
+  } else {
+    nextBtn.style.display = 'block';
+    nextBtn.textContent = 'Start Over 🔄';
+    nextBtn.onclick = initScenarios;
+  }
+}
+
+function nextScenario() {
+  if (scIdx < SCENARIOS.length - 1) {
+    scIdx++;
+    scQIdx = 0;
+    scScore = 0;
+    loadScenario();
+  }
+}
+
+// ── MATH ──────────────────────────────────────────────────────────
+function initMath() {
+  mathIdx = 0; mathScore = 0;
+  document.getElementById('math-result').style.display = 'none';
+  document.querySelector('.formula-box').style.display = 'block';
+  document.getElementById('math-problem').style.display = 'block';
+  document.getElementById('math-input-wrap') && (document.querySelector('.math-input-wrap').style.display = 'flex');
+  document.getElementById('math-check').style.display = 'block';
+  loadMath();
+}
+
+function loadMath() {
+  const p = MATH[mathIdx];
+  mathAnswered = false;
+  document.getElementById('math-problem').textContent = p.context;
+  document.getElementById('math-input').value = '';
+  document.getElementById('math-input').disabled = false;
+  document.getElementById('math-check').disabled = false;
+  document.getElementById('math-feedback').className = 'math-feedback';
+  document.getElementById('math-next').className = 'math-next';
+
+  const pct = Math.round(((mathIdx + 1) / MATH.length) * 100);
+  document.getElementById('math-label').textContent = `Problem ${mathIdx + 1} of ${MATH.length}`;
+  document.getElementById('math-bar').style.width = pct + '%';
+}
+
+function checkMath() {
+  if (mathAnswered) return;
+  const p = MATH[mathIdx];
+  const answer = Math.round((p.sick / p.exposed) * 100);
+  const userVal = parseInt(document.getElementById('math-input').value, 10);
+  if (isNaN(userVal)) { alert('Enter a number!'); return; }
+
+  mathAnswered = true;
+  const correct = Math.abs(userVal - answer) <= 1;
+  if (correct) mathScore++;
+
+  document.getElementById('math-input').disabled = true;
+  document.getElementById('math-check').disabled = true;
+
+  const fb = document.getElementById('math-feedback');
+  fb.innerHTML = (correct ? '✅ Correct! ' : `❌ The answer is ${answer}%. `) +
+    `<br><br>Here's how:<br>${p.sick} sick ÷ ${p.exposed} exposed × 100 = <strong>${answer}%</strong>`;
+  fb.className = 'math-feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('math-next').className = 'math-next show';
+}
+
+function nextMath() {
+  if (mathIdx < MATH.length - 1) {
+    mathIdx++;
+    loadMath();
+  } else {
+    showMathResult();
+  }
+}
+
+function showMathResult() {
+  document.getElementById('math-result').style.display = 'block';
+  document.querySelector('.formula-box').style.display = 'none';
+  document.getElementById('math-problem').style.display = 'none';
+  document.querySelector('.math-input-wrap').style.display = 'none';
+  document.getElementById('math-check').style.display = 'none';
+  document.getElementById('math-feedback').style.display = 'none';
+  document.getElementById('math-next').style.display = 'none';
+
+  const pct = mathScore / MATH.length;
+  document.getElementById('math-res-emoji').textContent = pct === 1 ? '🏆' : pct >= 0.75 ? '🎉' : '💪';
+  document.getElementById('math-res-title').textContent = pct === 1 ? 'Perfect Math!' : pct >= 0.75 ? 'Great Work!' : 'Keep Practicing!';
+  document.getElementById('math-res-score').textContent = `${mathScore}/${MATH.length}`;
+
+  save('dd_math', load('dd_math', 0) + mathScore);
+}
+
+function resetMath() {
+  document.getElementById('math-result').style.display = 'none';
+  document.querySelector('.formula-box').style.display = 'block';
+  document.getElementById('math-problem').style.display = 'block';
+  document.querySelector('.math-input-wrap').style.display = 'flex';
+  document.getElementById('math-check').style.display = 'block';
+  initMath();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────
+document.getElementById('math-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkMath();
+});
+
+refreshHome();
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/marketing/olympiad/sw.js', { scope: '/marketing/olympiad/' });
+}
+</script>
+</body>
+</html>
