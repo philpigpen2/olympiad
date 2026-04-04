@@ -20,7 +20,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 .screen.active{display:flex;flex-direction:column}
 
 /* HOME */
-#home{align-items:center;justify-content:center;text-align:center;gap:16px}
+#home{align-items:center;justify-content:flex-start;text-align:center;gap:14px;padding-top:32px}
 .home-title{font-size:2rem;font-weight:800;color:#e94560;line-height:1.2}
 .home-sub{font-size:1rem;color:#aaa;margin-top:-8px}
 .mode-btn{width:100%;padding:18px 16px;border-radius:16px;border:none;font-size:1.1rem;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform 0.15s,filter 0.15s}
@@ -34,36 +34,32 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 .mode-btn.amber{background:#92400e}
 .mode-btn.indigo{background:#312e81}
 .mode-btn.slate{background:#1e3a5f}
-.tip-box{background:#16213e;border-radius:14px;padding:14px 16px;border-left:4px solid #f5a623;font-size:0.85rem;color:#aaa;line-height:1.5;text-align:left}
+.tip-box{background:#16213e;border-radius:14px;padding:14px 16px;border-left:4px solid #f5a623;font-size:0.85rem;color:#aaa;line-height:1.5;text-align:left;width:100%}
 
-/* TRUE / FALSE */
-.tf-statement{background:#16213e;border-radius:16px;padding:24px;margin-bottom:24px;font-size:1.15rem;line-height:1.6;font-weight:600;text-align:center;min-height:120px;display:flex;align-items:center;justify-content:center}
-.tf-wrap{display:flex;gap:12px;margin-bottom:16px}
-.tf-btn{flex:1;padding:22px;border-radius:14px;border:none;font-size:1.2rem;font-weight:800;cursor:pointer;font-family:inherit;transition:transform 0.15s}
-.tf-btn:active{transform:scale(0.97)}
-.tf-true{background:#1a6b4a;color:#fff}
-.tf-false{background:#7f1d1d;color:#fff}
-.tf-btn.correct{outline:4px solid #4ecca3}
-.tf-btn.wrong{outline:4px solid #e94560;opacity:0.5}
+/* START BUTTON */
+.start-btn{width:100%;padding:22px 16px;border-radius:20px;border:none;font-size:1.25rem;font-weight:800;color:#fff;cursor:pointer;background:linear-gradient(135deg,#e94560,#f5a623);box-shadow:0 4px 24px rgba(233,69,96,0.45);display:flex;align-items:center;justify-content:center;gap:12px;transition:transform 0.15s,filter 0.15s;line-height:1.2}
+.start-btn:active{transform:scale(0.97);filter:brightness(1.1)}
+.start-btn-sub{font-size:0.8rem;font-weight:500;opacity:0.85;display:block;margin-top:3px}
 
-/* MATCHING */
-.match-category{font-size:0.78rem;color:#f5a623;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;text-align:center}
-.match-term{background:#0f3460;border-radius:14px;padding:20px;margin-bottom:20px;font-size:1.2rem;font-weight:800;text-align:center;color:#4ecca3;line-height:1.4}
-.match-prompt{font-size:0.85rem;color:#aaa;text-align:center;margin-bottom:12px}
+/* DONE CARD */
+.done-card{width:100%;background:#16213e;border-radius:20px;padding:22px 20px;text-align:center;border:2px solid #1a6b4a}
+.done-card-emoji{font-size:2.5rem;margin-bottom:8px}
+.done-card-title{font-size:1.2rem;font-weight:800;color:#4ecca3;margin-bottom:4px}
+.done-card-sub{font-size:0.88rem;color:#aaa;line-height:1.5}
 
-/* WRITTEN */
-.written-q{background:#16213e;border-radius:16px;padding:20px;margin-bottom:14px;font-size:1.05rem;line-height:1.6;font-weight:600}
-.hint-btn{background:transparent;border:2px solid #f5a623;color:#f5a623;padding:10px 20px;border-radius:10px;font-size:0.9rem;cursor:pointer;margin-bottom:12px;font-family:inherit;width:100%}
-.hint-box{background:#16213e;border-radius:12px;padding:14px;font-size:0.9rem;color:#aaa;line-height:1.5;margin-bottom:12px;border-left:4px solid #f5a623;display:none}
-.reveal-btn{width:100%;padding:18px;background:#0f3460;border:none;color:#fff;border-radius:14px;font-size:1.1rem;font-weight:700;cursor:pointer;margin-bottom:12px;font-family:inherit}
-.answer-box{background:#16213e;border-radius:14px;padding:18px;margin-bottom:14px;font-size:0.88rem;line-height:1.8;display:none;white-space:pre-line;border-left:4px solid #4ecca3;color:#eaeaea}
-.self-grade{display:none;gap:10px}
-.grade-got{flex:1;padding:16px;background:#1a6b4a;border:none;color:#fff;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit}
-.grade-review{flex:1;padding:16px;background:#b45309;border:none;color:#fff;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit}
+/* FREE PRACTICE */
+.free-practice-label{font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#555;text-align:center;width:100%;padding:4px 0 2px}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.mode-btn-sm{padding:12px 10px;border-radius:14px;border:none;font-size:0.82rem;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;gap:8px;transition:transform 0.15s,filter 0.15s;line-height:1.3}
+.mode-btn-sm:active{transform:scale(0.97);filter:brightness(1.15)}
 .mode-icon{font-size:1.8rem}
+.mode-icon-sm{font-size:1.35rem;flex-shrink:0}
 .mode-info{text-align:left}
+.mode-info-sm{text-align:left;overflow:hidden}
 .mode-label{font-size:1.05rem}
+.mode-label-sm{font-size:0.82rem;font-weight:700;line-height:1.2}
 .mode-desc{font-size:0.78rem;opacity:0.8;font-weight:400}
+.mode-desc-sm{font-size:0.68rem;opacity:0.75;font-weight:400;line-height:1.2}
 .stats-bar{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
 .stat-chip{background:#16213e;padding:10px 18px;border-radius:999px;font-size:0.9rem;display:flex;align-items:center;gap:6px}
 
@@ -139,6 +135,31 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 .math-next{width:100%;padding:18px;background:#0f3460;border:none;color:#fff;border-radius:14px;font-size:1.1rem;font-weight:700;cursor:pointer;display:none;font-family:inherit}
 .math-next.show{display:block}
 
+/* WRITTEN */
+.written-q{background:#16213e;border-radius:16px;padding:20px;margin-bottom:14px;font-size:1.05rem;line-height:1.6;font-weight:600}
+.hint-btn{background:transparent;border:2px solid #f5a623;color:#f5a623;padding:10px 20px;border-radius:10px;font-size:0.9rem;cursor:pointer;margin-bottom:12px;font-family:inherit;width:100%}
+.hint-box{background:#16213e;border-radius:12px;padding:14px;font-size:0.9rem;color:#aaa;line-height:1.5;margin-bottom:12px;border-left:4px solid #f5a623;display:none}
+.reveal-btn{width:100%;padding:18px;background:#0f3460;border:none;color:#fff;border-radius:14px;font-size:1.1rem;font-weight:700;cursor:pointer;margin-bottom:12px;font-family:inherit}
+.answer-box{background:#16213e;border-radius:14px;padding:18px;margin-bottom:14px;font-size:0.88rem;line-height:1.8;display:none;white-space:pre-line;border-left:4px solid #4ecca3;color:#eaeaea}
+.self-grade{display:none;gap:10px}
+.grade-got{flex:1;padding:16px;background:#1a6b4a;border:none;color:#fff;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit}
+.grade-review{flex:1;padding:16px;background:#b45309;border:none;color:#fff;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit}
+
+/* TRUE/FALSE */
+.tf-statement{background:#16213e;border-radius:16px;padding:24px;margin-bottom:24px;font-size:1.15rem;line-height:1.6;font-weight:600;text-align:center;min-height:120px;display:flex;align-items:center;justify-content:center}
+.tf-wrap{display:flex;gap:12px;margin-bottom:16px}
+.tf-btn{flex:1;padding:22px;border-radius:14px;border:none;font-size:1.2rem;font-weight:800;cursor:pointer;font-family:inherit;transition:transform 0.15s}
+.tf-btn:active{transform:scale(0.97)}
+.tf-true{background:#1a6b4a;color:#fff}
+.tf-false{background:#7f1d1d;color:#fff}
+.tf-btn.correct{outline:4px solid #4ecca3}
+.tf-btn.wrong{outline:4px solid #e94560;opacity:0.5}
+
+/* MATCHING */
+.match-category{font-size:0.78rem;color:#f5a623;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;text-align:center}
+.match-term{background:#0f3460;border-radius:14px;padding:20px;margin-bottom:20px;font-size:1.2rem;font-weight:800;text-align:center;color:#4ecca3;line-height:1.4}
+.match-prompt{font-size:0.85rem;color:#aaa;text-align:center;margin-bottom:12px}
+
 /* 2x2 TABLE */
 .table-2x2-wrap{overflow-x:auto;margin-bottom:20px}
 .table-2x2{width:100%;border-collapse:collapse;font-size:0.88rem}
@@ -153,6 +174,12 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 .cell-well{background:#0d2d1a;color:#86efac;font-size:1.3rem;font-weight:800}
 .cell-total{background:#111827;color:#eaeaea;font-size:1.1rem;font-weight:700}
 .t2-input-wrap{display:flex;gap:10px;align-items:center;margin-bottom:16px}
+.hdr-ate{background:#1e3a5f;color:#fff;font-weight:700}
+.hdr-noteat{background:#1e293b;color:#aaa;font-weight:700}
+.cell-sick-ne{background:#1a0a0a;color:#f87171;font-size:1rem;font-weight:700;opacity:0.7}
+.cell-well-ne{background:#0a1a0f;color:#6ee7b7;font-size:1rem;font-weight:700;opacity:0.7}
+.table-2x2 th{font-size:0.75rem;padding:8px 4px}
+.ar-cell{background:#0f3460;color:#f5a623;font-weight:800;font-size:0.9rem}
 
 /* EPI CHART */
 .epi-chart-box{background:#16213e;border-radius:16px;padding:16px 12px 12px;margin-bottom:20px}
@@ -163,6 +190,48 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 .x-axis{display:flex;gap:3px;padding:0 2px}
 .x-axis span{flex:1;text-align:center;font-size:0.58rem;color:#777;overflow:hidden;white-space:nowrap}
 .chart-zero{background:#0f3460!important;opacity:0.3}
+
+/* SESSION SCREEN */
+#session{align-items:stretch;justify-content:flex-start;gap:0}
+.sess-type-label{font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#f5a623;margin-bottom:10px;display:block}
+.sess-section{display:none}
+.sess-section.active{display:block}
+.sess-reveal-btn{width:100%;padding:16px;background:#0f3460;border:none;color:#fff;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;margin-bottom:12px;font-family:inherit}
+.sess-grade-wrap{display:none;gap:10px;margin-bottom:12px}
+.sess-grade-wrap.show{display:flex}
+.sess-grade-got{flex:1;padding:16px;background:#1a6b4a;border:none;color:#fff;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit}
+.sess-grade-miss{flex:1;padding:16px;background:#b45309;border:none;color:#fff;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit}
+.sess-def-box{background:#0f3460;border-radius:14px;padding:16px;margin-bottom:16px;font-size:1rem;line-height:1.6;display:none;border-left:4px solid #4ecca3}
+.sess-def-box.show{display:block}
+.sess-next-btn{width:100%;padding:16px;background:#e94560;border:none;color:#fff;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;display:none;font-family:inherit;margin-top:4px}
+.sess-next-btn.show{display:block}
+.sess-tf-wrap{display:flex;gap:12px;margin-bottom:14px}
+.sess-tf-btn{flex:1;padding:18px;border-radius:14px;border:none;font-size:1.1rem;font-weight:800;cursor:pointer;font-family:inherit}
+.sess-tf-true{background:#1a6b4a;color:#fff}
+.sess-tf-false{background:#7f1d1d;color:#fff}
+.sess-tf-btn.correct{outline:4px solid #4ecca3}
+.sess-tf-btn.wrong{outline:4px solid #e94560;opacity:0.5}
+.sess-input-row{display:flex;gap:10px;align-items:center;margin-bottom:14px}
+.sess-num-input{flex:1;background:#16213e;border:2px solid #0f3460;color:#eaeaea;padding:14px;border-radius:14px;font-size:1.4rem;font-weight:700;text-align:center;font-family:inherit;appearance:none;-webkit-appearance:none}
+.sess-num-input:focus{outline:none;border-color:#e94560}
+.sess-check-btn{width:100%;padding:16px;background:#e94560;border:none;color:#fff;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;margin-bottom:12px;font-family:inherit}
+.sess-check-btn:disabled{opacity:0.4}
+.sess-feedback{background:#16213e;border-radius:14px;padding:16px;font-size:0.92rem;line-height:1.6;display:none;margin-bottom:12px}
+.sess-feedback.show{display:block}
+.sess-feedback.correct{border-left:4px solid #4ecca3}
+.sess-feedback.wrong{border-left:4px solid #e94560}
+.sess-stats-table{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:0.9rem}
+.sess-stats-table th{background:#0f3460;color:#4ecca3;padding:8px 10px;text-align:center;font-weight:700;border:2px solid #1a1a2e}
+.sess-stats-table td{background:#16213e;color:#eaeaea;padding:8px 10px;text-align:center;border:2px solid #1a1a2e;font-weight:600}
+
+/* SESSION DONE */
+.sess-done-card{background:#16213e;border-radius:20px;padding:32px 24px;text-align:center;margin-bottom:20px;border:2px solid #4ecca3}
+.sess-done-emoji{font-size:3.5rem;margin-bottom:10px}
+.sess-done-title{font-size:1.4rem;font-weight:800;color:#4ecca3;margin-bottom:6px}
+.sess-done-score{font-size:2.5rem;font-weight:800;color:#e94560;margin-bottom:4px}
+.sess-done-label{font-size:0.95rem;color:#aaa;margin-bottom:16px}
+.sess-done-streak{font-size:1rem;color:#f5a623;font-weight:700}
+.sess-home-btn{width:100%;padding:18px;background:#0f3460;border:none;color:#fff;border-radius:14px;font-size:1.1rem;font-weight:700;cursor:pointer;font-family:inherit}
 </style>
 </head>
 <body>
@@ -175,70 +244,197 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <div class="stat-chip" id="streak-chip">🔥 <span id="streak-val">0</span> day streak</div>
     <div class="stat-chip">⭐ <span id="total-score">0</span> pts</div>
   </div>
-  <button class="mode-btn blue" onclick="showScreen('flashcards')">
-    <span class="mode-icon">📚</span>
-    <div class="mode-info">
-      <div class="mode-label">Flashcards</div>
-      <div class="mode-desc">68 vocab terms · write then reveal</div>
+
+  <!-- Start / Done card -->
+  <div id="home-start-wrap" style="width:100%">
+    <button class="start-btn" id="home-start-btn" onclick="startDailySession()">
+      <span style="font-size:1.5rem">▶</span>
+      <div style="text-align:left">
+        <div>Start Today's Practice</div>
+        <span class="start-btn-sub" id="home-start-sub">12 questions · ~10 min</span>
+      </div>
+    </button>
+    <div class="done-card" id="home-done-card" style="display:none">
+      <div class="done-card-emoji">🎉</div>
+      <div class="done-card-title">Today's session complete!</div>
+      <div class="done-card-sub" id="home-done-sub">Come back tomorrow to keep your streak alive 🔥</div>
     </div>
-  </button>
-  <button class="mode-btn red" onclick="showScreen('scenarios')">
-    <span class="mode-icon">🕵️</span>
-    <div class="mode-info">
-      <div class="mode-label">Outbreak Scenarios</div>
-      <div class="mode-desc">8 mysteries · pathogens + control measures</div>
-    </div>
-  </button>
-  <button class="mode-btn green" onclick="showScreen('math')">
-    <span class="mode-icon">🧮</span>
-    <div class="mode-info">
-      <div class="mode-label">Attack Rate Math</div>
-      <div class="mode-desc">8 calculation problems</div>
-    </div>
-  </button>
-  <button class="mode-btn purple" onclick="showScreen('table2x2')">
-    <span class="mode-icon">📊</span>
-    <div class="mode-info">
-      <div class="mode-label">2×2 Tables</div>
-      <div class="mode-desc">8 tables incl. line lists · find the source</div>
-    </div>
-  </button>
-  <button class="mode-btn teal" onclick="showScreen('epichart')">
-    <span class="mode-icon">📈</span>
-    <div class="mode-info">
-      <div class="mode-label">Epi Curves</div>
-      <div class="mode-desc">5 outbreak graphs · read the pattern</div>
-    </div>
-  </button>
-  <button class="mode-btn orange" onclick="showScreen('statsmath')">
-    <span class="mode-icon">🔢</span>
-    <div class="mode-info">
-      <div class="mode-label">Stats Math</div>
-      <div class="mode-desc">Mean · Median · Mode · 9 problems</div>
-    </div>
-  </button>
-  <button class="mode-btn amber" onclick="showScreen('truefalse')">
-    <span class="mode-icon">✅</span>
-    <div class="mode-info">
-      <div class="mode-label">True / False</div>
-      <div class="mode-desc">27 statements · just like the real test</div>
-    </div>
-  </button>
-  <button class="mode-btn indigo" onclick="showScreen('matching')">
-    <span class="mode-icon">🔗</span>
-    <div class="mode-info">
-      <div class="mode-label">Matching</div>
-      <div class="mode-desc">21 rounds · pathogens · food · chain of infection</div>
-    </div>
-  </button>
-  <button class="mode-btn slate" onclick="showScreen('written')">
-    <span class="mode-icon">✏️</span>
-    <div class="mode-info">
-      <div class="mode-label">Written Questions</div>
-      <div class="mode-desc">8 deep questions · reveal model answers</div>
-    </div>
-  </button>
+  </div>
+
+  <div class="free-practice-label">— Free Practice —</div>
+  <div class="mode-grid">
+    <button class="mode-btn-sm blue" onclick="showScreen('flashcards')">
+      <span class="mode-icon-sm">📚</span>
+      <div class="mode-info-sm">
+        <div class="mode-label-sm">Flashcards</div>
+        <div class="mode-desc-sm">68 terms · write & reveal</div>
+      </div>
+    </button>
+    <button class="mode-btn-sm red" onclick="showScreen('scenarios')">
+      <span class="mode-icon-sm">🕵️</span>
+      <div class="mode-info-sm">
+        <div class="mode-label-sm">Scenarios</div>
+        <div class="mode-desc-sm">8 mysteries</div>
+      </div>
+    </button>
+    <button class="mode-btn-sm green" onclick="showScreen('math')">
+      <span class="mode-icon-sm">🧮</span>
+      <div class="mode-info-sm">
+        <div class="mode-label-sm">Attack Rate</div>
+        <div class="mode-desc-sm">8 problems</div>
+      </div>
+    </button>
+    <button class="mode-btn-sm purple" onclick="showScreen('table2x2')">
+      <span class="mode-icon-sm">📊</span>
+      <div class="mode-info-sm">
+        <div class="mode-label-sm">2×2 Tables</div>
+        <div class="mode-desc-sm">8 tables + line lists</div>
+      </div>
+    </button>
+    <button class="mode-btn-sm teal" onclick="showScreen('epichart')">
+      <span class="mode-icon-sm">📈</span>
+      <div class="mode-info-sm">
+        <div class="mode-label-sm">Epi Curves</div>
+        <div class="mode-desc-sm">5 outbreak graphs</div>
+      </div>
+    </button>
+    <button class="mode-btn-sm orange" onclick="showScreen('statsmath')">
+      <span class="mode-icon-sm">🔢</span>
+      <div class="mode-info-sm">
+        <div class="mode-label-sm">Stats Math</div>
+        <div class="mode-desc-sm">Mean · Median · Mode</div>
+      </div>
+    </button>
+    <button class="mode-btn-sm amber" onclick="showScreen('truefalse')">
+      <span class="mode-icon-sm">✅</span>
+      <div class="mode-info-sm">
+        <div class="mode-label-sm">True / False</div>
+        <div class="mode-desc-sm">27 statements</div>
+      </div>
+    </button>
+    <button class="mode-btn-sm indigo" onclick="showScreen('matching')">
+      <span class="mode-icon-sm">🔗</span>
+      <div class="mode-info-sm">
+        <div class="mode-label-sm">Matching</div>
+        <div class="mode-desc-sm">21 rounds</div>
+      </div>
+    </button>
+    <button class="mode-btn-sm slate" onclick="showScreen('written')" style="grid-column:span 2">
+      <span class="mode-icon-sm">✏️</span>
+      <div class="mode-info-sm">
+        <div class="mode-label-sm">Written Questions</div>
+        <div class="mode-desc-sm">8 deep questions · reveal model answers</div>
+      </div>
+    </button>
+  </div>
+
   <div class="tip-box">🏆 <strong>Competition tip:</strong> Accuracy beats speed. The fastest finishers don't always win — slow down and double-check every answer.</div>
+</div>
+
+<!-- SESSION SCREEN -->
+<div id="session" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <div class="screen-title">🔬 Daily Practice</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label" id="sess-label">Question 1 of 12</div>
+    <div class="progress-bar"><div class="progress-fill" id="sess-bar" style="width:8%"></div></div>
+  </div>
+
+  <!-- Vocab sub-section -->
+  <div class="sess-section" id="sess-vocab">
+    <span class="sess-type-label">FLASHCARD</span>
+    <div class="match-term" id="sess-vocab-term"></div>
+    <textarea id="sess-vocab-input" placeholder="Write what you think it means..." style="width:100%;background:#16213e;border:2px solid #0f3460;color:#eaeaea;border-radius:14px;padding:14px;font-size:1rem;font-family:inherit;resize:none;min-height:72px;line-height:1.5;margin-bottom:10px" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+    <button class="sess-reveal-btn" id="sess-vocab-reveal-btn" onclick="revealSessVocab()">Reveal Definition 👁</button>
+    <div class="sess-def-box" id="sess-vocab-def"></div>
+    <div class="sess-grade-wrap" id="sess-vocab-grade">
+      <button class="sess-grade-got" onclick="gradeSessVocab(true)">Got it ✓</button>
+      <button class="sess-grade-miss" onclick="gradeSessVocab(false)">Need more practice ↺</button>
+    </div>
+  </div>
+
+  <!-- TF sub-section -->
+  <div class="sess-section" id="sess-tf">
+    <span class="sess-type-label">TRUE / FALSE</span>
+    <div class="tf-statement" id="sess-tf-statement"></div>
+    <div class="sess-tf-wrap">
+      <button class="sess-tf-btn sess-tf-true" id="sess-tf-true" onclick="sessTF(true)">✓ TRUE</button>
+      <button class="sess-tf-btn sess-tf-false" id="sess-tf-false" onclick="sessTF(false)">✗ FALSE</button>
+    </div>
+    <div class="sess-feedback" id="sess-tf-feedback"></div>
+    <button class="sess-next-btn" id="sess-tf-next" onclick="advanceSessQuestion(_sessLastCorrect)">Next →</button>
+  </div>
+
+  <!-- Match sub-section -->
+  <div class="sess-section" id="sess-match">
+    <span class="sess-type-label">MATCHING</span>
+    <div class="match-category" id="sess-match-cat"></div>
+    <div class="match-term" id="sess-match-term"></div>
+    <div class="match-prompt">Which answer matches?</div>
+    <div class="choices" id="sess-match-choices"></div>
+    <div class="sess-feedback" id="sess-match-feedback"></div>
+    <button class="sess-next-btn" id="sess-match-next" onclick="advanceSessQuestion(_sessLastCorrect)">Next →</button>
+  </div>
+
+  <!-- Scenario sub-section -->
+  <div class="sess-section" id="sess-sc">
+    <span class="sess-type-label">SCENARIO</span>
+    <div id="sess-sc-story" class="scenario-story" style="margin-bottom:14px"></div>
+    <div class="question-text" id="sess-sc-question"></div>
+    <div class="choices" id="sess-sc-choices"></div>
+    <div class="sess-feedback" id="sess-sc-feedback"></div>
+    <button class="sess-next-btn" id="sess-sc-next" onclick="advanceSessQuestion(_sessLastCorrect)">Next →</button>
+  </div>
+
+  <!-- Math sub-section -->
+  <div class="sess-section" id="sess-math">
+    <span class="sess-type-label">ATTACK RATE MATH</span>
+    <div class="formula-box" style="margin-bottom:14px">
+      Attack Rate Formula:<br><div class="formula">( Sick ÷ Exposed ) × 100 = Attack Rate %</div>
+    </div>
+    <div class="math-problem" id="sess-math-problem"></div>
+    <div class="sess-input-row">
+      <input class="sess-num-input" id="sess-math-input" type="number" min="0" max="100" placeholder="?">
+      <span class="pct-label">%</span>
+    </div>
+    <button class="sess-check-btn" id="sess-math-check" onclick="checkSessMath()">Check Answer ✓</button>
+    <div class="sess-feedback" id="sess-math-feedback"></div>
+    <button class="sess-next-btn" id="sess-math-next" onclick="advanceSessQuestion(_sessLastCorrect)">Next →</button>
+  </div>
+
+  <!-- Stats sub-section -->
+  <div class="sess-section" id="sess-stats">
+    <span class="sess-type-label">STATS MATH</span>
+    <div class="formula-box" style="margin-bottom:14px">
+      <div style="font-size:0.8rem;color:#aaa;margin-bottom:4px">Formula reminder:</div>
+      <div class="formula" id="sess-stats-formula"></div>
+    </div>
+    <div id="sess-stats-table-wrap" style="margin-bottom:14px"></div>
+    <div class="math-problem" id="sess-stats-problem" style="margin-top:-8px"></div>
+    <div class="sess-input-row">
+      <input class="sess-num-input" id="sess-stats-input" type="number" placeholder="?">
+    </div>
+    <button class="sess-check-btn" id="sess-stats-check" onclick="checkSessStats()">Check Answer ✓</button>
+    <div class="sess-feedback" id="sess-stats-feedback"></div>
+    <button class="sess-next-btn" id="sess-stats-next" onclick="advanceSessQuestion(_sessLastCorrect)">Next →</button>
+  </div>
+
+  <!-- Done sub-section -->
+  <div class="sess-section" id="sess-done">
+    <div class="sess-done-card">
+      <div class="sess-done-emoji">🎉</div>
+      <div class="sess-done-title">Done for today!</div>
+      <div class="sess-done-score" id="sess-done-score">0/12</div>
+      <div class="sess-done-label">questions correct</div>
+      <div class="sess-done-streak" id="sess-done-streak">🔥 1 day streak</div>
+    </div>
+    <div style="background:#16213e;border-radius:14px;padding:16px;text-align:center;margin-bottom:20px;font-size:0.95rem;color:#aaa;line-height:1.5">
+      Come back tomorrow to keep your streak alive! 🔥
+    </div>
+    <button class="sess-home-btn" onclick="showScreen('home')">← Back to Home</button>
+  </div>
 </div>
 
 <!-- FLASHCARDS SCREEN -->
@@ -478,8 +674,8 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <div class="screen-title">🔢 Stats Math</div>
   </div>
   <div class="progress-wrap">
-    <div class="progress-label" id="stats-label">Problem 1 of 9</div>
-    <div class="progress-bar"><div class="progress-fill" id="stats-bar" style="width:11.1%"></div></div>
+    <div class="progress-label" id="stats-label">Problem 1 of 12</div>
+    <div class="progress-bar"><div class="progress-fill" id="stats-bar" style="width:8.3%"></div></div>
   </div>
   <div class="formula-box">
     <div style="font-size:0.8rem;color:#aaa;margin-bottom:4px">Formula reminder:</div>
@@ -608,62 +804,63 @@ const VOCAB = [
   { term:"Incubation Period",   def:"The time between getting infected and showing symptoms. Knowing this helps investigators figure out WHEN and WHERE exposure happened." }
 ];
 
+// SCENARIOS — updated to harder difficulty (more plausible distractors, causation vs association, next steps)
 const SCENARIOS = [
   { title:"The Cafeteria Mystery", emoji:"🍝",
-    story:"On Tuesday, 40 students ate the pasta salad at lunch. By Wednesday morning, 24 of them had stomachaches, vomiting, and diarrhea. Students who chose pizza instead felt totally fine.",
+    story:"On Tuesday, 40 students ate pasta salad at lunch. By Wednesday morning, 24 had vomiting and diarrhea. Of the 35 students who drank the school's flavored lemonade that day, 21 also reported illness. Pizza eaters who skipped both items had a 5% attack rate.",
     questions:[
-      { q:"What is the attack rate?", choices:["40%","60%","24%","80%"], correct:1, explain:"24 sick ÷ 40 exposed × 100 = 60%! More than half got sick!" },
-      { q:"What is the most likely source?", choices:["The pizza","The pasta salad","The water","The air"], correct:1, explain:"Only pasta salad eaters got sick — it was definitely the source!" },
-      { q:"What type of outbreak is this?", choices:["Propagated","Point source","Endemic","Pandemic"], correct:1, explain:"Everyone got sick from ONE source at ONE time = point source outbreak!" }
+      { q:"The attack rate for pasta salad eaters is 60% and for lemonade drinkers is 60%. What is the BEST next step to identify the true source?", choices:["Shut down both the pasta salad and lemonade immediately and interview no further","Check whether the same students ate BOTH pasta salad and lemonade — the true source affects both groups","Assume lemonade is safe because it's a drink, not a food","Conclude it must be airborne since so many got sick"], correct:1, explain:"When two items show similar high attack rates, investigators must determine whether ill students consumed BOTH items. If pasta salad and lemonade were served together, one may be the true cause while the other is merely associated — this is confounding!" },
+      { q:"The attack rate among students who ate ONLY pasta salad (no lemonade) was 58%. The attack rate among students who drank ONLY lemonade (no pasta salad) was 8%. What does this suggest?", choices:["Lemonade is still equally suspect — attack rates are always unreliable","Pasta salad is the more likely culprit; lemonade's apparent high rate was due to students consuming both","Both items were definitely co-contaminated from the same source","The 8% lemonade rate is too high to rule it out"], correct:1, explain:"When you separate the groups, lemonade-only students had only 8% attack rate — close to baseline. Pasta salad-only students had 58%. This stratified analysis points to pasta salad as the true source. Lemonade's association was confounded by students eating both." },
+      { q:"What type of outbreak pattern would you expect on the epidemic curve for this event?", choices:["Gradual rise over 2 weeks then slow decline","Single sharp spike then near-zero within 2–3 days","Recurring waves every 5 days","No discernible pattern"], correct:1, explain:"A shared lunch at one time = point source outbreak. Expect ONE sharp peak (cases appearing ~within the same incubation window) then rapid dropoff once the contaminated source is removed. No new cases = no new exposure." }
     ]},
   { title:"The Pool Problem", emoji:"🏊",
-    story:"50 kids went to the community pool on Saturday. By Monday, 15 of them had watery diarrhea that lasted over a week. Kids who only played on the pool deck felt totally fine.",
+    story:"50 kids visited the community pool on Saturday. By Monday, 15 had persistent watery diarrhea lasting over a week — despite the pool's chlorine level being within normal range at inspection. Kids who only played on the pool deck remained well. A second wave of 4 cases appeared the following weekend among different children.",
     questions:[
-      { q:"What is the attack rate?", choices:["15%","50%","30%","25%"], correct:2, explain:"15 sick ÷ 50 exposed × 100 = 30%!" },
-      { q:"What pathogen is MOST likely?", choices:["Salmonella","Cryptosporidium","E. coli","Influenza"], correct:1, explain:"Crypto loves pools — it resists chlorine and causes week-long diarrhea!" },
-      { q:"How did the disease spread?", choices:["Person to person","Through the air","Contaminated water","Insect bite"], correct:2, explain:"Waterborne — spread through the pool water they swallowed!" }
+      { q:"What pathogen BEST explains a pool outbreak where the chlorine tested normal AND diarrhea lasted over a week?", choices:["Salmonella — commonly found in pool water","Cryptosporidium — uniquely resistant to standard chlorine levels","E. coli O157:H7 — destroyed by low chlorine","Norovirus — thrives in chlorinated water"], correct:1, explain:"Cryptosporidium ('Crypto') is the only major waterborne pathogen that resists standard pool chlorine concentrations. Normal chlorine won't kill it. It causes prolonged watery diarrhea lasting 1–3 weeks — perfectly matching this outbreak." },
+      { q:"The second wave 7 days later likely represents:", choices:["A new contamination event from the same source","Secondary person-to-person spread from the original cases via fecal-oral route","Evidence the pathogen became airborne","A coincidence unrelated to the pool"], correct:1, explain:"Crypto spreads fecal-orally. Infected kids with diarrhea can contaminate surfaces, diapers, or even return to the pool while still shedding. A secondary wave 7 days later suggests person-to-person propagation after the initial waterborne exposure." },
+      { q:"What is the attack rate among the 50 pool visitors?", choices:["15%","50%","30%","8%"], correct:2, explain:"15 sick ÷ 50 exposed × 100 = 30%. Nearly one in three swimmers got sick — high enough to confirm the pool as the exposure source, especially compared to the 0% among deck-only kids." }
     ]},
   { title:"The Birthday Bash", emoji:"🎂",
-    story:"At a birthday party, 20 kids ate hamburgers. Over the next 4 days, kids kept getting sick in waves — first 3, then 5, then 6, then 3 more. The burgers were a little pink inside.",
+    story:"At a birthday party, 20 kids ate hamburgers. Over the next 4 days, kids got sick in waves — 3 on Day 1, 5 on Day 2, 6 on Day 3, 3 on Day 4 — for a total of 17 ill. The burgers had a pink center. Three sick children attended a sleepover the following weekend, after which 4 other sleepover attendees became ill.",
     questions:[
-      { q:"What type of epidemic curve does this suggest?", choices:["Point source","Propagated","Endemic","No pattern"], correct:1, explain:"Cases kept appearing in waves over many days = propagated outbreak!" },
-      { q:"What pathogen is MOST likely?", choices:["Cryptosporidium","Influenza","E. coli O157:H7","Rabies"], correct:2, explain:"Undercooked beef = E. coli O157:H7. Always cook burgers all the way through!" },
-      { q:"What was probably wrong with the hamburgers?", choices:["Too much salt","Undercooked","Too old","Wrong flavor"], correct:1, explain:"Pink inside = undercooked = germs not killed by heat!" }
+      { q:"The initial wave of illness (Days 1–4) is BEST described as:", choices:["Point source — all from one contaminated food item served at one time","Propagated — spreading person-to-person from multiple initial cases","Endemic — always present at baseline in the community","A pandemic because multiple households were affected"], correct:0, explain:"All 20 kids were exposed to the SAME source (hamburgers) at the SAME event. Even though cases appeared over 4 days, this reflects variation in individual incubation periods from a single exposure — still a point source outbreak. The staggered onset does NOT mean propagated." },
+      { q:"What pathogen is MOST consistent with undercooked beef AND bloody diarrhea with possible kidney complications in children?", choices:["Campylobacter — common but rarely causes kidney failure","E. coli O157:H7 — produces Shiga toxin; can cause hemolytic uremic syndrome","Salmonella — found in beef but less associated with HUS","Listeria — survives refrigerator; long incubation"], correct:1, explain:"E. coli O157:H7 is the textbook undercooked beef pathogen. Its Shiga toxin can trigger Hemolytic Uremic Syndrome (HUS) — potentially fatal kidney failure in children. Campylobacter is common but rarely causes HUS. Salmonella is more associated with poultry/eggs." },
+      { q:"The 4 new cases at the sleepover BEST represent:", choices:["A new point source from contaminated food at the sleepover","Secondary person-to-person spread from the original cases","A separate unrelated outbreak","Proof the burgers were still contaminated a week later"], correct:1, explain:"E. coli O157:H7 is highly contagious via fecal-oral route. Ill children who were still shedding bacteria spread it to sleepover contacts. This secondary propagated spread is common with E. coli outbreaks — the original point source spawned secondary person-to-person cases." }
     ]},
   { title:"The Classroom Cold", emoji:"🤧",
-    story:"In a class of 25 students, 2 kids came back from winter break sneezing and coughing. Over the next two weeks, 14 more classmates got sick — a few new kids each day.",
+    story:"In a class of 25 students, 2 returned from winter break with respiratory illness. Over the next 14 days, 14 more classmates got sick — typically 2–4 new cases per day, peaking around Day 7. The teacher did not get sick despite daily close contact with students. The school nurse noted the school's flu vaccination rate this year was 72%.",
     questions:[
-      { q:"What is the attack rate (all 25 students)?", choices:["8%","64%","25%","50%"], correct:1, explain:"16 total sick (2+14) ÷ 25 students × 100 = 64%!" },
-      { q:"How did this spread?", choices:["Contaminated food","Mosquito bites","Person to person","Contaminated water"], correct:2, explain:"Coughing and sneezing spread it from person to person in the classroom!" },
-      { q:"What type of outbreak is this?", choices:["Point source","Propagated","Pandemic","Endemic"], correct:1, explain:"New cases kept appearing over weeks as it spread person to person = propagated!" }
+      { q:"What is the attack rate among ALL 25 students (including the 2 initial cases)?", choices:["8% — only the original 2 count","56% — 14 new cases among 23 remaining","64% — 16 total sick out of 25","72% — matching the vaccination rate"], correct:2, explain:"Total sick = 2 original + 14 new = 16. Attack rate = 16 ÷ 25 × 100 = 64%. Always include index cases in the total count when calculating the overall attack rate for a group." },
+      { q:"The teacher was NOT vaccinated but did not get sick, while 64% of students DID get sick. This most likely suggests:", choices:["The teacher had natural immunity from a prior infection or past vaccination","The teacher was exposed to a different strain","Teachers cannot get influenza","The attack rate calculation was wrong"], correct:0, explain:"Prior immunity (from past infection or vaccination in a previous year) is the most plausible explanation. Prior exposure to related strains can provide partial or full protection. This is also why the disease detective should ask about vaccination AND prior illness history when investigating." },
+      { q:"The gradual rise, peak around Day 7, and slow decline BEST describes:", choices:["A point source outbreak from a contaminated lunch","A propagated outbreak spreading person-to-person over time","An endemic pattern — always present in winter","A vector-borne outbreak from insects inside the school"], correct:1, explain:"Classic propagated outbreak. The bell-shaped curve — slow start, peak in the middle, gradual fadeout — happens because each sick person infects a few others, who infect a few more. Cases build until enough people are immune. This is the hallmark of respiratory person-to-person spread." }
     ]},
   { title:"The Water Fountain", emoji:"💧",
-    story:"A school water fountain was repaired on Monday after being broken. By Friday, 36 out of 90 students who drank from it had stomach cramps and diarrhea. Students in the other wing felt fine.",
+    story:"A school water fountain was repaired on Monday. By Friday, 36 of 90 students who drank from it had stomach cramps and diarrhea; 4 students who exclusively used their own water bottles also got sick. The 4 sick bottle-users were all in the same classroom as heavy fountain drinkers.",
     questions:[
-      { q:"What is the attack rate?", choices:["36%","90%","40%","25%"], correct:2, explain:"36 sick ÷ 90 exposed × 100 = 40%!" },
-      { q:"What type of illness is this?", choices:["Foodborne","Airborne","Waterborne","Vector-borne"], correct:2, explain:"It spread through contaminated drinking water = waterborne illness!" },
-      { q:"What was the most likely contamination source?", choices:["A sick student","The repaired pipe","A mosquito","The cafeteria"], correct:1, explain:"The repair likely introduced contamination into the fountain's pipes!" }
+      { q:"What is the attack rate for fountain drinkers?", choices:["36%","90%","40%","25%"], correct:2, explain:"36 sick ÷ 90 exposed × 100 = 40%. This is substantially higher than bottle-users, which points to the fountain as the primary source." },
+      { q:"The 4 sick bottle-users were all classmates of fountain-drinkers. This MOST likely represents:", choices:["Evidence the water bottles were also contaminated","Secondary person-to-person spread via fecal-oral route within the classroom","A separate outbreak unrelated to the fountain","Proof that the pathogen became airborne"], correct:1, explain:"Low-level person-to-person fecal-oral spread can occur in close contact settings like classrooms. These 4 cases likely represent secondary transmission from ill classmates — they are NOT evidence that the water bottle supply was contaminated." },
+      { q:"What was the most likely contamination mechanism during the fountain repair?", choices:["A sick student sneezed directly into the fountain","Backsiphonage or cross-connection during pipe repair introduced non-potable water","The fountain filter was too old","Chlorination was accidentally doubled"], correct:1, explain:"Backsiphonage — where pressure changes during repair suck contaminated water backwards into the drinking supply — is a well-documented mechanism for waterborne outbreaks following plumbing repairs. Cross-connections between potable and non-potable lines are a classic public health hazard." }
     ]},
   { title:"The Thanksgiving Turkey", emoji:"🦃",
-    story:"After Thanksgiving dinner, 12 family members got sick with fever, stomach cramps, and watery diarrhea that lasted 5 days. Symptoms started 18–36 hours after the meal. The turkey had been left out for 4 hours before serving.",
+    story:"After Thanksgiving dinner, 12 of 15 family members developed fever, stomach cramps, and watery diarrhea 18–36 hours after the meal. The turkey was left out for 4 hours before serving. One elderly guest developed bacteremia (bacteria in the bloodstream) and was hospitalized. A vegetarian guest who only ate side dishes did not get sick.",
     questions:[
-      { q:"Which pathogen is MOST likely responsible?", choices:["Norovirus","Salmonella","Listeria","E. coli O157:H7"], correct:1, explain:"Salmonella lives in poultry, has a 6–72 hour incubation, and causes exactly this symptom profile. Leaving turkey out at room temperature let it multiply to dangerous levels!" },
-      { q:"What type of outbreak is this?", choices:["Propagated — spread person to person","Point source — one contaminated meal","Vector-borne — spread by insects","Endemic — always present"], correct:1, explain:"Everyone got sick from ONE shared meal at ONE time = classic point source outbreak!" },
-      { q:"What should the health department do FIRST after confirming the source?", choices:["Arrest everyone at the dinner","Quarantine the whole neighborhood","Educate the family on safe food handling and temperatures","Give everyone antibiotics immediately"], correct:2, explain:"Control measures for foodborne outbreaks focus on education, safe handling (cook to 165°F, don't leave food out >2 hours), and preventing future illness. Antibiotics aren't always needed!" }
+      { q:"Which pathogen is MOST consistent with 18–36 hr onset, poultry source, AND ability to cause invasive bacteremia in elderly patients?", choices:["Norovirus — rapid onset, self-limiting, rarely invasive","Salmonella — 6–72 hr incubation; can become invasive in elderly/immunocompromised","Listeria — poultry possible but 1–4 week incubation doesn't fit","Staph aureus — 1–6 hr toxin-mediated; onset is too fast"], correct:1, explain:"Salmonella fits perfectly: poultry source, 6–72 hr incubation (18–36 hrs is typical), fever + diarrhea, AND Salmonella is notorious for causing invasive bacteremia in elderly/immunocompromised patients. Staph aureus would have acted faster (1–6 hrs). Listeria's incubation is weeks, not hours." },
+      { q:"The vegetarian guest ate only side dishes and did NOT get sick. What is the BEST interpretation of this finding?", choices:["It definitively proves the turkey was the source — no further investigation needed","It strongly implicates the turkey, but investigators should also check whether any side dishes were prepared using utensils that touched the raw turkey","Vegetarians are naturally immune to Salmonella","The side dishes must have been contaminated but she got lucky"], correct:1, explain:"The vegetarian's health supports the turkey hypothesis, but disease detectives must consider cross-contamination — did any utensils, cutting boards, or hands that touched the raw turkey also touch the side dishes? Ruling out cross-contamination is a necessary investigation step, not just assuming the turkey alone was responsible." },
+      { q:"What is the MOST appropriate immediate public health action?", choices:["Arrest the host for food safety violations","Issue a multi-state turkey recall without further lab confirmation","Collect stool samples from ill family members, conduct interviews about food preparation, and educate on safe turkey handling","Give all family members prophylactic antibiotics immediately"], correct:2, explain:"Standard outbreak investigation: collect specimens for lab confirmation, conduct a thorough food history interview, and implement education on safe food handling (cook to 165°F, don't leave food in danger zone). Antibiotics are not routinely given for uncomplicated Salmonella — they can actually prolong carrier state. A recall requires confirmed lab evidence across multiple cases." }
     ]},
   { title:"The Cruise Ship Nightmare", emoji:"🚢",
-    story:"On a 7-day cruise with 2,000 passengers, 340 people got sick over 5 days. Symptoms hit suddenly: explosive vomiting, diarrhea, stomach cramps. Illness lasted only 1–2 days. Sick passengers used shared bathrooms.",
+    story:"On a 7-day cruise with 2,000 passengers, 340 people got sick over 5 days. Symptoms: sudden explosive vomiting, watery diarrhea, cramps — resolved in 1–2 days. Sick passengers used shared bathrooms. Environmental swabs of bathroom surfaces tested positive for viral particles. A kitchen worker also reported vomiting 2 days before the first passenger cases.",
     questions:[
-      { q:"Which pathogen BEST matches this description?", choices:["Salmonella","Campylobacter","Norovirus","Listeria"], correct:2, explain:"Norovirus! Clues: sudden onset, vomiting + diarrhea, only 1-2 days duration, highly contagious in close quarters. Norovirus is the #1 cause of cruise ship outbreaks." },
-      { q:"What is the attack rate among passengers?", choices:["7%","17%","34%","51%"], correct:1, explain:"340 sick ÷ 2,000 passengers × 100 = 17%. That's a lot of people from one highly contagious virus!" },
-      { q:"Which control measure would BEST stop further spread on the ship?", choices:["Close the restaurants only","Deep-clean all surfaces with bleach and isolate sick passengers","Vaccinate everyone onboard","Test everyone's blood for the virus"], correct:1, explain:"Norovirus spreads via contaminated surfaces (fomites!) AND person-to-person. Deep cleaning + isolation of sick passengers is the key control measure. It survives many regular cleaners — needs bleach!" }
+      { q:"The kitchen worker got sick 2 days BEFORE passenger cases began. What is the MOST important implication of this finding?", choices:["It is a coincidence — kitchen workers get sick all the time","The kitchen worker may have been the index case who contaminated food, making this both a foodborne AND person-to-person outbreak","It proves the outbreak was definitely waterborne","The kitchen worker must have eaten bad food elsewhere"], correct:1, explain:"A kitchen worker sick BEFORE the outbreak is a critical epidemiological finding. Norovirus-infected food handlers who continue working can contaminate food and surfaces, launching a foodborne point source outbreak. Person-to-person spread then amplifies it. This hybrid pattern — foodborne introduction followed by person-to-person propagation — is the most common cruise ship norovirus scenario." },
+      { q:"What is the attack rate among passengers?", choices:["7%","17%","34%","51%"], correct:1, explain:"340 sick ÷ 2,000 passengers × 100 = 17%. While 17% sounds moderate, for a single outbreak on a contained vessel over 5 days, this represents an enormous number of sick people from a highly contagious pathogen." },
+      { q:"Environmental swabs testing positive for viral particles MOST directly supports which control measure as the highest priority?", choices:["Close restaurants only — the food was the sole vector","Deep-clean ALL surfaces with EPA-approved bleach solution AND exclude sick passengers and staff from food handling areas","Test everyone's blood before allowing anyone off the ship","Vaccinate all passengers against norovirus"], correct:1, explain:"Positive environmental swabs confirm fomite contamination — surfaces are active transmission routes. Norovirus survives standard cleaners; it requires bleach or other approved virucides. Excluding sick staff from food handling AND deep-cleaning surfaces simultaneously attacks both transmission routes. There is no approved norovirus vaccine." }
     ]},
   { title:"The Deli Counter", emoji:"🥪",
-    story:"Over 3 weeks, 8 people in the same county developed serious illness: high fever, muscle aches, and stiff neck. All 8 had eaten deli meats from the same grocery store. Three patients were pregnant women. Two patients died.",
+    story:"Over 3 weeks, 8 people in the same county developed serious illness: high fever, muscle aches, stiff neck, and confusion. All 8 had purchased deli meats from the same grocery store chain. Three patients were pregnant women (two had fetal loss). Two patients died. Laboratory analysis confirmed the same genetic strain across all cases via whole-genome sequencing.",
     questions:[
-      { q:"Which pathogen is MOST likely responsible?", choices:["Salmonella","E. coli O157:H7","Listeria monocytogenes","Campylobacter"], correct:2, explain:"Listeria! Red flags: deli meats, pregnant women affected (Listeria is especially dangerous for them), stiff neck (can cause meningitis), high mortality, and slow spread over weeks. Listeria is cold-tolerant — survives in the refrigerator!" },
-      { q:"Why did cases appear over 3 weeks instead of all at once?", choices:["The disease spread person to person","Listeria has a very long incubation period of 1–4 weeks","The deli ran out of food slowly","People ate the food at different times over 3 weeks"], correct:1, explain:"Listeria has an incubation period of 1–4 WEEKS — much longer than most foodborne pathogens. People who ate the deli meat weeks earlier are still getting sick!" },
-      { q:"What surveillance system would MOST likely catch this cluster?", choices:["FoodNet — CDC's active foodborne illness surveillance system","A school nurse tracking absences","Hospital emergency rooms comparing notes","Twitter trending topics"], correct:0, explain:"FoodNet is the CDC's Foodborne Diseases Active Surveillance Network. It monitors 10 US sites to detect exactly these kinds of clusters across multiple counties. This is real CDC surveillance in action!" }
+      { q:"Which pathogen is MOST consistent with deli meats, a 1–4 week incubation period, disproportionate impact on pregnant women, AND neurological symptoms (stiff neck, confusion)?", choices:["Salmonella — common in deli meats but rarely neurological","E. coli O157:H7 — affects kidneys, not typically neurological meningitis","Listeria monocytogenes — cold-tolerant; causes listeriosis with meningitis; extremely dangerous in pregnancy","Campylobacter — common but not linked to deli meats or meningitis"], correct:2, explain:"Listeria is the only major foodborne pathogen that: (1) survives and grows in refrigerators, (2) has a 1–4 WEEK incubation, (3) disproportionately affects pregnant women and immunocompromised individuals, and (4) causes invasive disease including meningitis (stiff neck, confusion). The long incubation and neurological symptoms are the key differentiating clues." },
+      { q:"Whole-genome sequencing confirmed the same Listeria strain in all 8 patients. This finding:", choices:["Is unnecessary — the deli connection was already obvious","Strongly establishes a common source and supports regulatory action against the store/supplier","Only proves the patients visited the same store, not that the food caused illness","Is less useful than traditional culture methods for outbreak investigation"], correct:1, explain:"Whole-genome sequencing (WGS) is now the gold standard for outbreak investigation. Matching strains across geographically linked cases provides near-definitive evidence of a common source, enabling targeted regulatory action (store closure, product recall) and ruling out coincidental cases. It's far more precise than older typing methods." },
+      { q:"Why did cases appear spread over 3 weeks rather than clustering within 24–72 hours as in most foodborne outbreaks?", choices:["Patients avoided the doctor and delayed reporting","People purchased and ate the deli meat at different times during those 3 weeks","Listeria's incubation period of 1–4 weeks means each person's exposure time determines their illness onset","Both B and C are correct — staggered exposure AND long incubation both contribute"], correct:3, explain:"Both factors explain the dispersed timeline. Listeria's unusually long incubation (1–4 weeks) means a single purchase weeks ago can still cause illness today. Additionally, different customers bought the contaminated product on different days over the 3-week sales period. The combination of staggered exposure AND long incubation makes Listeria outbreaks especially difficult to detect early." }
     ]}
 ];
 
@@ -680,103 +877,99 @@ const MATH = [
 
 const TABLE_DATA = [
   {
+    type:"simple",
     title:"The Pizza Party", emoji:"🍕",
-    scenario:"At Zara's birthday party, some kids ate pizza and some skipped it. By the next day, a stomach bug had hit the party. Use the table to figure out what caused it!",
+    scenario:"Learn to read a 2×2 table! At a birthday party, investigators tracked who ate pizza and who skipped it, then recorded who got sick. Each cell tells part of the story.",
     exposedLabel:"🍕 Ate pizza", unexposedLabel:"🚫 Skipped pizza",
     a:18, b:12, c:2, d:18,
     questions:[
-      { type:"input", q:"What is the attack rate (%) for kids who ate the pizza?", answer:60, explain:"18 sick ÷ 30 ate × 100 = 60%. More than half who ate pizza got sick!" },
-      { type:"input", q:"What is the attack rate (%) for kids who skipped the pizza?", answer:10, explain:"2 sick ÷ 20 skipped × 100 = 10%. Way lower than the pizza group!" },
-      { type:"choice", q:"Based on the attack rates, what was the most likely source of illness?", choices:["The pizza","The birthday cake","The punch","Something in the air"], correct:0, explain:"Pizza eaters: 60% sick vs non-pizza: 10% sick. The pizza was the culprit!" }
+      { type:"input", q:"What is the attack rate (%) for kids who ate pizza? Formula: Ate+Sick ÷ (Ate+Sick + Ate+Well) × 100", answer:60, explain:"18 sick ÷ 30 who ate pizza × 100 = 60%." },
+      { type:"input", q:"What is the attack rate (%) for kids who skipped the pizza? Formula: NotEat+Sick ÷ (NotEat+Sick + NotEat+Well) × 100", answer:10, explain:"2 sick ÷ 20 who skipped × 100 = 10%. Much lower!" },
+      { type:"input", q:"The Relative Risk (RR) = AR(ate) ÷ AR(didn't eat). What is the RR here?", answer:6, explain:"RR = 60% ÷ 10% = 6. Pizza eaters were 6 times more likely to get sick — strong evidence the pizza was contaminated." }
     ]
   },
   {
-    title:"The Pool Day", emoji:"🏊",
-    scenario:"50 kids visited the community pool on Saturday. Some swam in the water, others stayed on the deck. By Monday, stomach cramps spread through the group.",
-    exposedLabel:"🏊 Swam in pool", unexposedLabel:"🏖️ Stayed on deck",
-    a:14, b:6, c:3, d:27,
-    questions:[
-      { type:"input", q:"What is the attack rate (%) for kids who swam?", answer:70, explain:"14 sick ÷ 20 swimmers × 100 = 70%. Nearly 3 out of 4 swimmers got sick!" },
-      { type:"input", q:"What is the attack rate (%) for kids who stayed on the deck?", answer:10, explain:"3 sick ÷ 30 deck kids × 100 = 10%. Big difference!" },
-      { type:"choice", q:"What type of illness is this most likely?", choices:["Foodborne illness","Waterborne illness","Airborne illness","Vector-borne illness"], correct:1, explain:"Swimmers got sick, deck kids didn't. The pool water spread it — waterborne illness! (Probably Cryptosporidium!)" }
-    ]
-  },
-  {
-    title:"The Salad Scare", emoji:"🥗",
-    scenario:"At the school cafeteria, students chose between Caesar salad and a sandwich. By the next morning, sick students were showing up with stomach pain and fever.",
-    exposedLabel:"🥗 Ate the salad", unexposedLabel:"🥪 Ate a sandwich",
-    a:35, b:15, c:3, d:47,
-    questions:[
-      { type:"input", q:"What is the attack rate (%) for salad eaters?", answer:70, explain:"35 sick ÷ 50 salad eaters × 100 = 70%. That's really high!" },
-      { type:"input", q:"What is the attack rate (%) for sandwich eaters?", answer:6, explain:"3 sick ÷ 50 sandwich eaters × 100 = 6%. Much much lower!" },
-      { type:"choice", q:"What does the big difference in attack rates tell us?", choices:["The sandwich was the problem","The salad was the problem","Both foods caused equal illness","It was just bad luck"], correct:1, explain:"Salad: 70% sick vs sandwiches: 6% sick. The contaminated salad was definitely the source!" }
-    ]
-  },
-  {
-    title:"The Field Trip Snack", emoji:"🎒",
-    scenario:"On a field trip, some students ate the packed trail mix provided by the school. Others brought their own food from home. That evening, some students got sick with diarrhea.",
-    exposedLabel:"🌰 Ate trail mix", unexposedLabel:"🍱 Own food",
-    a:12, b:8, c:0, d:30,
-    questions:[
-      { type:"input", q:"What is the attack rate (%) for trail mix eaters?", answer:60, explain:"12 sick ÷ 20 trail mix eaters × 100 = 60%!" },
-      { type:"input", q:"What is the attack rate (%) for kids who brought their own food?", answer:0, explain:"0 sick ÷ 30 own-food kids × 100 = 0%. Nobody with their own food got sick at all!" },
-      { type:"choice", q:"What conclusion can a disease detective draw?", choices:["The bus made them sick","The trail mix was contaminated","Their own food was contaminated","It was a coincidence"], correct:1, explain:"60% of trail mix eaters got sick, 0% of own-food kids did. The trail mix was the source — open and shut case!" }
-    ]
-  },
-  {
+    type:"simple",
     title:"The Water Fountain", emoji:"💧",
-    scenario:"After a water fountain was repaired, students either drank from it or used their own water bottles. By Friday, sick students were reporting to the nurse.",
+    scenario:"After a school water fountain was repaired, investigators compared students who drank from it vs those who used water bottles.",
     exposedLabel:"💧 Drank from fountain", unexposedLabel:"🧴 Used water bottle",
     a:45, b:55, c:4, d:46,
     questions:[
-      { type:"input", q:"What is the attack rate (%) for fountain drinkers?", answer:45, explain:"45 sick ÷ 100 fountain drinkers × 100 = 45%." },
+      { type:"input", q:"What is the attack rate (%) for fountain drinkers?", answer:45, explain:"45 sick ÷ 100 who drank × 100 = 45%." },
       { type:"input", q:"What is the attack rate (%) for water bottle users?", answer:8, explain:"4 sick ÷ 50 bottle users × 100 = 8%." },
-      { type:"choice", q:"What most likely happened during the fountain repair?", choices:["Someone sneezed on the fountain","Contamination entered the pipes","The water was too cold","The fountain was too old"], correct:1, explain:"Repairs can introduce bacteria into pipes. Fountain drinkers: 45% sick vs bottle users: 8%. The repair caused contamination!" }
+      { type:"choice", q:"The RR = 45 ÷ 8 ≈ 5.6. What does this tell you?", choices:["Bottle users were 5.6× more likely to get sick","Fountain drinkers were ~5.6× more likely to get sick","Both groups had equal risk","The fountain was safe"], correct:1, explain:"RR > 1 means the EXPOSED group (fountain drinkers) had higher risk. RR ≈ 5.6 — fountain drinkers were nearly 6× more likely to get sick. The repair contaminated the pipes!" }
     ]
   },
   {
-    type:"linelist",
+    type:"full",
     title:"The School Banquet", emoji:"🎓",
-    scenario:"After the school end-of-year banquet, 50 students reported getting sick. Investigators tracked what each of 80 attendees ate. This is a LINE LIST — one table covering all foods at once. Read the data, then answer the questions.",
-    items:[
-      { food:"🥗 Caesar Salad",       sick:42, well:8  },
-      { food:"🍗 Grilled Chicken",     sick:15, well:35 },
-      { food:"🍝 Pasta Primavera",     sick:12, well:38 },
-      { food:"🥖 Bread Rolls",         sick:14, well:36 },
-      { food:"🍮 Chocolate Mousse",    sick:40, well:10 }
+    scenario:"100 students attended a school banquet. The next day, 55 students reported illness. Investigators interviewed everyone about what they ate and tracked who got sick. This table shows the FULL 2×2 data for each food item.",
+    foods:[
+      { food:"🥗 Caesar Salad",    ateSick:48, ateWell:12, notEatSick:4,  notEatWell:36 },
+      { food:"🍗 Grilled Chicken", ateSick:20, ateWell:50, notEatSick:32, notEatWell:18 },
+      { food:"🍝 Pasta Primavera", ateSick:16, ateWell:44, notEatSick:35, notEatWell:5  },
+      { food:"🥖 Bread Rolls",     ateSick:22, ateWell:38, notEatSick:28, notEatWell:12 },
+      { food:"🍮 Chocolate Mousse",ateSick:45, ateWell:15, notEatSick:5,  notEatWell:35 }
     ],
     questions:[
-      { type:"input", q:"What is the attack rate (%) for Caesar Salad? (sick ÷ total who ate it × 100)", answer:84, explain:"42 sick ÷ 50 who ate Caesar Salad × 100 = 84%. Massive!" },
-      { type:"input", q:"What is the attack rate (%) for Chocolate Mousse?", answer:80, explain:"40 sick ÷ 50 who ate it × 100 = 80%. Also very high!" },
-      { type:"choice", q:"Which food is the MOST likely source of the outbreak?", choices:["Caesar Salad — 84% attack rate","Grilled Chicken — 30% attack rate","Bread Rolls — 28% attack rate","Chocolate Mousse — 80% attack rate"], correct:0, explain:"Caesar Salad at 84% wins — highest attack rate = prime suspect! (Mousse at 80% might be cross-contaminated from the same source.)" }
+      { type:"input", q:"What is the attack rate (%) for people who ate Caesar Salad? (Ate+Sick ÷ Ate Total × 100)", answer:80, explain:"48 sick ÷ 60 who ate Caesar Salad × 100 = 80%. That's very high!" },
+      { type:"input", q:"What is the attack rate (%) for people who ate Chocolate Mousse?", answer:75, explain:"45 sick ÷ 60 who ate Mousse × 100 = 75%. Also very high!" },
+      { type:"input", q:"What is the attack rate (%) for people who ate Grilled Chicken?", answer:29, explain:"20 sick ÷ 70 who ate chicken × 100 ≈ 29%. Much lower — chicken is not the prime suspect." },
+      { type:"choice", q:"Both Caesar Salad (80%) and Chocolate Mousse (75%) have high attack rates. What might explain BOTH being high?", choices:["They were served from the same contaminated kitchen area","Grilled chicken was the real source","The bread rolls contaminated everything","It was just coincidence"], correct:0, explain:"When TWO foods both show high attack rates, investigators look for a shared preparation area, ingredient, or handler — like a contaminated kitchen surface or a sick food worker who touched both!" }
     ]
   },
   {
-    type:"linelist",
+    type:"full",
     title:"The County Fair", emoji:"🎡",
-    scenario:"After a county fair, the health department investigated a foodborne illness outbreak. They interviewed 60 attendees about what they ate at different food stands. Another LINE LIST — many foods, one table:",
-    items:[
-      { food:"🌭 Corn Dogs",              sick:8,  well:22 },
-      { food:"🍦 Soft Serve Ice Cream",   sick:35, well:15 },
-      { food:"🍩 Funnel Cake",             sick:9,  well:21 },
-      { food:"🫙 Pickle Lemonade",         sick:6,  well:24 },
-      { food:"🥩 BBQ Ribs",               sick:10, well:20 }
+    scenario:"After a county fair, 120 people were interviewed about what they ate. The health department created a full 2×2 table for each food stand to find the source of a gastrointestinal outbreak.",
+    foods:[
+      { food:"🌭 Corn Dogs",            ateSick:12, ateWell:48, notEatSick:38, notEatWell:22 },
+      { food:"🍦 Soft Serve Ice Cream", ateSick:42, ateWell:18, notEatSick:8,  notEatWell:52 },
+      { food:"🍩 Funnel Cake",           ateSick:14, ateWell:46, notEatSick:36, notEatWell:24 },
+      { food:"🫙 Lemonade",              ateSick:10, ateWell:50, notEatSick:40, notEatWell:20 },
+      { food:"🥩 BBQ Ribs",             ateSick:16, ateWell:44, notEatSick:34, notEatWell:26 }
     ],
     questions:[
-      { type:"input", q:"What is the attack rate (%) for Soft Serve Ice Cream?", answer:70, explain:"35 sick ÷ 50 who ate it × 100 = 70%. Highest in the table by far!" },
-      { type:"input", q:"What is the attack rate (%) for Corn Dogs?", answer:27, explain:"8 sick ÷ 30 who ate corn dogs × 100 ≈ 27%. Much lower than ice cream." },
-      { type:"choice", q:"Which food stand should the health department shut down FIRST?", choices:["Corn Dog stand — 27%","Soft Serve Ice Cream — 70%","Funnel Cake — 30%","BBQ Ribs — 33%"], correct:1, explain:"Soft Serve at 70% is the clear culprit! Warm temperatures + dairy = perfect germ breeding ground. Classic Staph aureus scenario!" }
+      { type:"input", q:"What is the attack rate (%) for people who ate Soft Serve Ice Cream?", answer:70, explain:"42 sick ÷ 60 who ate ice cream × 100 = 70%. By far the highest in the table!" },
+      { type:"input", q:"What is the attack rate (%) for people who did NOT eat Soft Serve Ice Cream?", answer:13, explain:"8 sick ÷ 60 who didn't eat it × 100 ≈ 13%. Much lower — this is a huge difference!" },
+      { type:"input", q:"Calculate the Relative Risk for Soft Serve Ice Cream: AR(ate) ÷ AR(didn't eat). Round to nearest whole number.", answer:5, explain:"RR = 70% ÷ 13% ≈ 5.4, rounds to 5. Ice cream eaters were 5× more likely to get sick — overwhelming evidence!" },
+      { type:"choice", q:"What does the low attack rate (≈12–20%) in all the other food groups tell investigators?", choices:["Multiple foods were all contaminated","The other foods are probably not the primary source","Everyone was going to get sick anyway","The ice cream data must be wrong"], correct:1, explain:"When one food has a dramatically higher AR (70%) while others are all low (12-20%), that single high-AR food is almost certainly the source. The ice cream stand should be shut down immediately!" }
     ]
   },
   {
-    title:"The Hotdog Stand", emoji:"🌭",
-    scenario:"At a school fair, some students ate hotdogs from the stand and others had different snacks. The next day, some students came down with fever and stomach cramps.",
-    exposedLabel:"🌭 Ate a hotdog", unexposedLabel:"🍿 Other snacks",
-    a:28, b:12, c:6, d:54,
+    type:"full",
+    title:"The Summer Camp Cookout", emoji:"🏕️",
+    scenario:"During a summer camp cookout, 80 campers ate different foods. Over the next 24 hours, a gastroenteritis outbreak swept through the camp. The camp nurse recorded who ate what and who got sick.",
+    foods:[
+      { food:"🌽 Corn on the Cob",   ateSick:8,  ateWell:52, notEatSick:12, notEatWell:8  },
+      { food:"🥗 Potato Salad",      ateSick:36, ateWell:14, notEatSick:4,  notEatWell:26 },
+      { food:"🍔 Burgers",           ateSick:10, ateWell:50, notEatSick:10, notEatWell:10 },
+      { food:"🥤 Fruit Punch",       ateSick:6,  ateWell:54, notEatSick:14, notEatWell:6  },
+      { food:"🍰 Birthday Cake",     ateSick:9,  ateWell:51, notEatSick:11, notEatWell:9  }
+    ],
     questions:[
-      { type:"input", q:"What is the attack rate (%) for hotdog eaters?", answer:70, explain:"28 sick ÷ 40 hotdog eaters × 100 = 70%!" },
-      { type:"input", q:"What is the attack rate (%) for other snack eaters?", answer:10, explain:"6 sick ÷ 60 other snack eaters × 100 = 10%." },
-      { type:"choice", q:"The relative risk (RR) compares the two attack rates. Approximately what is the RR here?", choices:["RR = 2 (twice as likely)","RR = 4 (four times as likely)","RR = 7 (seven times as likely)","RR = 1 (equal risk)"], correct:2, explain:"RR = 70% ÷ 10% = 7. Hotdog eaters were 7 TIMES more likely to get sick. That's a massive risk!" }
+      { type:"input", q:"What is the attack rate (%) for campers who ate Potato Salad?", answer:72, explain:"36 sick ÷ 50 who ate it × 100 = 72%. Very high!" },
+      { type:"input", q:"What is the attack rate (%) for campers who did NOT eat Potato Salad?", answer:13, explain:"4 sick ÷ 30 who didn't eat it × 100 ≈ 13%. The difference is massive — this is a red flag!" },
+      { type:"input", q:"What is the attack rate (%) for campers who ate Burgers?", answer:17, explain:"10 sick ÷ 60 who ate burgers × 100 ≈ 17%. Low — burgers are probably not the source." },
+      { type:"choice", q:"Potato salad was left in the sun for 3 hours before serving. Which pathogen is MOST likely given the 18-24 hour incubation and the food storage conditions?", choices:["Staph aureus — toxin from food left at room temp (1-6hr onset)","Salmonella — thrives in eggs/mayo in warm potato salad (6-72hr onset)","Norovirus — person-to-person spread","E. coli O157:H7 — from undercooked beef"], correct:1, explain:"The 18-24hr incubation fits Salmonella (6-72hr). Potato salad made with mayo and eggs left in the heat = perfect breeding ground for Salmonella! Staph (1-6hr) would have caused earlier symptoms." }
+    ]
+  },
+  {
+    type:"full",
+    title:"The Hospital Cafeteria", emoji:"🏥",
+    scenario:"An outbreak investigation was launched after 45 hospital staff reported gastrointestinal illness. The cafeteria served 150 people that day. Investigators built a full 2×2 table for each menu item.",
+    foods:[
+      { food:"🥗 Garden Salad",    ateSick:6,  ateWell:54, notEatSick:36, notEatWell:54 },
+      { food:"🍲 Turkey Soup",     ateSick:38, ateWell:22, notEatSick:4,  notEatWell:86 },
+      { food:"🧀 Grilled Cheese",  ateSick:8,  ateWell:62, notEatSick:34, notEatWell:46 },
+      { food:"🍮 Custard Pudding", ateSick:32, ateWell:18, notEatSick:10, notEatWell:90 },
+      { food:"☕ Coffee",           ateSick:15, ateWell:75, notEatSick:27, notEatWell:33 }
+    ],
+    questions:[
+      { type:"input", q:"What is the attack rate (%) for people who ate Turkey Soup?", answer:63, explain:"38 sick ÷ 60 who ate soup × 100 ≈ 63%. Very high!" },
+      { type:"input", q:"What is the attack rate (%) for people who ate Custard Pudding?", answer:64, explain:"32 sick ÷ 50 who ate pudding × 100 = 64%. Also very high — similar to soup!" },
+      { type:"input", q:"What is the attack rate (%) for people who ate Garden Salad?", answer:10, explain:"6 sick ÷ 60 who ate salad × 100 = 10%. Low — salad is not the source." },
+      { type:"choice", q:"Both Turkey Soup (63%) and Custard Pudding (64%) show high attack rates. A detective notices both were made by the same chef that morning. What is the MOST important next step?", choices:["Immediately shut down the entire hospital cafeteria","Test the turkey soup and pudding for pathogens AND interview/test the chef for illness","Ask all sick staff to drink more water","Wait to see if more people get sick before acting"], correct:1, explain:"When two foods share a high AR AND a common handler, test BOTH foods and screen the food worker — they may be an asymptomatic carrier spreading illness. Acting fast with targeted testing is the detective move!" }
     ]
   }
 ];
@@ -807,7 +1000,8 @@ const TF_DATA = [
   { s:"If two things are associated (happen together), it proves that one causes the other.", correct:false, explain:"FALSE — Association ≠ Causation! Just because eating X and getting sick happen together doesn't mean X caused the illness. Other factors could explain it. You need a controlled study to establish causation." },
   { s:"A spot map shows how many people got sick each day during an outbreak.", correct:false, explain:"FALSE — That's an EPIDEMIC CURVE. A spot map shows WHERE cases are located geographically. Clusters on a spot map help identify the geographic source (like a contaminated water supply)." },
   { s:"Breaking any single link in the Chain of Infection can stop a disease from spreading.", correct:true, explain:"TRUE — The Chain of Infection has 6 links. Break ANY one — kill the pathogen, remove the reservoir, block transmission, block portals, or vaccinate the host — and the chain breaks!" },
-  { s:"Parasites like Giardia and Cryptosporidium are types of bacteria.", correct:false, explain:"FALSE — Giardia and Cryptosporidium are PARASITES (protozoa), not bacteria. They're single-celled but more complex organisms, and they're NOT treated with antibiotics." }
+  { s:"Parasites like Giardia and Cryptosporidium are types of bacteria.", correct:false, explain:"FALSE — Giardia and Cryptosporidium are PARASITES (protozoa), not bacteria. They're single-celled but more complex organisms, and they're NOT treated with antibiotics." },
+  { s:"A high Relative Risk value alone is sufficient to prove that an exposure CAUSES a disease.", correct:false, explain:"FALSE — A high RR suggests a strong association, but causation requires additional evidence (biological plausibility, consistency across studies, dose-response relationship, etc.). Association is not causation even with a high RR." }
 ];
 
 const MATCH_DATA = [
@@ -835,9 +1029,9 @@ const MATCH_DATA = [
 ];
 
 const WRITTEN_DATA = [
-  { q:"Describe the main steps of a foodborne outbreak investigation. What does a disease detective actually DO?",
-    hint:"Think: confirm → define → find → describe → hypothesize → test → control → report",
-    ans:"1. Confirm the outbreak and diagnosis (lab tests to verify the pathogen)\n2. Define a case — create a case definition (who officially counts as sick)\n3. Find cases systematically (case finding — interview contacts, search hospitals)\n4. Describe by Person, Place, and Time (who, where, when)\n5. Develop hypotheses about the source\n6. Test hypotheses with analytic epidemiology (case-control or cohort study, 2x2 tables)\n7. Implement control measures (close restaurant, issue food recall, quarantine)\n8. Communicate findings and write the report" },
+  { q:"Describe the 10 steps of an outbreak investigation. What does a disease detective actually DO, in order?",
+    hint:"Prepare → Confirm → Verify → Define → Describe → Hypothesize → Test → Refine → Control → Communicate",
+    ans:"The 10 Steps of an Outbreak Investigation:\n\n1. PREPARE for field work — assemble the team, pack supplies, review safety protocols\n2. ESTABLISH the existence of an outbreak — confirm case counts are above expected baseline (is this actually an outbreak?)\n3. VERIFY the diagnosis — lab tests to confirm what pathogen is actually causing illness\n4. DEFINE and identify cases — create a case definition (who officially counts?), then count all cases\n5. DESCRIBE by Person, Place, and Time — who got sick, where, and when? Build the epi curve.\n6. DEVELOP hypotheses — based on the data, what is the likely source and mode of transmission?\n7. EVALUATE hypotheses — analytic epidemiology (case-control or cohort study, 2×2 tables, attack rates)\n8. REFINE hypotheses — if data doesn't fit, revise and do additional studies (lab testing, environmental sampling)\n9. IMPLEMENT and evaluate CONTROL MEASURES — close the restaurant, issue food recall, quarantine contacts, vaccinate\n10. COMMUNICATE findings — report to public health authorities, brief the media, write up the investigation" },
   { q:"Explain the Epidemiological Triangle. Name all three components and explain what each represents. Give an example of how changing one component can stop a disease.",
     hint:"Host · Agent · Environment — all three must align for disease to occur",
     ans:"The Epi Triangle has three parts:\n\nHOST — the person or animal that gets infected. Factors: age, immune status, genetics, behaviors. Change it by: vaccinating the host.\n\nAGENT — the pathogen (virus, bacteria, parasite, toxin). Factors: infectivity, virulence, dose. Change it by: killing the pathogen with heat (cooking).\n\nENVIRONMENT — external conditions enabling the agent to reach the host. Factors: temperature, sanitation, crowding, water quality. Change it by: improving water treatment to stop cholera.\n\nDisease only occurs when all THREE overlap. Break any corner = break the disease cycle!" },
@@ -861,52 +1055,69 @@ const WRITTEN_DATA = [
     ans:"POINT SOURCE OUTBREAK:\nCause: Everyone was exposed to the same contaminated source at ONE time (e.g., bad food at a party).\nEpi curve shape: ONE sharp spike in cases, then rapid drop to near-zero. Like a mountain with a steep cliff on both sides.\nWhy that shape: Everyone was exposed at the same moment, so they all get sick around the same time. Once the source is gone, no new cases.\n\nPROPAGATED OUTBREAK:\nCause: Disease spreads person-to-person in waves over time (e.g., flu spreading through a school).\nEpi curve shape: Gradual rise → peak → gradual decline. Or multiple rolling waves of cases over weeks/months.\nWhy that shape: Each sick person becomes a new source, infecting new people in successive waves." }
 ];
 
+// STATS_DATA — updated with table headers and added even-number datasets
 const STATS_DATA = [
-  { data:[4,8,6,8,2,8,4], type:"mean", answer:6,
-    context:"During a food poisoning outbreak, new cases per day were:",
+  { data:[4,8,6,8,2,8,4], colHeaders:["Day","New Cases"], type:"mean", answer:6,
+    context:"During a food poisoning outbreak, new cases per day were recorded:",
     q:"What is the MEAN (average) number of cases per day? Round to nearest whole number.",
     formula:"Mean = Sum ÷ Count",
     explain:"4+8+6+8+2+8+4 = 40 total. 40 ÷ 7 days ≈ 5.7, rounds to 6. Mean = 6." },
-  { data:[5,12,3,7,12,9,12], type:"mode", answer:12,
+  { data:[5,12,3,7,12,9,12], colHeaders:["Day","Clinic Visits"], type:"mode", answer:12,
     context:"A nurse tracked sick students visiting the clinic each day during flu season:",
     q:"What is the MODE (most common number) of daily clinic visits?",
     formula:"Mode = Most frequently occurring value",
     explain:"12 appears on Day 2, Day 5, and Day 7 — 3 times! No other number appears that often. Mode = 12." },
-  { data:[2,9,4,7,6,5,3], type:"median", answer:5,
+  { data:[2,9,4,7,6,5,3], colHeaders:["Day","Confirmed Cases"], type:"median", answer:5,
     context:"Daily cases confirmed in a Salmonella investigation:",
     q:"What is the MEDIAN (middle value when sorted) number of daily cases?",
     formula:"Median = Middle value after sorting low → high",
     explain:"Sorted: 2, 3, 4, [5], 6, 7, 9. With 7 values, the 4th (middle) value is 5. Median = 5." },
-  { data:[1,2,1,3,1,2,4,2,1], type:"mode", answer:1,
+  { data:[1,2,1,3,1,2,4,2,1], colHeaders:["Patient","Incubation (days)"], type:"mode", answer:1,
     context:"Patients reported how many days after the party their symptoms started (incubation period in days):",
     q:"What is the MODE incubation period in days?",
     formula:"Mode = Most frequently occurring value",
     explain:"1 appears 4 times (patients 1, 3, 5, 9) — more than any other value. Most people showed symptoms 1 day after exposure! Mode = 1." },
-  { data:[3,5,8,12,10,6,4,2], type:"mean", answer:6,
+  { data:[3,5,8,12,10,6,4,2], colHeaders:["Hour","New Cases"], type:"mean", answer:6,
     context:"Number of sick students reported each hour during a cafeteria outbreak:",
     q:"What is the MEAN cases per hour? Round to nearest whole number.",
     formula:"Mean = Sum ÷ Count",
     explain:"3+5+8+12+10+6+4+2 = 50 total. 50 ÷ 8 hours = 6.25, rounds to 6. Mean = 6." },
-  { data:[1,3,6,14,9,5,3,2,1], type:"median", answer:3,
+  { data:[1,3,6,14,9,5,3,2,1], colHeaders:["Day","New Cases"], type:"median", answer:3,
     context:"New confirmed cases each day over 9 days of a Norovirus outbreak:",
     q:"What is the MEDIAN daily case count?",
     formula:"Median = Middle value after sorting low → high",
     explain:"Sorted: 1, 1, 2, 3, [3], 5, 6, 9, 14. With 9 values, the 5th (middle) is 3. Median = 3." },
-  { data:[10,45,30,45,25,45,15], type:"mode", answer:45,
+  { data:[10,45,30,45,25,45,15], colHeaders:["Sample","Colony Count (thousands)"], type:"mode", answer:45,
     context:"Bacterial colony counts (in thousands) found in water samples from the contaminated pipes:",
     q:"What is the MODE colony count?",
     formula:"Mode = Most frequently occurring value",
     explain:"45 appears in samples 2, 4, and 6 — three times! No other value appears more. Mode = 45." },
-  { data:[2,3,2,4,3,2,5,3,2,4], type:"mean", answer:3,
+  { data:[2,3,2,4,3,2,5,3,2,4], colHeaders:["Patient","Symptom Duration (days)"], type:"mean", answer:3,
     context:"Sick cruise ship passengers reported their symptoms lasted this many days:",
     q:"What is the MEAN symptom duration? Round to nearest whole number.",
     formula:"Mean = Sum ÷ Count",
     explain:"2+3+2+4+3+2+5+3+2+4 = 30 total days. 30 ÷ 10 patients = 3. Mean = 3 days." },
-  { data:[8,15,22,18,12], type:"median", answer:15,
+  { data:[8,15,22,18,12], colHeaders:["Day","Students Absent"], type:"median", answer:15,
     context:"Students absent from school each day during a week-long flu outbreak:",
     q:"What is the MEDIAN number of students absent?",
     formula:"Median = Middle value after sorting low → high",
-    explain:"Sorted: 8, 12, [15], 18, 22. With 5 values, the 3rd (middle) is 15. Median = 15 students." }
+    explain:"Sorted: 8, 12, [15], 18, 22. With 5 values, the 3rd (middle) is 15. Median = 15 students." },
+  // Even-number datasets (median = average of two middle values)
+  { data:[4,7,9,11,15,20], colHeaders:["Sample","Bacteria Count"], type:"median", answer:10,
+    context:"Lab technicians measured bacteria counts in 6 water samples from a contaminated well:",
+    q:"What is the MEDIAN bacteria count? (Hint: with 6 values, average the 3rd and 4th values after sorting)",
+    formula:"Median (even count) = Average of the two middle values",
+    explain:"Sorted: 4, 7, [9, 11], 15, 20. With 6 values, the two middle values are the 3rd (9) and 4th (11). Median = (9 + 11) ÷ 2 = 10." },
+  { data:[2,5,6,8,10,13], colHeaders:["Day","New Cases"], type:"median", answer:7,
+    context:"New E. coli cases reported over 6 days at a county fair investigation:",
+    q:"What is the MEDIAN number of daily cases? (6 values — average the two middle ones)",
+    formula:"Median (even count) = Average of the two middle values",
+    explain:"Already sorted: 2, 5, [6, 8], 10, 13. Middle two values are 6 and 8. Median = (6 + 8) ÷ 2 = 7." },
+  { data:[3,7,8,12,14,18,20,24], colHeaders:["Hour","Patients Seen"], type:"median", answer:13,
+    context:"Patients arriving at the ER during an 8-hour Salmonella outbreak surge:",
+    q:"What is the MEDIAN hourly patient count? (8 values — average the 4th and 5th)",
+    formula:"Median (even count) = Average of the two middle values",
+    explain:"Already sorted: 3, 7, 8, [12, 14], 18, 20, 24. Middle two values (4th and 5th) are 12 and 14. Median = (12 + 14) ÷ 2 = 13." }
 ];
 
 const EPI_CHARTS = [
@@ -978,6 +1189,7 @@ let stIdx = 0, stScore = 0, stAnswered = false;
 let tfIdx = 0, tfScore = 0, tfAnswered = false;
 let matchIdx = 0, matchScore = 0, matchAnswered = false;
 let writIdx = 0, writScore = 0;
+let _sessLastCorrect = false;
 
 // ── STORAGE ───────────────────────────────────────────────────────
 function load(k, def) { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } }
@@ -1005,7 +1217,8 @@ function totalPoints() {
        + load('dd_stats', 0) * 4
        + load('dd_tf', 0) * 3
        + load('dd_match', 0) * 3
-       + load('dd_writ', 0) * 5;
+       + load('dd_writ', 0) * 5
+       + load('dd_sess_score', 0) * 4;
 }
 
 // ── SCREENS ───────────────────────────────────────────────────────
@@ -1013,6 +1226,7 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if (id === 'home') refreshHome();
+  if (id === 'session') runSession();
   if (id === 'flashcards') initFlashcards();
   if (id === 'scenarios') initScenarios();
   if (id === 'math') initMath();
@@ -1029,6 +1243,382 @@ function refreshHome() {
   const streak = updateStreak();
   document.getElementById('streak-val').textContent = streak;
   document.getElementById('total-score').textContent = totalPoints();
+
+  if (isTodayDone()) {
+    document.getElementById('home-start-btn').style.display = 'none';
+    document.getElementById('home-done-card').style.display = 'block';
+    const sessScore = load('dd_today_score', 0);
+    document.getElementById('home-done-sub').textContent =
+      `Score: ${sessScore}/12 · Come back tomorrow to keep your streak alive 🔥`;
+  } else {
+    document.getElementById('home-start-btn').style.display = 'flex';
+    document.getElementById('home-done-card').style.display = 'none';
+    const pos = load('dd_pool_pos', 0);
+    const todayQs = load('dd_today_qs', null);
+    if (todayQs) {
+      const done = load('dd_today_pos', 0);
+      document.getElementById('home-start-sub').textContent =
+        done > 0 ? `Resume — question ${done + 1} of 12` : '12 questions · ~10 min';
+    } else {
+      document.getElementById('home-start-sub').textContent = '12 questions · ~10 min';
+    }
+  }
+}
+
+// ── SESSION — POOL ────────────────────────────────────────────────
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function buildPool() {
+  const pool = [];
+  VOCAB.forEach((_, i) => pool.push({ type:'vocab', idx:i }));
+  TF_DATA.forEach((_, i) => pool.push({ type:'tf', idx:i }));
+  MATCH_DATA.forEach((_, i) => pool.push({ type:'match', idx:i }));
+  SCENARIOS.forEach((sc, si) => {
+    sc.questions.forEach((_, qi) => pool.push({ type:'sc', idx:si, qIdx:qi }));
+  });
+  MATH.forEach((_, i) => pool.push({ type:'math', idx:i }));
+  STATS_DATA.forEach((_, i) => pool.push({ type:'stats', idx:i }));
+  return shuffle(pool);
+}
+
+function getOrBuildPool() {
+  let pool = load('dd_pool', null);
+  let pos  = load('dd_pool_pos', 0);
+  if (!pool || pool.length === 0) {
+    pool = buildPool();
+    pos  = 0;
+    save('dd_pool', pool);
+    save('dd_pool_pos', pos);
+  }
+  return { pool, pos };
+}
+
+function isTodayDone() {
+  const today = new Date().toDateString();
+  return load('dd_today_date', null) === today && load('dd_today_done', false) === true;
+}
+
+function isTodayStarted() {
+  const today = new Date().toDateString();
+  return load('dd_today_date', null) === today && load('dd_today_qs', null) !== null;
+}
+
+function startDailySession() {
+  const today = new Date().toDateString();
+  // If new day or no session yet, assign today's questions
+  if (!isTodayStarted()) {
+    const { pool, pos } = getOrBuildPool();
+    let actualPos = pos;
+    // If pool is exhausted, reshuffle
+    if (actualPos + 12 > pool.length) {
+      const newPool = buildPool();
+      save('dd_pool', newPool);
+      save('dd_pool_pos', 0);
+      actualPos = 0;
+      save('dd_today_reshuffled', true);
+    } else {
+      save('dd_today_reshuffled', false);
+    }
+    const freshPool = load('dd_pool', []);
+    const todayQs = freshPool.slice(actualPos, actualPos + 12);
+    save('dd_today_date', today);
+    save('dd_today_qs', todayQs);
+    save('dd_today_pos', 0);
+    save('dd_today_score', 0);
+    save('dd_today_done', false);
+    save('dd_pool_pos', actualPos + 12);
+  }
+  showScreen('session');
+}
+
+function runSession() {
+  const pos = load('dd_today_pos', 0);
+  const todayQs = load('dd_today_qs', null);
+
+  if (!todayQs) { showScreen('home'); return; }
+  if (pos >= 12) { completeTodaySession(); return; }
+
+  const total = 12;
+  const pct = Math.round(((pos + 1) / total) * 100);
+  document.getElementById('sess-label').textContent = `Question ${pos + 1} of ${total}`;
+  document.getElementById('sess-bar').style.width = pct + '%';
+
+  // Hide all sections
+  document.querySelectorAll('.sess-section').forEach(s => s.classList.remove('active'));
+
+  const q = todayQs[pos];
+  if (q.type === 'vocab')  loadSessVocab(q);
+  else if (q.type === 'tf')    loadSessTF(q);
+  else if (q.type === 'match') loadSessMatch(q);
+  else if (q.type === 'sc')    loadSessSc(q);
+  else if (q.type === 'math')  loadSessMath(q);
+  else if (q.type === 'stats') loadSessStats(q);
+
+  window.scrollTo(0, 0);
+}
+
+function loadSessVocab(q) {
+  const v = VOCAB[q.idx];
+  document.getElementById('sess-vocab-term').textContent = v.term;
+  document.getElementById('sess-vocab-input').value = '';
+  document.getElementById('sess-vocab-input').style.height = 'auto';
+  document.getElementById('sess-vocab-input').disabled = false;
+  document.getElementById('sess-vocab-reveal-btn').style.display = 'block';
+  const defBox = document.getElementById('sess-vocab-def');
+  defBox.textContent = v.def;
+  defBox.className = 'sess-def-box';
+  const gradeWrap = document.getElementById('sess-vocab-grade');
+  gradeWrap.className = 'sess-grade-wrap';
+  document.getElementById('sess-vocab').classList.add('active');
+}
+
+function revealSessVocab() {
+  document.getElementById('sess-vocab-reveal-btn').style.display = 'none';
+  document.getElementById('sess-vocab-input').disabled = true;
+  document.getElementById('sess-vocab-def').className = 'sess-def-box show';
+  document.getElementById('sess-vocab-grade').className = 'sess-grade-wrap show';
+}
+
+function gradeSessVocab(gotIt) {
+  if (gotIt) save('dd_vocab', load('dd_vocab', 0) + 1);
+  advanceSessQuestion(gotIt);
+}
+
+function loadSessTF(q) {
+  const p = TF_DATA[q.idx];
+  document.getElementById('sess-tf-statement').textContent = p.s;
+  document.getElementById('sess-tf-feedback').className = 'sess-feedback';
+  document.getElementById('sess-tf-feedback').textContent = '';
+  document.getElementById('sess-tf-true').className = 'sess-tf-btn sess-tf-true';
+  document.getElementById('sess-tf-false').className = 'sess-tf-btn sess-tf-false';
+  document.getElementById('sess-tf-true').disabled = false;
+  document.getElementById('sess-tf-false').disabled = false;
+  document.getElementById('sess-tf-next').className = 'sess-next-btn';
+  document.getElementById('sess-tf').classList.add('active');
+}
+
+function sessTF(answer) {
+  const pos = load('dd_today_pos', 0);
+  const todayQs = load('dd_today_qs', []);
+  const q = todayQs[pos];
+  const p = TF_DATA[q.idx];
+  const correct = answer === p.correct;
+  _sessLastCorrect = correct;
+
+  document.getElementById('sess-tf-true').disabled = true;
+  document.getElementById('sess-tf-false').disabled = true;
+
+  const trueBtn = document.getElementById('sess-tf-true');
+  const falseBtn = document.getElementById('sess-tf-false');
+  if (p.correct === true) trueBtn.className = 'sess-tf-btn sess-tf-true correct';
+  else falseBtn.className = 'sess-tf-btn sess-tf-false correct';
+  if (!correct) {
+    if (answer === true) trueBtn.className += ' wrong';
+    else falseBtn.className += ' wrong';
+  }
+
+  const fb = document.getElementById('sess-tf-feedback');
+  fb.textContent = (correct ? '✅ ' : '❌ ') + p.explain;
+  fb.className = 'sess-feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('sess-tf-next').className = 'sess-next-btn show';
+}
+
+function loadSessMatch(q) {
+  const p = MATCH_DATA[q.idx];
+  document.getElementById('sess-match-cat').textContent = p.cat;
+  document.getElementById('sess-match-term').textContent = p.term;
+  document.getElementById('sess-match-feedback').className = 'sess-feedback';
+  document.getElementById('sess-match-feedback').textContent = '';
+  document.getElementById('sess-match-next').className = 'sess-next-btn';
+
+  const distractors = p.others.slice(0, 3);
+  const all = shuffle([p.match, ...distractors]);
+  const choicesEl = document.getElementById('sess-match-choices');
+  choicesEl.innerHTML = '';
+  all.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c;
+    btn.onclick = () => sessSolveMatch(c, btn, p);
+    choicesEl.appendChild(btn);
+  });
+  document.getElementById('sess-match').classList.add('active');
+}
+
+function sessSolveMatch(chosen, btn, p) {
+  const correct = chosen === p.match;
+  _sessLastCorrect = correct;
+  document.querySelectorAll('#sess-match-choices .choice-btn').forEach(b => {
+    b.onclick = null;
+    if (b.textContent === p.match) b.classList.add('correct');
+    else if (b === btn && !correct) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('sess-match-feedback');
+  fb.textContent = correct ? `✅ Correct! "${p.term}" → "${p.match}"` : `❌ Correct match: "${p.match}"`;
+  fb.className = 'sess-feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('sess-match-next').className = 'sess-next-btn show';
+}
+
+function loadSessSc(q) {
+  const sc = SCENARIOS[q.idx];
+  const qData = sc.questions[q.qIdx];
+  document.getElementById('sess-sc-story').innerHTML =
+    `<div class="scenario-emoji">${sc.emoji}</div><div class="scenario-name">${sc.title}</div>${sc.story}`;
+  document.getElementById('sess-sc-question').textContent = `Q${q.qIdx + 1}: ${qData.q}`;
+  document.getElementById('sess-sc-feedback').className = 'sess-feedback';
+  document.getElementById('sess-sc-feedback').textContent = '';
+  document.getElementById('sess-sc-next').className = 'sess-next-btn';
+
+  const choicesEl = document.getElementById('sess-sc-choices');
+  choicesEl.innerHTML = '';
+  qData.choices.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c;
+    btn.onclick = () => sessSolveSc(i, btn, qData);
+    choicesEl.appendChild(btn);
+  });
+  document.getElementById('sess-sc').classList.add('active');
+}
+
+function sessSolveSc(idx, btn, qData) {
+  const correct = idx === qData.correct;
+  _sessLastCorrect = correct;
+  document.querySelectorAll('#sess-sc-choices .choice-btn').forEach((b, i) => {
+    b.onclick = null;
+    if (i === qData.correct) b.classList.add('correct');
+    else if (i === idx && !correct) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('sess-sc-feedback');
+  fb.textContent = (correct ? '✅ ' : '❌ ') + qData.explain;
+  fb.className = 'sess-feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('sess-sc-next').className = 'sess-next-btn show';
+}
+
+function loadSessMath(q) {
+  const p = MATH[q.idx];
+  document.getElementById('sess-math-problem').textContent = p.context;
+  document.getElementById('sess-math-input').value = '';
+  document.getElementById('sess-math-input').disabled = false;
+  document.getElementById('sess-math-check').disabled = false;
+  document.getElementById('sess-math-feedback').className = 'sess-feedback';
+  document.getElementById('sess-math-next').className = 'sess-next-btn';
+  document.getElementById('sess-math').classList.add('active');
+}
+
+function checkSessMath() {
+  const pos = load('dd_today_pos', 0);
+  const todayQs = load('dd_today_qs', []);
+  const q = todayQs[pos];
+  const p = MATH[q.idx];
+  const answer = Math.round((p.sick / p.exposed) * 100);
+  const userVal = parseInt(document.getElementById('sess-math-input').value, 10);
+  if (isNaN(userVal)) { alert('Enter a number!'); return; }
+
+  const correct = Math.abs(userVal - answer) <= 1;
+  _sessLastCorrect = correct;
+  document.getElementById('sess-math-input').disabled = true;
+  document.getElementById('sess-math-check').disabled = true;
+
+  const fb = document.getElementById('sess-math-feedback');
+  fb.innerHTML = (correct ? '✅ Correct! ' : `❌ Answer: ${answer}%. `) +
+    `<br>${p.sick} ÷ ${p.exposed} × 100 = <strong>${answer}%</strong>`;
+  fb.className = 'sess-feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('sess-math-next').className = 'sess-next-btn show';
+}
+
+function loadSessStats(q) {
+  const p = STATS_DATA[q.idx];
+  const formulas = {
+    mean:   'Mean = (Sum of all values) ÷ (Count of values)',
+    median: 'Median = Middle value when sorted low → high',
+    mode:   'Mode = The value that appears MOST often'
+  };
+  document.getElementById('sess-stats-formula').textContent = formulas[p.type];
+
+  // Build table
+  const headers = p.colHeaders || ['#', 'Value'];
+  const rows = p.data.map((val, i) =>
+    `<tr><td>${i + 1}</td><td>${val}</td></tr>`
+  ).join('');
+  document.getElementById('sess-stats-table-wrap').innerHTML = `
+    <table class="sess-stats-table">
+      <thead><tr><th>${headers[0]}</th><th>${headers[1]}</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+
+  document.getElementById('sess-stats-problem').textContent = p.context + '\n\n' + p.q;
+  document.getElementById('sess-stats-input').value = '';
+  document.getElementById('sess-stats-input').disabled = false;
+  document.getElementById('sess-stats-check').disabled = false;
+  document.getElementById('sess-stats-feedback').className = 'sess-feedback';
+  document.getElementById('sess-stats-next').className = 'sess-next-btn';
+  document.getElementById('sess-stats').classList.add('active');
+}
+
+function checkSessStats() {
+  const pos = load('dd_today_pos', 0);
+  const todayQs = load('dd_today_qs', []);
+  const q = todayQs[pos];
+  const p = STATS_DATA[q.idx];
+  const userVal = parseFloat(document.getElementById('sess-stats-input').value);
+  if (isNaN(userVal)) { alert('Enter a number!'); return; }
+
+  const correct = Math.abs(userVal - p.answer) <= 0.6;
+  _sessLastCorrect = correct;
+  document.getElementById('sess-stats-input').disabled = true;
+  document.getElementById('sess-stats-check').disabled = true;
+
+  const fb = document.getElementById('sess-stats-feedback');
+  fb.innerHTML = (correct ? '✅ Correct! ' : `❌ Answer: ${p.answer}. `) + `<br>${p.explain}`;
+  fb.className = 'sess-feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('sess-stats-next').className = 'sess-next-btn show';
+}
+
+function advanceSessQuestion(correct) {
+  // Save score
+  if (correct) save('dd_today_score', load('dd_today_score', 0) + 1);
+  save('dd_sess_score', load('dd_sess_score', 0) + (correct ? 1 : 0));
+
+  const pos = load('dd_today_pos', 0);
+  const newPos = pos + 1;
+  save('dd_today_pos', newPos);
+
+  if (newPos >= 12) {
+    completeTodaySession();
+  } else {
+    runSession();
+  }
+}
+
+function completeTodaySession() {
+  save('dd_today_done', true);
+  const score = load('dd_today_score', 0);
+  const streak = load('dd_streak', 0);
+
+  document.querySelectorAll('.sess-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sess-done').classList.add('active');
+  document.getElementById('sess-done-score').textContent = `${score}/12`;
+  document.getElementById('sess-done-streak').textContent = `🔥 ${streak} day streak`;
+
+  // Update progress label/bar to show complete
+  document.getElementById('sess-label').textContent = 'Session complete!';
+  document.getElementById('sess-bar').style.width = '100%';
+
+  const reshuffled = load('dd_today_reshuffled', false);
+  if (reshuffled) {
+    const note = document.querySelector('#sess-done .sess-done-card');
+    const extra = document.createElement('div');
+    extra.style.cssText = 'font-size:0.82rem;color:#f5a623;margin-top:10px';
+    extra.textContent = "You've completed all questions! Starting a new round 🔄";
+    note.appendChild(extra);
+  }
 }
 
 // ── FLASHCARDS ────────────────────────────────────────────────────
@@ -1077,13 +1667,8 @@ function cardMastered() {
 function cardAgain() { advanceCard(); }
 
 function advanceCard() {
-  if (fcPos < VOCAB.length - 1) {
-    fcPos++;
-    showCard();
-  } else {
-    fcPos = 0;
-    showCard();
-  }
+  if (fcPos < VOCAB.length - 1) { fcPos++; } else { fcPos = 0; }
+  showCard();
 }
 
 function shuffleCards() {
@@ -1201,9 +1786,9 @@ function nextScenario() {
 function initMath() {
   mathIdx = 0; mathScore = 0;
   document.getElementById('math-result').style.display = 'none';
-  document.querySelector('.formula-box').style.display = 'block';
+  document.querySelector('#math .formula-box').style.display = 'block';
   document.getElementById('math-problem').style.display = 'block';
-  document.querySelector('.math-input-wrap').style.display = 'flex';
+  document.querySelector('#math .math-input-wrap').style.display = 'flex';
   document.getElementById('math-check').style.display = 'block';
   loadMath();
 }
@@ -1255,9 +1840,9 @@ function nextMath() {
 
 function showMathResult() {
   document.getElementById('math-result').style.display = 'block';
-  document.querySelector('.formula-box').style.display = 'none';
+  document.querySelector('#math .formula-box').style.display = 'none';
   document.getElementById('math-problem').style.display = 'none';
-  document.querySelector('.math-input-wrap').style.display = 'none';
+  document.querySelector('#math .math-input-wrap').style.display = 'none';
   document.getElementById('math-check').style.display = 'none';
   document.getElementById('math-feedback').style.display = 'none';
   document.getElementById('math-next').style.display = 'none';
@@ -1272,9 +1857,9 @@ function showMathResult() {
 
 function resetMath() {
   document.getElementById('math-result').style.display = 'none';
-  document.querySelector('.formula-box').style.display = 'block';
+  document.querySelector('#math .formula-box').style.display = 'block';
   document.getElementById('math-problem').style.display = 'block';
-  document.querySelector('.math-input-wrap').style.display = 'flex';
+  document.querySelector('#math .math-input-wrap').style.display = 'flex';
   document.getElementById('math-check').style.display = 'block';
   document.getElementById('math-feedback').style.display = '';
   document.getElementById('math-next').style.display = '';
@@ -1300,6 +1885,45 @@ function renderLineList(d) {
         <th class="hdr-well">😊 Well</th>
         <th class="hdr-total">Total</th>
       </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}
+
+function renderFullTable(d) {
+  const rows = d.foods.map(item => {
+    const ateTotal = item.ateSick + item.ateWell;
+    const notEatTotal = item.notEatSick + item.notEatWell;
+    const grandTotal = ateTotal + notEatTotal;
+    const arAte = ateTotal > 0 ? Math.round(item.ateSick / ateTotal * 100) : 0;
+    const arNotEat = notEatTotal > 0 ? Math.round(item.notEatSick / notEatTotal * 100) : 0;
+    return `<tr>
+      <td class="row-exposed" style="font-size:0.75rem;text-align:left;padding-left:6px;white-space:nowrap">${item.food}</td>
+      <td class="cell-sick">${item.ateSick}</td>
+      <td class="cell-well">${item.ateWell}</td>
+      <td class="cell-sick-ne">${item.notEatSick}</td>
+      <td class="cell-well-ne">${item.notEatWell}</td>
+      <td class="cell-total">${grandTotal}</td>
+      <td class="ar-cell">${arAte}%</td>
+    </tr>`;
+  }).join('');
+  return `<div class="table-2x2-wrap">
+    <table class="table-2x2">
+      <thead>
+        <tr>
+          <th class="hdr-blank" rowspan="2" style="font-size:0.7rem;text-align:left;padding-left:6px">Food Item</th>
+          <th class="hdr-ate" colspan="2">Ate It</th>
+          <th class="hdr-noteat" colspan="2">Didn't Eat</th>
+          <th class="hdr-total" rowspan="2">Total</th>
+          <th class="hdr-ate" rowspan="2" style="font-size:0.7rem">AR%<br>(ate)</th>
+        </tr>
+        <tr>
+          <th class="hdr-sick">😷 Sick</th>
+          <th class="hdr-well">😊 Well</th>
+          <th class="hdr-sick" style="opacity:0.7">😷 Sick</th>
+          <th class="hdr-well" style="opacity:0.7">😊 Well</th>
+        </tr>
+      </thead>
       <tbody>${rows}</tbody>
     </table>
   </div>`;
@@ -1345,7 +1969,7 @@ function load2x2Scenario() {
   const d = TABLE_DATA[t2Idx];
   document.getElementById('t2-story').innerHTML =
     `<div class="scenario-emoji">${d.emoji}</div><div class="scenario-name">${d.title}</div>${d.scenario}`;
-  document.getElementById('t2-table-wrap').innerHTML = d.type === 'linelist' ? renderLineList(d) : render2x2Table(d);
+  document.getElementById('t2-table-wrap').innerHTML = d.type === 'full' ? renderFullTable(d) : (d.type === 'linelist' ? renderLineList(d) : render2x2Table(d));
   document.getElementById('t2-question-wrap').style.display = 'block';
   document.getElementById('t2-result').style.display = 'none';
 
@@ -1600,7 +2224,7 @@ function initTF() {
   tfIdx = 0; tfScore = 0; tfAnswered = false;
   document.getElementById('tf-result').style.display = 'none';
   document.getElementById('tf-statement').style.display = 'flex';
-  document.getElementById('tf-wrap') && (document.querySelector('.tf-wrap').style.display = 'flex');
+  document.querySelector('.tf-wrap') && (document.querySelector('.tf-wrap').style.display = 'flex');
   loadTF();
 }
 
@@ -1688,7 +2312,6 @@ function loadMatch() {
   document.getElementById('match-feedback').textContent = '';
   document.getElementById('match-next').className = 'next-btn';
 
-  // Build choices: correct + up to 3 distractors, shuffled
   const distractors = p.others.slice(0, 3);
   const all = [p.match, ...distractors].sort(() => Math.random() - 0.5);
 
@@ -1830,6 +2453,7 @@ function loadStats() {
     mode:   'Mode = The value that appears MOST often'
   };
   document.getElementById('stats-formula').textContent = formulas[p.type];
+  // Standalone stats screen uses comma-separated list
   document.getElementById('stats-dataset').textContent = p.data.join(', ');
   document.getElementById('stats-problem').textContent = p.context + '\n\n' + p.q;
   document.getElementById('stats-input').value = '';
@@ -1850,7 +2474,7 @@ function checkStats() {
   if (isNaN(userVal)) { alert('Enter a number!'); return; }
 
   stAnswered = true;
-  const correct = Math.abs(userVal - p.answer) <= 1;
+  const correct = Math.abs(userVal - p.answer) <= 0.6;
   if (correct) stScore++;
 
   document.getElementById('stats-input').disabled = true;
@@ -1911,6 +2535,12 @@ document.getElementById('t2-input').addEventListener('keydown', e => {
 });
 document.getElementById('stats-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') checkStats();
+});
+document.getElementById('sess-math-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkSessMath();
+});
+document.getElementById('sess-stats-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkSessStats();
 });
 
 refreshHome();
