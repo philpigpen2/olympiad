@@ -234,6 +234,27 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 .sess-done-streak{font-size:1rem;color:#f5a623;font-weight:700}
 .sess-home-btn{width:100%;padding:18px;background:#0f3460;border:none;color:#fff;border-radius:14px;font-size:1.1rem;font-weight:700;cursor:pointer;font-family:inherit}
 
+/* ONBOARDING */
+#onboard{align-items:center;justify-content:center;text-align:center;gap:20px;padding-top:60px}
+.onboard-logo{font-size:3rem;margin-bottom:-8px}
+.onboard-title{font-size:2rem;font-weight:800;color:#e94560;line-height:1.2}
+.onboard-sub{font-size:0.95rem;color:#aaa;margin-top:-8px}
+.onboard-card{background:#16213e;border-radius:18px;padding:24px;width:100%;text-align:left}
+.onboard-label{font-size:1.05rem;font-weight:700;margin-bottom:4px}
+.onboard-hint{font-size:0.82rem;color:#888;margin-bottom:14px;line-height:1.4}
+.onboard-input{width:100%;background:#0d0d1f;border:2px solid #0f3460;color:#eaeaea;padding:16px;border-radius:14px;font-size:1.3rem;font-weight:700;text-align:center;font-family:inherit;outline:none;appearance:none;-webkit-appearance:none}
+.onboard-input:focus{border-color:#e94560}
+.onboard-btn{width:100%;padding:20px;background:linear-gradient(135deg,#e94560,#f5a623);border:none;color:#fff;border-radius:16px;font-size:1.2rem;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 4px 20px rgba(233,69,96,0.4)}
+
+/* HOME GREETING */
+.home-greeting{font-size:1.5rem;font-weight:800;color:#eaeaea;margin-top:-6px}
+.home-sessions-row{display:flex;gap:10px;width:100%}
+.home-stat-pill{flex:1;background:#16213e;border-radius:12px;padding:10px 12px;text-align:center}
+.home-stat-pill-num{font-size:1.3rem;font-weight:800;color:#e94560}
+.home-stat-pill-label{font-size:0.62rem;color:#666;text-transform:uppercase;letter-spacing:0.07em}
+.change-name-btn{background:none;border:none;color:#333;font-size:0.7rem;cursor:pointer;font-family:inherit;margin-top:-8px}
+.storage-warn{width:100%;background:#7f1d1d;border-radius:12px;padding:12px 14px;font-size:0.82rem;color:#fca5a5;line-height:1.5;text-align:center}
+
 /* STREAK CARD — MTG style */
 .streak-card{width:100%;border-radius:18px;padding:3px;transition:background 0.5s}
 .streak-inner{background:#0d0d1f;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:14px}
@@ -264,10 +285,34 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 </head>
 <body>
 
+<!-- ONBOARDING SCREEN -->
+<div id="onboard" class="screen">
+  <div class="onboard-logo">🔬</div>
+  <div class="onboard-title">Sigma Sleuth</div>
+  <div class="onboard-sub">Disease Detectives · State Prep</div>
+  <div class="onboard-card">
+    <div class="onboard-label">What's your name, Detective?</div>
+    <div class="onboard-hint">We'll remember your streak and progress every time you open the app.</div>
+    <input type="text" class="onboard-input" id="onboard-name" placeholder="Your first name" maxlength="20" autocomplete="given-name">
+  </div>
+  <button class="onboard-btn" onclick="saveOnboard()">Let's go! →</button>
+</div>
+
 <!-- HOME SCREEN -->
 <div id="home" class="screen active">
   <div class="home-title">🔬 Sigma<br>Sleuth</div>
-  <div class="home-sub">Disease Detectives · State Prep</div>
+  <div class="home-greeting" id="home-greeting">Welcome, Detective!</div>
+  <div id="storage-warn-wrap"></div>
+  <div class="home-sessions-row">
+    <div class="home-stat-pill">
+      <div class="home-stat-pill-num" id="home-sessions-total">0</div>
+      <div class="home-stat-pill-label">Sessions done</div>
+    </div>
+    <div class="home-stat-pill">
+      <div class="home-stat-pill-num" id="home-questions-total">0</div>
+      <div class="home-stat-pill-label">Questions answered</div>
+    </div>
+  </div>
   <div class="streak-card" id="streak-card" style="background:linear-gradient(135deg,#6b7280,#9ca3af)">
     <div class="streak-inner">
       <div class="loyalty-shield" id="loyalty-shield">
@@ -306,6 +351,8 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
       <div class="done-card-sub" id="home-done-sub">Come back tomorrow to keep your streak alive 🔥</div>
     </div>
   </div>
+
+  <button class="change-name-btn" onclick="showScreen('onboard')">Not you? Change name</button>
 
   <div class="free-practice-label">— Free Practice —</div>
   <div class="mode-grid">
@@ -1242,6 +1289,23 @@ let _sessLastCorrect = false;
 function load(k, def) { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } }
 function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 
+// ── ONBOARDING ────────────────────────────────────────────────────
+function saveOnboard() {
+  const name = document.getElementById('onboard-name').value.trim();
+  if (!name) { document.getElementById('onboard-name').focus(); return; }
+  save('dd_name', name);
+  showScreen('home');
+}
+
+function testStorage() {
+  try {
+    localStorage.setItem('_ss_test', '1');
+    const ok = localStorage.getItem('_ss_test') === '1';
+    localStorage.removeItem('_ss_test');
+    return ok;
+  } catch { return false; }
+}
+
 function getStreakRank(n) {
   if (n >= 30) return { label:'MYTHIC RARE', title:'Legendary Detective',    pip:'✦',   color:'#ff8c00', grad:'linear-gradient(135deg,#ff8c00,#e94560)', pct:100,                          nextMsg:'Maximum rank achieved ✦',    cls:'mythic' };
   if (n >= 14) return { label:'RARE',        title:'Master Sleuth',          pip:'◆◆◆', color:'#f5a623', grad:'linear-gradient(135deg,#c8960c,#f5a623)', pct:Math.round((n-14)/16*100),    nextMsg:`${30-n} days to Mythic Rare`, cls:'' };
@@ -1318,6 +1382,18 @@ function showScreen(id) {
 function refreshHome() {
   const streak = updateStreak();
   renderStreakCard(streak, totalPoints());
+
+  const name = load('dd_name', 'Detective');
+  document.getElementById('home-greeting').textContent = `Hi, ${name}! 👋`;
+  document.getElementById('home-sessions-total').textContent = load('dd_total_sessions', 0);
+  document.getElementById('home-questions-total').textContent = load('dd_total_questions', 0);
+
+  const warn = document.getElementById('storage-warn-wrap');
+  if (!testStorage()) {
+    warn.innerHTML = '<div class="storage-warn">⚠️ Progress can\'t be saved in Private Browsing mode. Open in regular Safari to keep your streak.</div>';
+  } else {
+    warn.innerHTML = '';
+  }
 
   if (isTodayDone()) {
     document.getElementById('home-start-btn').style.display = 'none';
@@ -1674,6 +1750,8 @@ function advanceSessQuestion(correct) {
 
 function completeTodaySession() {
   save('dd_today_done', true);
+  save('dd_total_sessions', load('dd_total_sessions', 0) + 1);
+  save('dd_total_questions', load('dd_total_questions', 0) + 12);
   const score = load('dd_today_score', 0);
   const streak = load('dd_streak', 0);
 
@@ -2623,7 +2701,16 @@ document.getElementById('sess-stats-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') checkSessStats();
 });
 
-refreshHome();
+// Show onboarding if first time, else go straight to home
+if (!load('dd_name', null)) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('onboard').classList.add('active');
+  document.getElementById('onboard-name').addEventListener('keydown', e => {
+    if (e.key === 'Enter') saveOnboard();
+  });
+} else {
+  refreshHome();
+}
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js');
