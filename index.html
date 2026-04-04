@@ -179,7 +179,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <span class="mode-icon">📚</span>
     <div class="mode-info">
       <div class="mode-label">Flashcards</div>
-      <div class="mode-desc">45 vocab terms · tap to flip</div>
+      <div class="mode-desc">68 vocab terms · write then reveal</div>
     </div>
   </button>
   <button class="mode-btn red" onclick="showScreen('scenarios')">
@@ -221,24 +221,24 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <span class="mode-icon">✅</span>
     <div class="mode-info">
       <div class="mode-label">True / False</div>
-      <div class="mode-desc">20 statements · just like the real test</div>
+      <div class="mode-desc">27 statements · just like the real test</div>
     </div>
   </button>
   <button class="mode-btn indigo" onclick="showScreen('matching')">
     <span class="mode-icon">🔗</span>
     <div class="mode-info">
       <div class="mode-label">Matching</div>
-      <div class="mode-desc">Pathogen · food · symptoms · transmission</div>
+      <div class="mode-desc">21 rounds · pathogens · food · chain of infection</div>
     </div>
   </button>
   <button class="mode-btn slate" onclick="showScreen('written')">
     <span class="mode-icon">✏️</span>
     <div class="mode-info">
       <div class="mode-label">Written Questions</div>
-      <div class="mode-desc">6 deep questions · reveal model answers</div>
+      <div class="mode-desc">8 deep questions · reveal model answers</div>
     </div>
   </button>
-  <div class="tip-box">🏆 <strong>Competition tip:</strong> Accuracy beats speed. You finished early last year and placed 16th — slow down and double-check every answer.</div>
+  <div class="tip-box">🏆 <strong>Competition tip:</strong> Accuracy beats speed. The fastest finishers don't always win — slow down and double-check every answer.</div>
 </div>
 
 <!-- FLASHCARDS SCREEN -->
@@ -593,7 +593,19 @@ const VOCAB = [
   { term:"Shigella",        def:"Bacteria spread person-to-person with an extremely low infectious dose (just 10 cells!). Causes bloody diarrhea. Common in daycares." },
   { term:"High-Risk Foods", def:"Foods most likely to cause illness: raw poultry, undercooked beef, raw shellfish, soft cheese, deli meats, unpasteurized milk/juice, improperly canned foods" },
   { term:"Temperature Danger Zone", def:"40°F–140°F (4°C–60°C) — the range where bacteria multiply fastest. Never leave food in this zone for more than 2 hours!" },
-  { term:"Cross-Contamination", def:"When germs spread from raw food (like chicken) to other foods via hands, surfaces, or utensils. A major cause of foodborne illness." }
+  { term:"Cross-Contamination", def:"When germs spread from raw food (like chicken) to other foods via hands, surfaces, or utensils. A major cause of foodborne illness." },
+  { term:"Chain of Infection",  def:"The 6-link chain disease needs to spread: Pathogen → Reservoir → Portal of Exit → Mode of Transmission → Portal of Entry → Susceptible Host. Break any link = stop the disease!" },
+  { term:"Portal of Exit",      def:"How a pathogen LEAVES the body — coughing, sneezing, diarrhea, blood, skin sores. Breaking this link (e.g., covering coughs) stops spread." },
+  { term:"Portal of Entry",     def:"How a pathogen ENTERS a new host — mouth, nose, eyes, broken skin, or bites. Breaking this link (e.g., hand washing) stops spread." },
+  { term:"Bacteria",            def:"Single-celled living organisms. Can reproduce on their own. Examples: Salmonella, E. coli, Listeria. Most can be killed by antibiotics." },
+  { term:"Virus",               def:"Tiny non-living particle that needs to hijack a living cell to reproduce. Examples: Norovirus, Influenza, Hepatitis A. Antibiotics DON'T work on viruses." },
+  { term:"Parasite",            def:"An organism that lives on or inside a host and feeds off it. Examples: Giardia, Cryptosporidium, tapeworms. Often waterborne or vector-borne." },
+  { term:"Fungi",               def:"Organisms like mold and yeast that can cause infections. Examples: ringworm, athlete's foot, Valley Fever. Less common in foodborne illness." },
+  { term:"Koch's Postulates",   def:"4 rules to prove a germ causes a disease: 1) Find germ in all sick cases. 2) Isolate it. 3) Make a healthy animal sick with it. 4) Re-isolate the same germ." },
+  { term:"Association vs. Causation", def:"Association = two things happen together (eating X AND getting sick). Causation = one CAUSES the other. A high Relative Risk suggests causation but doesn't prove it alone." },
+  { term:"Spot Map",            def:"A map showing WHERE cases are located. Clusters on a spot map help investigators identify the geographic source of an outbreak." },
+  { term:"Breaking the Chain",  def:"Stopping disease spread by targeting any link in the Chain of Infection — vaccination (host), cooking food (pathogen), chlorinating water (transmission), masks (portal of exit)" },
+  { term:"Incubation Period",   def:"The time between getting infected and showing symptoms. Knowing this helps investigators figure out WHEN and WHERE exposure happened." }
 ];
 
 const SCENARIOS = [
@@ -789,7 +801,13 @@ const TF_DATA = [
   { s:"An endemic disease is one that has spread across multiple continents worldwide.", correct:false, explain:"FALSE — That's a PANDEMIC. Endemic means the disease is always present at baseline levels in a SPECIFIC area. Example: malaria is endemic to parts of Africa." },
   { s:"The Temperature Danger Zone for bacterial growth in food is between 40°F and 140°F.", correct:true, explain:"TRUE — Bacteria multiply fastest between 40°F–140°F (4°C–60°C). Never leave food in this zone for more than 2 hours!" },
   { s:"Giardia is a type of bacteria found in untreated stream water.", correct:false, explain:"FALSE — Giardia is a PARASITE (protozoan), not a bacteria. It lives in untreated streams and rivers. Also called 'beaver fever' because beavers contaminate waterways." },
-  { s:"Botulism is caused by a toxin produced by Clostridium botulinum bacteria in improperly sealed foods.", correct:true, explain:"TRUE — Botulism toxin is one of the most lethal substances known. Found in improperly canned or vacuum-sealed foods. It causes paralysis, not typical stomach illness." }
+  { s:"Botulism is caused by a toxin produced by Clostridium botulinum bacteria in improperly sealed foods.", correct:true, explain:"TRUE — Botulism toxin is one of the most lethal substances known. Found in improperly canned or vacuum-sealed foods. It causes paralysis, not typical stomach illness." },
+  { s:"Antibiotics are an effective treatment for viral infections like the flu and Norovirus.", correct:false, explain:"FALSE — Antibiotics only work on BACTERIA, not viruses. Taking antibiotics for a virus does nothing and contributes to antibiotic resistance. Antivirals are used for some viruses." },
+  { s:"Koch's Postulates provide a framework for proving that a specific germ causes a specific disease.", correct:true, explain:"TRUE — Koch's 4 criteria: (1) find the germ in all sick cases, (2) isolate it, (3) use it to make a healthy animal sick, (4) re-isolate the same germ. Proving all 4 = proof of causation." },
+  { s:"If two things are associated (happen together), it proves that one causes the other.", correct:false, explain:"FALSE — Association ≠ Causation! Just because eating X and getting sick happen together doesn't mean X caused the illness. Other factors could explain it. You need a controlled study to establish causation." },
+  { s:"A spot map shows how many people got sick each day during an outbreak.", correct:false, explain:"FALSE — That's an EPIDEMIC CURVE. A spot map shows WHERE cases are located geographically. Clusters on a spot map help identify the geographic source (like a contaminated water supply)." },
+  { s:"Breaking any single link in the Chain of Infection can stop a disease from spreading.", correct:true, explain:"TRUE — The Chain of Infection has 6 links. Break ANY one — kill the pathogen, remove the reservoir, block transmission, block portals, or vaccinate the host — and the chain breaks!" },
+  { s:"Parasites like Giardia and Cryptosporidium are types of bacteria.", correct:false, explain:"FALSE — Giardia and Cryptosporidium are PARASITES (protozoa), not bacteria. They're single-celled but more complex organisms, and they're NOT treated with antibiotics." }
 ];
 
 const MATCH_DATA = [
@@ -808,7 +826,12 @@ const MATCH_DATA = [
   { cat:"Food Safety Rule → Why It Matters", term:"Never leave food out for more than 2 hours", match:"Bacteria multiply rapidly in the 40°F–140°F temperature danger zone", others:["Prevents cross-contamination between foods","Listeria is cold-tolerant and survives refrigeration","Destroys heat-stable toxins already formed","Stops waterborne pathogens from multiplying"] },
   { cat:"Food Safety Rule → Why It Matters", term:"Use separate cutting boards for raw meat and vegetables", match:"Prevents cross-contamination — stops E. coli and Salmonella from raw meat reaching ready-to-eat food", others:["Kills bacteria at safe cooking temperatures","Stops bacteria multiplying in the danger zone","Prevents Listeria in cold storage","Eliminates Norovirus from food surfaces"] },
   { cat:"Epi Concept → Definition", term:"Case-Control Study", match:"Compares SICK people to HEALTHY controls, looking backward to find the exposure", others:["Follows exposed vs unexposed groups forward in time","Ongoing systematic collection of disease data","Restricts movement of exposed people","Counts all cases in a population at one point in time"] },
-  { cat:"Epi Concept → Definition", term:"Secondary Attack Rate", match:"Percentage of close contacts who get infected from one index case — measures contagiousness", others:["Death rate once infected with disease","Percentage of exposed people who get sick","Middle value in a sorted dataset","Rate of new cases per week in a population"] }
+  { cat:"Epi Concept → Definition", term:"Secondary Attack Rate", match:"Percentage of close contacts who get infected from one index case — measures contagiousness", others:["Death rate once infected with disease","Percentage of exposed people who get sick","Middle value in a sorted dataset","Rate of new cases per week in a population"] },
+  { cat:"Disease Agent → Type", term:"Salmonella / E. coli / Listeria", match:"Bacteria — living single-celled organisms; can be treated with antibiotics", others:["Viruses — non-living; antibiotics don't work","Parasites — organisms that live inside a host","Fungi — mold/yeast-type organisms","Toxins — chemical poisons produced by organisms"] },
+  { cat:"Disease Agent → Type", term:"Norovirus / Influenza / Hepatitis A", match:"Viruses — non-living particles that hijack cells; antibiotics DON'T work", others:["Bacteria — living cells; treatable with antibiotics","Parasites — organisms that live inside a host","Fungi — mold/yeast-type organisms","Prions — misfolded proteins"] },
+  { cat:"Disease Agent → Type", term:"Giardia / Cryptosporidium / Tapeworm", match:"Parasites — organisms that live on or inside a host and feed off it", others:["Bacteria — single-celled living organisms","Viruses — non-living; hijack host cells","Fungi — mold/yeast-type organisms","Toxins — chemical poisons in food"] },
+  { cat:"Chain of Infection → How to Break It", term:"Wearing a mask or covering a cough", match:"Blocking the Portal of Exit — stopping pathogens from leaving the sick person", others:["Blocking the Portal of Entry into a new host","Eliminating the reservoir where germs live","Killing pathogens with heat or disinfectant","Making the host immune through vaccination"] },
+  { cat:"Chain of Infection → How to Break It", term:"Vaccination", match:"Protecting the Susceptible Host — making the last link in the chain immune", others:["Blocking the Portal of Exit","Eliminating the pathogen from its reservoir","Blocking the mode of transmission","Targeting the portal of entry with hand washing"] }
 ];
 
 const WRITTEN_DATA = [
@@ -827,6 +850,12 @@ const WRITTEN_DATA = [
   { q:"Name 4 specific foodborne pathogens. For each one, give: (1) primary food source, (2) incubation period, and (3) one unique identifying feature that a disease detective would use to recognize it.",
     hint:"Think about what makes each pathogen's 'fingerprint' unique — the clue that screams 'it was this one!'",
     ans:"SALMONELLA: Raw poultry & eggs | 6–72 hours | Found in reptiles too; 6-72hr onset after chicken/eggs = Salmonella\n\nE. COLI O157:H7: Undercooked beef, unpasteurized juice | 1–8 days | Bloody diarrhea + possible kidney failure (HUS) in kids = E. coli\n\nLISTERIA: Deli meats, soft cheese | 1–4 WEEKS | Survives refrigerator; affects pregnant women = Listeria (very long incubation is the giveaway)\n\nNOROVIRUS: Contaminated food/surfaces | 12–48 hours | Explosive sudden vomiting, over in 1-2 days, spreads like wildfire on cruise ships = Norovirus\n\n(Also valid: Campylobacter, Staph aureus, Cryptosporidium, Giardia, Cholera, Botulism)" },
+  { q:"Name and explain Koch's Postulates (simplified). Why are they important in disease investigation?",
+    hint:"4 steps that prove a specific germ causes a specific disease...",
+    ans:"Koch's Postulates — 4 criteria to PROVE a pathogen causes a disease:\n\n1. The pathogen must be found in ALL cases of the disease.\n2. The pathogen must be ISOLATED from the sick person and grown in a lab.\n3. The isolated pathogen must CAUSE the disease when given to a healthy animal.\n4. The pathogen must be RE-ISOLATED from the newly sick animal and match the original.\n\nWhy it matters: Before Koch, we couldn't definitively link germs to specific diseases. Koch's Postulates gave science a standardized proof system. If an outbreak pathogen meets all 4 criteria, we have confirmed causation — not just association!" },
+  { q:"Describe the Chain of Infection. Name all 6 links and give one example of how to break each link to stop disease spread.",
+    hint:"Pathogen → Reservoir → Portal of Exit → Mode of Transmission → Portal of Entry → Susceptible Host",
+    ans:"The 6 links of the Chain of Infection:\n\n1. PATHOGEN — the germ itself. Break it: cook food to kill bacteria (165°F for poultry).\n\n2. RESERVOIR — where the germ lives (animals, humans, environment). Break it: remove standing water where mosquitoes breed.\n\n3. PORTAL OF EXIT — how it leaves (coughing, sneezing, blood, diarrhea). Break it: cover coughs, proper wound care.\n\n4. MODE OF TRANSMISSION — how it travels (air, water, food, direct contact). Break it: chlorinate drinking water, hand washing.\n\n5. PORTAL OF ENTRY — how it enters a new host (mouth, nose, eyes, broken skin). Break it: wear gloves, don't touch your face.\n\n6. SUSCEPTIBLE HOST — a person who can get infected. Break it: vaccinate the host, improve nutrition/immune status.\n\nBreak ANY link = the disease can't spread. This is why public health uses multiple strategies at once!" },
   { q:"Explain the difference between a point source and propagated outbreak. Draw what each looks like on an epidemic curve and explain what causes each shape.",
     hint:"Think about WHO was exposed and WHEN. One source at one time vs. person spreading to person over time.",
     ans:"POINT SOURCE OUTBREAK:\nCause: Everyone was exposed to the same contaminated source at ONE time (e.g., bad food at a party).\nEpi curve shape: ONE sharp spike in cases, then rapid drop to near-zero. Like a mountain with a steep cliff on both sides.\nWhy that shape: Everyone was exposed at the same moment, so they all get sick around the same time. Once the source is gone, no new cases.\n\nPROPAGATED OUTBREAK:\nCause: Disease spreads person-to-person in waves over time (e.g., flu spreading through a school).\nEpi curve shape: Gradual rise → peak → gradual decline. Or multiple rolling waves of cases over weeks/months.\nWhy that shape: Each sick person becomes a new source, infecting new people in successive waves." }
