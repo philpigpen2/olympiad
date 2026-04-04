@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="DD Practice">
+<meta name="apple-mobile-web-app-title" content="Sigma Sleuth">
 <meta name="theme-color" content="#1a1a2e">
 <meta name="robots" content="noindex, nofollow">
 <link rel="manifest" href="manifest.json">
-<title>Disease Detectives Practice</title>
+<title>Sigma Sleuth</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#1a1a2e;color:#eaeaea;overflow-x:hidden}
@@ -20,18 +20,20 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 .screen.active{display:flex;flex-direction:column}
 
 /* HOME */
-#home{align-items:center;justify-content:center;text-align:center;gap:20px}
+#home{align-items:center;justify-content:center;text-align:center;gap:16px}
 .home-title{font-size:2rem;font-weight:800;color:#e94560;line-height:1.2}
-.home-sub{font-size:1rem;color:#aaa;margin-top:-10px}
-.mode-btn{width:100%;padding:22px 20px;border-radius:16px;border:none;font-size:1.2rem;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform 0.15s,filter 0.15s}
+.home-sub{font-size:1rem;color:#aaa;margin-top:-8px}
+.mode-btn{width:100%;padding:18px 16px;border-radius:16px;border:none;font-size:1.1rem;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform 0.15s,filter 0.15s}
 .mode-btn:active{transform:scale(0.97);filter:brightness(1.15)}
 .mode-btn.blue{background:#0f3460}
 .mode-btn.red{background:#e94560}
 .mode-btn.green{background:#1a6b4a}
-.mode-icon{font-size:2rem}
+.mode-btn.purple{background:#581c87}
+.mode-btn.teal{background:#0e7490}
+.mode-icon{font-size:1.8rem}
 .mode-info{text-align:left}
-.mode-label{font-size:1.1rem}
-.mode-desc{font-size:0.8rem;opacity:0.8;font-weight:400}
+.mode-label{font-size:1.05rem}
+.mode-desc{font-size:0.78rem;opacity:0.8;font-weight:400}
 .stats-bar{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
 .stat-chip{background:#16213e;padding:10px 18px;border-radius:999px;font-size:0.9rem;display:flex;align-items:center;gap:6px}
 
@@ -68,7 +70,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 .scenario-story{background:#16213e;border-radius:16px;padding:20px;margin-bottom:20px;font-size:1rem;line-height:1.7;border-left:4px solid #e94560}
 .scenario-emoji{font-size:2.5rem;margin-bottom:8px}
 .scenario-name{font-size:1.1rem;font-weight:700;margin-bottom:12px;color:#e94560}
-.question-text{font-size:1.1rem;font-weight:600;margin-bottom:16px;line-height:1.5}
+.question-text{font-size:1.05rem;font-weight:600;margin-bottom:16px;line-height:1.5}
 .choices{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
 .choice-btn{background:#16213e;border:2px solid #0f3460;color:#eaeaea;padding:16px 18px;border-radius:14px;font-size:1rem;text-align:left;cursor:pointer;transition:all 0.2s;font-family:inherit}
 .choice-btn:active{transform:scale(0.98)}
@@ -106,14 +108,39 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 .math-feedback.wrong{border-left:4px solid #e94560}
 .math-next{width:100%;padding:18px;background:#0f3460;border:none;color:#fff;border-radius:14px;font-size:1.1rem;font-weight:700;cursor:pointer;display:none;font-family:inherit}
 .math-next.show{display:block}
+
+/* 2x2 TABLE */
+.table-2x2-wrap{overflow-x:auto;margin-bottom:20px}
+.table-2x2{width:100%;border-collapse:collapse;font-size:0.88rem}
+.table-2x2 th,.table-2x2 td{padding:10px 6px;text-align:center;border:2px solid #0a0a1a}
+.hdr-sick{background:#7f1d1d;color:#fff;font-weight:700}
+.hdr-well{background:#1a6b4a;color:#fff;font-weight:700}
+.hdr-total{background:#0f3460;color:#fff;font-weight:700}
+.hdr-blank{background:#0a0a1a}
+.row-exposed{background:#0f3460;color:#fff;font-weight:700;text-align:left;padding-left:10px;font-size:0.82rem}
+.row-unexposed{background:#16213e;color:#aaa;font-weight:700;text-align:left;padding-left:10px;font-size:0.82rem}
+.cell-sick{background:#2d1111;color:#fca5a5;font-size:1.3rem;font-weight:800}
+.cell-well{background:#0d2d1a;color:#86efac;font-size:1.3rem;font-weight:800}
+.cell-total{background:#111827;color:#eaeaea;font-size:1.1rem;font-weight:700}
+.t2-input-wrap{display:flex;gap:10px;align-items:center;margin-bottom:16px}
+
+/* EPI CHART */
+.epi-chart-box{background:#16213e;border-radius:16px;padding:16px 12px 12px;margin-bottom:20px}
+.chart-title-sm{font-size:0.8rem;color:#aaa;margin-bottom:10px;text-align:center;text-transform:uppercase;letter-spacing:0.05em}
+.bars-row{display:flex;align-items:flex-end;height:150px;gap:3px;margin-bottom:4px;padding:0 2px}
+.chart-bar{flex:1;background:linear-gradient(180deg,#e94560,#f5a623);border-radius:3px 3px 0 0;min-height:3px;position:relative;display:flex;justify-content:center}
+.bar-val{position:absolute;top:-18px;font-size:0.6rem;font-weight:700;color:#eaeaea;white-space:nowrap}
+.x-axis{display:flex;gap:3px;padding:0 2px}
+.x-axis span{flex:1;text-align:center;font-size:0.58rem;color:#777;overflow:hidden;white-space:nowrap}
+.chart-zero{background:#0f3460!important;opacity:0.3}
 </style>
 </head>
 <body>
 
 <!-- HOME SCREEN -->
 <div id="home" class="screen active">
-  <div class="home-title">🔬 Disease<br>Detectives</div>
-  <div class="home-sub">State Competition Practice</div>
+  <div class="home-title">🔬 Sigma<br>Sleuth</div>
+  <div class="home-sub">Disease Detectives · State Prep</div>
   <div class="stats-bar">
     <div class="stat-chip" id="streak-chip">🔥 <span id="streak-val">0</span> day streak</div>
     <div class="stat-chip">⭐ <span id="total-score">0</span> pts</div>
@@ -137,6 +164,20 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <div class="mode-info">
       <div class="mode-label">Attack Rate Math</div>
       <div class="mode-desc">8 calculation problems</div>
+    </div>
+  </button>
+  <button class="mode-btn purple" onclick="showScreen('table2x2')">
+    <span class="mode-icon">📊</span>
+    <div class="mode-info">
+      <div class="mode-label">2×2 Tables</div>
+      <div class="mode-desc">6 outbreak tables · find the source</div>
+    </div>
+  </button>
+  <button class="mode-btn teal" onclick="showScreen('epichart')">
+    <span class="mode-icon">📈</span>
+    <div class="mode-info">
+      <div class="mode-label">Epi Curves</div>
+      <div class="mode-desc">5 outbreak graphs · read the pattern</div>
     </div>
   </button>
 </div>
@@ -238,6 +279,71 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
   </div>
 </div>
 
+<!-- 2x2 TABLE SCREEN -->
+<div id="table2x2" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <div class="screen-title">📊 2×2 Tables</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label" id="t2-label">Table 1 of 6</div>
+    <div class="progress-bar"><div class="progress-fill" id="t2-bar" style="width:16.7%"></div></div>
+  </div>
+  <div id="t2-story" class="scenario-story"></div>
+  <div id="t2-table-wrap"></div>
+  <div id="t2-question-wrap">
+    <div class="question-text" id="t2-question"></div>
+    <div class="choices" id="t2-choices" style="display:none"></div>
+    <div class="t2-input-wrap" id="t2-input-wrap" style="display:none">
+      <input class="math-input" id="t2-input" type="number" min="0" max="100" placeholder="?">
+      <span class="pct-label">%</span>
+    </div>
+    <button class="check-btn" id="t2-check" onclick="check2x2()" style="display:none">Check Answer ✓</button>
+    <div class="feedback" id="t2-feedback"></div>
+    <button class="next-btn" id="t2-next" onclick="next2x2()">Next →</button>
+  </div>
+  <div id="t2-result" style="display:none">
+    <div class="result-card">
+      <div class="result-emoji" id="t2-res-emoji">🎉</div>
+      <div class="result-title" id="t2-res-title"></div>
+      <div class="result-score" id="t2-res-score"></div>
+      <div class="result-label">questions correct</div>
+    </div>
+    <button class="result-next" id="t2-res-next">Next Table →</button>
+    <button class="result-home" onclick="showScreen('home')">Back to Home</button>
+  </div>
+</div>
+
+<!-- EPI CURVES SCREEN -->
+<div id="epichart" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <div class="screen-title">📈 Epi Curves</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label" id="ec-label">Chart 1 of 5</div>
+    <div class="progress-bar"><div class="progress-fill" id="ec-bar" style="width:20%"></div></div>
+  </div>
+  <div id="ec-story" class="scenario-story"></div>
+  <div id="ec-chart"></div>
+  <div id="ec-question-wrap">
+    <div class="question-text" id="ec-question"></div>
+    <div class="choices" id="ec-choices"></div>
+    <div class="feedback" id="ec-feedback"></div>
+    <button class="next-btn" id="ec-next" onclick="nextEpiQuestion()">Next →</button>
+  </div>
+  <div id="ec-result" style="display:none">
+    <div class="result-card">
+      <div class="result-emoji" id="ec-res-emoji">🎉</div>
+      <div class="result-title" id="ec-res-title"></div>
+      <div class="result-score" id="ec-res-score"></div>
+      <div class="result-label">questions correct</div>
+    </div>
+    <button class="result-next" id="ec-res-next">Next Chart →</button>
+    <button class="result-home" onclick="showScreen('home')">Back to Home</button>
+  </div>
+</div>
+
 <script>
 // ── DATA ──────────────────────────────────────────────────────────
 const VOCAB = [
@@ -316,12 +422,141 @@ const MATH = [
   { exposed:40,  sick:8,  context:"40 students ate the school pizza. 8 got sick." },
   { exposed:100, sick:55, context:"100 people drank the tap water. 55 got sick." }
 ];
+
+const TABLE_DATA = [
+  {
+    title:"The Pizza Party", emoji:"🍕",
+    scenario:"At Zara's birthday party, some kids ate pizza and some skipped it. By the next day, a stomach bug had hit the party. Use the table to figure out what caused it!",
+    exposedLabel:"🍕 Ate pizza", unexposedLabel:"🚫 Skipped pizza",
+    a:18, b:12, c:2, d:18,
+    questions:[
+      { type:"input", q:"What is the attack rate (%) for kids who ate the pizza?", answer:60, explain:"18 sick ÷ 30 ate × 100 = 60%. More than half who ate pizza got sick!" },
+      { type:"input", q:"What is the attack rate (%) for kids who skipped the pizza?", answer:10, explain:"2 sick ÷ 20 skipped × 100 = 10%. Way lower than the pizza group!" },
+      { type:"choice", q:"Based on the attack rates, what was the most likely source of illness?", choices:["The pizza","The birthday cake","The punch","Something in the air"], correct:0, explain:"Pizza eaters: 60% sick vs non-pizza: 10% sick. The pizza was the culprit!" }
+    ]
+  },
+  {
+    title:"The Pool Day", emoji:"🏊",
+    scenario:"50 kids visited the community pool on Saturday. Some swam in the water, others stayed on the deck. By Monday, stomach cramps spread through the group.",
+    exposedLabel:"🏊 Swam in pool", unexposedLabel:"🏖️ Stayed on deck",
+    a:14, b:6, c:3, d:27,
+    questions:[
+      { type:"input", q:"What is the attack rate (%) for kids who swam?", answer:70, explain:"14 sick ÷ 20 swimmers × 100 = 70%. Nearly 3 out of 4 swimmers got sick!" },
+      { type:"input", q:"What is the attack rate (%) for kids who stayed on the deck?", answer:10, explain:"3 sick ÷ 30 deck kids × 100 = 10%. Big difference!" },
+      { type:"choice", q:"What type of illness is this most likely?", choices:["Foodborne illness","Waterborne illness","Airborne illness","Vector-borne illness"], correct:1, explain:"Swimmers got sick, deck kids didn't. The pool water spread it — waterborne illness! (Probably Cryptosporidium!)" }
+    ]
+  },
+  {
+    title:"The Salad Scare", emoji:"🥗",
+    scenario:"At the school cafeteria, students chose between Caesar salad and a sandwich. By the next morning, sick students were showing up with stomach pain and fever.",
+    exposedLabel:"🥗 Ate the salad", unexposedLabel:"🥪 Ate a sandwich",
+    a:35, b:15, c:3, d:47,
+    questions:[
+      { type:"input", q:"What is the attack rate (%) for salad eaters?", answer:70, explain:"35 sick ÷ 50 salad eaters × 100 = 70%. That's really high!" },
+      { type:"input", q:"What is the attack rate (%) for sandwich eaters?", answer:6, explain:"3 sick ÷ 50 sandwich eaters × 100 = 6%. Much much lower!" },
+      { type:"choice", q:"What does the big difference in attack rates tell us?", choices:["The sandwich was the problem","The salad was the problem","Both foods caused equal illness","It was just bad luck"], correct:1, explain:"Salad: 70% sick vs sandwiches: 6% sick. The contaminated salad was definitely the source!" }
+    ]
+  },
+  {
+    title:"The Field Trip Snack", emoji:"🎒",
+    scenario:"On a field trip, some students ate the packed trail mix provided by the school. Others brought their own food from home. That evening, some students got sick with diarrhea.",
+    exposedLabel:"🌰 Ate trail mix", unexposedLabel:"🍱 Own food",
+    a:12, b:8, c:0, d:30,
+    questions:[
+      { type:"input", q:"What is the attack rate (%) for trail mix eaters?", answer:60, explain:"12 sick ÷ 20 trail mix eaters × 100 = 60%!" },
+      { type:"input", q:"What is the attack rate (%) for kids who brought their own food?", answer:0, explain:"0 sick ÷ 30 own-food kids × 100 = 0%. Nobody with their own food got sick at all!" },
+      { type:"choice", q:"What conclusion can a disease detective draw?", choices:["The bus made them sick","The trail mix was contaminated","Their own food was contaminated","It was a coincidence"], correct:1, explain:"60% of trail mix eaters got sick, 0% of own-food kids did. The trail mix was the source — open and shut case!" }
+    ]
+  },
+  {
+    title:"The Water Fountain", emoji:"💧",
+    scenario:"After a water fountain was repaired, students either drank from it or used their own water bottles. By Friday, sick students were reporting to the nurse.",
+    exposedLabel:"💧 Drank from fountain", unexposedLabel:"🧴 Used water bottle",
+    a:45, b:55, c:4, d:46,
+    questions:[
+      { type:"input", q:"What is the attack rate (%) for fountain drinkers?", answer:45, explain:"45 sick ÷ 100 fountain drinkers × 100 = 45%." },
+      { type:"input", q:"What is the attack rate (%) for water bottle users?", answer:8, explain:"4 sick ÷ 50 bottle users × 100 = 8%." },
+      { type:"choice", q:"What most likely happened during the fountain repair?", choices:["Someone sneezed on the fountain","Contamination entered the pipes","The water was too cold","The fountain was too old"], correct:1, explain:"Repairs can introduce bacteria into pipes. Fountain drinkers: 45% sick vs bottle users: 8%. The repair caused contamination!" }
+    ]
+  },
+  {
+    title:"The Hotdog Stand", emoji:"🌭",
+    scenario:"At a school fair, some students ate hotdogs from the stand and others had different snacks. The next day, some students came down with fever and stomach cramps.",
+    exposedLabel:"🌭 Ate a hotdog", unexposedLabel:"🍿 Other snacks",
+    a:28, b:12, c:6, d:54,
+    questions:[
+      { type:"input", q:"What is the attack rate (%) for hotdog eaters?", answer:70, explain:"28 sick ÷ 40 hotdog eaters × 100 = 70%!" },
+      { type:"input", q:"What is the attack rate (%) for other snack eaters?", answer:10, explain:"6 sick ÷ 60 other snack eaters × 100 = 10%." },
+      { type:"choice", q:"The relative risk (RR) compares the two attack rates. Approximately what is the RR here?", choices:["RR = 2 (twice as likely)","RR = 4 (four times as likely)","RR = 7 (seven times as likely)","RR = 1 (equal risk)"], correct:2, explain:"RR = 70% ÷ 10% = 7. Hotdog eaters were 7 TIMES more likely to get sick. That's a massive risk!" }
+    ]
+  }
+];
+
+const EPI_CHARTS = [
+  {
+    title:"The Cafeteria Spike", emoji:"🍽️",
+    scenario:"Students got sick after the school cafeteria served pasta on Wednesday. Here are the new cases each day. What does the pattern tell you?",
+    days:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+    cases:[0, 0, 42, 7, 2, 1, 0],
+    questions:[
+      { q:"What type of outbreak does this epidemic curve show?", choices:["Point source — one shared exposure","Propagated — person to person","Endemic — always present","Pandemic — worldwide"], correct:0, explain:"One giant spike then rapid drop = point source! Everyone ate the bad pasta at the same time on Wednesday." },
+      { q:"On which day did the most people get sick?", choices:["Monday","Tuesday","Wednesday","Thursday"], correct:2, explain:"Wednesday had 42 cases — the massive spike! That's when the contaminated pasta was served." },
+      { q:"What does the fast crash in cases after Wednesday tell us?", choices:["People kept eating bad food","There was only ONE exposure event","The disease spread person to person","The school closed"], correct:1, explain:"Cases crashed because the bad pasta was gone. No more source = no more new cases. Classic point source pattern!" }
+    ]
+  },
+  {
+    title:"The Classroom Wave", emoji:"🏫",
+    scenario:"A few students came back from winter break with a cold. New cases kept trickling in over two weeks. Check out the pattern:",
+    days:["D1","D2","D3","D4","D5","D6","D7","D8","D9","D10","D11","D12","D13","D14"],
+    cases:[2, 1, 3, 4, 5, 4, 6, 5, 5, 3, 2, 2, 1, 1],
+    questions:[
+      { q:"What type of outbreak does this epidemic curve show?", choices:["Point source — one shared meal","Propagated — spreading person to person","No pattern here","Pandemic"], correct:1, explain:"Cases kept rolling in over 2 whole weeks with no single huge spike = propagated! The germ jumped from person to person in waves." },
+      { q:"How did this disease most likely spread?", choices:["Contaminated cafeteria food","Contaminated pool water","Coughing and sneezing","Insect bites"], correct:2, explain:"Propagated outbreaks happen when sick people spread the germ to healthy people through breathing, sneezing, and touching!" },
+      { q:"Why did cases keep appearing for 2 full weeks instead of spiking once?", choices:["Everyone ate the same bad food","Each sick person infected new people one by one","The water was contaminated for 2 weeks","A mosquito bit everyone slowly"], correct:1, explain:"That's the propagated pattern — each infected person becomes a new source, creating rolling waves of cases over time!" }
+    ]
+  },
+  {
+    title:"The Ice Cream Party", emoji:"🍦",
+    scenario:"On Day 3, the school held an ice cream social. Starting Day 4, students started visiting the nurse. Here's the data:",
+    days:["D1","D2","D3","D4","D5","D6","D7","D8"],
+    cases:[0, 0, 0, 38, 6, 2, 0, 0],
+    questions:[
+      { q:"What type of outbreak is this?", choices:["Propagated — person to person spreading","Point source — one shared exposure event","Endemic — always present","Not an outbreak"], correct:1, explain:"HUGE spike on Day 4 right after the Day 3 party, then gone fast. Classic point source! Something at the ice cream social was contaminated." },
+      { q:"The ice cream party was Day 3. Cases peaked Day 4. What does this tell us about the incubation period?", choices:["Zero hours — instant illness","About 1 day","About 1 week","About 1 month"], correct:1, explain:"Exposure Day 3 → sick Day 4 = roughly 1 day incubation period. That matches bacteria like Staph aureus in ice cream!" },
+      { q:"Why are there ZERO cases on Day 8?", choices:["Everyone took medicine","The contaminated ice cream was gone so no new exposure happened","People moved away","Doctors vaccinated everyone"], correct:1, explain:"In a point source outbreak, once the contaminated food is gone, new cases stop appearing. The ice cream was eaten and gone!" }
+    ]
+  },
+  {
+    title:"The School Flu Wave", emoji:"🤧",
+    scenario:"Flu season hit the school. Cases built up slowly, hit a big peak, then gradually faded away over several weeks. Here's the weekly data:",
+    days:["Wk1","Wk2","Wk3","Wk4","Wk5","Wk6"],
+    cases:[4, 9, 18, 22, 13, 5],
+    questions:[
+      { q:"Which best describes this epidemic curve shape?", choices:["One sharp spike then instantly zero","Gradual rise, big peak, then slow decline","No cases at all","Only one person got sick"], correct:1, explain:"Gradual rise → peak → slow fade = propagated outbreak! Flu spreads person to person over many weeks, building like a wave." },
+      { q:"During which week were the most new students getting sick?", choices:["Week 1","Week 2","Week 3","Week 4"], correct:3, explain:"Week 4 had 22 new cases — the peak! After that, more people were immune so the flu slowed down." },
+      { q:"What is the BEST way to stop a propagated flu outbreak?", choices:["Find and destroy the contaminated food","Flu vaccine + hand washing + stay home when sick","Close the swimming pool","Test the water supply"], correct:1, explain:"No bad food to recall here! Flu spreads person-to-person, so vaccines, hand washing, and staying home when sick are the real weapons!" }
+    ]
+  },
+  {
+    title:"The Block Party Mystery", emoji:"🔍",
+    scenario:"A neighborhood block party cookout happened on Day 2. Starting Day 3, people started getting sick. A disease detective was called in. Here's what they found:",
+    days:["Day1","Day2","Day3","Day4","Day5","Day6","Day7"],
+    cases:[0, 1, 36, 11, 3, 1, 0],
+    questions:[
+      { q:"Is this a point source or propagated outbreak?", choices:["Point source — one event caused it all","Propagated — spreading person to person","Cannot tell from this graph","Both equally"], correct:0, explain:"Massive spike on Day 3 right after the Day 2 cookout, then rapid decline. That sharp peak screams point source! One bad food item at the cookout." },
+      { q:"The cookout was Day 2. Peak cases were Day 3. What is the approximate incubation period?", choices:["Less than 1 hour","About 1 day","About 1 week","About 1 month"], correct:1, explain:"Exposure Day 2 → most sick Day 3 = about 1 day incubation. That matches Salmonella from undercooked chicken or Staph from warm potato salad!" },
+      { q:"As a disease detective, your FIRST investigation step would be:", choices:["Check who sneezed on whom","Find out what food was served at the cookout","Check which hospital treated people","Ask what movies people watched"], correct:1, explain:"Follow the food! With a point source outbreak, detectives trace back to the ONE shared exposure. Interview everyone about what they ate at the cookout!" }
+    ]
+  }
+];
 </script>
 <script>
 // ── STATE ─────────────────────────────────────────────────────────
 let fcIndices = [], fcPos = 0, fcFlipped = false;
 let scIdx = 0, scQIdx = 0, scScore = 0, scAnswered = false;
 let mathIdx = 0, mathScore = 0, mathAnswered = false;
+let t2Idx = 0, t2QIdx = 0, t2Score = 0, t2Answered = false;
+let ecIdx = 0, ecQIdx = 0, ecScore = 0, ecAnswered = false;
 
 // ── STORAGE ───────────────────────────────────────────────────────
 function load(k, def) { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } }
@@ -341,7 +576,11 @@ function updateStreak() {
 }
 
 function totalPoints() {
-  return load('dd_vocab', 0) * 2 + load('dd_sc_score', 0) * 5 + load('dd_math', 0) * 3;
+  return load('dd_vocab', 0) * 2
+       + load('dd_sc_score', 0) * 5
+       + load('dd_math', 0) * 3
+       + load('dd_t2', 0) * 4
+       + load('dd_ec', 0) * 4;
 }
 
 // ── SCREENS ───────────────────────────────────────────────────────
@@ -352,6 +591,8 @@ function showScreen(id) {
   if (id === 'flashcards') initFlashcards();
   if (id === 'scenarios') initScenarios();
   if (id === 'math') initMath();
+  if (id === 'table2x2') init2x2();
+  if (id === 'epichart') initEpiChart();
   window.scrollTo(0, 0);
 }
 
@@ -467,7 +708,7 @@ function answerQuestion(idx, btn) {
   const correct = idx === q.correct;
   if (correct) scScore++;
 
-  document.querySelectorAll('.choice-btn').forEach((b, i) => {
+  document.querySelectorAll('#sc-choices .choice-btn').forEach((b, i) => {
     b.onclick = null;
     if (i === q.correct) b.classList.add('correct');
     else if (i === idx && !correct) b.classList.add('wrong');
@@ -528,7 +769,7 @@ function initMath() {
   document.getElementById('math-result').style.display = 'none';
   document.querySelector('.formula-box').style.display = 'block';
   document.getElementById('math-problem').style.display = 'block';
-  document.getElementById('math-input-wrap') && (document.querySelector('.math-input-wrap').style.display = 'flex');
+  document.querySelector('.math-input-wrap').style.display = 'flex';
   document.getElementById('math-check').style.display = 'block';
   loadMath();
 }
@@ -601,18 +842,314 @@ function resetMath() {
   document.getElementById('math-problem').style.display = 'block';
   document.querySelector('.math-input-wrap').style.display = 'flex';
   document.getElementById('math-check').style.display = 'block';
+  document.getElementById('math-feedback').style.display = '';
+  document.getElementById('math-next').style.display = '';
   initMath();
+}
+
+// ── 2x2 TABLES ────────────────────────────────────────────────────
+function render2x2Table(d) {
+  const totalE = d.a + d.b;
+  const totalU = d.c + d.d;
+  return `<div class="table-2x2-wrap">
+    <table class="table-2x2">
+      <thead>
+        <tr>
+          <th class="hdr-blank"></th>
+          <th class="hdr-sick">😷 Sick</th>
+          <th class="hdr-well">😊 Not Sick</th>
+          <th class="hdr-total">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-exposed">${d.exposedLabel}</td>
+          <td class="cell-sick">${d.a}</td>
+          <td class="cell-well">${d.b}</td>
+          <td class="cell-total">${totalE}</td>
+        </tr>
+        <tr>
+          <td class="row-unexposed">${d.unexposedLabel}</td>
+          <td class="cell-sick">${d.c}</td>
+          <td class="cell-well">${d.d}</td>
+          <td class="cell-total">${totalU}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>`;
+}
+
+function init2x2() {
+  t2Idx = 0; t2QIdx = 0; t2Score = 0;
+  load2x2Scenario();
+}
+
+function load2x2Scenario() {
+  const d = TABLE_DATA[t2Idx];
+  document.getElementById('t2-story').innerHTML =
+    `<div class="scenario-emoji">${d.emoji}</div><div class="scenario-name">${d.title}</div>${d.scenario}`;
+  document.getElementById('t2-table-wrap').innerHTML = render2x2Table(d);
+  document.getElementById('t2-question-wrap').style.display = 'block';
+  document.getElementById('t2-result').style.display = 'none';
+
+  const pct = Math.round(((t2Idx + 1) / TABLE_DATA.length) * 100);
+  document.getElementById('t2-label').textContent = `Table ${t2Idx + 1} of ${TABLE_DATA.length}`;
+  document.getElementById('t2-bar').style.width = pct + '%';
+
+  load2x2Question();
+}
+
+function load2x2Question() {
+  const d = TABLE_DATA[t2Idx];
+  const q = d.questions[t2QIdx];
+  t2Answered = false;
+
+  document.getElementById('t2-question').textContent = `Q${t2QIdx + 1}: ${q.q}`;
+  document.getElementById('t2-feedback').className = 'feedback';
+  document.getElementById('t2-feedback').textContent = '';
+  document.getElementById('t2-next').className = 'next-btn';
+
+  if (q.type === 'input') {
+    document.getElementById('t2-input-wrap').style.display = 'flex';
+    document.getElementById('t2-choices').style.display = 'none';
+    document.getElementById('t2-choices').innerHTML = '';
+    document.getElementById('t2-check').style.display = 'block';
+    document.getElementById('t2-check').disabled = false;
+    document.getElementById('t2-input').value = '';
+    document.getElementById('t2-input').disabled = false;
+  } else {
+    document.getElementById('t2-input-wrap').style.display = 'none';
+    document.getElementById('t2-check').style.display = 'none';
+    document.getElementById('t2-choices').style.display = 'flex';
+
+    const choicesEl = document.getElementById('t2-choices');
+    choicesEl.innerHTML = '';
+    q.choices.forEach((c, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      btn.textContent = c;
+      btn.onclick = () => answer2x2Choice(i, btn);
+      choicesEl.appendChild(btn);
+    });
+  }
+}
+
+function check2x2() {
+  if (t2Answered) return;
+  const q = TABLE_DATA[t2Idx].questions[t2QIdx];
+  const userVal = parseInt(document.getElementById('t2-input').value, 10);
+  if (isNaN(userVal)) { alert('Enter a number!'); return; }
+
+  t2Answered = true;
+  const correct = Math.abs(userVal - q.answer) <= 1;
+  if (correct) t2Score++;
+
+  document.getElementById('t2-input').disabled = true;
+  document.getElementById('t2-check').disabled = true;
+
+  const fb = document.getElementById('t2-feedback');
+  fb.textContent = (correct ? '✅ Correct! ' : `❌ The answer is ${q.answer}%. `) + q.explain;
+  fb.className = 'feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('t2-next').className = 'next-btn show';
+}
+
+function answer2x2Choice(idx, btn) {
+  if (t2Answered) return;
+  t2Answered = true;
+  const q = TABLE_DATA[t2Idx].questions[t2QIdx];
+  const correct = idx === q.correct;
+  if (correct) t2Score++;
+
+  document.querySelectorAll('#t2-choices .choice-btn').forEach((b, i) => {
+    b.onclick = null;
+    if (i === q.correct) b.classList.add('correct');
+    else if (i === idx && !correct) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('t2-feedback');
+  fb.textContent = (correct ? '✅ ' : '❌ ') + q.explain;
+  fb.className = 'feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('t2-next').className = 'next-btn show';
+}
+
+function next2x2() {
+  const d = TABLE_DATA[t2Idx];
+  if (t2QIdx < d.questions.length - 1) {
+    t2QIdx++;
+    load2x2Question();
+    window.scrollTo(0, 0);
+  } else {
+    show2x2Result();
+  }
+}
+
+function show2x2Result() {
+  const total = TABLE_DATA[t2Idx].questions.length;
+  document.getElementById('t2-question-wrap').style.display = 'none';
+  document.getElementById('t2-result').style.display = 'block';
+
+  const pct = t2Score / total;
+  document.getElementById('t2-res-emoji').textContent = pct === 1 ? '🎉' : pct >= 0.6 ? '👍' : '💪';
+  document.getElementById('t2-res-title').textContent = pct === 1 ? 'Perfect Score!' : pct >= 0.6 ? 'Great Work!' : 'Keep Practicing!';
+  document.getElementById('t2-res-score').textContent = `${t2Score}/${total}`;
+
+  save('dd_t2', load('dd_t2', 0) + t2Score);
+
+  const nextBtn = document.getElementById('t2-res-next');
+  if (t2Idx < TABLE_DATA.length - 1) {
+    nextBtn.style.display = 'block';
+    nextBtn.textContent = 'Next Table →';
+    nextBtn.onclick = next2x2Scenario;
+  } else {
+    nextBtn.style.display = 'block';
+    nextBtn.textContent = 'Start Over 🔄';
+    nextBtn.onclick = init2x2;
+  }
+}
+
+function next2x2Scenario() {
+  if (t2Idx < TABLE_DATA.length - 1) {
+    t2Idx++;
+    t2QIdx = 0;
+    t2Score = 0;
+    load2x2Scenario();
+    window.scrollTo(0, 0);
+  }
+}
+
+// ── EPI CURVES ────────────────────────────────────────────────────
+function renderEpiChart(d) {
+  const maxCases = Math.max(...d.cases, 1);
+  const bars = d.cases.map((c, i) => {
+    const h = c === 0 ? 4 : Math.max(Math.round((c / maxCases) * 140), 8);
+    const cls = c === 0 ? 'chart-bar chart-zero' : 'chart-bar';
+    return `<div class="${cls}" style="height:${h}px">${c > 0 ? `<span class="bar-val">${c}</span>` : ''}</div>`;
+  }).join('');
+
+  const xLabels = d.days.map(day => `<span>${day}</span>`).join('');
+
+  return `<div class="epi-chart-box">
+    <div class="chart-title-sm">New Cases Per Day</div>
+    <div class="bars-row">${bars}</div>
+    <div class="x-axis">${xLabels}</div>
+  </div>`;
+}
+
+function initEpiChart() {
+  ecIdx = 0; ecQIdx = 0; ecScore = 0;
+  loadEpiScenario();
+}
+
+function loadEpiScenario() {
+  const d = EPI_CHARTS[ecIdx];
+  document.getElementById('ec-story').innerHTML =
+    `<div class="scenario-emoji">${d.emoji}</div><div class="scenario-name">${d.title}</div>${d.scenario}`;
+  document.getElementById('ec-chart').innerHTML = renderEpiChart(d);
+  document.getElementById('ec-question-wrap').style.display = 'block';
+  document.getElementById('ec-result').style.display = 'none';
+
+  const pct = Math.round(((ecIdx + 1) / EPI_CHARTS.length) * 100);
+  document.getElementById('ec-label').textContent = `Chart ${ecIdx + 1} of ${EPI_CHARTS.length}`;
+  document.getElementById('ec-bar').style.width = pct + '%';
+
+  loadEpiQuestion();
+}
+
+function loadEpiQuestion() {
+  const q = EPI_CHARTS[ecIdx].questions[ecQIdx];
+  ecAnswered = false;
+
+  document.getElementById('ec-question').textContent = `Q${ecQIdx + 1}: ${q.q}`;
+  document.getElementById('ec-feedback').className = 'feedback';
+  document.getElementById('ec-feedback').textContent = '';
+  document.getElementById('ec-next').className = 'next-btn';
+
+  const choicesEl = document.getElementById('ec-choices');
+  choicesEl.innerHTML = '';
+  q.choices.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c;
+    btn.onclick = () => answerEpiQuestion(i, btn);
+    choicesEl.appendChild(btn);
+  });
+}
+
+function answerEpiQuestion(idx, btn) {
+  if (ecAnswered) return;
+  ecAnswered = true;
+  const q = EPI_CHARTS[ecIdx].questions[ecQIdx];
+  const correct = idx === q.correct;
+  if (correct) ecScore++;
+
+  document.querySelectorAll('#ec-choices .choice-btn').forEach((b, i) => {
+    b.onclick = null;
+    if (i === q.correct) b.classList.add('correct');
+    else if (i === idx && !correct) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('ec-feedback');
+  fb.textContent = (correct ? '✅ ' : '❌ ') + q.explain;
+  fb.className = 'feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('ec-next').className = 'next-btn show';
+}
+
+function nextEpiQuestion() {
+  const d = EPI_CHARTS[ecIdx];
+  if (ecQIdx < d.questions.length - 1) {
+    ecQIdx++;
+    loadEpiQuestion();
+  } else {
+    showEpiResult();
+  }
+}
+
+function showEpiResult() {
+  const total = EPI_CHARTS[ecIdx].questions.length;
+  document.getElementById('ec-question-wrap').style.display = 'none';
+  document.getElementById('ec-result').style.display = 'block';
+
+  const pct = ecScore / total;
+  document.getElementById('ec-res-emoji').textContent = pct === 1 ? '🎉' : pct >= 0.6 ? '👍' : '💪';
+  document.getElementById('ec-res-title').textContent = pct === 1 ? 'Perfect Score!' : pct >= 0.6 ? 'Great Work!' : 'Keep Practicing!';
+  document.getElementById('ec-res-score').textContent = `${ecScore}/${total}`;
+
+  save('dd_ec', load('dd_ec', 0) + ecScore);
+
+  const nextBtn = document.getElementById('ec-res-next');
+  if (ecIdx < EPI_CHARTS.length - 1) {
+    nextBtn.style.display = 'block';
+    nextBtn.textContent = 'Next Chart →';
+    nextBtn.onclick = nextEpiScenario;
+  } else {
+    nextBtn.style.display = 'block';
+    nextBtn.textContent = 'Start Over 🔄';
+    nextBtn.onclick = initEpiChart;
+  }
+}
+
+function nextEpiScenario() {
+  if (ecIdx < EPI_CHARTS.length - 1) {
+    ecIdx++;
+    ecQIdx = 0;
+    ecScore = 0;
+    loadEpiScenario();
+    window.scrollTo(0, 0);
+  }
 }
 
 // ── INIT ──────────────────────────────────────────────────────────
 document.getElementById('math-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') checkMath();
 });
+document.getElementById('t2-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') check2x2();
+});
 
 refreshHome();
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/marketing/olympiad/sw.js', { scope: '/marketing/olympiad/' });
+  navigator.serviceWorker.register('./sw.js');
 }
 </script>
 </body>

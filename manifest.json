@@ -1,8 +1,8 @@
 {
-  "name": "Disease Detectives Practice",
-  "short_name": "DD Practice",
-  "description": "Science Olympiad Disease Detectives daily practice app",
-  "start_url": "/marketing/olympiad/",
+  "name": "Sigma Sleuth",
+  "short_name": "Sigma Sleuth",
+  "description": "Science Olympiad Disease Detectives practice app",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#1a1a2e",
   "theme_color": "#e94560",
