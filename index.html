@@ -30,6 +30,8 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 .mode-btn.green{background:#1a6b4a}
 .mode-btn.purple{background:#581c87}
 .mode-btn.teal{background:#0e7490}
+.mode-btn.orange{background:#b45309}
+.tip-box{background:#16213e;border-radius:14px;padding:14px 16px;border-left:4px solid #f5a623;font-size:0.85rem;color:#aaa;line-height:1.5;text-align:left}
 .mode-icon{font-size:1.8rem}
 .mode-info{text-align:left}
 .mode-label{font-size:1.05rem}
@@ -149,7 +151,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <span class="mode-icon">📚</span>
     <div class="mode-info">
       <div class="mode-label">Flashcards</div>
-      <div class="mode-desc">25 vocab terms · tap to flip</div>
+      <div class="mode-desc">30 vocab terms · tap to flip</div>
     </div>
   </button>
   <button class="mode-btn red" onclick="showScreen('scenarios')">
@@ -170,7 +172,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <span class="mode-icon">📊</span>
     <div class="mode-info">
       <div class="mode-label">2×2 Tables</div>
-      <div class="mode-desc">6 outbreak tables · find the source</div>
+      <div class="mode-desc">8 tables incl. line lists · find the source</div>
     </div>
   </button>
   <button class="mode-btn teal" onclick="showScreen('epichart')">
@@ -180,6 +182,14 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
       <div class="mode-desc">5 outbreak graphs · read the pattern</div>
     </div>
   </button>
+  <button class="mode-btn orange" onclick="showScreen('statsmath')">
+    <span class="mode-icon">🔢</span>
+    <div class="mode-info">
+      <div class="mode-label">Stats Math</div>
+      <div class="mode-desc">Mean · Median · Mode · 9 problems</div>
+    </div>
+  </button>
+  <div class="tip-box">🏆 <strong>Competition tip:</strong> Accuracy beats speed. You finished early last year and placed 16th — slow down and double-check every answer.</div>
 </div>
 
 <!-- FLASHCARDS SCREEN -->
@@ -286,7 +296,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <div class="screen-title">📊 2×2 Tables</div>
   </div>
   <div class="progress-wrap">
-    <div class="progress-label" id="t2-label">Table 1 of 6</div>
+    <div class="progress-label" id="t2-label">Table 1 of 8</div>
     <div class="progress-bar"><div class="progress-fill" id="t2-bar" style="width:16.7%"></div></div>
   </div>
   <div id="t2-story" class="scenario-story"></div>
@@ -310,6 +320,41 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
       <div class="result-label">questions correct</div>
     </div>
     <button class="result-next" id="t2-res-next">Next Table →</button>
+    <button class="result-home" onclick="showScreen('home')">Back to Home</button>
+  </div>
+</div>
+
+<!-- STATS MATH SCREEN -->
+<div id="statsmath" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <div class="screen-title">🔢 Stats Math</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label" id="stats-label">Problem 1 of 9</div>
+    <div class="progress-bar"><div class="progress-fill" id="stats-bar" style="width:11.1%"></div></div>
+  </div>
+  <div class="formula-box">
+    <div style="font-size:0.8rem;color:#aaa;margin-bottom:4px">Formula reminder:</div>
+    <div class="formula" id="stats-formula">Mean = Sum of all values ÷ Count</div>
+  </div>
+  <div class="math-problem" id="stats-dataset" style="font-size:1.4rem;letter-spacing:0.04em;color:#4ecca3"></div>
+  <div class="math-problem" id="stats-problem" style="margin-top:-8px"></div>
+  <div class="math-input-wrap">
+    <input class="math-input" id="stats-input" type="number" placeholder="?">
+  </div>
+  <button class="check-btn" id="stats-check" onclick="checkStats()">Check Answer ✓</button>
+  <div class="math-feedback" id="stats-feedback"></div>
+  <button class="math-next" id="stats-next" onclick="nextStats()">Next Problem →</button>
+  <div id="stats-result" style="display:none">
+    <div class="result-card">
+      <div class="result-emoji" id="stats-res-emoji">🔢</div>
+      <div class="result-title" id="stats-res-title"></div>
+      <div class="result-score" id="stats-res-score"></div>
+      <div class="result-label">problems correct</div>
+    </div>
+    <button class="result-home" onclick="resetStats()">Try Again</button>
+    <br><br>
     <button class="result-home" onclick="showScreen('home')">Back to Home</button>
   </div>
 </div>
@@ -371,7 +416,12 @@ const VOCAB = [
   { term:"Herd Immunity",   def:"When so many people are immune, the germ cannot find enough new victims to spread" },
   { term:"Foodborne Illness",def:"Getting sick from eating contaminated food" },
   { term:"Waterborne Illness",def:"Getting sick from drinking or swimming in contaminated water" },
-  { term:"Contact Tracing", def:"Hunting down everyone who may have been near a sick person to stop the spread" }
+  { term:"Contact Tracing", def:"Hunting down everyone who may have been near a sick person to stop the spread" },
+  { term:"Mean",            def:"The AVERAGE — add all the values together, then divide by how many there are" },
+  { term:"Median",          def:"The MIDDLE value — sort all numbers from low to high, pick the one in the center" },
+  { term:"Mode",            def:"The MOST COMMON value — the number that appears the most times in the data" },
+  { term:"Line List",       def:"A big table listing each case with details like what they ate, when they got sick, and where they were" },
+  { term:"Relative Risk",   def:"How many times more likely exposed people got sick vs unexposed people: AR(exposed) ÷ AR(unexposed)" }
 ];
 
 const SCENARIOS = [
@@ -480,6 +530,40 @@ const TABLE_DATA = [
     ]
   },
   {
+    type:"linelist",
+    title:"The School Banquet", emoji:"🎓",
+    scenario:"After the school end-of-year banquet, 50 students reported getting sick. Investigators tracked what each of 80 attendees ate. This is a LINE LIST — one table covering all foods at once. Read the data, then answer the questions.",
+    items:[
+      { food:"🥗 Caesar Salad",       sick:42, well:8  },
+      { food:"🍗 Grilled Chicken",     sick:15, well:35 },
+      { food:"🍝 Pasta Primavera",     sick:12, well:38 },
+      { food:"🥖 Bread Rolls",         sick:14, well:36 },
+      { food:"🍮 Chocolate Mousse",    sick:40, well:10 }
+    ],
+    questions:[
+      { type:"input", q:"What is the attack rate (%) for Caesar Salad? (sick ÷ total who ate it × 100)", answer:84, explain:"42 sick ÷ 50 who ate Caesar Salad × 100 = 84%. Massive!" },
+      { type:"input", q:"What is the attack rate (%) for Chocolate Mousse?", answer:80, explain:"40 sick ÷ 50 who ate it × 100 = 80%. Also very high!" },
+      { type:"choice", q:"Which food is the MOST likely source of the outbreak?", choices:["Caesar Salad — 84% attack rate","Grilled Chicken — 30% attack rate","Bread Rolls — 28% attack rate","Chocolate Mousse — 80% attack rate"], correct:0, explain:"Caesar Salad at 84% wins — highest attack rate = prime suspect! (Mousse at 80% might be cross-contaminated from the same source.)" }
+    ]
+  },
+  {
+    type:"linelist",
+    title:"The County Fair", emoji:"🎡",
+    scenario:"After a county fair, the health department investigated a foodborne illness outbreak. They interviewed 60 attendees about what they ate at different food stands. Another LINE LIST — many foods, one table:",
+    items:[
+      { food:"🌭 Corn Dogs",              sick:8,  well:22 },
+      { food:"🍦 Soft Serve Ice Cream",   sick:35, well:15 },
+      { food:"🍩 Funnel Cake",             sick:9,  well:21 },
+      { food:"🫙 Pickle Lemonade",         sick:6,  well:24 },
+      { food:"🥩 BBQ Ribs",               sick:10, well:20 }
+    ],
+    questions:[
+      { type:"input", q:"What is the attack rate (%) for Soft Serve Ice Cream?", answer:70, explain:"35 sick ÷ 50 who ate it × 100 = 70%. Highest in the table by far!" },
+      { type:"input", q:"What is the attack rate (%) for Corn Dogs?", answer:27, explain:"8 sick ÷ 30 who ate corn dogs × 100 ≈ 27%. Much lower than ice cream." },
+      { type:"choice", q:"Which food stand should the health department shut down FIRST?", choices:["Corn Dog stand — 27%","Soft Serve Ice Cream — 70%","Funnel Cake — 30%","BBQ Ribs — 33%"], correct:1, explain:"Soft Serve at 70% is the clear culprit! Warm temperatures + dairy = perfect germ breeding ground. Classic Staph aureus scenario!" }
+    ]
+  },
+  {
     title:"The Hotdog Stand", emoji:"🌭",
     scenario:"At a school fair, some students ate hotdogs from the stand and others had different snacks. The next day, some students came down with fever and stomach cramps.",
     exposedLabel:"🌭 Ate a hotdog", unexposedLabel:"🍿 Other snacks",
@@ -490,6 +574,54 @@ const TABLE_DATA = [
       { type:"choice", q:"The relative risk (RR) compares the two attack rates. Approximately what is the RR here?", choices:["RR = 2 (twice as likely)","RR = 4 (four times as likely)","RR = 7 (seven times as likely)","RR = 1 (equal risk)"], correct:2, explain:"RR = 70% ÷ 10% = 7. Hotdog eaters were 7 TIMES more likely to get sick. That's a massive risk!" }
     ]
   }
+];
+
+const STATS_DATA = [
+  { data:[4,8,6,8,2,8,4], type:"mean", answer:6,
+    context:"During a food poisoning outbreak, new cases per day were:",
+    q:"What is the MEAN (average) number of cases per day? Round to nearest whole number.",
+    formula:"Mean = Sum ÷ Count",
+    explain:"4+8+6+8+2+8+4 = 40 total. 40 ÷ 7 days ≈ 5.7, rounds to 6. Mean = 6." },
+  { data:[5,12,3,7,12,9,12], type:"mode", answer:12,
+    context:"A nurse tracked sick students visiting the clinic each day during flu season:",
+    q:"What is the MODE (most common number) of daily clinic visits?",
+    formula:"Mode = Most frequently occurring value",
+    explain:"12 appears on Day 2, Day 5, and Day 7 — 3 times! No other number appears that often. Mode = 12." },
+  { data:[2,9,4,7,6,5,3], type:"median", answer:5,
+    context:"Daily cases confirmed in a Salmonella investigation:",
+    q:"What is the MEDIAN (middle value when sorted) number of daily cases?",
+    formula:"Median = Middle value after sorting low → high",
+    explain:"Sorted: 2, 3, 4, [5], 6, 7, 9. With 7 values, the 4th (middle) value is 5. Median = 5." },
+  { data:[1,2,1,3,1,2,4,2,1], type:"mode", answer:1,
+    context:"Patients reported how many days after the party their symptoms started (incubation period in days):",
+    q:"What is the MODE incubation period in days?",
+    formula:"Mode = Most frequently occurring value",
+    explain:"1 appears 4 times (patients 1, 3, 5, 9) — more than any other value. Most people showed symptoms 1 day after exposure! Mode = 1." },
+  { data:[3,5,8,12,10,6,4,2], type:"mean", answer:6,
+    context:"Number of sick students reported each hour during a cafeteria outbreak:",
+    q:"What is the MEAN cases per hour? Round to nearest whole number.",
+    formula:"Mean = Sum ÷ Count",
+    explain:"3+5+8+12+10+6+4+2 = 50 total. 50 ÷ 8 hours = 6.25, rounds to 6. Mean = 6." },
+  { data:[1,3,6,14,9,5,3,2,1], type:"median", answer:3,
+    context:"New confirmed cases each day over 9 days of a Norovirus outbreak:",
+    q:"What is the MEDIAN daily case count?",
+    formula:"Median = Middle value after sorting low → high",
+    explain:"Sorted: 1, 1, 2, 3, [3], 5, 6, 9, 14. With 9 values, the 5th (middle) is 3. Median = 3." },
+  { data:[10,45,30,45,25,45,15], type:"mode", answer:45,
+    context:"Bacterial colony counts (in thousands) found in water samples from the contaminated pipes:",
+    q:"What is the MODE colony count?",
+    formula:"Mode = Most frequently occurring value",
+    explain:"45 appears in samples 2, 4, and 6 — three times! No other value appears more. Mode = 45." },
+  { data:[2,3,2,4,3,2,5,3,2,4], type:"mean", answer:3,
+    context:"Sick cruise ship passengers reported their symptoms lasted this many days:",
+    q:"What is the MEAN symptom duration? Round to nearest whole number.",
+    formula:"Mean = Sum ÷ Count",
+    explain:"2+3+2+4+3+2+5+3+2+4 = 30 total days. 30 ÷ 10 patients = 3. Mean = 3 days." },
+  { data:[8,15,22,18,12], type:"median", answer:15,
+    context:"Students absent from school each day during a week-long flu outbreak:",
+    q:"What is the MEDIAN number of students absent?",
+    formula:"Median = Middle value after sorting low → high",
+    explain:"Sorted: 8, 12, [15], 18, 22. With 5 values, the 3rd (middle) is 15. Median = 15 students." }
 ];
 
 const EPI_CHARTS = [
@@ -557,6 +689,7 @@ let scIdx = 0, scQIdx = 0, scScore = 0, scAnswered = false;
 let mathIdx = 0, mathScore = 0, mathAnswered = false;
 let t2Idx = 0, t2QIdx = 0, t2Score = 0, t2Answered = false;
 let ecIdx = 0, ecQIdx = 0, ecScore = 0, ecAnswered = false;
+let stIdx = 0, stScore = 0, stAnswered = false;
 
 // ── STORAGE ───────────────────────────────────────────────────────
 function load(k, def) { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } }
@@ -580,7 +713,8 @@ function totalPoints() {
        + load('dd_sc_score', 0) * 5
        + load('dd_math', 0) * 3
        + load('dd_t2', 0) * 4
-       + load('dd_ec', 0) * 4;
+       + load('dd_ec', 0) * 4
+       + load('dd_stats', 0) * 4;
 }
 
 // ── SCREENS ───────────────────────────────────────────────────────
@@ -593,6 +727,7 @@ function showScreen(id) {
   if (id === 'math') initMath();
   if (id === 'table2x2') init2x2();
   if (id === 'epichart') initEpiChart();
+  if (id === 'statsmath') initStats();
   window.scrollTo(0, 0);
 }
 
@@ -620,7 +755,7 @@ function showCard() {
   document.getElementById('fc-def').textContent = v.def;
 
   const pct = Math.round(((fcPos + 1) / VOCAB.length) * 100);
-  document.getElementById('fc-label').textContent = `Card ${fcPos + 1} of ${VOCAB.length}`;
+  document.getElementById('fc-label').textContent = `Card ${fcPos+1} of ${VOCAB.length}`;
   document.getElementById('fc-bar').style.width = pct + '%';
 
   const mastered = load('dd_vocab', 0);
@@ -848,6 +983,29 @@ function resetMath() {
 }
 
 // ── 2x2 TABLES ────────────────────────────────────────────────────
+function renderLineList(d) {
+  const rows = d.items.map(item => {
+    const total = item.sick + item.well;
+    return `<tr>
+      <td class="row-exposed" style="font-size:0.8rem;text-align:left;padding-left:8px">${item.food}</td>
+      <td class="cell-sick">${item.sick}</td>
+      <td class="cell-well">${item.well}</td>
+      <td class="cell-total">${total}</td>
+    </tr>`;
+  }).join('');
+  return `<div class="table-2x2-wrap">
+    <table class="table-2x2">
+      <thead><tr>
+        <th class="hdr-blank" style="text-align:left;padding-left:8px;font-size:0.8rem">Food / Exposure</th>
+        <th class="hdr-sick">😷 Sick</th>
+        <th class="hdr-well">😊 Well</th>
+        <th class="hdr-total">Total</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}
+
 function render2x2Table(d) {
   const totalE = d.a + d.b;
   const totalU = d.c + d.d;
@@ -888,7 +1046,7 @@ function load2x2Scenario() {
   const d = TABLE_DATA[t2Idx];
   document.getElementById('t2-story').innerHTML =
     `<div class="scenario-emoji">${d.emoji}</div><div class="scenario-name">${d.title}</div>${d.scenario}`;
-  document.getElementById('t2-table-wrap').innerHTML = render2x2Table(d);
+  document.getElementById('t2-table-wrap').innerHTML = d.type === 'linelist' ? renderLineList(d) : render2x2Table(d);
   document.getElementById('t2-question-wrap').style.display = 'block';
   document.getElementById('t2-result').style.display = 'none';
 
@@ -1138,12 +1296,111 @@ function nextEpiScenario() {
   }
 }
 
+// ── STATS MATH ────────────────────────────────────────────────────
+function initStats() {
+  stIdx = 0; stScore = 0;
+  document.getElementById('stats-result').style.display = 'none';
+  document.getElementById('stats-dataset').style.display = 'block';
+  document.getElementById('stats-problem').style.display = 'block';
+  document.querySelector('#statsmath .formula-box').style.display = 'block';
+  document.querySelector('#statsmath .math-input-wrap').style.display = 'flex';
+  document.getElementById('stats-check').style.display = 'block';
+  document.getElementById('stats-feedback').style.display = '';
+  document.getElementById('stats-next').style.display = '';
+  loadStats();
+}
+
+function loadStats() {
+  const p = STATS_DATA[stIdx];
+  stAnswered = false;
+
+  const formulas = {
+    mean:   'Mean = (Sum of all values) ÷ (Count of values)',
+    median: 'Median = Middle value when sorted low → high',
+    mode:   'Mode = The value that appears MOST often'
+  };
+  document.getElementById('stats-formula').textContent = formulas[p.type];
+  document.getElementById('stats-dataset').textContent = p.data.join(', ');
+  document.getElementById('stats-problem').textContent = p.context + '\n\n' + p.q;
+  document.getElementById('stats-input').value = '';
+  document.getElementById('stats-input').disabled = false;
+  document.getElementById('stats-check').disabled = false;
+  document.getElementById('stats-feedback').className = 'math-feedback';
+  document.getElementById('stats-next').className = 'math-next';
+
+  const pct = Math.round(((stIdx + 1) / STATS_DATA.length) * 100);
+  document.getElementById('stats-label').textContent = `Problem ${stIdx + 1} of ${STATS_DATA.length}`;
+  document.getElementById('stats-bar').style.width = pct + '%';
+}
+
+function checkStats() {
+  if (stAnswered) return;
+  const p = STATS_DATA[stIdx];
+  const userVal = parseFloat(document.getElementById('stats-input').value);
+  if (isNaN(userVal)) { alert('Enter a number!'); return; }
+
+  stAnswered = true;
+  const correct = Math.abs(userVal - p.answer) <= 1;
+  if (correct) stScore++;
+
+  document.getElementById('stats-input').disabled = true;
+  document.getElementById('stats-check').disabled = true;
+
+  const fb = document.getElementById('stats-feedback');
+  fb.innerHTML = (correct ? '✅ Correct! ' : `❌ The answer is ${p.answer}. `) +
+    `<br><br>${p.explain}`;
+  fb.className = 'math-feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('stats-next').className = 'math-next show';
+}
+
+function nextStats() {
+  if (stIdx < STATS_DATA.length - 1) {
+    stIdx++;
+    loadStats();
+  } else {
+    showStatsResult();
+  }
+}
+
+function showStatsResult() {
+  document.getElementById('stats-result').style.display = 'block';
+  document.getElementById('stats-dataset').style.display = 'none';
+  document.getElementById('stats-problem').style.display = 'none';
+  document.querySelector('#statsmath .formula-box').style.display = 'none';
+  document.querySelector('#statsmath .math-input-wrap').style.display = 'none';
+  document.getElementById('stats-check').style.display = 'none';
+  document.getElementById('stats-feedback').style.display = 'none';
+  document.getElementById('stats-next').style.display = 'none';
+
+  const pct = stScore / STATS_DATA.length;
+  document.getElementById('stats-res-emoji').textContent = pct === 1 ? '🏆' : pct >= 0.75 ? '🎉' : '💪';
+  document.getElementById('stats-res-title').textContent = pct === 1 ? 'Perfect Stats!' : pct >= 0.75 ? 'Great Work!' : 'Keep Practicing!';
+  document.getElementById('stats-res-score').textContent = `${stScore}/${STATS_DATA.length}`;
+
+  save('dd_stats', load('dd_stats', 0) + stScore);
+}
+
+function resetStats() {
+  document.getElementById('stats-result').style.display = 'none';
+  document.getElementById('stats-dataset').style.display = 'block';
+  document.getElementById('stats-problem').style.display = 'block';
+  document.querySelector('#statsmath .formula-box').style.display = 'block';
+  document.querySelector('#statsmath .math-input-wrap').style.display = 'flex';
+  document.getElementById('stats-check').style.display = 'block';
+  document.getElementById('stats-feedback').style.display = '';
+  document.getElementById('stats-next').style.display = '';
+  initStats();
+}
+
 // ── INIT ──────────────────────────────────────────────────────────
 document.getElementById('math-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') checkMath();
 });
 document.getElementById('t2-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') check2x2();
+});
+document.getElementById('stats-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkStats();
 });
 
 refreshHome();
