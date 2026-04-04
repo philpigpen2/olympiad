@@ -31,7 +31,35 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 .mode-btn.purple{background:#581c87}
 .mode-btn.teal{background:#0e7490}
 .mode-btn.orange{background:#b45309}
+.mode-btn.amber{background:#92400e}
+.mode-btn.indigo{background:#312e81}
+.mode-btn.slate{background:#1e3a5f}
 .tip-box{background:#16213e;border-radius:14px;padding:14px 16px;border-left:4px solid #f5a623;font-size:0.85rem;color:#aaa;line-height:1.5;text-align:left}
+
+/* TRUE / FALSE */
+.tf-statement{background:#16213e;border-radius:16px;padding:24px;margin-bottom:24px;font-size:1.15rem;line-height:1.6;font-weight:600;text-align:center;min-height:120px;display:flex;align-items:center;justify-content:center}
+.tf-wrap{display:flex;gap:12px;margin-bottom:16px}
+.tf-btn{flex:1;padding:22px;border-radius:14px;border:none;font-size:1.2rem;font-weight:800;cursor:pointer;font-family:inherit;transition:transform 0.15s}
+.tf-btn:active{transform:scale(0.97)}
+.tf-true{background:#1a6b4a;color:#fff}
+.tf-false{background:#7f1d1d;color:#fff}
+.tf-btn.correct{outline:4px solid #4ecca3}
+.tf-btn.wrong{outline:4px solid #e94560;opacity:0.5}
+
+/* MATCHING */
+.match-category{font-size:0.78rem;color:#f5a623;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;text-align:center}
+.match-term{background:#0f3460;border-radius:14px;padding:20px;margin-bottom:20px;font-size:1.2rem;font-weight:800;text-align:center;color:#4ecca3;line-height:1.4}
+.match-prompt{font-size:0.85rem;color:#aaa;text-align:center;margin-bottom:12px}
+
+/* WRITTEN */
+.written-q{background:#16213e;border-radius:16px;padding:20px;margin-bottom:14px;font-size:1.05rem;line-height:1.6;font-weight:600}
+.hint-btn{background:transparent;border:2px solid #f5a623;color:#f5a623;padding:10px 20px;border-radius:10px;font-size:0.9rem;cursor:pointer;margin-bottom:12px;font-family:inherit;width:100%}
+.hint-box{background:#16213e;border-radius:12px;padding:14px;font-size:0.9rem;color:#aaa;line-height:1.5;margin-bottom:12px;border-left:4px solid #f5a623;display:none}
+.reveal-btn{width:100%;padding:18px;background:#0f3460;border:none;color:#fff;border-radius:14px;font-size:1.1rem;font-weight:700;cursor:pointer;margin-bottom:12px;font-family:inherit}
+.answer-box{background:#16213e;border-radius:14px;padding:18px;margin-bottom:14px;font-size:0.88rem;line-height:1.8;display:none;white-space:pre-line;border-left:4px solid #4ecca3;color:#eaeaea}
+.self-grade{display:none;gap:10px}
+.grade-got{flex:1;padding:16px;background:#1a6b4a;border:none;color:#fff;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit}
+.grade-review{flex:1;padding:16px;background:#b45309;border:none;color:#fff;border-radius:14px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit}
 .mode-icon{font-size:1.8rem}
 .mode-info{text-align:left}
 .mode-label{font-size:1.05rem}
@@ -189,6 +217,27 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
       <div class="mode-desc">Mean · Median · Mode · 9 problems</div>
     </div>
   </button>
+  <button class="mode-btn amber" onclick="showScreen('truefalse')">
+    <span class="mode-icon">✅</span>
+    <div class="mode-info">
+      <div class="mode-label">True / False</div>
+      <div class="mode-desc">20 statements · just like the real test</div>
+    </div>
+  </button>
+  <button class="mode-btn indigo" onclick="showScreen('matching')">
+    <span class="mode-icon">🔗</span>
+    <div class="mode-info">
+      <div class="mode-label">Matching</div>
+      <div class="mode-desc">Pathogen · food · symptoms · transmission</div>
+    </div>
+  </button>
+  <button class="mode-btn slate" onclick="showScreen('written')">
+    <span class="mode-icon">✏️</span>
+    <div class="mode-info">
+      <div class="mode-label">Written Questions</div>
+      <div class="mode-desc">6 deep questions · reveal model answers</div>
+    </div>
+  </button>
   <div class="tip-box">🏆 <strong>Competition tip:</strong> Accuracy beats speed. You finished early last year and placed 16th — slow down and double-check every answer.</div>
 </div>
 
@@ -203,17 +252,21 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <div class="progress-bar"><div class="progress-fill" id="fc-bar" style="width:4%"></div></div>
   </div>
   <div class="card-scene">
-    <div class="card" id="fc-card" onclick="flipCard()">
+    <div class="card" id="fc-card">
       <div class="card-face card-front">
-        <div>
+        <div style="width:100%">
           <div class="card-term" id="fc-term"></div>
-          <div class="card-hint">Tap to see definition</div>
+          <div class="card-hint" id="fc-hint" style="margin-top:16px">Write your answer below, then reveal</div>
         </div>
       </div>
       <div class="card-face card-back">
         <div class="card-def" id="fc-def"></div>
       </div>
     </div>
+  </div>
+  <div id="fc-recall-wrap" style="margin-bottom:14px">
+    <textarea id="fc-recall" placeholder="Type what you think the definition is..." style="width:100%;background:#16213e;border:2px solid #0f3460;color:#eaeaea;border-radius:14px;padding:14px;font-size:1rem;font-family:inherit;resize:none;min-height:80px;line-height:1.5" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+    <button class="check-btn" style="margin-top:8px" onclick="flipCard()">Reveal Definition 👁</button>
   </div>
   <div class="card-btns" id="fc-btns" style="display:none">
     <button class="btn-again" onclick="cardAgain()">Study Again ↺</button>
@@ -320,6 +373,100 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
       <div class="result-label">questions correct</div>
     </div>
     <button class="result-next" id="t2-res-next">Next Table →</button>
+    <button class="result-home" onclick="showScreen('home')">Back to Home</button>
+  </div>
+</div>
+
+<!-- TRUE / FALSE SCREEN -->
+<div id="truefalse" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <div class="screen-title">✅ True / False</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label" id="tf-label">Statement 1 of 20</div>
+    <div class="progress-bar"><div class="progress-fill" id="tf-bar" style="width:5%"></div></div>
+  </div>
+  <div class="tf-statement" id="tf-statement"></div>
+  <div class="tf-wrap">
+    <button class="tf-btn tf-true" id="tf-btn-true" onclick="answerTF(true)">✓ TRUE</button>
+    <button class="tf-btn tf-false" id="tf-btn-false" onclick="answerTF(false)">✗ FALSE</button>
+  </div>
+  <div class="feedback" id="tf-feedback"></div>
+  <button class="next-btn" id="tf-next" onclick="nextTF()">Next →</button>
+  <div id="tf-result" style="display:none">
+    <div class="result-card">
+      <div class="result-emoji" id="tf-res-emoji">✅</div>
+      <div class="result-title" id="tf-res-title"></div>
+      <div class="result-score" id="tf-res-score"></div>
+      <div class="result-label">statements correct</div>
+    </div>
+    <button class="result-home" onclick="initTF()">Try Again</button>
+    <br><br>
+    <button class="result-home" onclick="showScreen('home')">Back to Home</button>
+  </div>
+</div>
+
+<!-- MATCHING SCREEN -->
+<div id="matching" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <div class="screen-title">🔗 Matching</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label" id="match-label">Round 1 of 16</div>
+    <div class="progress-bar"><div class="progress-fill" id="match-bar" style="width:6.25%"></div></div>
+  </div>
+  <div class="match-category" id="match-category"></div>
+  <div class="match-term" id="match-term"></div>
+  <div class="match-prompt">Which answer matches?</div>
+  <div class="choices" id="match-choices"></div>
+  <div class="feedback" id="match-feedback"></div>
+  <button class="next-btn" id="match-next" onclick="nextMatch()">Next →</button>
+  <div id="match-result" style="display:none">
+    <div class="result-card">
+      <div class="result-emoji" id="match-res-emoji">🔗</div>
+      <div class="result-title" id="match-res-title"></div>
+      <div class="result-score" id="match-res-score"></div>
+      <div class="result-label">matched correctly</div>
+    </div>
+    <button class="result-home" onclick="initMatch()">Try Again</button>
+    <br><br>
+    <button class="result-home" onclick="showScreen('home')">Back to Home</button>
+  </div>
+</div>
+
+<!-- WRITTEN QUESTIONS SCREEN -->
+<div id="written" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="showScreen('home')">←</button>
+    <div class="screen-title">✏️ Written Questions</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label" id="writ-label">Question 1 of 6</div>
+    <div class="progress-bar"><div class="progress-fill" id="writ-bar" style="width:16.7%"></div></div>
+  </div>
+  <div class="written-q" id="writ-question"></div>
+  <button class="hint-btn" onclick="toggleHint()">💡 Show Hint</button>
+  <div class="hint-box" id="writ-hint"></div>
+  <button class="reveal-btn" id="writ-reveal" onclick="revealAnswer()">Reveal Model Answer 👁</button>
+  <div class="answer-box" id="writ-answer"></div>
+  <div class="self-grade" id="writ-grade" style="display:none">
+    <div style="font-size:0.85rem;color:#aaa;text-align:center;margin-bottom:8px">How did you do?</div>
+    <div style="display:flex;gap:10px">
+      <button class="grade-got" onclick="gradeWritten(true)">Got it ✓</button>
+      <button class="grade-review" onclick="gradeWritten(false)">Need more practice ↺</button>
+    </div>
+  </div>
+  <div id="writ-result" style="display:none">
+    <div class="result-card">
+      <div class="result-emoji" id="writ-res-emoji">✏️</div>
+      <div class="result-title" id="writ-res-title"></div>
+      <div class="result-score" id="writ-res-score"></div>
+      <div class="result-label">questions you felt confident on</div>
+    </div>
+    <button class="result-home" onclick="initWritten()">Try Again</button>
+    <br><br>
     <button class="result-home" onclick="showScreen('home')">Back to Home</button>
   </div>
 </div>
@@ -436,7 +583,17 @@ const VOCAB = [
   { term:"Arbovirus",       def:"Viruses spread by ARTHROPOD BITES (mosquitoes, ticks). Examples: West Nile, Dengue, Zika, Chikungunya" },
   { term:"Case-Control Study", def:"Compares SICK people (cases) to HEALTHY people (controls) who look similar, to figure out what caused the illness" },
   { term:"Cohort Study",    def:"Follows a group of people over time to see who gets sick and why — like watching everyone at a party for a week" },
-  { term:"Secondary Attack Rate", def:"How many new cases develop from exposure to a SINGLE index case in a group — measures how contagious the disease is" }
+  { term:"Secondary Attack Rate", def:"How many new cases develop from exposure to a SINGLE index case in a group — measures how contagious the disease is" },
+  { term:"Giardia",         def:"Parasite found in untreated streams and rivers ('beaver fever'). Causes bloating, greasy diarrhea. Spread by swallowing contaminated water." },
+  { term:"Influenza",       def:"Respiratory virus spread by droplets (coughing/sneezing). Causes fever, body aches, fatigue. Prevented by annual vaccine." },
+  { term:"Cholera",         def:"Bacteria (Vibrio cholerae) in contaminated water. Causes rice-water diarrhea so severe it can kill by dehydration within hours." },
+  { term:"Hepatitis A",     def:"Virus spread via contaminated food and water. Attacks the liver — causes jaundice (yellow skin/eyes). Vaccine-preventable." },
+  { term:"Staph aureus",    def:"Bacteria that produces a TOXIN in food left at room temperature. Causes vomiting within 1–6 hours. The toxin — not the bacteria — makes you sick." },
+  { term:"Botulism",        def:"Caused by toxin from Clostridium botulinum in improperly canned/sealed foods. Causes paralysis. Rare but extremely dangerous." },
+  { term:"Shigella",        def:"Bacteria spread person-to-person with an extremely low infectious dose (just 10 cells!). Causes bloody diarrhea. Common in daycares." },
+  { term:"High-Risk Foods", def:"Foods most likely to cause illness: raw poultry, undercooked beef, raw shellfish, soft cheese, deli meats, unpasteurized milk/juice, improperly canned foods" },
+  { term:"Temperature Danger Zone", def:"40°F–140°F (4°C–60°C) — the range where bacteria multiply fastest. Never leave food in this zone for more than 2 hours!" },
+  { term:"Cross-Contamination", def:"When germs spread from raw food (like chicken) to other foods via hands, surfaces, or utensils. A major cause of foodborne illness." }
 ];
 
 const SCENARIOS = [
@@ -612,6 +769,69 @@ const TABLE_DATA = [
   }
 ];
 
+const TF_DATA = [
+  { s:"Quarantine is used for people who are ALREADY SICK with a confirmed disease.", correct:false, explain:"FALSE — Quarantine is for people EXPOSED but not yet sick. ISOLATION is for confirmed sick people." },
+  { s:"The attack rate formula is: (number sick ÷ number exposed) × 100.", correct:true, explain:"TRUE — Attack Rate = (Sick ÷ Exposed) × 100. Always multiply by 100 to express as a percentage." },
+  { s:"Listeria monocytogenes can survive and multiply inside a refrigerator.", correct:true, explain:"TRUE — Most bacteria die at refrigerator temperatures, but Listeria is cold-tolerant. This makes it especially dangerous in deli meats and soft cheeses." },
+  { s:"A point source outbreak produces multiple peaks on an epi curve over several weeks.", correct:false, explain:"FALSE — That describes a PROPAGATED outbreak. A point source = ONE sharp spike then rapid drop. One source, one moment in time." },
+  { s:"Salmonella is most commonly associated with undercooked beef.", correct:false, explain:"FALSE — Salmonella lives in raw POULTRY and EGGS (and reptiles!). E. coli O157:H7 is the beef pathogen." },
+  { s:"The index case is the FIRST known person to get sick in an outbreak.", correct:true, explain:"TRUE — Finding the index case helps investigators trace back to the original source and exposure." },
+  { s:"Herd immunity requires 100% of a population to be immune or vaccinated.", correct:false, explain:"FALSE — Herd immunity works when ENOUGH people are immune. The threshold varies: measles ~95%, polio ~80–85%, flu ~50–60%." },
+  { s:"Norovirus is the most common cause of foodborne illness outbreaks in the United States.", correct:true, explain:"TRUE — Norovirus causes more foodborne outbreaks than any other pathogen. It's extremely contagious and survives on surfaces for days." },
+  { s:"Morbidity refers to the death rate from a disease.", correct:false, explain:"FALSE — Morbidity = how many got SICK. Mortality = how many DIED. Memory trick: mortiality = mort (French for death)." },
+  { s:"A vector is always an insect.", correct:false, explain:"FALSE — Vectors are animals that carry disease, and they can be insects (mosquitoes, fleas) OR ticks (arachnids, not insects) OR other arthropods." },
+  { s:"Relative Risk is calculated by dividing the exposed group's attack rate by the unexposed group's attack rate.", correct:true, explain:"TRUE — RR = AR(exposed) ÷ AR(unexposed). A RR of 7 means exposed people were 7x more likely to get sick." },
+  { s:"A fomite is a living organism that carries and transmits disease.", correct:false, explain:"FALSE — Fomites are INANIMATE OBJECTS (doorknobs, phones, towels). Living carriers are called VECTORS. Big difference!" },
+  { s:"Staph aureus food poisoning is caused by a toxin produced in food left at room temperature.", correct:true, explain:"TRUE — Staph aureus produces a heat-stable toxin in food. Even cooking the food won't destroy the toxin once it's formed. Onset is rapid: 1–6 hours." },
+  { s:"Waterborne illness can ONLY be caused by drinking contaminated water.", correct:false, explain:"FALSE — You can also get waterborne illness from SWIMMING or bathing in contaminated water. Cryptosporidium is commonly swallowed while swimming." },
+  { s:"E. coli O157:H7 can cause kidney failure, especially in children.", correct:true, explain:"TRUE — E. coli O157:H7 can trigger Hemolytic Uremic Syndrome (HUS), which leads to kidney failure. This is why undercooked beef is so dangerous for kids." },
+  { s:"Notifiable diseases must be reported to public health authorities by law.", correct:true, explain:"TRUE — Healthcare providers are legally required to report notifiable diseases (Salmonella, TB, measles, etc.) so outbreaks can be detected and stopped early." },
+  { s:"An endemic disease is one that has spread across multiple continents worldwide.", correct:false, explain:"FALSE — That's a PANDEMIC. Endemic means the disease is always present at baseline levels in a SPECIFIC area. Example: malaria is endemic to parts of Africa." },
+  { s:"The Temperature Danger Zone for bacterial growth in food is between 40°F and 140°F.", correct:true, explain:"TRUE — Bacteria multiply fastest between 40°F–140°F (4°C–60°C). Never leave food in this zone for more than 2 hours!" },
+  { s:"Giardia is a type of bacteria found in untreated stream water.", correct:false, explain:"FALSE — Giardia is a PARASITE (protozoan), not a bacteria. It lives in untreated streams and rivers. Also called 'beaver fever' because beavers contaminate waterways." },
+  { s:"Botulism is caused by a toxin produced by Clostridium botulinum bacteria in improperly sealed foods.", correct:true, explain:"TRUE — Botulism toxin is one of the most lethal substances known. Found in improperly canned or vacuum-sealed foods. It causes paralysis, not typical stomach illness." }
+];
+
+const MATCH_DATA = [
+  { cat:"Pathogen → Primary Food Source", term:"Salmonella", match:"Raw poultry and eggs", others:["Deli meats and soft cheese","Undercooked beef and raw juice","Improperly canned foods","Untreated stream water"] },
+  { cat:"Pathogen → Primary Food Source", term:"E. coli O157:H7", match:"Undercooked beef and unpasteurized juice", others:["Raw poultry and eggs","Deli meats and soft cheese","Raw shellfish","Untreated water"] },
+  { cat:"Pathogen → Primary Food Source", term:"Listeria", match:"Deli meats and soft cheese", others:["Raw poultry and eggs","Undercooked beef","Shellfish","Untreated stream water"] },
+  { cat:"Pathogen → Primary Food Source", term:"Clostridium botulinum", match:"Improperly canned or vacuum-sealed foods", others:["Raw poultry and eggs","Undercooked beef","Deli meats","Untreated water"] },
+  { cat:"Pathogen → Key Feature", term:"Norovirus", match:"Most contagious foodborne virus; causes sudden vomiting; #1 cruise ship pathogen", others:["Survives refrigeration; dangerous for pregnant women","Resists pool chlorine; watery diarrhea in swimmers","Found in raw beef; can cause kidney failure","1–6 hr toxin onset; food left at room temp"] },
+  { cat:"Pathogen → Key Feature", term:"Staph aureus", match:"Produces a TOXIN in food left at room temp; rapid 1–6 hr onset; cooking doesn't destroy toxin", others:["Most contagious foodborne virus; cruise ships","Resists refrigeration; dangerous for pregnant women","Bloody diarrhea; possible kidney failure","2–5 day incubation; raw poultry"] },
+  { cat:"Pathogen → Key Feature", term:"Cryptosporidium", match:"Resists pool chlorine; most common waterborne outbreak; watery diarrhea for weeks", others:["1–4 week incubation; deli meats","Sudden vomiting; spreads via fomites","Most common US foodborne bacteria; 2–5 days","Rice-water diarrhea; extreme dehydration; contaminated water"] },
+  { cat:"Pathogen → Key Feature", term:"Cholera", match:"Rice-water diarrhea; extreme dehydration; spread by contaminated water; can kill in hours", others:["Resists pool chlorine; weeks of diarrhea","Sudden vomiting; cruise ships","Improperly canned foods; causes paralysis","Bloody diarrhea; kidney failure in children"] },
+  { cat:"Transmission Route → Pathogen", term:"Mosquito bite", match:"West Nile Virus / Dengue / Zika (arboviruses)", others:["Lyme Disease / Rocky Mountain Spotted Fever","Salmonella / Campylobacter","Norovirus / Hepatitis A","Cholera / Typhoid"] },
+  { cat:"Transmission Route → Pathogen", term:"Tick bite", match:"Lyme Disease / Rocky Mountain Spotted Fever", others:["West Nile Virus / Dengue / Zika","Salmonella / Campylobacter","Norovirus / Hepatitis A","Giardia / Cryptosporidium"] },
+  { cat:"Transmission Route → Pathogen", term:"Untreated stream or river water", match:"Giardia (beaver fever) / Cryptosporidium", others:["Salmonella / Campylobacter","West Nile Virus / Dengue","Norovirus / Staph aureus","Listeria / Botulism"] },
+  { cat:"Food Safety Rule → Why It Matters", term:"Cook poultry to 165°F internal temperature", match:"Kills Salmonella and Campylobacter hiding in raw chicken", others:["Destroys Listeria toxin in deli meats","Prevents Botulism in canned foods","Stops cross-contamination from beef","Eliminates Norovirus from produce"] },
+  { cat:"Food Safety Rule → Why It Matters", term:"Never leave food out for more than 2 hours", match:"Bacteria multiply rapidly in the 40°F–140°F temperature danger zone", others:["Prevents cross-contamination between foods","Listeria is cold-tolerant and survives refrigeration","Destroys heat-stable toxins already formed","Stops waterborne pathogens from multiplying"] },
+  { cat:"Food Safety Rule → Why It Matters", term:"Use separate cutting boards for raw meat and vegetables", match:"Prevents cross-contamination — stops E. coli and Salmonella from raw meat reaching ready-to-eat food", others:["Kills bacteria at safe cooking temperatures","Stops bacteria multiplying in the danger zone","Prevents Listeria in cold storage","Eliminates Norovirus from food surfaces"] },
+  { cat:"Epi Concept → Definition", term:"Case-Control Study", match:"Compares SICK people to HEALTHY controls, looking backward to find the exposure", others:["Follows exposed vs unexposed groups forward in time","Ongoing systematic collection of disease data","Restricts movement of exposed people","Counts all cases in a population at one point in time"] },
+  { cat:"Epi Concept → Definition", term:"Secondary Attack Rate", match:"Percentage of close contacts who get infected from one index case — measures contagiousness", others:["Death rate once infected with disease","Percentage of exposed people who get sick","Middle value in a sorted dataset","Rate of new cases per week in a population"] }
+];
+
+const WRITTEN_DATA = [
+  { q:"Describe the main steps of a foodborne outbreak investigation. What does a disease detective actually DO?",
+    hint:"Think: confirm → define → find → describe → hypothesize → test → control → report",
+    ans:"1. Confirm the outbreak and diagnosis (lab tests to verify the pathogen)\n2. Define a case — create a case definition (who officially counts as sick)\n3. Find cases systematically (case finding — interview contacts, search hospitals)\n4. Describe by Person, Place, and Time (who, where, when)\n5. Develop hypotheses about the source\n6. Test hypotheses with analytic epidemiology (case-control or cohort study, 2x2 tables)\n7. Implement control measures (close restaurant, issue food recall, quarantine)\n8. Communicate findings and write the report" },
+  { q:"Explain the Epidemiological Triangle. Name all three components and explain what each represents. Give an example of how changing one component can stop a disease.",
+    hint:"Host · Agent · Environment — all three must align for disease to occur",
+    ans:"The Epi Triangle has three parts:\n\nHOST — the person or animal that gets infected. Factors: age, immune status, genetics, behaviors. Change it by: vaccinating the host.\n\nAGENT — the pathogen (virus, bacteria, parasite, toxin). Factors: infectivity, virulence, dose. Change it by: killing the pathogen with heat (cooking).\n\nENVIRONMENT — external conditions enabling the agent to reach the host. Factors: temperature, sanitation, crowding, water quality. Change it by: improving water treatment to stop cholera.\n\nDisease only occurs when all THREE overlap. Break any corner = break the disease cycle!" },
+  { q:"A 2×2 table shows: Exposed & Sick = 36, Exposed & Well = 14, Unexposed & Sick = 4, Unexposed & Well = 46. Calculate: (1) attack rate for each group, (2) the relative risk, and (3) what this tells you.",
+    hint:"AR = (sick ÷ total in group) × 100. RR = AR exposed ÷ AR unexposed. Total exposed = 36+14 = 50.",
+    ans:"Exposed group: 36 sick ÷ 50 total = 72% attack rate\nUnexposed group: 4 sick ÷ 50 total = 8% attack rate\n\nRelative Risk (RR) = 72% ÷ 8% = 9\n\nInterpretation: People who were exposed were 9 TIMES more likely to get sick than those who weren't. A RR this high strongly suggests the exposure caused the illness — the detective should focus investigation on the exposure source!" },
+  { q:"Compare and contrast Quarantine vs. Isolation. When is each used? Give a real-world example of each.",
+    hint:"One is for sick people. One is for exposed-but-not-yet-sick people.",
+    ans:"ISOLATION: Used for people who ARE ALREADY CONFIRMED SICK.\nPurpose: Separate them from healthy people to stop spreading the disease.\nExample: A student with confirmed flu stays home from school for 5 days.\n\nQUARANTINE: Used for people who were EXPOSED but are NOT yet sick.\nPurpose: Watch them during the incubation period to see if they develop disease.\nExample: A passenger on a flight with a measles case must quarantine for 21 days (the incubation period for measles).\n\nKey difference: Isolation = reactive (already sick). Quarantine = precautionary (maybe sick)." },
+  { q:"Name 4 specific foodborne pathogens. For each one, give: (1) primary food source, (2) incubation period, and (3) one unique identifying feature that a disease detective would use to recognize it.",
+    hint:"Think about what makes each pathogen's 'fingerprint' unique — the clue that screams 'it was this one!'",
+    ans:"SALMONELLA: Raw poultry & eggs | 6–72 hours | Found in reptiles too; 6-72hr onset after chicken/eggs = Salmonella\n\nE. COLI O157:H7: Undercooked beef, unpasteurized juice | 1–8 days | Bloody diarrhea + possible kidney failure (HUS) in kids = E. coli\n\nLISTERIA: Deli meats, soft cheese | 1–4 WEEKS | Survives refrigerator; affects pregnant women = Listeria (very long incubation is the giveaway)\n\nNOROVIRUS: Contaminated food/surfaces | 12–48 hours | Explosive sudden vomiting, over in 1-2 days, spreads like wildfire on cruise ships = Norovirus\n\n(Also valid: Campylobacter, Staph aureus, Cryptosporidium, Giardia, Cholera, Botulism)" },
+  { q:"Explain the difference between a point source and propagated outbreak. Draw what each looks like on an epidemic curve and explain what causes each shape.",
+    hint:"Think about WHO was exposed and WHEN. One source at one time vs. person spreading to person over time.",
+    ans:"POINT SOURCE OUTBREAK:\nCause: Everyone was exposed to the same contaminated source at ONE time (e.g., bad food at a party).\nEpi curve shape: ONE sharp spike in cases, then rapid drop to near-zero. Like a mountain with a steep cliff on both sides.\nWhy that shape: Everyone was exposed at the same moment, so they all get sick around the same time. Once the source is gone, no new cases.\n\nPROPAGATED OUTBREAK:\nCause: Disease spreads person-to-person in waves over time (e.g., flu spreading through a school).\nEpi curve shape: Gradual rise → peak → gradual decline. Or multiple rolling waves of cases over weeks/months.\nWhy that shape: Each sick person becomes a new source, infecting new people in successive waves." }
+];
+
 const STATS_DATA = [
   { data:[4,8,6,8,2,8,4], type:"mean", answer:6,
     context:"During a food poisoning outbreak, new cases per day were:",
@@ -726,6 +946,9 @@ let mathIdx = 0, mathScore = 0, mathAnswered = false;
 let t2Idx = 0, t2QIdx = 0, t2Score = 0, t2Answered = false;
 let ecIdx = 0, ecQIdx = 0, ecScore = 0, ecAnswered = false;
 let stIdx = 0, stScore = 0, stAnswered = false;
+let tfIdx = 0, tfScore = 0, tfAnswered = false;
+let matchIdx = 0, matchScore = 0, matchAnswered = false;
+let writIdx = 0, writScore = 0;
 
 // ── STORAGE ───────────────────────────────────────────────────────
 function load(k, def) { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } }
@@ -750,7 +973,10 @@ function totalPoints() {
        + load('dd_math', 0) * 3
        + load('dd_t2', 0) * 4
        + load('dd_ec', 0) * 4
-       + load('dd_stats', 0) * 4;
+       + load('dd_stats', 0) * 4
+       + load('dd_tf', 0) * 3
+       + load('dd_match', 0) * 3
+       + load('dd_writ', 0) * 5;
 }
 
 // ── SCREENS ───────────────────────────────────────────────────────
@@ -764,6 +990,9 @@ function showScreen(id) {
   if (id === 'table2x2') init2x2();
   if (id === 'epichart') initEpiChart();
   if (id === 'statsmath') initStats();
+  if (id === 'truefalse') initTF();
+  if (id === 'matching') initMatch();
+  if (id === 'written') initWritten();
   window.scrollTo(0, 0);
 }
 
@@ -785,6 +1014,10 @@ function showCard() {
   card.classList.remove('flipped');
   fcFlipped = false;
   document.getElementById('fc-btns').style.display = 'none';
+  document.getElementById('fc-recall-wrap').style.display = 'block';
+  document.getElementById('fc-recall').value = '';
+  document.getElementById('fc-recall').style.height = 'auto';
+  document.getElementById('fc-recall').disabled = false;
 
   const v = VOCAB[fcIndices[fcPos]];
   document.getElementById('fc-term').textContent = v.term;
@@ -802,6 +1035,7 @@ function flipCard() {
   if (fcFlipped) return;
   document.getElementById('fc-card').classList.add('flipped');
   fcFlipped = true;
+  document.getElementById('fc-recall-wrap').style.display = 'none';
   document.getElementById('fc-btns').style.display = 'flex';
 }
 
@@ -1330,6 +1564,217 @@ function nextEpiScenario() {
     loadEpiScenario();
     window.scrollTo(0, 0);
   }
+}
+
+// ── TRUE / FALSE ──────────────────────────────────────────────────
+function initTF() {
+  tfIdx = 0; tfScore = 0; tfAnswered = false;
+  document.getElementById('tf-result').style.display = 'none';
+  document.getElementById('tf-statement').style.display = 'flex';
+  document.getElementById('tf-wrap') && (document.querySelector('.tf-wrap').style.display = 'flex');
+  loadTF();
+}
+
+function loadTF() {
+  const p = TF_DATA[tfIdx];
+  tfAnswered = false;
+  document.getElementById('tf-statement').textContent = p.s;
+  document.getElementById('tf-feedback').className = 'feedback';
+  document.getElementById('tf-feedback').textContent = '';
+  document.getElementById('tf-next').className = 'next-btn';
+  document.getElementById('tf-btn-true').className = 'tf-btn tf-true';
+  document.getElementById('tf-btn-false').className = 'tf-btn tf-false';
+  document.getElementById('tf-btn-true').disabled = false;
+  document.getElementById('tf-btn-false').disabled = false;
+  document.querySelector('.tf-wrap').style.display = 'flex';
+
+  const pct = Math.round(((tfIdx + 1) / TF_DATA.length) * 100);
+  document.getElementById('tf-label').textContent = `Statement ${tfIdx + 1} of ${TF_DATA.length}`;
+  document.getElementById('tf-bar').style.width = pct + '%';
+}
+
+function answerTF(answer) {
+  if (tfAnswered) return;
+  tfAnswered = true;
+  const p = TF_DATA[tfIdx];
+  const correct = answer === p.correct;
+  if (correct) tfScore++;
+
+  document.getElementById('tf-btn-true').disabled = true;
+  document.getElementById('tf-btn-false').disabled = true;
+
+  const trueBtn = document.getElementById('tf-btn-true');
+  const falseBtn = document.getElementById('tf-btn-false');
+  if (p.correct === true) trueBtn.classList.add('correct');
+  else falseBtn.classList.add('correct');
+  if (!correct) {
+    if (answer === true) trueBtn.classList.add('wrong');
+    else falseBtn.classList.add('wrong');
+  }
+
+  const fb = document.getElementById('tf-feedback');
+  fb.textContent = (correct ? '✅ ' : '❌ ') + p.explain;
+  fb.className = 'feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('tf-next').className = 'next-btn show';
+}
+
+function nextTF() {
+  if (tfIdx < TF_DATA.length - 1) {
+    tfIdx++;
+    loadTF();
+    window.scrollTo(0, 0);
+  } else {
+    showTFResult();
+  }
+}
+
+function showTFResult() {
+  document.getElementById('tf-result').style.display = 'block';
+  document.getElementById('tf-statement').style.display = 'none';
+  document.querySelector('.tf-wrap').style.display = 'none';
+  document.getElementById('tf-feedback').style.display = 'none';
+  document.getElementById('tf-next').style.display = 'none';
+
+  const pct = tfScore / TF_DATA.length;
+  document.getElementById('tf-res-emoji').textContent = pct >= 0.9 ? '🏆' : pct >= 0.7 ? '🎉' : '💪';
+  document.getElementById('tf-res-title').textContent = pct >= 0.9 ? 'Sigma Sleuth Status!' : pct >= 0.7 ? 'Great Work!' : 'Keep Practicing!';
+  document.getElementById('tf-res-score').textContent = `${tfScore}/${TF_DATA.length}`;
+  save('dd_tf', load('dd_tf', 0) + tfScore);
+}
+
+// ── MATCHING ──────────────────────────────────────────────────────
+function initMatch() {
+  matchIdx = 0; matchScore = 0; matchAnswered = false;
+  document.getElementById('match-result').style.display = 'none';
+  loadMatch();
+}
+
+function loadMatch() {
+  const p = MATCH_DATA[matchIdx];
+  matchAnswered = false;
+
+  document.getElementById('match-category').textContent = p.cat;
+  document.getElementById('match-term').textContent = p.term;
+  document.getElementById('match-feedback').className = 'feedback';
+  document.getElementById('match-feedback').textContent = '';
+  document.getElementById('match-next').className = 'next-btn';
+
+  // Build choices: correct + up to 3 distractors, shuffled
+  const distractors = p.others.slice(0, 3);
+  const all = [p.match, ...distractors].sort(() => Math.random() - 0.5);
+
+  const choicesEl = document.getElementById('match-choices');
+  choicesEl.innerHTML = '';
+  all.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c;
+    btn.onclick = () => answerMatch(c, btn);
+    choicesEl.appendChild(btn);
+  });
+
+  const pct = Math.round(((matchIdx + 1) / MATCH_DATA.length) * 100);
+  document.getElementById('match-label').textContent = `Round ${matchIdx + 1} of ${MATCH_DATA.length}`;
+  document.getElementById('match-bar').style.width = pct + '%';
+}
+
+function answerMatch(chosen, btn) {
+  if (matchAnswered) return;
+  matchAnswered = true;
+  const p = MATCH_DATA[matchIdx];
+  const correct = chosen === p.match;
+  if (correct) matchScore++;
+
+  document.querySelectorAll('#match-choices .choice-btn').forEach(b => {
+    b.onclick = null;
+    if (b.textContent === p.match) b.classList.add('correct');
+    else if (b === btn && !correct) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('match-feedback');
+  fb.textContent = correct ? `✅ Correct! "${p.term}" matches "${p.match}"` : `❌ The correct match is: "${p.match}"`;
+  fb.className = 'feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('match-next').className = 'next-btn show';
+}
+
+function nextMatch() {
+  if (matchIdx < MATCH_DATA.length - 1) {
+    matchIdx++;
+    loadMatch();
+    window.scrollTo(0, 0);
+  } else {
+    showMatchResult();
+  }
+}
+
+function showMatchResult() {
+  document.getElementById('match-result').style.display = 'block';
+  const pct = matchScore / MATCH_DATA.length;
+  document.getElementById('match-res-emoji').textContent = pct >= 0.9 ? '🏆' : pct >= 0.7 ? '🎉' : '💪';
+  document.getElementById('match-res-title').textContent = pct >= 0.9 ? 'Perfect Matches!' : pct >= 0.7 ? 'Great Work!' : 'Keep Practicing!';
+  document.getElementById('match-res-score').textContent = `${matchScore}/${MATCH_DATA.length}`;
+  save('dd_match', load('dd_match', 0) + matchScore);
+}
+
+// ── WRITTEN QUESTIONS ─────────────────────────────────────────────
+function initWritten() {
+  writIdx = 0; writScore = 0;
+  document.getElementById('writ-result').style.display = 'none';
+  loadWritten();
+}
+
+function loadWritten() {
+  const p = WRITTEN_DATA[writIdx];
+  document.getElementById('writ-question').textContent = p.q;
+  document.getElementById('writ-hint').textContent = `💡 Hint: ${p.hint}`;
+  document.getElementById('writ-hint').style.display = 'none';
+  document.getElementById('writ-answer').style.display = 'none';
+  document.getElementById('writ-answer').textContent = p.ans;
+  document.getElementById('writ-grade').style.display = 'none';
+  document.getElementById('writ-reveal').style.display = 'block';
+  document.querySelector('.hint-btn').style.display = 'block';
+
+  const pct = Math.round(((writIdx + 1) / WRITTEN_DATA.length) * 100);
+  document.getElementById('writ-label').textContent = `Question ${writIdx + 1} of ${WRITTEN_DATA.length}`;
+  document.getElementById('writ-bar').style.width = pct + '%';
+}
+
+function toggleHint() {
+  const h = document.getElementById('writ-hint');
+  h.style.display = h.style.display === 'none' ? 'block' : 'none';
+}
+
+function revealAnswer() {
+  document.getElementById('writ-answer').style.display = 'block';
+  document.getElementById('writ-grade').style.display = 'flex';
+  document.getElementById('writ-reveal').style.display = 'none';
+  document.querySelector('.hint-btn').style.display = 'none';
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+function gradeWritten(gotIt) {
+  if (gotIt) writScore++;
+  save('dd_writ', load('dd_writ', 0) + (gotIt ? 1 : 0));
+
+  if (writIdx < WRITTEN_DATA.length - 1) {
+    writIdx++;
+    loadWritten();
+    window.scrollTo(0, 0);
+  } else {
+    showWrittenResult();
+  }
+}
+
+function showWrittenResult() {
+  document.getElementById('writ-result').style.display = 'block';
+  document.getElementById('writ-question').style.display = 'none';
+  document.querySelector('.hint-btn').style.display = 'none';
+  document.getElementById('writ-reveal').style.display = 'none';
+
+  const pct = writScore / WRITTEN_DATA.length;
+  document.getElementById('writ-res-emoji').textContent = pct >= 0.8 ? '🏆' : pct >= 0.5 ? '🎉' : '💪';
+  document.getElementById('writ-res-title').textContent = pct >= 0.8 ? 'Sigma Sleuth Level!' : pct >= 0.5 ? 'Getting There!' : 'Keep Reviewing!';
+  document.getElementById('writ-res-score').textContent = `${writScore}/${WRITTEN_DATA.length}`;
 }
 
 // ── STATS MATH ────────────────────────────────────────────────────
