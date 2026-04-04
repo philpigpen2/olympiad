@@ -1425,29 +1425,122 @@ function shuffle(arr) {
   return arr;
 }
 
-function buildPool() {
-  const pool = [];
-  VOCAB.forEach((_, i) => pool.push({ type:'vocab', idx:i }));
-  TF_DATA.forEach((_, i) => pool.push({ type:'tf', idx:i }));
-  MATCH_DATA.forEach((_, i) => pool.push({ type:'match', idx:i }));
-  SCENARIOS.forEach((sc, si) => {
-    sc.questions.forEach((_, qi) => pool.push({ type:'sc', idx:si, qIdx:qi }));
-  });
-  MATH.forEach((_, i) => pool.push({ type:'math', idx:i }));
-  STATS_DATA.forEach((_, i) => pool.push({ type:'stats', idx:i }));
-  return shuffle(pool);
+// Shuffle bag: draw without replacement per type; refills when empty
+function drawBag(type, allItems) {
+  const key = 'dd_bag_' + type;
+  let bag = load(key, []);
+  if (bag.length === 0) {
+    bag = shuffle([...allItems]);
+  }
+  const item = bag.pop();
+  save(key, bag);
+  return item;
 }
 
-function getOrBuildPool() {
-  let pool = load('dd_pool', null);
-  let pos  = load('dd_pool_pos', 0);
-  if (!pool || pool.length === 0) {
-    pool = buildPool();
-    pos  = 0;
-    save('dd_pool', pool);
-    save('dd_pool_pos', pos);
+// ── GENERATORS — fresh questions every time ───────────────────────
+function genMath() {
+  const ri = n => Math.floor(Math.random() * n);
+  const exposedOpts = [20,25,30,35,40,45,50,60,70,80,90,100,120,150];
+  const pctOpts     = [10,15,20,25,30,35,40,45,50,55,60,65,70,75,80];
+  const exposed = exposedOpts[ri(exposedOpts.length)];
+  const pct     = pctOpts[ri(pctOpts.length)];
+  const sick    = Math.round(exposed * pct / 100);
+  const templates = [
+    `${exposed} students attended the end-of-year party. ${sick} reported stomach illness within 24 hours.`,
+    `${exposed} campers drank from the creek during a hike. ${sick} developed diarrhea that evening.`,
+    `${exposed} guests ate the hotel buffet breakfast. ${sick} reported nausea and vomiting later that day.`,
+    `${exposed} workers shared catered sandwiches at a meeting. ${sick} became ill within 6 hours.`,
+    `${exposed} children attended the birthday party. ${sick} developed symptoms of gastroenteritis.`,
+    `${exposed} people ate at the food truck festival. ${sick} were later confirmed ill with norovirus.`,
+    `${exposed} nursing home residents ate a shared meal. ${sick} developed fever and diarrhea overnight.`,
+    `${exposed} athletes shared a water cooler at the tournament. ${sick} reported illness the next day.`,
+    `${exposed} passengers ate airline food on a long flight. ${sick} reported vomiting upon landing.`,
+    `${exposed} picnic attendees shared a potluck meal. ${sick} called their doctor the next morning.`,
+    `${exposed} students ate the school cafeteria pasta. ${sick} reported stomach cramps by afternoon.`,
+    `${exposed} wedding guests ate the buffet dinner. ${sick} developed illness within 12 hours.`,
+    `${exposed} conference attendees shared boxed lunches. ${sick} were taken ill that evening.`,
+  ];
+  return { exposed, sick, context: templates[ri(templates.length)] };
+}
+
+function genStats() {
+  const ri  = n => Math.floor(Math.random() * n);
+  const rng = (lo, hi) => lo + ri(hi - lo + 1);
+  const typeOpts = ['mean', 'median', 'mode'];
+  const type = typeOpts[ri(3)];
+
+  const scOpts = [
+    { col:'Days Ill',        ctx:'The table shows how many days each patient was ill during the outbreak.' },
+    { col:'Hours to Onset',  ctx:'The table shows hours between exposure and when each patient developed symptoms.' },
+    { col:'Patient Age',     ctx:'The table shows the ages of confirmed cases in the outbreak investigation.' },
+    { col:'Cases per Day',   ctx:'The table shows the number of new cases reported each day of the outbreak.' },
+    { col:'Temperature (°F)',ctx:'The table shows the fever temperature recorded for each patient on admission.' },
+  ];
+  const sc = scOpts[ri(scOpts.length)];
+
+  let data, answer, explain, q;
+
+  if (type === 'mode') {
+    const modeVal = rng(2, 10);
+    const extras  = rng(4, 7);
+    data = [modeVal, modeVal, modeVal];
+    for (let i = 0; i < extras; i++) {
+      let v; do { v = rng(1, 12); } while (v === modeVal);
+      data.push(v);
+    }
+    shuffle(data);
+    answer  = modeVal;
+    explain = `The mode is the most frequent value. ${modeVal} appears 3 times — more than any other value.`;
+    q       = 'What is the MODE of this dataset?';
+  } else if (type === 'mean') {
+    const n = rng(5, 8);
+    data    = Array.from({length:n}, () => rng(1, 15));
+    const s = data.reduce((a,b) => a+b, 0);
+    answer  = Math.round(s / n * 10) / 10;
+    explain = `Mean = Sum ÷ Count = ${s} ÷ ${n} = ${answer}.`;
+    q       = 'What is the MEAN (average) of this dataset? Round to 1 decimal place.';
+  } else {
+    // even or odd count for median variety
+    const n = [5,6,7,8,9][ri(5)];
+    data    = Array.from({length:n}, () => rng(1, 20));
+    const sorted = [...data].sort((a,b) => a-b);
+    if (n % 2 === 1) {
+      answer  = sorted[Math.floor(n/2)];
+      explain = `Sort: ${sorted.join(', ')}. The middle value (#${Math.floor(n/2)+1}) is ${answer}.`;
+    } else {
+      const m1 = sorted[n/2 - 1], m2 = sorted[n/2];
+      answer  = Math.round((m1+m2)/2 * 10) / 10;
+      explain = `Sort: ${sorted.join(', ')}. Two middle values: ${m1} and ${m2}. Median = (${m1}+${m2}) ÷ 2 = ${answer}.`;
+    }
+    q = 'What is the MEDIAN of this dataset? (If two middle values, average them.)';
   }
-  return { pool, pos };
+
+  return { type, data, answer, explain, q, context: sc.ctx, colHeaders: ['#', sc.col] };
+}
+
+// Build today's 12 questions using bags + generators
+function buildTodayPool() {
+  const pool = [];
+  // Bags for fixed-content types
+  const vocabIdxs  = VOCAB.map((_,i) => i);
+  const tfIdxs     = TF_DATA.map((_,i) => i);
+  const matchIdxs  = MATCH_DATA.map((_,i) => i);
+  // Scenario refs: all {si, qi} combos
+  const scRefs = [];
+  SCENARIOS.forEach((sc,si) => sc.questions.forEach((_,qi) => scRefs.push({si,qi})));
+
+  for (let i = 0; i < 3; i++) pool.push({type:'vocab', idx: drawBag('vocab', vocabIdxs)});
+  for (let i = 0; i < 2; i++) pool.push({type:'tf',    idx: drawBag('tf',    tfIdxs)});
+  for (let i = 0; i < 2; i++) pool.push({type:'match', idx: drawBag('match', matchIdxs)});
+  const ref = drawBag('sc', scRefs);
+  pool.push({type:'sc', idx: ref.si, qIdx: ref.qi});
+  // Generated — always fresh
+  pool.push({type:'math',  gen: genMath()});
+  pool.push({type:'math',  gen: genMath()});
+  pool.push({type:'stats', gen: genStats()});
+  pool.push({type:'stats', gen: genStats()});
+
+  return shuffle(pool);
 }
 
 function isTodayDone() {
@@ -1462,28 +1555,12 @@ function isTodayStarted() {
 
 function startDailySession() {
   const today = new Date().toDateString();
-  // If new day or no session yet, assign today's questions
   if (!isTodayStarted()) {
-    const { pool, pos } = getOrBuildPool();
-    let actualPos = pos;
-    // If pool is exhausted, reshuffle
-    if (actualPos + 12 > pool.length) {
-      const newPool = buildPool();
-      save('dd_pool', newPool);
-      save('dd_pool_pos', 0);
-      actualPos = 0;
-      save('dd_today_reshuffled', true);
-    } else {
-      save('dd_today_reshuffled', false);
-    }
-    const freshPool = load('dd_pool', []);
-    const todayQs = freshPool.slice(actualPos, actualPos + 12);
-    save('dd_today_date', today);
-    save('dd_today_qs', todayQs);
-    save('dd_today_pos', 0);
+    save('dd_today_date',  today);
+    save('dd_today_qs',    buildTodayPool());
+    save('dd_today_pos',   0);
     save('dd_today_score', 0);
-    save('dd_today_done', false);
-    save('dd_pool_pos', actualPos + 12);
+    save('dd_today_done',  false);
   }
   showScreen('session');
 }
@@ -1653,7 +1730,7 @@ function sessSolveSc(idx, btn, qData) {
 }
 
 function loadSessMath(q) {
-  const p = MATH[q.idx];
+  const p = q.gen || MATH[q.idx];
   document.getElementById('sess-math-problem').textContent = p.context;
   document.getElementById('sess-math-input').value = '';
   document.getElementById('sess-math-input').disabled = false;
@@ -1667,7 +1744,7 @@ function checkSessMath() {
   const pos = load('dd_today_pos', 0);
   const todayQs = load('dd_today_qs', []);
   const q = todayQs[pos];
-  const p = MATH[q.idx];
+  const p = q.gen || MATH[q.idx];
   const answer = Math.round((p.sick / p.exposed) * 100);
   const userVal = parseInt(document.getElementById('sess-math-input').value, 10);
   if (isNaN(userVal)) { alert('Enter a number!'); return; }
@@ -1685,7 +1762,7 @@ function checkSessMath() {
 }
 
 function loadSessStats(q) {
-  const p = STATS_DATA[q.idx];
+  const p = q.gen || STATS_DATA[q.idx];
   const formulas = {
     mean:   'Mean = (Sum of all values) ÷ (Count of values)',
     median: 'Median = Middle value when sorted low → high',
@@ -1717,7 +1794,7 @@ function checkSessStats() {
   const pos = load('dd_today_pos', 0);
   const todayQs = load('dd_today_qs', []);
   const q = todayQs[pos];
-  const p = STATS_DATA[q.idx];
+  const p = q.gen || STATS_DATA[q.idx];
   const userVal = parseFloat(document.getElementById('sess-stats-input').value);
   if (isNaN(userVal)) { alert('Enter a number!'); return; }
 
@@ -1769,14 +1846,6 @@ function completeTodaySession() {
   document.getElementById('sess-label').textContent = 'Session complete!';
   document.getElementById('sess-bar').style.width = '100%';
 
-  const reshuffled = load('dd_today_reshuffled', false);
-  if (reshuffled) {
-    const note = document.querySelector('#sess-done .sess-done-card');
-    const extra = document.createElement('div');
-    extra.style.cssText = 'font-size:0.82rem;color:#f5a623;margin-top:10px';
-    extra.textContent = "You've completed all questions! Starting a new round 🔄";
-    note.appendChild(extra);
-  }
 }
 
 // ── FLASHCARDS ────────────────────────────────────────────────────
