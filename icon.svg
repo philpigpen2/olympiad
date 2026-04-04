@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="100" fill="#1a1a2e"/>
+  
+  <!-- Virus body -->
+  <circle cx="210" cy="200" r="90" fill="#e94560" opacity="0.95"/>
+  <circle cx="210" cy="200" r="60" fill="#c73652"/>
+  
+  <!-- Virus spikes -->
+  <g fill="#e94560" opacity="0.9">
+    <ellipse cx="210" cy="88" rx="12" ry="22" />
+    <ellipse cx="210" cy="312" rx="12" ry="22" />
+    <ellipse cx="98" cy="200" rx="22" ry="12" />
+    <ellipse cx="322" cy="200" rx="22" ry="12" />
+    <ellipse cx="131" cy="121" rx="12" ry="22" transform="rotate(-45 131 121)"/>
+    <ellipse cx="289" cy="279" rx="12" ry="22" transform="rotate(-45 289 279)"/>
+    <ellipse cx="289" cy="121" rx="12" ry="22" transform="rotate(45 289 121)"/>
+    <ellipse cx="131" cy="279" rx="12" ry="22" transform="rotate(45 131 279)"/>
+  </g>
+  
+  <!-- Virus dots -->
+  <circle cx="210" cy="200" r="18" fill="#ff6b7a"/>
+  <circle cx="175" cy="170" r="10" fill="#ff6b7a" opacity="0.7"/>
+  <circle cx="245" cy="225" r="8" fill="#ff6b7a" opacity="0.7"/>
+  
+  <!-- Magnifying glass handle -->
+  <line x1="275" y1="265" x2="400" y2="390" stroke="#f5a623" stroke-width="36" stroke-linecap="round"/>
+  <line x1="275" y1="265" x2="400" y2="390" stroke="#ffc145" stroke-width="20" stroke-linecap="round"/>
+
+  <!-- Magnifying glass ring -->
+  <circle cx="210" cy="200" r="110" fill="none" stroke="#f5a623" stroke-width="22"/>
+  <circle cx="210" cy="200" r="110" fill="none" stroke="#ffc145" stroke-width="10"/>
+  
+  <!-- Detective hat -->
+  <ellipse cx="210" cy="125" rx="70" ry="12" fill="#16213e"/>
+  <rect x="155" y="68" width="110" height="58" rx="10" fill="#16213e"/>
+  <rect x="145" y="118" width="130" height="14" rx="4" fill="#0f3460"/>
+  
+  <!-- Eyes on virus - fun face -->
+  <circle cx="190" cy="195" r="12" fill="white"/>
+  <circle cx="232" cy="195" r="12" fill="white"/>
+  <circle cx="193" cy="197" r="6" fill="#1a1a2e"/>
+  <circle cx="235" cy="197" r="6" fill="#1a1a2e"/>
+  <path d="M188 220 Q210 235 232 220" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+</svg>
