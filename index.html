@@ -151,14 +151,14 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <span class="mode-icon">📚</span>
     <div class="mode-info">
       <div class="mode-label">Flashcards</div>
-      <div class="mode-desc">30 vocab terms · tap to flip</div>
+      <div class="mode-desc">45 vocab terms · tap to flip</div>
     </div>
   </button>
   <button class="mode-btn red" onclick="showScreen('scenarios')">
     <span class="mode-icon">🕵️</span>
     <div class="mode-info">
       <div class="mode-label">Outbreak Scenarios</div>
-      <div class="mode-desc">5 mysteries to solve</div>
+      <div class="mode-desc">8 mysteries · pathogens + control measures</div>
     </div>
   </button>
   <button class="mode-btn green" onclick="showScreen('math')">
@@ -199,7 +199,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <div class="screen-title">📚 Flashcards</div>
   </div>
   <div class="progress-wrap">
-    <div class="progress-label" id="fc-label">Card 1 of 25</div>
+    <div class="progress-label" id="fc-label">Card 1 of 45</div>
     <div class="progress-bar"><div class="progress-fill" id="fc-bar" style="width:4%"></div></div>
   </div>
   <div class="card-scene">
@@ -421,7 +421,22 @@ const VOCAB = [
   { term:"Median",          def:"The MIDDLE value — sort all numbers from low to high, pick the one in the center" },
   { term:"Mode",            def:"The MOST COMMON value — the number that appears the most times in the data" },
   { term:"Line List",       def:"A big table listing each case with details like what they ate, when they got sick, and where they were" },
-  { term:"Relative Risk",   def:"How many times more likely exposed people got sick vs unexposed people: AR(exposed) ÷ AR(unexposed)" }
+  { term:"Relative Risk",   def:"How many times more likely exposed people got sick vs unexposed people: AR(exposed) ÷ AR(unexposed)" },
+  { term:"Surveillance",    def:"Ongoing, systematic collection of health data to watch for disease patterns and outbreaks" },
+  { term:"Notifiable Disease", def:"A disease that doctors and labs are legally REQUIRED to report to public health authorities (like CDC)" },
+  { term:"Control Measures", def:"Actions taken to stop or reduce the spread of disease — like closing a restaurant, issuing a recall, or quarantining people" },
+  { term:"Quarantine",      def:"Restricting movement of people who were EXPOSED but are NOT yet sick — to see if they develop disease" },
+  { term:"Isolation",       def:"Separating people who ARE ALREADY SICK from healthy people so they can't spread the disease" },
+  { term:"Fomite",          def:"An object (doorknob, phone, towel) that carries germs and can spread disease when touched" },
+  { term:"Salmonella",      def:"Bacteria found in raw poultry, eggs, and reptiles. Causes fever, diarrhea, cramps. Incubation: 6–72 hours." },
+  { term:"Norovirus",       def:"Highly contagious virus causing sudden vomiting + diarrhea. Spreads person-to-person AND via contaminated food/surfaces." },
+  { term:"E. coli O157:H7", def:"Dangerous bacteria from undercooked beef and unpasteurized juice. Can cause bloody diarrhea and kidney failure." },
+  { term:"Listeria",        def:"Bacteria in deli meats and soft cheese. Dangerous for pregnant women. Survives refrigeration — rare but deadly." },
+  { term:"Campylobacter",   def:"Most common foodborne bacteria in the US. Found in raw poultry. Incubation: 2–5 days. Causes bloody diarrhea." },
+  { term:"Arbovirus",       def:"Viruses spread by ARTHROPOD BITES (mosquitoes, ticks). Examples: West Nile, Dengue, Zika, Chikungunya" },
+  { term:"Case-Control Study", def:"Compares SICK people (cases) to HEALTHY people (controls) who look similar, to figure out what caused the illness" },
+  { term:"Cohort Study",    def:"Follows a group of people over time to see who gets sick and why — like watching everyone at a party for a week" },
+  { term:"Secondary Attack Rate", def:"How many new cases develop from exposure to a SINGLE index case in a group — measures how contagious the disease is" }
 ];
 
 const SCENARIOS = [
@@ -459,6 +474,27 @@ const SCENARIOS = [
       { q:"What is the attack rate?", choices:["36%","90%","40%","25%"], correct:2, explain:"36 sick ÷ 90 exposed × 100 = 40%!" },
       { q:"What type of illness is this?", choices:["Foodborne","Airborne","Waterborne","Vector-borne"], correct:2, explain:"It spread through contaminated drinking water = waterborne illness!" },
       { q:"What was the most likely contamination source?", choices:["A sick student","The repaired pipe","A mosquito","The cafeteria"], correct:1, explain:"The repair likely introduced contamination into the fountain's pipes!" }
+    ]},
+  { title:"The Thanksgiving Turkey", emoji:"🦃",
+    story:"After Thanksgiving dinner, 12 family members got sick with fever, stomach cramps, and watery diarrhea that lasted 5 days. Symptoms started 18–36 hours after the meal. The turkey had been left out for 4 hours before serving.",
+    questions:[
+      { q:"Which pathogen is MOST likely responsible?", choices:["Norovirus","Salmonella","Listeria","E. coli O157:H7"], correct:1, explain:"Salmonella lives in poultry, has a 6–72 hour incubation, and causes exactly this symptom profile. Leaving turkey out at room temperature let it multiply to dangerous levels!" },
+      { q:"What type of outbreak is this?", choices:["Propagated — spread person to person","Point source — one contaminated meal","Vector-borne — spread by insects","Endemic — always present"], correct:1, explain:"Everyone got sick from ONE shared meal at ONE time = classic point source outbreak!" },
+      { q:"What should the health department do FIRST after confirming the source?", choices:["Arrest everyone at the dinner","Quarantine the whole neighborhood","Educate the family on safe food handling and temperatures","Give everyone antibiotics immediately"], correct:2, explain:"Control measures for foodborne outbreaks focus on education, safe handling (cook to 165°F, don't leave food out >2 hours), and preventing future illness. Antibiotics aren't always needed!" }
+    ]},
+  { title:"The Cruise Ship Nightmare", emoji:"🚢",
+    story:"On a 7-day cruise with 2,000 passengers, 340 people got sick over 5 days. Symptoms hit suddenly: explosive vomiting, diarrhea, stomach cramps. Illness lasted only 1–2 days. Sick passengers used shared bathrooms.",
+    questions:[
+      { q:"Which pathogen BEST matches this description?", choices:["Salmonella","Campylobacter","Norovirus","Listeria"], correct:2, explain:"Norovirus! Clues: sudden onset, vomiting + diarrhea, only 1-2 days duration, highly contagious in close quarters. Norovirus is the #1 cause of cruise ship outbreaks." },
+      { q:"What is the attack rate among passengers?", choices:["7%","17%","34%","51%"], correct:1, explain:"340 sick ÷ 2,000 passengers × 100 = 17%. That's a lot of people from one highly contagious virus!" },
+      { q:"Which control measure would BEST stop further spread on the ship?", choices:["Close the restaurants only","Deep-clean all surfaces with bleach and isolate sick passengers","Vaccinate everyone onboard","Test everyone's blood for the virus"], correct:1, explain:"Norovirus spreads via contaminated surfaces (fomites!) AND person-to-person. Deep cleaning + isolation of sick passengers is the key control measure. It survives many regular cleaners — needs bleach!" }
+    ]},
+  { title:"The Deli Counter", emoji:"🥪",
+    story:"Over 3 weeks, 8 people in the same county developed serious illness: high fever, muscle aches, and stiff neck. All 8 had eaten deli meats from the same grocery store. Three patients were pregnant women. Two patients died.",
+    questions:[
+      { q:"Which pathogen is MOST likely responsible?", choices:["Salmonella","E. coli O157:H7","Listeria monocytogenes","Campylobacter"], correct:2, explain:"Listeria! Red flags: deli meats, pregnant women affected (Listeria is especially dangerous for them), stiff neck (can cause meningitis), high mortality, and slow spread over weeks. Listeria is cold-tolerant — survives in the refrigerator!" },
+      { q:"Why did cases appear over 3 weeks instead of all at once?", choices:["The disease spread person to person","Listeria has a very long incubation period of 1–4 weeks","The deli ran out of food slowly","People ate the food at different times over 3 weeks"], correct:1, explain:"Listeria has an incubation period of 1–4 WEEKS — much longer than most foodborne pathogens. People who ate the deli meat weeks earlier are still getting sick!" },
+      { q:"What surveillance system would MOST likely catch this cluster?", choices:["FoodNet — CDC's active foodborne illness surveillance system","A school nurse tracking absences","Hospital emergency rooms comparing notes","Twitter trending topics"], correct:0, explain:"FoodNet is the CDC's Foodborne Diseases Active Surveillance Network. It monitors 10 US sites to detect exactly these kinds of clusters across multiple counties. This is real CDC surveillance in action!" }
     ]}
 ];
 
