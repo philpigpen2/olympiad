@@ -842,127 +842,127 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 <script>
 // ── DATA ──────────────────────────────────────────────────────────
 const VOCAB = [
-  { term:"Epidemic",        def:"A disease that quickly spreads to LOTS of people in an area at the same time" },
-  { term:"Endemic",         def:"A disease that is ALWAYS present in a certain place or population" },
-  { term:"Pandemic",        def:"An epidemic that spreads across the WHOLE WORLD" },
-  { term:"Outbreak",        def:"A sudden surprise jump in disease cases in a specific area" },
-  { term:"Incubation Period",def:"The waiting time between catching a germ and starting to feel sick" },
-  { term:"Transmission",    def:"How a disease travels from one person (or animal) to another" },
-  { term:"Vector",          def:"An animal that carries and spreads disease — like a mosquito or tick!" },
-  { term:"Host",            def:"The person or animal that a germ lives and grows inside" },
-  { term:"Attack Rate",     def:"How many people got sick out of everyone exposed: (Sick ÷ Exposed) × 100" },
-  { term:"Case Definition", def:"The checklist scientists use to decide if someone officially HAS the disease" },
-  { term:"Index Case",      def:"The VERY FIRST person known to get sick in an outbreak" },
-  { term:"Epidemic Curve",  def:"A bar graph showing how many people got sick each day — reveals the outbreak pattern" },
-  { term:"Point Source Outbreak", def:"Everyone got sick from ONE source at ONE time (like bad potato salad at a party)" },
-  { term:"Propagated Outbreak",   def:"Disease keeps jumping person-to-person in waves over days or weeks" },
-  { term:"Morbidity",       def:"How many people got SICK — the illness rate in a population" },
-  { term:"Mortality",       def:"How many people DIED from a disease" },
-  { term:"Pathogen",        def:"A tiny germ that causes disease — could be a virus, bacteria, or parasite" },
-  { term:"Reservoir",       def:"Where the pathogen normally hides and lives between outbreaks" },
-  { term:"Incidence",       def:"The number of BRAND NEW cases appearing in a set time period" },
-  { term:"Prevalence",      def:"ALL cases — old and new — at one moment in time" },
-  { term:"Zoonosis",        def:"A disease that jumped from ANIMALS to humans (like rabies or bird flu)" },
-  { term:"Herd Immunity",   def:"When so many people are immune, the germ cannot find enough new victims to spread" },
-  { term:"Foodborne Illness",def:"Getting sick from eating contaminated food" },
-  { term:"Waterborne Illness",def:"Getting sick from drinking or swimming in contaminated water" },
-  { term:"Contact Tracing", def:"Hunting down everyone who may have been near a sick person to stop the spread" },
-  { term:"Mean",            def:"The AVERAGE — add all the values together, then divide by how many there are" },
-  { term:"Median",          def:"The MIDDLE value — sort all numbers from low to high, pick the one in the center" },
-  { term:"Mode",            def:"The MOST COMMON value — the number that appears the most times in the data" },
-  { term:"Line List",       def:"A big table listing each case with details like what they ate, when they got sick, and where they were" },
-  { term:"Relative Risk",   def:"How many times more likely exposed people got sick vs unexposed people: AR(exposed) ÷ AR(unexposed)" },
-  { term:"Surveillance",    def:"Ongoing, systematic collection of health data to watch for disease patterns and outbreaks" },
-  { term:"Notifiable Disease", def:"A disease that doctors and labs are legally REQUIRED to report to public health authorities (like CDC)" },
-  { term:"Control Measures", def:"Actions taken to stop or reduce the spread of disease — like closing a restaurant, issuing a recall, or quarantining people" },
-  { term:"Quarantine",      def:"Restricting movement of people who were EXPOSED but are NOT yet sick — to see if they develop disease" },
-  { term:"Isolation",       def:"Separating people who ARE ALREADY SICK from healthy people so they can't spread the disease" },
-  { term:"Fomite",          def:"An object (doorknob, phone, towel) that carries germs and can spread disease when touched" },
-  { term:"Salmonella",      def:"Bacteria found in raw poultry, eggs, and reptiles. Causes fever, diarrhea, cramps. Incubation: 6–72 hours." },
-  { term:"Norovirus",       def:"Highly contagious virus causing sudden vomiting + diarrhea. Spreads person-to-person AND via contaminated food/surfaces." },
-  { term:"E. coli O157:H7", def:"Dangerous bacteria from undercooked beef and unpasteurized juice. Can cause bloody diarrhea and kidney failure." },
-  { term:"Listeria",        def:"Bacteria in deli meats and soft cheese. Dangerous for pregnant women. Survives refrigeration — rare but deadly." },
-  { term:"Campylobacter",   def:"Most common foodborne bacteria in the US. Found in raw poultry. Incubation: 2–5 days. Causes bloody diarrhea." },
-  { term:"Arbovirus",       def:"Viruses spread by ARTHROPOD BITES (mosquitoes, ticks). Examples: West Nile, Dengue, Zika, Chikungunya" },
-  { term:"Case-Control Study", def:"Compares SICK people (cases) to HEALTHY people (controls) who look similar, to figure out what caused the illness" },
-  { term:"Cohort Study",    def:"Follows a group of people over time to see who gets sick and why — like watching everyone at a party for a week" },
-  { term:"Secondary Attack Rate", def:"How many new cases develop from exposure to a SINGLE index case in a group — measures how contagious the disease is" },
-  { term:"Giardia",         def:"Parasite found in untreated streams and rivers ('beaver fever'). Causes bloating, greasy diarrhea. Spread by swallowing contaminated water." },
-  { term:"Influenza",       def:"Respiratory virus spread by droplets (coughing/sneezing). Causes fever, body aches, fatigue. Prevented by annual vaccine." },
-  { term:"Cholera",         def:"Bacteria (Vibrio cholerae) in contaminated water. Causes rice-water diarrhea so severe it can kill by dehydration within hours." },
-  { term:"Hepatitis A",     def:"Virus spread via contaminated food and water. Attacks the liver — causes jaundice (yellow skin/eyes). Vaccine-preventable." },
-  { term:"Staph aureus",    def:"Bacteria that produces a TOXIN in food left at room temperature. Causes vomiting within 1–6 hours. The toxin — not the bacteria — makes you sick." },
-  { term:"Botulism",        def:"Caused by toxin from Clostridium botulinum in improperly canned/sealed foods. Causes paralysis. Rare but extremely dangerous." },
-  { term:"Shigella",        def:"Bacteria spread person-to-person with an extremely low infectious dose (just 10 cells!). Causes bloody diarrhea. Common in daycares." },
-  { term:"High-Risk Foods", def:"Foods most likely to cause illness: raw poultry, undercooked beef, raw shellfish, soft cheese, deli meats, unpasteurized milk/juice, improperly canned foods" },
-  { term:"Temperature Danger Zone", def:"40°F–140°F (4°C–60°C) — the range where bacteria multiply fastest. Never leave food in this zone for more than 2 hours!" },
-  { term:"Cross-Contamination", def:"When germs spread from raw food (like chicken) to other foods via hands, surfaces, or utensils. A major cause of foodborne illness." },
-  { term:"Chain of Infection",  def:"The 6-link chain disease needs to spread: Pathogen → Reservoir → Portal of Exit → Mode of Transmission → Portal of Entry → Susceptible Host. Break any link = stop the disease!" },
-  { term:"Portal of Exit",      def:"How a pathogen LEAVES the body — coughing, sneezing, diarrhea, blood, skin sores. Breaking this link (e.g., covering coughs) stops spread." },
-  { term:"Portal of Entry",     def:"How a pathogen ENTERS a new host — mouth, nose, eyes, broken skin, or bites. Breaking this link (e.g., hand washing) stops spread." },
-  { term:"Bacteria",            def:"Single-celled living organisms. Can reproduce on their own. Examples: Salmonella, E. coli, Listeria. Most can be killed by antibiotics." },
-  { term:"Virus",               def:"Tiny non-living particle that needs to hijack a living cell to reproduce. Examples: Norovirus, Influenza, Hepatitis A. Antibiotics DON'T work on viruses." },
-  { term:"Parasite",            def:"An organism that lives on or inside a host and feeds off it. Examples: Giardia, Cryptosporidium, tapeworms. Often waterborne or vector-borne." },
-  { term:"Fungi",               def:"Organisms like mold and yeast that can cause infections. Examples: ringworm, athlete's foot, Valley Fever. Less common in foodborne illness." },
-  { term:"Koch's Postulates",   def:"4 rules to prove a germ causes a disease: 1) Find germ in all sick cases. 2) Isolate it. 3) Make a healthy animal sick with it. 4) Re-isolate the same germ." },
-  { term:"Association vs. Causation", def:"Association = two things happen together (eating X AND getting sick). Causation = one CAUSES the other. A high Relative Risk suggests causation but doesn't prove it alone." },
-  { term:"Spot Map",            def:"A map showing WHERE cases are located. Clusters on a spot map help investigators identify the geographic source of an outbreak." },
-  { term:"Breaking the Chain",  def:"Stopping disease spread by targeting any link in the Chain of Infection — vaccination (host), cooking food (pathogen), chlorinating water (transmission), masks (portal of exit)" },
-  { term:"Incubation Period",   def:"The time between getting infected and showing symptoms. Knowing this helps investigators figure out WHEN and WHERE exposure happened." }
+  { term:"Epidemic",        def:"A disease that quickly spreads to LOTS of people in an area at the same time", c:'epi_terms' },
+  { term:"Endemic",         def:"A disease that is ALWAYS present in a certain place or population", c:'epi_terms' },
+  { term:"Pandemic",        def:"An epidemic that spreads across the WHOLE WORLD", c:'epi_terms' },
+  { term:"Outbreak",        def:"A sudden surprise jump in disease cases in a specific area", c:'epi_terms' },
+  { term:"Incubation Period",def:"The waiting time between catching a germ and starting to feel sick", c:'epi_terms' },
+  { term:"Transmission",    def:"How a disease travels from one person (or animal) to another", c:'transmission' },
+  { term:"Vector",          def:"An animal that carries and spreads disease — like a mosquito or tick!", c:'transmission' },
+  { term:"Host",            def:"The person or animal that a germ lives and grows inside", c:'transmission' },
+  { term:"Attack Rate",     def:"How many people got sick out of everyone exposed: (Sick ÷ Exposed) × 100", c:'epi_terms' },
+  { term:"Case Definition", def:"The checklist scientists use to decide if someone officially HAS the disease", c:'investigation' },
+  { term:"Index Case",      def:"The VERY FIRST person known to get sick in an outbreak", c:'investigation' },
+  { term:"Epidemic Curve",  def:"A bar graph showing how many people got sick each day — reveals the outbreak pattern", c:'investigation' },
+  { term:"Point Source Outbreak", def:"Everyone got sick from ONE source at ONE time (like bad potato salad at a party)", c:'investigation' },
+  { term:"Propagated Outbreak",   def:"Disease keeps jumping person-to-person in waves over days or weeks", c:'investigation' },
+  { term:"Morbidity",       def:"How many people got SICK — the illness rate in a population", c:'epi_terms' },
+  { term:"Mortality",       def:"How many people DIED from a disease", c:'epi_terms' },
+  { term:"Pathogen",        def:"A tiny germ that causes disease — could be a virus, bacteria, or parasite", c:'transmission' },
+  { term:"Reservoir",       def:"Where the pathogen normally hides and lives between outbreaks", c:'transmission' },
+  { term:"Incidence",       def:"The number of BRAND NEW cases appearing in a set time period", c:'epi_terms' },
+  { term:"Prevalence",      def:"ALL cases — old and new — at one moment in time", c:'epi_terms' },
+  { term:"Zoonosis",        def:"A disease that jumped from ANIMALS to humans (like rabies or bird flu)", c:'transmission' },
+  { term:"Herd Immunity",   def:"When so many people are immune, the germ cannot find enough new victims to spread", c:'control' },
+  { term:"Foodborne Illness",def:"Getting sick from eating contaminated food", c:'transmission' },
+  { term:"Waterborne Illness",def:"Getting sick from drinking or swimming in contaminated water", c:'transmission' },
+  { term:"Contact Tracing", def:"Hunting down everyone who may have been near a sick person to stop the spread", c:'control' },
+  { term:"Mean",            def:"The AVERAGE — add all the values together, then divide by how many there are", c:'stats' },
+  { term:"Median",          def:"The MIDDLE value — sort all numbers from low to high, pick the one in the center", c:'stats' },
+  { term:"Mode",            def:"The MOST COMMON value — the number that appears the most times in the data", c:'stats' },
+  { term:"Line List",       def:"A big table listing each case with details like what they ate, when they got sick, and where they were", c:'investigation' },
+  { term:"Relative Risk",   def:"How many times more likely exposed people got sick vs unexposed people: AR(exposed) ÷ AR(unexposed)", c:'epi_terms' },
+  { term:"Surveillance",    def:"Ongoing, systematic collection of health data to watch for disease patterns and outbreaks", c:'investigation' },
+  { term:"Notifiable Disease", def:"A disease that doctors and labs are legally REQUIRED to report to public health authorities (like CDC)", c:'investigation' },
+  { term:"Control Measures", def:"Actions taken to stop or reduce the spread of disease — like closing a restaurant, issuing a recall, or quarantining people", c:'control' },
+  { term:"Quarantine",      def:"Restricting movement of people who were EXPOSED but are NOT yet sick — to see if they develop disease", c:'control' },
+  { term:"Isolation",       def:"Separating people who ARE ALREADY SICK from healthy people so they can't spread the disease", c:'control' },
+  { term:"Fomite",          def:"An object (doorknob, phone, towel) that carries germs and can spread disease when touched", c:'transmission' },
+  { term:"Salmonella",      def:"Bacteria found in raw poultry, eggs, and reptiles. Causes fever, diarrhea, cramps. Incubation: 6–72 hours.", c:'pathogen' },
+  { term:"Norovirus",       def:"Highly contagious virus causing sudden vomiting + diarrhea. Spreads person-to-person AND via contaminated food/surfaces.", c:'pathogen' },
+  { term:"E. coli O157:H7", def:"Dangerous bacteria from undercooked beef and unpasteurized juice. Can cause bloody diarrhea and kidney failure.", c:'pathogen' },
+  { term:"Listeria",        def:"Bacteria in deli meats and soft cheese. Dangerous for pregnant women. Survives refrigeration — rare but deadly.", c:'pathogen' },
+  { term:"Campylobacter",   def:"Most common foodborne bacteria in the US. Found in raw poultry. Incubation: 2–5 days. Causes bloody diarrhea.", c:'pathogen' },
+  { term:"Arbovirus",       def:"Viruses spread by ARTHROPOD BITES (mosquitoes, ticks). Examples: West Nile, Dengue, Zika, Chikungunya", c:'pathogen' },
+  { term:"Case-Control Study", def:"Compares SICK people (cases) to HEALTHY people (controls) who look similar, to figure out what caused the illness", c:'investigation' },
+  { term:"Cohort Study",    def:"Follows a group of people over time to see who gets sick and why — like watching everyone at a party for a week", c:'investigation' },
+  { term:"Secondary Attack Rate", def:"How many new cases develop from exposure to a SINGLE index case in a group — measures how contagious the disease is", c:'epi_terms' },
+  { term:"Giardia",         def:"Parasite found in untreated streams and rivers ('beaver fever'). Causes bloating, greasy diarrhea. Spread by swallowing contaminated water.", c:'pathogen' },
+  { term:"Influenza",       def:"Respiratory virus spread by droplets (coughing/sneezing). Causes fever, body aches, fatigue. Prevented by annual vaccine.", c:'pathogen' },
+  { term:"Cholera",         def:"Bacteria (Vibrio cholerae) in contaminated water. Causes rice-water diarrhea so severe it can kill by dehydration within hours.", c:'pathogen' },
+  { term:"Hepatitis A",     def:"Virus spread via contaminated food and water. Attacks the liver — causes jaundice (yellow skin/eyes). Vaccine-preventable.", c:'pathogen' },
+  { term:"Staph aureus",    def:"Bacteria that produces a TOXIN in food left at room temperature. Causes vomiting within 1–6 hours. The toxin — not the bacteria — makes you sick.", c:'pathogen' },
+  { term:"Botulism",        def:"Caused by toxin from Clostridium botulinum in improperly canned/sealed foods. Causes paralysis. Rare but extremely dangerous.", c:'pathogen' },
+  { term:"Shigella",        def:"Bacteria spread person-to-person with an extremely low infectious dose (just 10 cells!). Causes bloody diarrhea. Common in daycares.", c:'pathogen' },
+  { term:"High-Risk Foods", def:"Foods most likely to cause illness: raw poultry, undercooked beef, raw shellfish, soft cheese, deli meats, unpasteurized milk/juice, improperly canned foods", c:'pathogen' },
+  { term:"Temperature Danger Zone", def:"40°F–140°F (4°C–60°C) — the range where bacteria multiply fastest. Never leave food in this zone for more than 2 hours!", c:'control' },
+  { term:"Cross-Contamination", def:"When germs spread from raw food (like chicken) to other foods via hands, surfaces, or utensils. A major cause of foodborne illness.", c:'transmission' },
+  { term:"Chain of Infection",  def:"The 6-link chain disease needs to spread: Pathogen → Reservoir → Portal of Exit → Mode of Transmission → Portal of Entry → Susceptible Host. Break any link = stop the disease!", c:'transmission' },
+  { term:"Portal of Exit",      def:"How a pathogen LEAVES the body — coughing, sneezing, diarrhea, blood, skin sores. Breaking this link (e.g., covering coughs) stops spread.", c:'transmission' },
+  { term:"Portal of Entry",     def:"How a pathogen ENTERS a new host — mouth, nose, eyes, broken skin, or bites. Breaking this link (e.g., hand washing) stops spread.", c:'transmission' },
+  { term:"Bacteria",            def:"Single-celled living organisms. Can reproduce on their own. Examples: Salmonella, E. coli, Listeria. Most can be killed by antibiotics.", c:'pathogen' },
+  { term:"Virus",               def:"Tiny non-living particle that needs to hijack a living cell to reproduce. Examples: Norovirus, Influenza, Hepatitis A. Antibiotics DON'T work on viruses.", c:'pathogen' },
+  { term:"Parasite",            def:"An organism that lives on or inside a host and feeds off it. Examples: Giardia, Cryptosporidium, tapeworms. Often waterborne or vector-borne.", c:'pathogen' },
+  { term:"Fungi",               def:"Organisms like mold and yeast that can cause infections. Examples: ringworm, athlete's foot, Valley Fever. Less common in foodborne illness.", c:'pathogen' },
+  { term:"Koch's Postulates",   def:"4 rules to prove a germ causes a disease: 1) Find germ in all sick cases. 2) Isolate it. 3) Make a healthy animal sick with it. 4) Re-isolate the same germ.", c:'transmission' },
+  { term:"Association vs. Causation", def:"Association = two things happen together (eating X AND getting sick). Causation = one CAUSES the other. A high Relative Risk suggests causation but doesn't prove it alone.", c:'investigation' },
+  { term:"Spot Map",            def:"A map showing WHERE cases are located. Clusters on a spot map help investigators identify the geographic source of an outbreak.", c:'investigation' },
+  { term:"Breaking the Chain",  def:"Stopping disease spread by targeting any link in the Chain of Infection — vaccination (host), cooking food (pathogen), chlorinating water (transmission), masks (portal of exit)", c:'transmission' },
+  { term:"Incubation Period",   def:"The time between getting infected and showing symptoms. Knowing this helps investigators figure out WHEN and WHERE exposure happened.", c:'epi_terms' }
 ];
 
 // SCENARIOS — updated to harder difficulty (more plausible distractors, causation vs association, next steps)
 const SCENARIOS = [
-  { title:"The Cafeteria Mystery", emoji:"🍝",
+  { title:"The Cafeteria Mystery", emoji:"🍝", concept:'investigation',
     story:"On Tuesday, 40 students ate pasta salad at lunch. By Wednesday morning, 24 had vomiting and diarrhea. Of the 35 students who drank the school's flavored lemonade that day, 21 also reported illness. Pizza eaters who skipped both items had a 5% attack rate.",
     questions:[
       { q:"The attack rate for pasta salad eaters is 60% and for lemonade drinkers is 60%. What is the BEST next step to identify the true source?", choices:["Shut down both the pasta salad and lemonade immediately and interview no further","Check whether the same students ate BOTH pasta salad and lemonade — the true source affects both groups","Assume lemonade is safe because it's a drink, not a food","Conclude it must be airborne since so many got sick"], correct:1, explain:"When two items show similar high attack rates, investigators must determine whether ill students consumed BOTH items. If pasta salad and lemonade were served together, one may be the true cause while the other is merely associated — this is confounding!" },
       { q:"The attack rate among students who ate ONLY pasta salad (no lemonade) was 58%. The attack rate among students who drank ONLY lemonade (no pasta salad) was 8%. What does this suggest?", choices:["Lemonade is still equally suspect — attack rates are always unreliable","Pasta salad is the more likely culprit; lemonade's apparent high rate was due to students consuming both","Both items were definitely co-contaminated from the same source","The 8% lemonade rate is too high to rule it out"], correct:1, explain:"When you separate the groups, lemonade-only students had only 8% attack rate — close to baseline. Pasta salad-only students had 58%. This stratified analysis points to pasta salad as the true source. Lemonade's association was confounded by students eating both." },
       { q:"What type of outbreak pattern would you expect on the epidemic curve for this event?", choices:["Gradual rise over 2 weeks then slow decline","Single sharp spike then near-zero within 2–3 days","Recurring waves every 5 days","No discernible pattern"], correct:1, explain:"A shared lunch at one time = point source outbreak. Expect ONE sharp peak (cases appearing ~within the same incubation window) then rapid dropoff once the contaminated source is removed. No new cases = no new exposure." }
     ]},
-  { title:"The Pool Problem", emoji:"🏊",
+  { title:"The Pool Problem", emoji:"🏊", concept:'pathogen',
     story:"50 kids visited the community pool on Saturday. By Monday, 15 had persistent watery diarrhea lasting over a week — despite the pool's chlorine level being within normal range at inspection. Kids who only played on the pool deck remained well. A second wave of 4 cases appeared the following weekend among different children.",
     questions:[
       { q:"What pathogen BEST explains a pool outbreak where the chlorine tested normal AND diarrhea lasted over a week?", choices:["Salmonella — commonly found in pool water","Cryptosporidium — uniquely resistant to standard chlorine levels","E. coli O157:H7 — destroyed by low chlorine","Norovirus — thrives in chlorinated water"], correct:1, explain:"Cryptosporidium ('Crypto') is the only major waterborne pathogen that resists standard pool chlorine concentrations. Normal chlorine won't kill it. It causes prolonged watery diarrhea lasting 1–3 weeks — perfectly matching this outbreak." },
       { q:"The second wave 7 days later likely represents:", choices:["A new contamination event from the same source","Secondary person-to-person spread from the original cases via fecal-oral route","Evidence the pathogen became airborne","A coincidence unrelated to the pool"], correct:1, explain:"Crypto spreads fecal-orally. Infected kids with diarrhea can contaminate surfaces, diapers, or even return to the pool while still shedding. A secondary wave 7 days later suggests person-to-person propagation after the initial waterborne exposure." },
       { q:"What is the attack rate among the 50 pool visitors?", choices:["15%","50%","30%","8%"], correct:2, explain:"15 sick ÷ 50 exposed × 100 = 30%. Nearly one in three swimmers got sick — high enough to confirm the pool as the exposure source, especially compared to the 0% among deck-only kids." }
     ]},
-  { title:"The Birthday Bash", emoji:"🎂",
+  { title:"The Birthday Bash", emoji:"🎂", concept:'pathogen',
     story:"At a birthday party, 20 kids ate hamburgers. Over the next 4 days, kids got sick in waves — 3 on Day 1, 5 on Day 2, 6 on Day 3, 3 on Day 4 — for a total of 17 ill. The burgers had a pink center. Three sick children attended a sleepover the following weekend, after which 4 other sleepover attendees became ill.",
     questions:[
       { q:"The initial wave of illness (Days 1–4) is BEST described as:", choices:["Point source — all from one contaminated food item served at one time","Propagated — spreading person-to-person from multiple initial cases","Endemic — always present at baseline in the community","A pandemic because multiple households were affected"], correct:0, explain:"All 20 kids were exposed to the SAME source (hamburgers) at the SAME event. Even though cases appeared over 4 days, this reflects variation in individual incubation periods from a single exposure — still a point source outbreak. The staggered onset does NOT mean propagated." },
       { q:"What pathogen is MOST consistent with undercooked beef AND bloody diarrhea with possible kidney complications in children?", choices:["Campylobacter — common but rarely causes kidney failure","E. coli O157:H7 — produces Shiga toxin; can cause hemolytic uremic syndrome","Salmonella — found in beef but less associated with HUS","Listeria — survives refrigerator; long incubation"], correct:1, explain:"E. coli O157:H7 is the textbook undercooked beef pathogen. Its Shiga toxin can trigger Hemolytic Uremic Syndrome (HUS) — potentially fatal kidney failure in children. Campylobacter is common but rarely causes HUS. Salmonella is more associated with poultry/eggs." },
       { q:"The 4 new cases at the sleepover BEST represent:", choices:["A new point source from contaminated food at the sleepover","Secondary person-to-person spread from the original cases","A separate unrelated outbreak","Proof the burgers were still contaminated a week later"], correct:1, explain:"E. coli O157:H7 is highly contagious via fecal-oral route. Ill children who were still shedding bacteria spread it to sleepover contacts. This secondary propagated spread is common with E. coli outbreaks — the original point source spawned secondary person-to-person cases." }
     ]},
-  { title:"The Classroom Cold", emoji:"🤧",
+  { title:"The Classroom Cold", emoji:"🤧", concept:'epi_calc',
     story:"In a class of 25 students, 2 returned from winter break with respiratory illness. Over the next 14 days, 14 more classmates got sick — typically 2–4 new cases per day, peaking around Day 7. The teacher did not get sick despite daily close contact with students. The school nurse noted the school's flu vaccination rate this year was 72%.",
     questions:[
       { q:"What is the attack rate among ALL 25 students (including the 2 initial cases)?", choices:["8% — only the original 2 count","56% — 14 new cases among 23 remaining","64% — 16 total sick out of 25","72% — matching the vaccination rate"], correct:2, explain:"Total sick = 2 original + 14 new = 16. Attack rate = 16 ÷ 25 × 100 = 64%. Always include index cases in the total count when calculating the overall attack rate for a group." },
       { q:"The teacher was NOT vaccinated but did not get sick, while 64% of students DID get sick. This most likely suggests:", choices:["The teacher had natural immunity from a prior infection or past vaccination","The teacher was exposed to a different strain","Teachers cannot get influenza","The attack rate calculation was wrong"], correct:0, explain:"Prior immunity (from past infection or vaccination in a previous year) is the most plausible explanation. Prior exposure to related strains can provide partial or full protection. This is also why the disease detective should ask about vaccination AND prior illness history when investigating." },
       { q:"The gradual rise, peak around Day 7, and slow decline BEST describes:", choices:["A point source outbreak from a contaminated lunch","A propagated outbreak spreading person-to-person over time","An endemic pattern — always present in winter","A vector-borne outbreak from insects inside the school"], correct:1, explain:"Classic propagated outbreak. The bell-shaped curve — slow start, peak in the middle, gradual fadeout — happens because each sick person infects a few others, who infect a few more. Cases build until enough people are immune. This is the hallmark of respiratory person-to-person spread." }
     ]},
-  { title:"The Water Fountain", emoji:"💧",
+  { title:"The Water Fountain", emoji:"💧", concept:'epi_calc',
     story:"A school water fountain was repaired on Monday. By Friday, 36 of 90 students who drank from it had stomach cramps and diarrhea; 4 students who exclusively used their own water bottles also got sick. The 4 sick bottle-users were all in the same classroom as heavy fountain drinkers.",
     questions:[
       { q:"What is the attack rate for fountain drinkers?", choices:["36%","90%","40%","25%"], correct:2, explain:"36 sick ÷ 90 exposed × 100 = 40%. This is substantially higher than bottle-users, which points to the fountain as the primary source." },
       { q:"The 4 sick bottle-users were all classmates of fountain-drinkers. This MOST likely represents:", choices:["Evidence the water bottles were also contaminated","Secondary person-to-person spread via fecal-oral route within the classroom","A separate outbreak unrelated to the fountain","Proof that the pathogen became airborne"], correct:1, explain:"Low-level person-to-person fecal-oral spread can occur in close contact settings like classrooms. These 4 cases likely represent secondary transmission from ill classmates — they are NOT evidence that the water bottle supply was contaminated." },
       { q:"What was the most likely contamination mechanism during the fountain repair?", choices:["A sick student sneezed directly into the fountain","Backsiphonage or cross-connection during pipe repair introduced non-potable water","The fountain filter was too old","Chlorination was accidentally doubled"], correct:1, explain:"Backsiphonage — where pressure changes during repair suck contaminated water backwards into the drinking supply — is a well-documented mechanism for waterborne outbreaks following plumbing repairs. Cross-connections between potable and non-potable lines are a classic public health hazard." }
     ]},
-  { title:"The Thanksgiving Turkey", emoji:"🦃",
+  { title:"The Thanksgiving Turkey", emoji:"🦃", concept:'pathogen',
     story:"After Thanksgiving dinner, 12 of 15 family members developed fever, stomach cramps, and watery diarrhea 18–36 hours after the meal. The turkey was left out for 4 hours before serving. One elderly guest developed bacteremia (bacteria in the bloodstream) and was hospitalized. A vegetarian guest who only ate side dishes did not get sick.",
     questions:[
       { q:"Which pathogen is MOST consistent with 18–36 hr onset, poultry source, AND ability to cause invasive bacteremia in elderly patients?", choices:["Norovirus — rapid onset, self-limiting, rarely invasive","Salmonella — 6–72 hr incubation; can become invasive in elderly/immunocompromised","Listeria — poultry possible but 1–4 week incubation doesn't fit","Staph aureus — 1–6 hr toxin-mediated; onset is too fast"], correct:1, explain:"Salmonella fits perfectly: poultry source, 6–72 hr incubation (18–36 hrs is typical), fever + diarrhea, AND Salmonella is notorious for causing invasive bacteremia in elderly/immunocompromised patients. Staph aureus would have acted faster (1–6 hrs). Listeria's incubation is weeks, not hours." },
       { q:"The vegetarian guest ate only side dishes and did NOT get sick. What is the BEST interpretation of this finding?", choices:["It definitively proves the turkey was the source — no further investigation needed","It strongly implicates the turkey, but investigators should also check whether any side dishes were prepared using utensils that touched the raw turkey","Vegetarians are naturally immune to Salmonella","The side dishes must have been contaminated but she got lucky"], correct:1, explain:"The vegetarian's health supports the turkey hypothesis, but disease detectives must consider cross-contamination — did any utensils, cutting boards, or hands that touched the raw turkey also touch the side dishes? Ruling out cross-contamination is a necessary investigation step, not just assuming the turkey alone was responsible." },
       { q:"What is the MOST appropriate immediate public health action?", choices:["Arrest the host for food safety violations","Issue a multi-state turkey recall without further lab confirmation","Collect stool samples from ill family members, conduct interviews about food preparation, and educate on safe turkey handling","Give all family members prophylactic antibiotics immediately"], correct:2, explain:"Standard outbreak investigation: collect specimens for lab confirmation, conduct a thorough food history interview, and implement education on safe food handling (cook to 165°F, don't leave food in danger zone). Antibiotics are not routinely given for uncomplicated Salmonella — they can actually prolong carrier state. A recall requires confirmed lab evidence across multiple cases." }
     ]},
-  { title:"The Cruise Ship Nightmare", emoji:"🚢",
+  { title:"The Cruise Ship Nightmare", emoji:"🚢", concept:'investigation',
     story:"On a 7-day cruise with 2,000 passengers, 340 people got sick over 5 days. Symptoms: sudden explosive vomiting, watery diarrhea, cramps — resolved in 1–2 days. Sick passengers used shared bathrooms. Environmental swabs of bathroom surfaces tested positive for viral particles. A kitchen worker also reported vomiting 2 days before the first passenger cases.",
     questions:[
       { q:"The kitchen worker got sick 2 days BEFORE passenger cases began. What is the MOST important implication of this finding?", choices:["It is a coincidence — kitchen workers get sick all the time","The kitchen worker may have been the index case who contaminated food, making this both a foodborne AND person-to-person outbreak","It proves the outbreak was definitely waterborne","The kitchen worker must have eaten bad food elsewhere"], correct:1, explain:"A kitchen worker sick BEFORE the outbreak is a critical epidemiological finding. Norovirus-infected food handlers who continue working can contaminate food and surfaces, launching a foodborne point source outbreak. Person-to-person spread then amplifies it. This hybrid pattern — foodborne introduction followed by person-to-person propagation — is the most common cruise ship norovirus scenario." },
       { q:"What is the attack rate among passengers?", choices:["7%","17%","34%","51%"], correct:1, explain:"340 sick ÷ 2,000 passengers × 100 = 17%. While 17% sounds moderate, for a single outbreak on a contained vessel over 5 days, this represents an enormous number of sick people from a highly contagious pathogen." },
       { q:"Environmental swabs testing positive for viral particles MOST directly supports which control measure as the highest priority?", choices:["Close restaurants only — the food was the sole vector","Deep-clean ALL surfaces with EPA-approved bleach solution AND exclude sick passengers and staff from food handling areas","Test everyone's blood before allowing anyone off the ship","Vaccinate all passengers against norovirus"], correct:1, explain:"Positive environmental swabs confirm fomite contamination — surfaces are active transmission routes. Norovirus survives standard cleaners; it requires bleach or other approved virucides. Excluding sick staff from food handling AND deep-cleaning surfaces simultaneously attacks both transmission routes. There is no approved norovirus vaccine." }
     ]},
-  { title:"The Deli Counter", emoji:"🥪",
+  { title:"The Deli Counter", emoji:"🥪", concept:'pathogen',
     story:"Over 3 weeks, 8 people in the same county developed serious illness: high fever, muscle aches, stiff neck, and confusion. All 8 had purchased deli meats from the same grocery store chain. Three patients were pregnant women (two had fetal loss). Two patients died. Laboratory analysis confirmed the same genetic strain across all cases via whole-genome sequencing.",
     questions:[
       { q:"Which pathogen is MOST consistent with deli meats, a 1–4 week incubation period, disproportionate impact on pregnant women, AND neurological symptoms (stiff neck, confusion)?", choices:["Salmonella — common in deli meats but rarely neurological","E. coli O157:H7 — affects kidneys, not typically neurological meningitis","Listeria monocytogenes — cold-tolerant; causes listeriosis with meningitis; extremely dangerous in pregnancy","Campylobacter — common but not linked to deli meats or meningitis"], correct:2, explain:"Listeria is the only major foodborne pathogen that: (1) survives and grows in refrigerators, (2) has a 1–4 WEEK incubation, (3) disproportionately affects pregnant women and immunocompromised individuals, and (4) causes invasive disease including meningitis (stiff neck, confusion). The long incubation and neurological symptoms are the key differentiating clues." },
@@ -1082,57 +1082,57 @@ const TABLE_DATA = [
 ];
 
 const TF_DATA = [
-  { s:"Quarantine is used for people who are ALREADY SICK with a confirmed disease.", correct:false, explain:"FALSE — Quarantine is for people EXPOSED but not yet sick. ISOLATION is for confirmed sick people." },
-  { s:"The attack rate formula is: (number sick ÷ number exposed) × 100.", correct:true, explain:"TRUE — Attack Rate = (Sick ÷ Exposed) × 100. Always multiply by 100 to express as a percentage." },
-  { s:"Listeria monocytogenes can survive and multiply inside a refrigerator.", correct:true, explain:"TRUE — Most bacteria die at refrigerator temperatures, but Listeria is cold-tolerant. This makes it especially dangerous in deli meats and soft cheeses." },
-  { s:"A point source outbreak produces multiple peaks on an epi curve over several weeks.", correct:false, explain:"FALSE — That describes a PROPAGATED outbreak. A point source = ONE sharp spike then rapid drop. One source, one moment in time." },
-  { s:"Salmonella is most commonly associated with undercooked beef.", correct:false, explain:"FALSE — Salmonella lives in raw POULTRY and EGGS (and reptiles!). E. coli O157:H7 is the beef pathogen." },
-  { s:"The index case is the FIRST known person to get sick in an outbreak.", correct:true, explain:"TRUE — Finding the index case helps investigators trace back to the original source and exposure." },
-  { s:"Herd immunity requires 100% of a population to be immune or vaccinated.", correct:false, explain:"FALSE — Herd immunity works when ENOUGH people are immune. The threshold varies: measles ~95%, polio ~80–85%, flu ~50–60%." },
-  { s:"Norovirus is the most common cause of foodborne illness outbreaks in the United States.", correct:true, explain:"TRUE — Norovirus causes more foodborne outbreaks than any other pathogen. It's extremely contagious and survives on surfaces for days." },
-  { s:"Morbidity refers to the death rate from a disease.", correct:false, explain:"FALSE — Morbidity = how many got SICK. Mortality = how many DIED. Memory trick: mortiality = mort (French for death)." },
-  { s:"A vector is always an insect.", correct:false, explain:"FALSE — Vectors are animals that carry disease, and they can be insects (mosquitoes, fleas) OR ticks (arachnids, not insects) OR other arthropods." },
-  { s:"Relative Risk is calculated by dividing the exposed group's attack rate by the unexposed group's attack rate.", correct:true, explain:"TRUE — RR = AR(exposed) ÷ AR(unexposed). A RR of 7 means exposed people were 7x more likely to get sick." },
-  { s:"A fomite is a living organism that carries and transmits disease.", correct:false, explain:"FALSE — Fomites are INANIMATE OBJECTS (doorknobs, phones, towels). Living carriers are called VECTORS. Big difference!" },
-  { s:"Staph aureus food poisoning is caused by a toxin produced in food left at room temperature.", correct:true, explain:"TRUE — Staph aureus produces a heat-stable toxin in food. Even cooking the food won't destroy the toxin once it's formed. Onset is rapid: 1–6 hours." },
-  { s:"Waterborne illness can ONLY be caused by drinking contaminated water.", correct:false, explain:"FALSE — You can also get waterborne illness from SWIMMING or bathing in contaminated water. Cryptosporidium is commonly swallowed while swimming." },
-  { s:"E. coli O157:H7 can cause kidney failure, especially in children.", correct:true, explain:"TRUE — E. coli O157:H7 can trigger Hemolytic Uremic Syndrome (HUS), which leads to kidney failure. This is why undercooked beef is so dangerous for kids." },
-  { s:"Notifiable diseases must be reported to public health authorities by law.", correct:true, explain:"TRUE — Healthcare providers are legally required to report notifiable diseases (Salmonella, TB, measles, etc.) so outbreaks can be detected and stopped early." },
-  { s:"An endemic disease is one that has spread across multiple continents worldwide.", correct:false, explain:"FALSE — That's a PANDEMIC. Endemic means the disease is always present at baseline levels in a SPECIFIC area. Example: malaria is endemic to parts of Africa." },
-  { s:"The Temperature Danger Zone for bacterial growth in food is between 40°F and 140°F.", correct:true, explain:"TRUE — Bacteria multiply fastest between 40°F–140°F (4°C–60°C). Never leave food in this zone for more than 2 hours!" },
-  { s:"Giardia is a type of bacteria found in untreated stream water.", correct:false, explain:"FALSE — Giardia is a PARASITE (protozoan), not a bacteria. It lives in untreated streams and rivers. Also called 'beaver fever' because beavers contaminate waterways." },
-  { s:"Botulism is caused by a toxin produced by Clostridium botulinum bacteria in improperly sealed foods.", correct:true, explain:"TRUE — Botulism toxin is one of the most lethal substances known. Found in improperly canned or vacuum-sealed foods. It causes paralysis, not typical stomach illness." },
-  { s:"Antibiotics are an effective treatment for viral infections like the flu and Norovirus.", correct:false, explain:"FALSE — Antibiotics only work on BACTERIA, not viruses. Taking antibiotics for a virus does nothing and contributes to antibiotic resistance. Antivirals are used for some viruses." },
-  { s:"Koch's Postulates provide a framework for proving that a specific germ causes a specific disease.", correct:true, explain:"TRUE — Koch's 4 criteria: (1) find the germ in all sick cases, (2) isolate it, (3) use it to make a healthy animal sick, (4) re-isolate the same germ. Proving all 4 = proof of causation." },
-  { s:"If two things are associated (happen together), it proves that one causes the other.", correct:false, explain:"FALSE — Association ≠ Causation! Just because eating X and getting sick happen together doesn't mean X caused the illness. Other factors could explain it. You need a controlled study to establish causation." },
-  { s:"A spot map shows how many people got sick each day during an outbreak.", correct:false, explain:"FALSE — That's an EPIDEMIC CURVE. A spot map shows WHERE cases are located geographically. Clusters on a spot map help identify the geographic source (like a contaminated water supply)." },
-  { s:"Breaking any single link in the Chain of Infection can stop a disease from spreading.", correct:true, explain:"TRUE — The Chain of Infection has 6 links. Break ANY one — kill the pathogen, remove the reservoir, block transmission, block portals, or vaccinate the host — and the chain breaks!" },
-  { s:"Parasites like Giardia and Cryptosporidium are types of bacteria.", correct:false, explain:"FALSE — Giardia and Cryptosporidium are PARASITES (protozoa), not bacteria. They're single-celled but more complex organisms, and they're NOT treated with antibiotics." },
-  { s:"A high Relative Risk value alone is sufficient to prove that an exposure CAUSES a disease.", correct:false, explain:"FALSE — A high RR suggests a strong association, but causation requires additional evidence (biological plausibility, consistency across studies, dose-response relationship, etc.). Association is not causation even with a high RR." }
+  { s:"Quarantine is used for people who are ALREADY SICK with a confirmed disease.", correct:false, explain:"FALSE — Quarantine is for people EXPOSED but not yet sick. ISOLATION is for confirmed sick people.", c:'control' },
+  { s:"The attack rate formula is: (number sick ÷ number exposed) × 100.", correct:true, explain:"TRUE — Attack Rate = (Sick ÷ Exposed) × 100. Always multiply by 100 to express as a percentage.", c:'epi_terms' },
+  { s:"Listeria monocytogenes can survive and multiply inside a refrigerator.", correct:true, explain:"TRUE — Most bacteria die at refrigerator temperatures, but Listeria is cold-tolerant. This makes it especially dangerous in deli meats and soft cheeses.", c:'pathogen' },
+  { s:"A point source outbreak produces multiple peaks on an epi curve over several weeks.", correct:false, explain:"FALSE — That describes a PROPAGATED outbreak. A point source = ONE sharp spike then rapid drop. One source, one moment in time.", c:'investigation' },
+  { s:"Salmonella is most commonly associated with undercooked beef.", correct:false, explain:"FALSE — Salmonella lives in raw POULTRY and EGGS (and reptiles!). E. coli O157:H7 is the beef pathogen.", c:'pathogen' },
+  { s:"The index case is the FIRST known person to get sick in an outbreak.", correct:true, explain:"TRUE — Finding the index case helps investigators trace back to the original source and exposure.", c:'investigation' },
+  { s:"Herd immunity requires 100% of a population to be immune or vaccinated.", correct:false, explain:"FALSE — Herd immunity works when ENOUGH people are immune. The threshold varies: measles ~95%, polio ~80–85%, flu ~50–60%.", c:'control' },
+  { s:"Norovirus is the most common cause of foodborne illness outbreaks in the United States.", correct:true, explain:"TRUE — Norovirus causes more foodborne outbreaks than any other pathogen. It's extremely contagious and survives on surfaces for days.", c:'pathogen' },
+  { s:"Morbidity refers to the death rate from a disease.", correct:false, explain:"FALSE — Morbidity = how many got SICK. Mortality = how many DIED. Memory trick: mortiality = mort (French for death).", c:'epi_terms' },
+  { s:"A vector is always an insect.", correct:false, explain:"FALSE — Vectors are animals that carry disease, and they can be insects (mosquitoes, fleas) OR ticks (arachnids, not insects) OR other arthropods.", c:'transmission' },
+  { s:"Relative Risk is calculated by dividing the exposed group's attack rate by the unexposed group's attack rate.", correct:true, explain:"TRUE — RR = AR(exposed) ÷ AR(unexposed). A RR of 7 means exposed people were 7x more likely to get sick.", c:'epi_terms' },
+  { s:"A fomite is a living organism that carries and transmits disease.", correct:false, explain:"FALSE — Fomites are INANIMATE OBJECTS (doorknobs, phones, towels). Living carriers are called VECTORS. Big difference!", c:'transmission' },
+  { s:"Staph aureus food poisoning is caused by a toxin produced in food left at room temperature.", correct:true, explain:"TRUE — Staph aureus produces a heat-stable toxin in food. Even cooking the food won't destroy the toxin once it's formed. Onset is rapid: 1–6 hours.", c:'pathogen' },
+  { s:"Waterborne illness can ONLY be caused by drinking contaminated water.", correct:false, explain:"FALSE — You can also get waterborne illness from SWIMMING or bathing in contaminated water. Cryptosporidium is commonly swallowed while swimming.", c:'transmission' },
+  { s:"E. coli O157:H7 can cause kidney failure, especially in children.", correct:true, explain:"TRUE — E. coli O157:H7 can trigger Hemolytic Uremic Syndrome (HUS), which leads to kidney failure. This is why undercooked beef is so dangerous for kids.", c:'pathogen' },
+  { s:"Notifiable diseases must be reported to public health authorities by law.", correct:true, explain:"TRUE — Healthcare providers are legally required to report notifiable diseases (Salmonella, TB, measles, etc.) so outbreaks can be detected and stopped early.", c:'investigation' },
+  { s:"An endemic disease is one that has spread across multiple continents worldwide.", correct:false, explain:"FALSE — That's a PANDEMIC. Endemic means the disease is always present at baseline levels in a SPECIFIC area. Example: malaria is endemic to parts of Africa.", c:'epi_terms' },
+  { s:"The Temperature Danger Zone for bacterial growth in food is between 40°F and 140°F.", correct:true, explain:"TRUE — Bacteria multiply fastest between 40°F–140°F (4°C–60°C). Never leave food in this zone for more than 2 hours!", c:'control' },
+  { s:"Giardia is a type of bacteria found in untreated stream water.", correct:false, explain:"FALSE — Giardia is a PARASITE (protozoan), not a bacteria. It lives in untreated streams and rivers. Also called 'beaver fever' because beavers contaminate waterways.", c:'pathogen' },
+  { s:"Botulism is caused by a toxin produced by Clostridium botulinum bacteria in improperly sealed foods.", correct:true, explain:"TRUE — Botulism toxin is one of the most lethal substances known. Found in improperly canned or vacuum-sealed foods. It causes paralysis, not typical stomach illness.", c:'pathogen' },
+  { s:"Antibiotics are an effective treatment for viral infections like the flu and Norovirus.", correct:false, explain:"FALSE — Antibiotics only work on BACTERIA, not viruses. Taking antibiotics for a virus does nothing and contributes to antibiotic resistance. Antivirals are used for some viruses.", c:'pathogen' },
+  { s:"Koch's Postulates provide a framework for proving that a specific germ causes a specific disease.", correct:true, explain:"TRUE — Koch's 4 criteria: (1) find the germ in all sick cases, (2) isolate it, (3) use it to make a healthy animal sick, (4) re-isolate the same germ. Proving all 4 = proof of causation.", c:'transmission' },
+  { s:"If two things are associated (happen together), it proves that one causes the other.", correct:false, explain:"FALSE — Association ≠ Causation! Just because eating X and getting sick happen together doesn't mean X caused the illness. Other factors could explain it. You need a controlled study to establish causation.", c:'investigation' },
+  { s:"A spot map shows how many people got sick each day during an outbreak.", correct:false, explain:"FALSE — That's an EPIDEMIC CURVE. A spot map shows WHERE cases are located geographically. Clusters on a spot map help identify the geographic source (like a contaminated water supply).", c:'investigation' },
+  { s:"Breaking any single link in the Chain of Infection can stop a disease from spreading.", correct:true, explain:"TRUE — The Chain of Infection has 6 links. Break ANY one — kill the pathogen, remove the reservoir, block transmission, block portals, or vaccinate the host — and the chain breaks!", c:'transmission' },
+  { s:"Parasites like Giardia and Cryptosporidium are types of bacteria.", correct:false, explain:"FALSE — Giardia and Cryptosporidium are PARASITES (protozoa), not bacteria. They're single-celled but more complex organisms, and they're NOT treated with antibiotics.", c:'pathogen' },
+  { s:"A high Relative Risk value alone is sufficient to prove that an exposure CAUSES a disease.", correct:false, explain:"FALSE — A high RR suggests a strong association, but causation requires additional evidence (biological plausibility, consistency across studies, dose-response relationship, etc.). Association is not causation even with a high RR.", c:'epi_terms' }
 ];
 
 const MATCH_DATA = [
-  { cat:"Pathogen → Primary Food Source", term:"Salmonella", match:"Raw poultry and eggs", others:["Deli meats and soft cheese","Undercooked beef and raw juice","Improperly canned foods","Untreated stream water"] },
-  { cat:"Pathogen → Primary Food Source", term:"E. coli O157:H7", match:"Undercooked beef and unpasteurized juice", others:["Raw poultry and eggs","Deli meats and soft cheese","Raw shellfish","Untreated water"] },
-  { cat:"Pathogen → Primary Food Source", term:"Listeria", match:"Deli meats and soft cheese", others:["Raw poultry and eggs","Undercooked beef","Shellfish","Untreated stream water"] },
-  { cat:"Pathogen → Primary Food Source", term:"Clostridium botulinum", match:"Improperly canned or vacuum-sealed foods", others:["Raw poultry and eggs","Undercooked beef","Deli meats","Untreated water"] },
-  { cat:"Pathogen → Key Feature", term:"Norovirus", match:"Most contagious foodborne virus; causes sudden vomiting; #1 cruise ship pathogen", others:["Survives refrigeration; dangerous for pregnant women","Resists pool chlorine; watery diarrhea in swimmers","Found in raw beef; can cause kidney failure","1–6 hr toxin onset; food left at room temp"] },
-  { cat:"Pathogen → Key Feature", term:"Staph aureus", match:"Produces a TOXIN in food left at room temp; rapid 1–6 hr onset; cooking doesn't destroy toxin", others:["Most contagious foodborne virus; cruise ships","Resists refrigeration; dangerous for pregnant women","Bloody diarrhea; possible kidney failure","2–5 day incubation; raw poultry"] },
-  { cat:"Pathogen → Key Feature", term:"Cryptosporidium", match:"Resists pool chlorine; most common waterborne outbreak; watery diarrhea for weeks", others:["1–4 week incubation; deli meats","Sudden vomiting; spreads via fomites","Most common US foodborne bacteria; 2–5 days","Rice-water diarrhea; extreme dehydration; contaminated water"] },
-  { cat:"Pathogen → Key Feature", term:"Cholera", match:"Rice-water diarrhea; extreme dehydration; spread by contaminated water; can kill in hours", others:["Resists pool chlorine; weeks of diarrhea","Sudden vomiting; cruise ships","Improperly canned foods; causes paralysis","Bloody diarrhea; kidney failure in children"] },
-  { cat:"Transmission Route → Pathogen", term:"Mosquito bite", match:"West Nile Virus / Dengue / Zika (arboviruses)", others:["Lyme Disease / Rocky Mountain Spotted Fever","Salmonella / Campylobacter","Norovirus / Hepatitis A","Cholera / Typhoid"] },
-  { cat:"Transmission Route → Pathogen", term:"Tick bite", match:"Lyme Disease / Rocky Mountain Spotted Fever", others:["West Nile Virus / Dengue / Zika","Salmonella / Campylobacter","Norovirus / Hepatitis A","Giardia / Cryptosporidium"] },
-  { cat:"Transmission Route → Pathogen", term:"Untreated stream or river water", match:"Giardia (beaver fever) / Cryptosporidium", others:["Salmonella / Campylobacter","West Nile Virus / Dengue","Norovirus / Staph aureus","Listeria / Botulism"] },
-  { cat:"Food Safety Rule → Why It Matters", term:"Cook poultry to 165°F internal temperature", match:"Kills Salmonella and Campylobacter hiding in raw chicken", others:["Destroys Listeria toxin in deli meats","Prevents Botulism in canned foods","Stops cross-contamination from beef","Eliminates Norovirus from produce"] },
-  { cat:"Food Safety Rule → Why It Matters", term:"Never leave food out for more than 2 hours", match:"Bacteria multiply rapidly in the 40°F–140°F temperature danger zone", others:["Prevents cross-contamination between foods","Listeria is cold-tolerant and survives refrigeration","Destroys heat-stable toxins already formed","Stops waterborne pathogens from multiplying"] },
-  { cat:"Food Safety Rule → Why It Matters", term:"Use separate cutting boards for raw meat and vegetables", match:"Prevents cross-contamination — stops E. coli and Salmonella from raw meat reaching ready-to-eat food", others:["Kills bacteria at safe cooking temperatures","Stops bacteria multiplying in the danger zone","Prevents Listeria in cold storage","Eliminates Norovirus from food surfaces"] },
-  { cat:"Epi Concept → Definition", term:"Case-Control Study", match:"Compares SICK people to HEALTHY controls, looking backward to find the exposure", others:["Follows exposed vs unexposed groups forward in time","Ongoing systematic collection of disease data","Restricts movement of exposed people","Counts all cases in a population at one point in time"] },
-  { cat:"Epi Concept → Definition", term:"Secondary Attack Rate", match:"Percentage of close contacts who get infected from one index case — measures contagiousness", others:["Death rate once infected with disease","Percentage of exposed people who get sick","Middle value in a sorted dataset","Rate of new cases per week in a population"] },
-  { cat:"Disease Agent → Type", term:"Salmonella / E. coli / Listeria", match:"Bacteria — living single-celled organisms; can be treated with antibiotics", others:["Viruses — non-living; antibiotics don't work","Parasites — organisms that live inside a host","Fungi — mold/yeast-type organisms","Toxins — chemical poisons produced by organisms"] },
-  { cat:"Disease Agent → Type", term:"Norovirus / Influenza / Hepatitis A", match:"Viruses — non-living particles that hijack cells; antibiotics DON'T work", others:["Bacteria — living cells; treatable with antibiotics","Parasites — organisms that live inside a host","Fungi — mold/yeast-type organisms","Prions — misfolded proteins"] },
-  { cat:"Disease Agent → Type", term:"Giardia / Cryptosporidium / Tapeworm", match:"Parasites — organisms that live on or inside a host and feed off it", others:["Bacteria — single-celled living organisms","Viruses — non-living; hijack host cells","Fungi — mold/yeast-type organisms","Toxins — chemical poisons in food"] },
-  { cat:"Chain of Infection → How to Break It", term:"Wearing a mask or covering a cough", match:"Blocking the Portal of Exit — stopping pathogens from leaving the sick person", others:["Blocking the Portal of Entry into a new host","Eliminating the reservoir where germs live","Killing pathogens with heat or disinfectant","Making the host immune through vaccination"] },
-  { cat:"Chain of Infection → How to Break It", term:"Vaccination", match:"Protecting the Susceptible Host — making the last link in the chain immune", others:["Blocking the Portal of Exit","Eliminating the pathogen from its reservoir","Blocking the mode of transmission","Targeting the portal of entry with hand washing"] }
+  { cat:"Pathogen → Primary Food Source", term:"Salmonella", match:"Raw poultry and eggs", others:["Deli meats and soft cheese","Undercooked beef and raw juice","Improperly canned foods","Untreated stream water"], c:'pathogen' },
+  { cat:"Pathogen → Primary Food Source", term:"E. coli O157:H7", match:"Undercooked beef and unpasteurized juice", others:["Raw poultry and eggs","Deli meats and soft cheese","Raw shellfish","Untreated water"], c:'pathogen' },
+  { cat:"Pathogen → Primary Food Source", term:"Listeria", match:"Deli meats and soft cheese", others:["Raw poultry and eggs","Undercooked beef","Shellfish","Untreated stream water"], c:'pathogen' },
+  { cat:"Pathogen → Primary Food Source", term:"Clostridium botulinum", match:"Improperly canned or vacuum-sealed foods", others:["Raw poultry and eggs","Undercooked beef","Deli meats","Untreated water"], c:'pathogen' },
+  { cat:"Pathogen → Key Feature", term:"Norovirus", match:"Most contagious foodborne virus; causes sudden vomiting; #1 cruise ship pathogen", others:["Survives refrigeration; dangerous for pregnant women","Resists pool chlorine; watery diarrhea in swimmers","Found in raw beef; can cause kidney failure","1–6 hr toxin onset; food left at room temp"], c:'pathogen' },
+  { cat:"Pathogen → Key Feature", term:"Staph aureus", match:"Produces a TOXIN in food left at room temp; rapid 1–6 hr onset; cooking doesn't destroy toxin", others:["Most contagious foodborne virus; cruise ships","Resists refrigeration; dangerous for pregnant women","Bloody diarrhea; possible kidney failure","2–5 day incubation; raw poultry"], c:'pathogen' },
+  { cat:"Pathogen → Key Feature", term:"Cryptosporidium", match:"Resists pool chlorine; most common waterborne outbreak; watery diarrhea for weeks", others:["1–4 week incubation; deli meats","Sudden vomiting; spreads via fomites","Most common US foodborne bacteria; 2–5 days","Rice-water diarrhea; extreme dehydration; contaminated water"], c:'pathogen' },
+  { cat:"Pathogen → Key Feature", term:"Cholera", match:"Rice-water diarrhea; extreme dehydration; spread by contaminated water; can kill in hours", others:["Resists pool chlorine; weeks of diarrhea","Sudden vomiting; cruise ships","Improperly canned foods; causes paralysis","Bloody diarrhea; kidney failure in children"], c:'pathogen' },
+  { cat:"Transmission Route → Pathogen", term:"Mosquito bite", match:"West Nile Virus / Dengue / Zika (arboviruses)", others:["Lyme Disease / Rocky Mountain Spotted Fever","Salmonella / Campylobacter","Norovirus / Hepatitis A","Cholera / Typhoid"], c:'transmission' },
+  { cat:"Transmission Route → Pathogen", term:"Tick bite", match:"Lyme Disease / Rocky Mountain Spotted Fever", others:["West Nile Virus / Dengue / Zika","Salmonella / Campylobacter","Norovirus / Hepatitis A","Giardia / Cryptosporidium"], c:'transmission' },
+  { cat:"Transmission Route → Pathogen", term:"Untreated stream or river water", match:"Giardia (beaver fever) / Cryptosporidium", others:["Salmonella / Campylobacter","West Nile Virus / Dengue","Norovirus / Staph aureus","Listeria / Botulism"], c:'transmission' },
+  { cat:"Food Safety Rule → Why It Matters", term:"Cook poultry to 165°F internal temperature", match:"Kills Salmonella and Campylobacter hiding in raw chicken", others:["Destroys Listeria toxin in deli meats","Prevents Botulism in canned foods","Stops cross-contamination from beef","Eliminates Norovirus from produce"], c:'control' },
+  { cat:"Food Safety Rule → Why It Matters", term:"Never leave food out for more than 2 hours", match:"Bacteria multiply rapidly in the 40°F–140°F temperature danger zone", others:["Prevents cross-contamination between foods","Listeria is cold-tolerant and survives refrigeration","Destroys heat-stable toxins already formed","Stops waterborne pathogens from multiplying"], c:'control' },
+  { cat:"Food Safety Rule → Why It Matters", term:"Use separate cutting boards for raw meat and vegetables", match:"Prevents cross-contamination — stops E. coli and Salmonella from raw meat reaching ready-to-eat food", others:["Kills bacteria at safe cooking temperatures","Stops bacteria multiplying in the danger zone","Prevents Listeria in cold storage","Eliminates Norovirus from food surfaces"], c:'control' },
+  { cat:"Epi Concept → Definition", term:"Case-Control Study", match:"Compares SICK people to HEALTHY controls, looking backward to find the exposure", others:["Follows exposed vs unexposed groups forward in time","Ongoing systematic collection of disease data","Restricts movement of exposed people","Counts all cases in a population at one point in time"], c:'investigation' },
+  { cat:"Epi Concept → Definition", term:"Secondary Attack Rate", match:"Percentage of close contacts who get infected from one index case — measures contagiousness", others:["Death rate once infected with disease","Percentage of exposed people who get sick","Middle value in a sorted dataset","Rate of new cases per week in a population"], c:'epi_terms' },
+  { cat:"Disease Agent → Type", term:"Salmonella / E. coli / Listeria", match:"Bacteria — living single-celled organisms; can be treated with antibiotics", others:["Viruses — non-living; antibiotics don't work","Parasites — organisms that live inside a host","Fungi — mold/yeast-type organisms","Toxins — chemical poisons produced by organisms"], c:'pathogen' },
+  { cat:"Disease Agent → Type", term:"Norovirus / Influenza / Hepatitis A", match:"Viruses — non-living particles that hijack cells; antibiotics DON'T work", others:["Bacteria — living cells; treatable with antibiotics","Parasites — organisms that live inside a host","Fungi — mold/yeast-type organisms","Prions — misfolded proteins"], c:'pathogen' },
+  { cat:"Disease Agent → Type", term:"Giardia / Cryptosporidium / Tapeworm", match:"Parasites — organisms that live on or inside a host and feed off it", others:["Bacteria — single-celled living organisms","Viruses — non-living; hijack host cells","Fungi — mold/yeast-type organisms","Toxins — chemical poisons in food"], c:'pathogen' },
+  { cat:"Chain of Infection → How to Break It", term:"Wearing a mask or covering a cough", match:"Blocking the Portal of Exit — stopping pathogens from leaving the sick person", others:["Blocking the Portal of Entry into a new host","Eliminating the reservoir where germs live","Killing pathogens with heat or disinfectant","Making the host immune through vaccination"], c:'transmission' },
+  { cat:"Chain of Infection → How to Break It", term:"Vaccination", match:"Protecting the Susceptible Host — making the last link in the chain immune", others:["Blocking the Portal of Exit","Eliminating the pathogen from its reservoir","Blocking the mode of transmission","Targeting the portal of entry with hand washing"], c:'control' }
 ];
 
 const WRITTEN_DATA = [
@@ -1533,12 +1533,13 @@ function genStats() {
 
 // ── PERFORMANCE TRACKING ─────────────────────────────────────────
 const PERF_TYPES = [
-  {key:'vocab', label:'Vocabulary'},
-  {key:'tf',    label:'True / False'},
-  {key:'match', label:'Matching'},
-  {key:'sc',    label:'Scenarios'},
-  {key:'math',  label:'Attack Rate Math'},
-  {key:'stats', label:'Stats Math'},
+  {key:'pathogen',      label:'Pathogen Knowledge'},
+  {key:'epi_calc',      label:'Epi Math'},
+  {key:'epi_terms',     label:'Epidemiology Terms'},
+  {key:'investigation', label:'Outbreak Investigation'},
+  {key:'transmission',  label:'Disease Transmission'},
+  {key:'control',       label:'Control Measures'},
+  {key:'stats',         label:'Statistics'},
 ];
 
 function perfPct(cumPerf, key) {
@@ -1588,18 +1589,35 @@ function buildTodayPool() {
   // Base allocations (total = 15)
   const alloc = {vocab:3, tf:2, match:2, sc:2, math:3, stats:3};
 
-  // Boost weakest types (below 60%) by taking from strongest
-  const byStrength = PERF_TYPES.map(t => t.key).sort((a,b) => perfPct(cumPerf,a) - perfPct(cumPerf,b));
+  // Detect weak concepts (below 60% with enough data) sorted weakest first
+  const weakConcepts = PERF_TYPES
+    .map(t => t.key)
+    .filter(k => { const p = cumPerf[k]; return p && p.total >= 2 && p.correct/p.total < 0.6; })
+    .sort((a,b) => perfPct(cumPerf,a) - perfPct(cumPerf,b));
+
+  // Detect strong concepts (above 80%) to donate from
+  const strongConcepts = PERF_TYPES
+    .map(t => t.key)
+    .filter(k => perfPct(cumPerf,k) > 0.8)
+    .sort((a,b) => perfPct(cumPerf,b) - perfPct(cumPerf,a));
+
   let budget = 0;
-  // Donate from strongest (up to 2 points total)
-  for (let i = byStrength.length-1; i >= 0 && budget < 2; i--) {
-    const t = byStrength[i];
-    if (perfPct(cumPerf,t) > 0.8 && alloc[t] > 1) { alloc[t]--; budget++; }
+  // Donate up to 2 from strongest question types linked to strong concepts
+  for (const concept of strongConcepts) {
+    if (budget >= 2) break;
+    // Map concept to its primary question type for donation
+    if (concept === 'epi_calc'  && alloc.math  > 1) { alloc.math--;  budget++; }
+    else if (concept === 'stats' && alloc.stats > 1) { alloc.stats--; budget++; }
+    else if (alloc.vocab > 1)                         { alloc.vocab--; budget++; }
   }
-  // Give to weakest
-  for (let i = 0; i < byStrength.length && budget > 0; i++) {
-    const t = byStrength[i];
-    if (perfPct(cumPerf,t) < 0.6) { alloc[t]++; budget--; }
+
+  // Boost question types most likely to cover each weak concept
+  for (const concept of weakConcepts) {
+    if (budget <= 0) break;
+    if (concept === 'epi_calc')      { alloc.math++;  budget--; }
+    else if (concept === 'stats')    { alloc.stats++; budget--; }
+    else if (concept === 'investigation') { alloc.sc++; budget--; }
+    else { alloc.vocab++; budget--; } // pathogen, epi_terms, transmission, control → vocab/tf
   }
 
   const pool = [];
@@ -1888,16 +1906,26 @@ function checkSessStats() {
   document.getElementById('sess-stats-next').className = 'sess-next-btn show';
 }
 
+function getQConcept(q) {
+  if (q.type === 'math')  return 'epi_calc';
+  if (q.type === 'stats') return 'stats';
+  if (q.type === 'sc')    return (SCENARIOS[q.idx] && SCENARIOS[q.idx].concept) || 'investigation';
+  if (q.type === 'vocab') return (VOCAB[q.idx] && VOCAB[q.idx].c) || 'epi_terms';
+  if (q.type === 'tf')    return (TF_DATA[q.idx] && TF_DATA[q.idx].c) || 'epi_terms';
+  if (q.type === 'match') return (MATCH_DATA[q.idx] && MATCH_DATA[q.idx].c) || 'epi_terms';
+  return 'epi_terms';
+}
+
 function advanceSessQuestion(correct) {
   if (correct) save('dd_today_score', load('dd_today_score', 0) + 1);
 
-  // Track per-type performance
+  // Track per-concept performance
   const todayQs = load('dd_today_qs', []);
   const pos = load('dd_today_pos', 0);
   const q = todayQs[pos];
   if (q) {
     const sp = load('dd_sess_perf', {});
-    const t  = q.type;
+    const t  = getQConcept(q);
     if (!sp[t]) sp[t] = {correct:0, total:0};
     sp[t].total++;
     if (correct) sp[t].correct++;
