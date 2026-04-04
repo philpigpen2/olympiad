@@ -233,6 +233,33 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 .sess-done-label{font-size:0.95rem;color:#aaa;margin-bottom:16px}
 .sess-done-streak{font-size:1rem;color:#f5a623;font-weight:700}
 .sess-home-btn{width:100%;padding:18px;background:#0f3460;border:none;color:#fff;border-radius:14px;font-size:1.1rem;font-weight:700;cursor:pointer;font-family:inherit}
+
+/* STREAK CARD — MTG style */
+.streak-card{width:100%;border-radius:18px;padding:3px;transition:background 0.5s}
+.streak-inner{background:#0d0d1f;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:14px}
+.loyalty-shield{width:62px;height:62px;border-radius:50%;border:3px solid #9ca3af;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.5s,box-shadow 0.5s}
+.loyalty-num{font-size:1.85rem;font-weight:900;line-height:1;transition:color 0.5s}
+.loyalty-days-label{font-size:0.52rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#555}
+.streak-details{flex:1;min-width:0}
+.streak-rarity-line{display:flex;align-items:center;gap:5px;margin-bottom:1px}
+.streak-rarity-pip{font-size:0.75rem;transition:color 0.5s}
+.streak-rank-name{font-size:0.62rem;font-weight:800;text-transform:uppercase;letter-spacing:0.13em;transition:color 0.5s}
+.streak-title-line{font-size:0.98rem;font-weight:800;margin-bottom:6px;transition:color 0.5s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.streak-prog-bar{height:4px;background:#16213e;border-radius:2px;margin-bottom:3px;overflow:hidden}
+.streak-prog-fill{height:100%;border-radius:2px;transition:width 0.7s,background 0.5s}
+.streak-next-line{font-size:0.62rem;color:#555}
+.streak-pts-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0;gap:0}
+.streak-pts-num{font-size:1.15rem;font-weight:800;color:#f5a623}
+.streak-pts-icon{font-size:0.9rem}
+.streak-pts-label{font-size:0.5rem;color:#555;text-transform:uppercase;letter-spacing:0.06em}
+
+/* Mythic shimmer */
+@keyframes mtg-shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.streak-card.mythic{background:linear-gradient(270deg,#ff8c00,#e94560,#9333ea,#3b82f6,#4ecca3,#f5a623);background-size:400% 400%;animation:mtg-shimmer 4s ease infinite}
+.streak-card.mythic .loyalty-shield{box-shadow:0 0 16px rgba(255,140,0,0.6)}
+
+/* Rank badge on session done */
+.sess-rank-badge{display:inline-block;padding:4px 14px;border-radius:999px;font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;margin-top:6px}
 </style>
 </head>
 <body>
@@ -241,9 +268,27 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 <div id="home" class="screen active">
   <div class="home-title">🔬 Sigma<br>Sleuth</div>
   <div class="home-sub">Disease Detectives · State Prep</div>
-  <div class="stats-bar">
-    <div class="stat-chip" id="streak-chip">🔥 <span id="streak-val">0</span> day streak</div>
-    <div class="stat-chip">⭐ <span id="total-score">0</span> pts</div>
+  <div class="streak-card" id="streak-card" style="background:linear-gradient(135deg,#6b7280,#9ca3af)">
+    <div class="streak-inner">
+      <div class="loyalty-shield" id="loyalty-shield">
+        <div class="loyalty-num" id="streak-val" style="color:#9ca3af">0</div>
+        <div class="loyalty-days-label">days</div>
+      </div>
+      <div class="streak-details">
+        <div class="streak-rarity-line">
+          <span class="streak-rarity-pip" id="streak-pip" style="color:#9ca3af">●</span>
+          <span class="streak-rank-name" id="streak-rank-name" style="color:#9ca3af">COMMON</span>
+        </div>
+        <div class="streak-title-line" id="streak-title-line" style="color:#9ca3af">Apprentice Investigator</div>
+        <div class="streak-prog-bar"><div class="streak-prog-fill" id="streak-fill" style="width:0%;background:#9ca3af"></div></div>
+        <div class="streak-next-line" id="streak-next-line">Complete a session to start!</div>
+      </div>
+      <div class="streak-pts-col">
+        <div class="streak-pts-icon">⭐</div>
+        <div class="streak-pts-num" id="total-score">0</div>
+        <div class="streak-pts-label">pts</div>
+      </div>
+    </div>
   </div>
 
   <!-- Start / Done card -->
@@ -430,6 +475,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
       <div class="sess-done-score" id="sess-done-score">0/12</div>
       <div class="sess-done-label">questions correct</div>
       <div class="sess-done-streak" id="sess-done-streak">🔥 1 day streak</div>
+      <div class="sess-rank-badge" id="sess-rank-badge" style="background:#6b7280;color:#fff">● COMMON · Apprentice Investigator</div>
     </div>
     <div style="background:#16213e;border-radius:14px;padding:16px;text-align:center;margin-bottom:20px;font-size:0.95rem;color:#aaa;line-height:1.5">
       Come back tomorrow to keep your streak alive! 🔥
@@ -1196,6 +1242,35 @@ let _sessLastCorrect = false;
 function load(k, def) { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } }
 function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 
+function getStreakRank(n) {
+  if (n >= 30) return { label:'MYTHIC RARE', title:'Legendary Detective',    pip:'✦',   color:'#ff8c00', grad:'linear-gradient(135deg,#ff8c00,#e94560)', pct:100,                          nextMsg:'Maximum rank achieved ✦',    cls:'mythic' };
+  if (n >= 14) return { label:'RARE',        title:'Master Sleuth',          pip:'◆◆◆', color:'#f5a623', grad:'linear-gradient(135deg,#c8960c,#f5a623)', pct:Math.round((n-14)/16*100),    nextMsg:`${30-n} days to Mythic Rare`, cls:'' };
+  if (n >= 7)  return { label:'UNCOMMON',    title:'Senior Epidemiologist',  pip:'◆◆',  color:'#4ecca3', grad:'linear-gradient(135deg,#0e7490,#4ecca3)', pct:Math.round((n-7)/7*100),      nextMsg:`${14-n} days to Rare`,        cls:'' };
+  if (n >= 3)  return { label:'UNCOMMON',    title:'Field Scout',            pip:'◆',   color:'#93c5fd', grad:'linear-gradient(135deg,#1e40af,#93c5fd)', pct:Math.round((n-3)/4*100),      nextMsg:`${7-n} days to Uncommon II`,  cls:'' };
+  return         { label:'COMMON',      title:'Apprentice Investigator', pip:'●',   color:'#9ca3af', grad:'linear-gradient(135deg,#374151,#9ca3af)', pct:Math.round(n/3*100),          nextMsg: n===0 ? 'Complete a session to start!' : `${3-n} day${3-n!==1?'s':''} to Uncommon`, cls:'' };
+}
+
+function renderStreakCard(streak, pts) {
+  const r = getStreakRank(streak);
+  const card = document.getElementById('streak-card');
+  card.className = 'streak-card ' + r.cls;
+  if (!r.cls) card.style.background = r.grad; else card.style.background = '';
+  document.getElementById('streak-val').textContent = streak;
+  document.getElementById('streak-val').style.color = r.color;
+  document.getElementById('loyalty-shield').style.borderColor = r.color;
+  document.getElementById('loyalty-shield').style.boxShadow = r.cls === 'mythic' ? '0 0 16px rgba(255,140,0,0.6)' : 'none';
+  document.getElementById('streak-pip').textContent = r.pip;
+  document.getElementById('streak-pip').style.color = r.color;
+  document.getElementById('streak-rank-name').textContent = r.label;
+  document.getElementById('streak-rank-name').style.color = r.color;
+  document.getElementById('streak-title-line').textContent = r.title;
+  document.getElementById('streak-title-line').style.color = r.color;
+  document.getElementById('streak-fill').style.background = r.grad;
+  document.getElementById('streak-fill').style.width = r.pct + '%';
+  document.getElementById('streak-next-line').textContent = r.nextMsg;
+  document.getElementById('total-score').textContent = pts;
+}
+
 function updateStreak() {
   const today = new Date().toDateString();
   const last  = load('dd_last', null);
@@ -1242,8 +1317,7 @@ function showScreen(id) {
 
 function refreshHome() {
   const streak = updateStreak();
-  document.getElementById('streak-val').textContent = streak;
-  document.getElementById('total-score').textContent = totalPoints();
+  renderStreakCard(streak, totalPoints());
 
   if (isTodayDone()) {
     document.getElementById('home-start-btn').style.display = 'none';
@@ -1605,8 +1679,13 @@ function completeTodaySession() {
 
   document.querySelectorAll('.sess-section').forEach(s => s.classList.remove('active'));
   document.getElementById('sess-done').classList.add('active');
+  const r = getStreakRank(streak);
   document.getElementById('sess-done-score').textContent = `${score}/12`;
   document.getElementById('sess-done-streak').textContent = `🔥 ${streak} day streak`;
+  const badge = document.getElementById('sess-rank-badge');
+  badge.textContent = `${r.pip} ${r.label} · ${r.title}`;
+  badge.style.background = r.grad;
+  badge.style.color = '#fff';
 
   // Update progress label/bar to show complete
   document.getElementById('sess-label').textContent = 'Session complete!';
