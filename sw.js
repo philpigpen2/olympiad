@@ -1,8 +1,8 @@
-const CACHE_NAME = 'dd-practice-v1';
+const CACHE_NAME = 'sigma-sleuth-v5';
 const ASSETS = [
-  '/marketing/olympiad/',
-  '/marketing/olympiad/index.html',
-  '/marketing/olympiad/manifest.json'
+  './',
+  './index.html',
+  './manifest.json'
 ];
 
 self.addEventListener('install', e => {
