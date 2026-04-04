@@ -225,6 +225,18 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 .sess-stats-table th{background:#0f3460;color:#4ecca3;padding:8px 10px;text-align:center;font-weight:700;border:2px solid #1a1a2e}
 .sess-stats-table td{background:#16213e;color:#eaeaea;padding:8px 10px;text-align:center;border:2px solid #1a1a2e;font-weight:600}
 
+/* PERFORMANCE BREAKDOWN */
+.perf-breakdown{background:#16213e;border-radius:16px;padding:16px;margin-bottom:14px}
+.perf-title{font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#555;margin-bottom:12px}
+.perf-row{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.perf-label{font-size:0.78rem;font-weight:600;width:108px;flex-shrink:0;color:#ccc}
+.perf-bar-wrap{flex:1;background:#0d0d1f;border-radius:4px;height:8px;overflow:hidden}
+.perf-bar-fill{height:100%;border-radius:4px;transition:width 0.6s}
+.perf-pct{font-size:0.75rem;font-weight:800;width:34px;text-align:right;flex-shrink:0}
+.perf-icon{font-size:0.82rem;width:18px;text-align:center;flex-shrink:0}
+.focus-box{border-radius:14px;padding:14px 16px;margin-bottom:16px;font-size:0.88rem;line-height:1.55;border-left:4px solid #f5a623;background:#16213e}
+.focus-box-title{font-weight:800;color:#f5a623;margin-bottom:4px;font-size:0.9rem}
+
 /* SESSION DONE */
 .sess-done-card{background:#16213e;border-radius:20px;padding:32px 24px;text-align:center;margin-bottom:20px;border:2px solid #4ecca3}
 .sess-done-emoji{font-size:3.5rem;margin-bottom:10px}
@@ -342,7 +354,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
       <span style="font-size:1.5rem">▶</span>
       <div style="text-align:left">
         <div>Start Today's Practice</div>
-        <span class="start-btn-sub" id="home-start-sub">12 questions · ~10 min</span>
+        <span class="start-btn-sub" id="home-start-sub">15 questions · ~12 min</span>
       </div>
     </button>
     <div class="done-card" id="home-done-card" style="display:none">
@@ -431,7 +443,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <div class="screen-title">🔬 Daily Practice</div>
   </div>
   <div class="progress-wrap">
-    <div class="progress-label" id="sess-label">Question 1 of 12</div>
+    <div class="progress-label" id="sess-label">Question 1 of 15</div>
     <div class="progress-bar"><div class="progress-fill" id="sess-bar" style="width:8%"></div></div>
   </div>
 
@@ -524,7 +536,8 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
       <div class="sess-done-streak" id="sess-done-streak">🔥 1 day streak</div>
       <div class="sess-rank-badge" id="sess-rank-badge" style="background:#6b7280;color:#fff">● COMMON · Apprentice Investigator</div>
     </div>
-    <div style="background:#16213e;border-radius:14px;padding:16px;text-align:center;margin-bottom:20px;font-size:0.95rem;color:#aaa;line-height:1.5">
+    <div id="sess-perf-wrap"></div>
+    <div style="background:#16213e;border-radius:14px;padding:16px;text-align:center;margin-bottom:16px;font-size:0.88rem;color:#aaa;line-height:1.5">
       Come back tomorrow to keep your streak alive! 🔥
     </div>
     <button class="sess-home-btn" onclick="showScreen('home')">← Back to Home</button>
@@ -1400,7 +1413,7 @@ function refreshHome() {
     document.getElementById('home-done-card').style.display = 'block';
     const sessScore = load('dd_today_score', 0);
     document.getElementById('home-done-sub').textContent =
-      `Score: ${sessScore}/12 · Come back tomorrow to keep your streak alive 🔥`;
+      `Score: ${sessScore}/15 · Come back tomorrow to keep your streak alive 🔥`;
   } else {
     document.getElementById('home-start-btn').style.display = 'flex';
     document.getElementById('home-done-card').style.display = 'none';
@@ -1409,9 +1422,9 @@ function refreshHome() {
     if (todayQs) {
       const done = load('dd_today_pos', 0);
       document.getElementById('home-start-sub').textContent =
-        done > 0 ? `Resume — question ${done + 1} of 12` : '12 questions · ~10 min';
+        done > 0 ? `Resume — question ${done + 1} of 15` : '15 questions · ~12 min';
     } else {
-      document.getElementById('home-start-sub').textContent = '12 questions · ~10 min';
+      document.getElementById('home-start-sub').textContent = '15 questions · ~12 min';
     }
   }
 }
@@ -1518,27 +1531,90 @@ function genStats() {
   return { type, data, answer, explain, q, context: sc.ctx, colHeaders: ['#', sc.col] };
 }
 
-// Build today's 12 questions using bags + generators
+// ── PERFORMANCE TRACKING ─────────────────────────────────────────
+const PERF_TYPES = [
+  {key:'vocab', label:'Vocabulary'},
+  {key:'tf',    label:'True / False'},
+  {key:'match', label:'Matching'},
+  {key:'sc',    label:'Scenarios'},
+  {key:'math',  label:'Attack Rate Math'},
+  {key:'stats', label:'Stats Math'},
+];
+
+function perfPct(cumPerf, key) {
+  const p = cumPerf[key];
+  if (!p || p.total < 2) return 0.7; // neutral when no data
+  return p.correct / p.total;
+}
+
+function renderPerfBreakdown(sessPerf, cumPerf) {
+  const rows = PERF_TYPES.map(({key, label}) => {
+    const s = sessPerf[key];
+    if (!s || s.total === 0) return '';
+    const pct = Math.round(s.correct / s.total * 100);
+    const color = pct >= 80 ? '#4ecca3' : pct >= 60 ? '#f5a623' : '#e94560';
+    const icon  = pct >= 80 ? '✅' : pct >= 60 ? '⚠️' : '❌';
+    return `<div class="perf-row">
+      <div class="perf-label">${label}</div>
+      <div class="perf-bar-wrap"><div class="perf-bar-fill" style="width:${pct}%;background:${color}"></div></div>
+      <div class="perf-pct" style="color:${color}">${pct}%</div>
+      <div class="perf-icon">${icon}</div>
+    </div>`;
+  }).join('');
+
+  const weak = PERF_TYPES
+    .filter(({key}) => { const p = cumPerf[key]; return p && p.total >= 2 && p.correct/p.total < 0.7; })
+    .sort((a,b) => perfPct(cumPerf,a.key) - perfPct(cumPerf,b.key))
+    .slice(0, 2);
+
+  const focusHtml = weak.length > 0
+    ? `<div class="focus-box">
+        <div class="focus-box-title">🎯 Tomorrow's focus</div>
+        You'll get extra <strong>${weak.map(w=>w.label).join('</strong> and <strong>')}</strong> questions until those scores improve.
+       </div>`
+    : `<div class="focus-box" style="border-color:#4ecca3">
+        <div class="focus-box-title" style="color:#4ecca3">🌟 Looking strong!</div>
+        All areas are solid — tomorrow you'll get a balanced mix.
+       </div>`;
+
+  document.getElementById('sess-perf-wrap').innerHTML =
+    `<div class="perf-breakdown"><div class="perf-title">📊 Today's breakdown</div>${rows}</div>${focusHtml}`;
+}
+
+// Build today's 15 questions using bags + generators, weighted by weakness
 function buildTodayPool() {
+  const cumPerf = load('dd_perf', {});
+
+  // Base allocations (total = 15)
+  const alloc = {vocab:3, tf:2, match:2, sc:2, math:3, stats:3};
+
+  // Boost weakest types (below 60%) by taking from strongest
+  const byStrength = PERF_TYPES.map(t => t.key).sort((a,b) => perfPct(cumPerf,a) - perfPct(cumPerf,b));
+  let budget = 0;
+  // Donate from strongest (up to 2 points total)
+  for (let i = byStrength.length-1; i >= 0 && budget < 2; i--) {
+    const t = byStrength[i];
+    if (perfPct(cumPerf,t) > 0.8 && alloc[t] > 1) { alloc[t]--; budget++; }
+  }
+  // Give to weakest
+  for (let i = 0; i < byStrength.length && budget > 0; i++) {
+    const t = byStrength[i];
+    if (perfPct(cumPerf,t) < 0.6) { alloc[t]++; budget--; }
+  }
+
   const pool = [];
-  // Bags for fixed-content types
-  const vocabIdxs  = VOCAB.map((_,i) => i);
-  const tfIdxs     = TF_DATA.map((_,i) => i);
-  const matchIdxs  = MATCH_DATA.map((_,i) => i);
-  // Scenario refs: all {si, qi} combos
-  const scRefs = [];
+  const vocabIdxs = VOCAB.map((_,i) => i);
+  const tfIdxs    = TF_DATA.map((_,i) => i);
+  const matchIdxs = MATCH_DATA.map((_,i) => i);
+  const scRefs    = [];
   SCENARIOS.forEach((sc,si) => sc.questions.forEach((_,qi) => scRefs.push({si,qi})));
 
-  for (let i = 0; i < 3; i++) pool.push({type:'vocab', idx: drawBag('vocab', vocabIdxs)});
-  for (let i = 0; i < 2; i++) pool.push({type:'tf',    idx: drawBag('tf',    tfIdxs)});
-  for (let i = 0; i < 2; i++) pool.push({type:'match', idx: drawBag('match', matchIdxs)});
-  const ref = drawBag('sc', scRefs);
-  pool.push({type:'sc', idx: ref.si, qIdx: ref.qi});
-  // Generated — always fresh
-  pool.push({type:'math',  gen: genMath()});
-  pool.push({type:'math',  gen: genMath()});
-  pool.push({type:'stats', gen: genStats()});
-  pool.push({type:'stats', gen: genStats()});
+  for (let i = 0; i < alloc.vocab; i++) pool.push({type:'vocab', idx: drawBag('vocab', vocabIdxs)});
+  for (let i = 0; i < alloc.tf;    i++) pool.push({type:'tf',    idx: drawBag('tf',    tfIdxs)});
+  for (let i = 0; i < alloc.match; i++) pool.push({type:'match', idx: drawBag('match', matchIdxs)});
+  for (let i = 0; i < alloc.sc;    i++) { const r = drawBag('sc', scRefs); pool.push({type:'sc', idx:r.si, qIdx:r.qi}); }
+  for (let i = 0; i < alloc.math;  i++) pool.push({type:'math',  gen: genMath()});
+  for (let i = 0; i < alloc.stats; i++) pool.push({type:'stats', gen: genStats()});
 
   return shuffle(pool);
 }
@@ -1553,6 +1629,8 @@ function isTodayStarted() {
   return load('dd_today_date', null) === today && load('dd_today_qs', null) !== null;
 }
 
+const SESS_LEN = 15;
+
 function startDailySession() {
   const today = new Date().toDateString();
   if (!isTodayStarted()) {
@@ -1561,6 +1639,7 @@ function startDailySession() {
     save('dd_today_pos',   0);
     save('dd_today_score', 0);
     save('dd_today_done',  false);
+    save('dd_sess_perf',   {});
   }
   showScreen('session');
 }
@@ -1570,9 +1649,9 @@ function runSession() {
   const todayQs = load('dd_today_qs', null);
 
   if (!todayQs) { showScreen('home'); return; }
-  if (pos >= 12) { completeTodaySession(); return; }
+  if (pos >= SESS_LEN) { completeTodaySession(); return; }
 
-  const total = 12;
+  const total = SESS_LEN;
   const pct = Math.round(((pos + 1) / total) * 100);
   document.getElementById('sess-label').textContent = `Question ${pos + 1} of ${total}`;
   document.getElementById('sess-bar').style.width = pct + '%';
@@ -1810,15 +1889,26 @@ function checkSessStats() {
 }
 
 function advanceSessQuestion(correct) {
-  // Save score
   if (correct) save('dd_today_score', load('dd_today_score', 0) + 1);
-  save('dd_sess_score', load('dd_sess_score', 0) + (correct ? 1 : 0));
 
+  // Track per-type performance
+  const todayQs = load('dd_today_qs', []);
   const pos = load('dd_today_pos', 0);
+  const q = todayQs[pos];
+  if (q) {
+    const sp = load('dd_sess_perf', {});
+    const t  = q.type;
+    if (!sp[t]) sp[t] = {correct:0, total:0};
+    sp[t].total++;
+    if (correct) sp[t].correct++;
+    save('dd_sess_perf', sp);
+  }
+
   const newPos = pos + 1;
   save('dd_today_pos', newPos);
 
-  if (newPos >= 12) {
+  const SESS_LEN = 15;
+  if (newPos >= SESS_LEN) {
     completeTodaySession();
   } else {
     runSession();
@@ -1828,19 +1918,32 @@ function advanceSessQuestion(correct) {
 function completeTodaySession() {
   save('dd_today_done', true);
   save('dd_total_sessions', load('dd_total_sessions', 0) + 1);
-  save('dd_total_questions', load('dd_total_questions', 0) + 12);
-  const score = load('dd_today_score', 0);
+  save('dd_total_questions', load('dd_total_questions', 0) + 15);
+
+  // Merge session perf into cumulative
+  const sessPerf = load('dd_sess_perf', {});
+  const cumPerf  = load('dd_perf', {});
+  Object.entries(sessPerf).forEach(([t, p]) => {
+    if (!cumPerf[t]) cumPerf[t] = {correct:0, total:0};
+    cumPerf[t].correct += p.correct;
+    cumPerf[t].total   += p.total;
+  });
+  save('dd_perf', cumPerf);
+
+  const score  = load('dd_today_score', 0);
   const streak = load('dd_streak', 0);
 
   document.querySelectorAll('.sess-section').forEach(s => s.classList.remove('active'));
   document.getElementById('sess-done').classList.add('active');
   const r = getStreakRank(streak);
-  document.getElementById('sess-done-score').textContent = `${score}/12`;
+  document.getElementById('sess-done-score').textContent = `${score}/15`;
   document.getElementById('sess-done-streak').textContent = `🔥 ${streak} day streak`;
   const badge = document.getElementById('sess-rank-badge');
   badge.textContent = `${r.pip} ${r.label} · ${r.title}`;
   badge.style.background = r.grad;
   badge.style.color = '#fff';
+
+  renderPerfBreakdown(sessPerf, cumPerf);
 
   // Update progress label/bar to show complete
   document.getElementById('sess-label').textContent = 'Session complete!';
