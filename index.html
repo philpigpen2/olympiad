@@ -963,7 +963,7 @@ const SCENARIOS = [
       { q:"Environmental swabs testing positive for viral particles MOST directly supports which control measure as the highest priority?", choices:["Close restaurants only — the food was the sole vector","Deep-clean ALL surfaces with EPA-approved bleach solution AND exclude sick passengers and staff from food handling areas","Test everyone's blood before allowing anyone off the ship","Vaccinate all passengers against norovirus"], correct:1, explain:"Positive environmental swabs confirm fomite contamination — surfaces are active transmission routes. Norovirus survives standard cleaners; it requires bleach or other approved virucides. Excluding sick staff from food handling AND deep-cleaning surfaces simultaneously attacks both transmission routes. There is no approved norovirus vaccine." }
     ]},
   { title:"The Deli Counter", emoji:"🥪", concept:'pathogen',
-    story:"Over 3 weeks, 8 people in the same county developed serious illness: high fever, muscle aches, stiff neck, and confusion. All 8 had purchased deli meats from the same grocery store chain. Three patients were pregnant women (two had fetal loss). Two patients died. Laboratory analysis confirmed the same genetic strain across all cases via whole-genome sequencing.",
+    story:"Over 3 weeks, 8 people in the same county developed serious illness: high fever, muscle aches, stiff neck, and confusion. All 8 had purchased deli meats from the same grocery store chain. Three patients were pregnant women who became critically ill. Two patients died. Laboratory analysis confirmed the same genetic strain across all cases via whole-genome sequencing.",
     questions:[
       { q:"Which pathogen is MOST consistent with deli meats, a 1–4 week incubation period, disproportionate impact on pregnant women, AND neurological symptoms (stiff neck, confusion)?", choices:["Salmonella — common in deli meats but rarely neurological","E. coli O157:H7 — affects kidneys, not typically neurological meningitis","Listeria monocytogenes — cold-tolerant; causes listeriosis with meningitis; extremely dangerous in pregnancy","Campylobacter — common but not linked to deli meats or meningitis"], correct:2, explain:"Listeria is the only major foodborne pathogen that: (1) survives and grows in refrigerators, (2) has a 1–4 WEEK incubation, (3) disproportionately affects pregnant women and immunocompromised individuals, and (4) causes invasive disease including meningitis (stiff neck, confusion). The long incubation and neurological symptoms are the key differentiating clues." },
       { q:"Whole-genome sequencing confirmed the same Listeria strain in all 8 patients. This finding:", choices:["Is unnecessary — the deli connection was already obvious","Strongly establishes a common source and supports regulatory action against the store/supplier","Only proves the patients visited the same store, not that the food caused illness","Is less useful than traditional culture methods for outbreak investigation"], correct:1, explain:"Whole-genome sequencing (WGS) is now the gold standard for outbreak investigation. Matching strains across geographically linked cases provides near-definitive evidence of a common source, enabling targeted regulatory action (store closure, product recall) and ruling out coincidental cases. It's far more precise than older typing methods." },
@@ -1619,6 +1619,8 @@ function buildTodayPool() {
     else if (concept === 'investigation') { alloc.sc++; budget--; }
     else { alloc.vocab++; budget--; } // pathogen, epi_terms, transmission, control → vocab/tf
   }
+  // If budget was donated but not spent (no weak concepts), return to vocab so pool is always 15
+  if (budget > 0) alloc.vocab += budget;
 
   const pool = [];
   const vocabIdxs = VOCAB.map((_,i) => i);
@@ -1678,6 +1680,7 @@ function runSession() {
   document.querySelectorAll('.sess-section').forEach(s => s.classList.remove('active'));
 
   const q = todayQs[pos];
+  if (!q) { completeTodaySession(); return; }
   if (q.type === 'vocab')  loadSessVocab(q);
   else if (q.type === 'tf')    loadSessTF(q);
   else if (q.type === 'match') loadSessMatch(q);
