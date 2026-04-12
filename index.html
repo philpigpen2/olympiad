@@ -437,7 +437,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
   <div class="sess-section" id="sess-sc">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
       <span class="sess-type-label" style="margin-bottom:0">SCENARIO</span>
-      <button onclick="openStudyPanel(_sessStudyCats)" style="background:none;border:1px solid #4ecca3;color:#4ecca3;border-radius:14px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer">📖 Study</button>
+      <button onclick="openChatPanel(_chatContext)" style="background:none;border:1px solid #4ecca3;color:#4ecca3;border-radius:14px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer">💬 Ask Claude</button>
     </div>
     <div id="sess-sc-story" class="scenario-story" style="margin-bottom:14px"></div>
     <div class="question-text" id="sess-sc-question"></div>
@@ -499,7 +499,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
   <div class="sess-section" id="sess-ec">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
       <span class="sess-type-label" style="margin-bottom:0">EPI CURVE</span>
-      <button onclick="openStudyPanel(['investigation','epi_terms'])" style="background:none;border:1px solid #4ecca3;color:#4ecca3;border-radius:14px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer">📖 Study</button>
+      <button onclick="openChatPanel(_chatContext)" style="background:none;border:1px solid #4ecca3;color:#4ecca3;border-radius:14px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer">💬 Ask Claude</button>
     </div>
     <div id="sess-ec-story" class="scenario-story" style="margin-bottom:12px"></div>
     <div id="sess-ec-chart" style="margin-bottom:14px"></div>
@@ -879,7 +879,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
       <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#f5a623" id="mock-topic-label">VOCABULARY</div>
-      <button id="mock-study-btn" onclick="openStudyPanel(TOPIC_TO_VOCAB_CAT[_mockPool[_mockIdx]?.type==='sa'?'investigation':_mockPool[_mockIdx]?.topic])" style="background:none;border:1px solid #4ecca3;color:#4ecca3;border-radius:14px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer;white-space:nowrap">📖 Study</button>
+      <button id="mock-study-btn" onclick="openChatPanel({q:_mockPool[_mockIdx]?.q||'',topic:TOPIC_LABELS[_mockPool[_mockIdx]?.topic]||'Disease Detectives'})" style="background:none;border:1px solid #4ecca3;color:#4ecca3;border-radius:14px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer;white-space:nowrap">💬 Ask Claude</button>
     </div>
     <div class="scenario-story" id="mock-question" style="font-size:1rem;font-weight:600;line-height:1.6;border-left-color:#f5a623"></div>
     <div class="choices" id="mock-choices"></div>
@@ -1666,7 +1666,6 @@ let tfIdx = 0, tfScore = 0, tfAnswered = false;
 let matchIdx = 0, matchScore = 0, matchAnswered = false;
 let writIdx = 0, writScore = 0;
 let _sessLastCorrect = false;
-let _sessStudyCats = null; // vocab categories for the Study panel in scenario questions
 
 // ── STORAGE ───────────────────────────────────────────────────────
 function load(k, def) { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } }
@@ -2184,8 +2183,8 @@ function sessSolveMatch(chosen, btn, p) {
 function loadSessSc(q) {
   const sc = SCENARIOS[q.idx];
   const qData = sc.questions[q.qIdx];
-  // Set study panel categories based on scenario concept
-  _sessStudyCats = sc.concept ? TOPIC_TO_VOCAB_CAT[sc.concept] || [sc.concept] : ['epi_terms','investigation'];
+  // Set chat context for Ask Claude button
+  _chatContext = { q: qData.q, topic: 'Scenario: ' + sc.title };
   document.getElementById('sess-sc-story').innerHTML =
     `<div class="scenario-emoji">${sc.emoji}</div><div class="scenario-name">${sc.title}</div>${sc.story}`;
   document.getElementById('sess-sc-question').textContent = `Q${q.qIdx + 1}: ${qData.q}`;
@@ -2369,6 +2368,8 @@ function checkSessT2() {
 function loadSessEc(q) {
   const d = EPI_CHARTS[q.idx];
   const qData = d.questions[q.qIdx];
+  // Set chat context for Ask Claude button
+  _chatContext = { q: qData.q, topic: 'Epi Curve: ' + d.title };
   document.getElementById('sess-ec-story').innerHTML =
     `<div class="scenario-emoji">${d.emoji}</div><div class="scenario-name">${d.title}</div>${d.scenario}`;
   document.getElementById('sess-ec-chart').innerHTML = renderEpiChart(d);
@@ -3692,61 +3693,128 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js');
 }
 
-// ── STUDY PANEL ────────────────────────────────────────────────────
-const TOPIC_TO_VOCAB_CAT = {
-  vocab:          null,                        // open general
-  calculations:   ['epi_terms','stats'],
-  pathogens:      ['pathogen'],
-  classification: ['pathogen'],
-  vectors:        ['transmission'],
-  epi_curves:     ['investigation','epi_terms'],
-  investigation:  ['investigation'],
-  vaccines:       ['control'],
-  chronic:        ['epi_terms']
-};
+// ── ASK CLAUDE CHAT PANEL ──────────────────────────────────────────
+const CHAT_API_URL = 'https://olympiad-api-theta.vercel.app/api/chat';
 
-let _studyPanelCats = null; // categories to show in the panel
+let _chatHistory = [];   // [{role:'user'|'assistant', content:string}]
+let _chatContext = null; // {q, topic} — current question context
+let _chatPending = false;
 
-function openStudyPanel(cats) {
-  _studyPanelCats = cats || null;
-  const catArr = cats ? (Array.isArray(cats) ? cats : [cats]) : null;
-  const terms = catArr ? VOCAB.filter(v => catArr.includes(v.c)) : VOCAB.slice(0, 20);
-  if (terms.length === 0) {
-    // fallback to all terms if no matches
-    return openStudyPanel(null);
-  }
-  document.getElementById('study-panel-content').innerHTML = terms.map(v => {
-    const catLabel = ({
-      'epi_terms':'Epidemiology Concept','transmission':'Disease Transmission',
-      'pathogen':'Pathogen / Disease','control':'Prevention & Control',
-      'investigation':'Investigation Method','stats':'Statistics & Math'
-    })[v.c] || v.c || '';
-    return `<div style="margin-bottom:14px;padding:14px;background:#16213e;border-radius:12px">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
-        <div style="font-weight:800;font-size:0.95rem;color:#4ecca3">${v.term}</div>
-        <div style="font-size:0.65rem;font-weight:700;color:#f5a623;text-transform:uppercase;letter-spacing:0.08em;white-space:nowrap;margin-left:8px">${catLabel}</div>
-      </div>
-      <div style="font-size:0.88rem;line-height:1.6;color:#eaeaea">${v.def}</div>
-    </div>`;
-  }).join('');
-  document.getElementById('study-panel').style.display = 'block';
-  document.getElementById('study-panel-overlay').style.display = 'block';
+function openChatPanel(context) {
+  _chatContext = context || { q: '', topic: 'Disease Detectives' };
+  _chatHistory = [];
+  _chatPending = false;
+  const qText = _chatContext.q || '';
+  document.getElementById('chat-context-text').textContent =
+    qText.length > 90 ? qText.slice(0, 90) + '…' : qText || 'Current question';
+  document.getElementById('chat-messages').innerHTML = '';
+  document.getElementById('chat-input').value = '';
+  document.getElementById('chat-panel').style.display = 'flex';
+  document.getElementById('chat-overlay').style.display = 'block';
+  // Auto-fire opening explanation from Claude
+  _callChatAPI('Can you explain the key concept I need to understand to answer this question? Please keep it simple — I\'m in middle school.', true);
 }
 
-function closeStudyPanel() {
-  document.getElementById('study-panel').style.display = 'none';
-  document.getElementById('study-panel-overlay').style.display = 'none';
+function closeChatPanel() {
+  document.getElementById('chat-panel').style.display = 'none';
+  document.getElementById('chat-overlay').style.display = 'none';
+}
+
+function _appendChatMsg(role, text) {
+  const isUser = role === 'user';
+  const el = document.createElement('div');
+  el.style.cssText = `display:flex;justify-content:${isUser ? 'flex-end' : 'flex-start'}`;
+  const bubble = document.createElement('div');
+  bubble.style.cssText = [
+    'max-width:85%',
+    'padding:10px 14px',
+    `border-radius:${isUser ? '16px 16px 4px 16px' : '4px 16px 16px 16px'}`,
+    `background:${isUser ? '#f5a623' : '#16213e'}`,
+    `color:${isUser ? '#0f3460' : '#eaeaea'}`,
+    'font-size:0.88rem',
+    'line-height:1.6',
+    `font-weight:${isUser ? '700' : '400'}`
+  ].join(';');
+  bubble.innerHTML = text.replace(/\n/g, '<br>');
+  el.appendChild(bubble);
+  document.getElementById('chat-messages').appendChild(el);
+  el.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  return bubble;
+}
+
+async function _callChatAPI(userText, hiddenFromUser) {
+  if (_chatPending) return;
+  _chatPending = true;
+  document.getElementById('chat-send-btn').disabled = true;
+
+  if (!hiddenFromUser) _appendChatMsg('user', userText);
+  // Typing indicator
+  const typingBubble = _appendChatMsg('assistant', '⋯');
+  _chatHistory.push({ role: 'user', content: userText });
+
+  try {
+    const res = await fetch(CHAT_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: _chatHistory, questionContext: _chatContext })
+    });
+    const data = await res.json();
+    const reply = data.reply || 'Sorry, I had trouble responding. Please try again!';
+    _chatHistory.push({ role: 'assistant', content: reply });
+    typingBubble.innerHTML = reply.replace(/\n/g, '<br>');
+  } catch {
+    typingBubble.textContent = 'No internet connection. Please check your connection and try again.';
+  }
+
+  _chatPending = false;
+  document.getElementById('chat-send-btn').disabled = false;
+}
+
+function sendChat() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text || _chatPending) return;
+  input.value = '';
+  _callChatAPI(text, false);
 }
 </script>
 
-<!-- Study Panel -->
-<div id="study-panel-overlay" onclick="closeStudyPanel()" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.65);z-index:9998"></div>
-<div id="study-panel" style="display:none;position:fixed;bottom:0;left:0;right:0;max-height:78vh;background:#0f3460;border-radius:24px 24px 0 0;overflow-y:auto;padding:20px 16px 36px;z-index:9999;box-shadow:0 -4px 30px rgba(0,0,0,0.6)">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-    <div style="font-weight:800;font-size:1.05rem;color:#f5a623">📖 Study This Topic</div>
-    <button onclick="closeStudyPanel()" style="background:none;border:none;color:#eaeaea;font-size:1.5rem;cursor:pointer;padding:4px 8px;line-height:1">✕</button>
+<!-- Ask Claude Chat Panel -->
+<div id="chat-overlay" onclick="closeChatPanel()"
+  style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9998"></div>
+<div id="chat-panel"
+  style="display:none;position:fixed;bottom:0;left:0;right:0;height:82vh;background:#0f3460;
+         border-radius:24px 24px 0 0;z-index:9999;flex-direction:column;
+         box-shadow:0 -4px 30px rgba(0,0,0,0.6)">
+  <!-- Header -->
+  <div style="display:flex;justify-content:space-between;align-items:center;
+              padding:16px 16px 10px;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,0.08)">
+    <div style="font-weight:800;font-size:1rem;color:#f5a623">💬 Ask Claude</div>
+    <button onclick="closeChatPanel()"
+      style="background:none;border:none;color:#aaa;font-size:1.5rem;cursor:pointer;padding:4px 8px;line-height:1">✕</button>
   </div>
-  <div id="study-panel-content"></div>
+  <!-- Question context pill -->
+  <div style="padding:8px 14px;flex-shrink:0">
+    <div id="chat-context-text"
+      style="background:#16213e;border-radius:10px;padding:8px 12px;
+             font-size:0.76rem;color:#aaa;line-height:1.4;font-style:italic"></div>
+  </div>
+  <!-- Messages -->
+  <div id="chat-messages"
+    style="flex:1;overflow-y:auto;padding:8px 14px 10px;display:flex;flex-direction:column;gap:10px;
+           min-height:0"></div>
+  <!-- Input row -->
+  <div style="padding:10px 14px 24px;display:flex;gap:8px;align-items:flex-end;
+              flex-shrink:0;border-top:1px solid rgba(255,255,255,0.08)">
+    <textarea id="chat-input" rows="2" placeholder="Ask a follow-up question…"
+      style="flex:1;background:#16213e;border:1px solid rgba(255,255,255,0.15);border-radius:12px;
+             color:#eaeaea;padding:10px 12px;font-size:0.88rem;resize:none;font-family:inherit;
+             outline:none"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}"></textarea>
+    <button onclick="sendChat()" id="chat-send-btn"
+      style="background:#f5a623;border:none;border-radius:12px;width:42px;height:42px;
+             font-size:1.3rem;cursor:pointer;flex-shrink:0;color:#0f3460;font-weight:800">↑</button>
+  </div>
 </div>
 
 </body>
