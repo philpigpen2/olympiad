@@ -3739,34 +3739,46 @@ let _chatPending = false;
 // ── NORA TTS (ElevenLabs via Vercel proxy) ────────────────────────
 const SPEAK_API_URL = 'https://olympiad-api-theta.vercel.app/api/speak';
 let _ttsEnabled = true;
-let _noraAudio = null;   // current playing Audio instance
+let _noraAudio = null;       // currently playing Audio instance
+let _ttsAbortCtrl = null;    // AbortController for the in-flight TTS fetch
+let _ttsPanelOpen = false;   // guard: don't play if panel is already closed
 
 async function noraSpeakText(text) {
   if (!_ttsEnabled) return;
-  // Stop any currently playing audio
-  if (_noraAudio) { _noraAudio.pause(); _noraAudio = null; }
+  // Abort any in-flight fetch and stop any playing audio
+  if (_ttsAbortCtrl) { _ttsAbortCtrl.abort(); _ttsAbortCtrl = null; }
+  if (_noraAudio)    { _noraAudio.pause(); _noraAudio = null; }
   const clean = text.replace(/[*_#`~]/g, '').replace(/\n+/g, ' ').trim();
   if (!clean) return;
+  const ctrl = new AbortController();
+  _ttsAbortCtrl = ctrl;
   try {
     const res = await fetch(SPEAK_API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: clean })
+      body: JSON.stringify({ text: clean }),
+      signal: ctrl.signal
     });
-    if (!res.ok) return;
+    if (!res.ok || ctrl.signal.aborted || !_ttsPanelOpen) return;
     const blob = await res.blob();
+    if (ctrl.signal.aborted || !_ttsPanelOpen) return;
     const url = URL.createObjectURL(blob);
     _noraAudio = new Audio(url);
     _noraAudio.play();
-    _noraAudio.onended = () => URL.revokeObjectURL(url);
+    _noraAudio.onended = () => { URL.revokeObjectURL(url); _noraAudio = null; };
   } catch (err) {
-    console.warn('Nora TTS error:', err);
+    if (err.name !== 'AbortError') console.warn('Nora TTS error:', err);
+  } finally {
+    if (_ttsAbortCtrl === ctrl) _ttsAbortCtrl = null;
   }
 }
 
 function toggleTTS() {
   _ttsEnabled = !_ttsEnabled;
-  if (!_ttsEnabled && _noraAudio) { _noraAudio.pause(); _noraAudio = null; }
+  if (!_ttsEnabled) {
+    if (_ttsAbortCtrl) { _ttsAbortCtrl.abort(); _ttsAbortCtrl = null; }
+    if (_noraAudio)    { _noraAudio.pause(); _noraAudio = null; }
+  }
   document.getElementById('chat-tts-btn').textContent = _ttsEnabled ? '🔊' : '🔇';
 }
 
@@ -3774,6 +3786,7 @@ function openChatPanel(context) {
   _chatContext = context || { q: '', topic: 'Disease Detectives' };
   _chatHistory = [];
   _chatPending = false;
+  _ttsPanelOpen = true;
   const qText = _chatContext.q || '';
   document.getElementById('chat-context-text').textContent =
     qText.length > 90 ? qText.slice(0, 90) + '…' : qText || 'Current question';
@@ -3786,9 +3799,11 @@ function openChatPanel(context) {
 }
 
 function closeChatPanel() {
+  _ttsPanelOpen = false;
+  if (_ttsAbortCtrl) { _ttsAbortCtrl.abort(); _ttsAbortCtrl = null; }
+  if (_noraAudio)    { _noraAudio.pause(); _noraAudio = null; }
   document.getElementById('chat-panel').style.display = 'none';
   document.getElementById('chat-overlay').style.display = 'none';
-  if (_noraAudio) { _noraAudio.pause(); _noraAudio = null; }
 }
 
 function _appendChatMsg(role, text) {
