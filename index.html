@@ -3756,7 +3756,10 @@ let _ttsVoice = null;
 function noraSpeakText(text) {
   if (!_ttsEnabled || !window.speechSynthesis) return;
   window.speechSynthesis.cancel();
+  // iOS: resume if paused (can happen after page backgrounding)
+  if (window.speechSynthesis.paused) window.speechSynthesis.resume();
   const clean = text.replace(/[*_#`~]/g, '').replace(/\n+/g, ' ').trim();
+  if (!clean) return;
   const utt = new SpeechSynthesisUtterance(clean);
   utt.rate = 1.0;
   utt.pitch = 1.15;
@@ -3781,6 +3784,12 @@ function openChatPanel(context) {
   document.getElementById('chat-input').value = '';
   document.getElementById('chat-panel').style.display = 'flex';
   document.getElementById('chat-overlay').style.display = 'block';
+  // Unlock speech synthesis on iOS — must happen synchronously inside user gesture
+  if (window.speechSynthesis && _ttsEnabled) {
+    const unlock = new SpeechSynthesisUtterance('');
+    unlock.volume = 0;
+    window.speechSynthesis.speak(unlock);
+  }
   // Auto-fire opening explanation from Claude
   _callChatAPI('Can you explain the key concept I need to understand to answer this question? Please keep it simple — I\'m in middle school.', true);
 }
@@ -3812,8 +3821,20 @@ function _appendChatMsg(role, text) {
   if (!isUser) {
     const spk = document.createElement('button');
     spk.textContent = '🔊';
-    spk.title = 'Replay';
-    spk.style.cssText = 'background:none;border:none;font-size:1rem;cursor:pointer;padding:2px;opacity:0.5;flex-shrink:0;align-self:flex-end';
+    spk.title = 'Hear Nora read this';
+    spk.style.cssText = [
+      'background:rgba(78,204,163,0.15)',
+      'border:1px solid rgba(78,204,163,0.4)',
+      'border-radius:50%',
+      'font-size:0.9rem',
+      'cursor:pointer',
+      'padding:5px',
+      'width:32px',
+      'height:32px',
+      'flex-shrink:0',
+      'align-self:flex-end',
+      'line-height:1'
+    ].join(';');
     spk.onclick = () => noraSpeakText(bubble.textContent);
     el.appendChild(spk);
   }
