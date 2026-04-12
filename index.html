@@ -371,14 +371,14 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
       <span class="mode-icon-sm">📚</span>
       <div class="mode-info-sm">
         <div class="mode-label-sm">Flashcards</div>
-        <div class="mode-desc-sm">97 terms · write & reveal</div>
+        <div class="mode-desc-sm">120 terms · write & reveal</div>
       </div>
     </button>
     <button class="mode-btn-sm" style="background:#0f4c2a;grid-column:span 2" onclick="showScreen('mocktest')">
       <span class="mode-icon-sm">🏆</span>
       <div class="mode-info-sm">
         <div class="mode-label-sm">Mock Test</div>
-        <div class="mode-desc-sm">Regional (30Q · 30min) or State (60Q+SA · 50min)</div>
+        <div class="mode-desc-sm">Regional (30Q · 30min) or State (35Q · 35min)</div>
       </div>
     </button>
   </div>
@@ -858,10 +858,10 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
       <span style="font-size:2rem">🏅</span>
       <div style="text-align:left">
         <div style="font-size:1.05rem;font-weight:700">State Mock</div>
-        <div style="font-size:0.8rem;opacity:0.8;margin-top:2px">60 MCQ + 16 short answer · 50 min timer</div>
+        <div style="font-size:0.8rem;opacity:0.8;margin-top:2px">35 questions · 35 min timer</div>
       </div>
     </button>
-    <div class="tip-box" style="margin-top:8px">🏆 <strong>State format (actual 2022 exam):</strong> 60 multiple choice questions + 16 short answer questions worth 3 pts each. Practice both sections!</div>
+    <div class="tip-box" style="margin-top:8px">🏆 <strong>State format:</strong> ~30–35 multiple choice questions. Harder topics: odds ratio, study design, epi curves, chronic disease, surveillance, and reading comprehension scenarios.</div>
   </div>
 
   <!-- MCQ Section -->
@@ -1021,7 +1021,40 @@ const VOCAB = [
   { term:"One Health",         def:"The concept that human, animal, and environmental health are all interconnected. Disease detectives must consider all three — most emerging diseases (Ebola, COVID, Lyme) originate at the human-animal-environment interface.", c:'investigation' },
   { term:"Primary Prevention", def:"Stopping disease BEFORE it occurs. Examples: vaccination, hand washing, wearing sunscreen, not smoking, improving sanitation. The cheapest and most effective public health strategy.", c:'control' },
   { term:"Secondary Prevention", def:"Catching disease EARLY through screening before symptoms appear. Examples: TB skin test, cancer mammogram, blood pressure screening, blood glucose check. Early detection = better outcomes.", c:'control' },
-  { term:"Tertiary Prevention", def:"Managing an EXISTING disease to reduce complications and improve quality of life. Examples: physical therapy after stroke, insulin management for diabetes, cardiac rehab after heart attack.", c:'control' }
+  { term:"Tertiary Prevention", def:"Managing an EXISTING disease to reduce complications and improve quality of life. Examples: physical therapy after stroke, insulin management for diabetes, cardiac rehab after heart attack.", c:'control' },
+
+  // ── DISEASE STAGES / HOST TYPES (study guide) ──────────────────────
+  { term:"Carrier",             def:"A person infected with a disease who shows NO symptoms but can still spread it to others. Makes outbreaks harder to control because carriers don't know they're sick.", c:'transmission' },
+  { term:"Dead End Host",       def:"A host in which the pathogen cannot be passed on to another host — the chain of infection stops here. Example: humans infected with avian flu usually cannot spread it to other humans.", c:'transmission' },
+  { term:"Sign (of disease)",   def:"An OBJECTIVE, measurable indicator of illness that can be observed by others — like body temperature, heart rate, blood pressure, or a rash visible to a doctor.", c:'epi_terms' },
+  { term:"Symptom (of disease)",def:"A SUBJECTIVE experience reported only by the patient — like headache, nausea, pain, or fatigue. It cannot be directly measured by an outsider.", c:'epi_terms' },
+  { term:"Prodromal Period",    def:"The early Stage 2 of disease when the immune system is activating. The host feels mild, vague, nonspecific signs — too early for a formal diagnosis.", c:'epi_terms' },
+  { term:"Convalescence",       def:"The recovery Stage 5 of disease — symptoms resolve and the host returns to normal. Some diseases leave permanent damage even after this stage.", c:'epi_terms' },
+
+  // ── EPI CONCEPTS (study guide) ─────────────────────────────────────
+  { term:"Continuous Common Source", def:"An epi-curve shape showing a PLATEAU of cases — the common source (like contaminated water) stays active over time, so cases keep coming until the source is removed.", c:'investigation' },
+  { term:"Cross-Sectional Study", def:"A 'snapshot in time' study — surveys a population at ONE specific moment to see who has disease and what they were exposed to. Fast and cheap but cannot prove causation.", c:'investigation' },
+  { term:"Case Fatality Rate",   def:"Deaths ÷ Cases × 100. Measures how deadly a disease is for people who GET IT. Example: Ebola's case fatality rate can exceed 50–90% in some outbreaks.", c:'stats' },
+
+  // ── BIAS TYPES (study guide) ───────────────────────────────────────
+  { term:"Confounding",         def:"A third variable that hides or creates a false link between an exposure and a disease. Example: coffee drinkers also tend to smoke — if you see 'coffee → cancer,' smoking might be the real cause.", c:'investigation' },
+  { term:"Recall Bias",         def:"In case-control studies, SICK people remember past exposures more vividly than healthy controls. This can make an exposure look more common in sick people than it really was.", c:'investigation' },
+  { term:"Selection Bias",      def:"When people chosen for a study don't truly represent the target population, making results unreliable. Example: surveying only hospitalized patients misses mild cases in the community.", c:'investigation' },
+
+  // ── PARASITE TYPES (study guide) ───────────────────────────────────
+  { term:"Helminth",            def:"A parasitic WORM — includes roundworms, flatworms, and tapeworms. Unlike protozoa, helminths are multicellular and often visible to the naked eye.", c:'pathogen' },
+  { term:"Ectoparasite",        def:"A parasite that lives on the OUTSIDE of the host's body. Examples: lice, fleas, and ticks. Many ectoparasites also serve as vectors, spreading other diseases.", c:'pathogen' },
+
+  // ── DISEASES (study guide disease flashcard pages) ─────────────────
+  { term:"Pertussis",           def:"Bacteria causing WHOOPING COUGH — a severe hacking cough followed by a 'whoop' sound on inhale. Prevented by DTaP vaccine. Very dangerous for infants.", c:'pathogen' },
+  { term:"West Nile Virus",     def:"Mosquito-borne virus with NO specific treatment or vaccine. Most people have no symptoms; severe cases cause headache, fever, swollen lymph nodes. Prevention: DEET repellent and drain standing water.", c:'pathogen' },
+  { term:"Tetanus",             def:"Bacteria producing a toxin that causes LOCKJAW — painful muscle contractions in the neck and jaw. Enters through wounds. Prevented by DTaP vaccine.", c:'pathogen' },
+  { term:"Typhoid",             def:"Bacteria causing prolonged HIGH FEVER (lasting days), fatigue, headache, nausea, and abdominal pain. Spread through contaminated food and water in areas with poor sanitation.", c:'pathogen' },
+  { term:"Smallpox",            def:"Highly contagious virus ERADICATED worldwide in 1980 through global vaccination — one of medicine's greatest achievements. Caused distinctive skin pustules.", c:'pathogen' },
+  { term:"Polio",               def:"Virus spread by fecal-oral route that can cause PARALYSIS (usually legs). Largely eradicated by vaccine. Caused major epidemics before the polio vaccine was developed.", c:'pathogen' },
+  { term:"Ebola",               def:"Virus spread through direct contact with BODILY FLUIDS of infected humans, primates, or bats. Causes hemorrhagic fever with unexplained bleeding/bruising. Very deadly.", c:'pathogen' },
+  { term:"Mumps",               def:"Virus causing swelling of the salivary glands (parotid glands) in the cheeks and jaw. Causes difficulty chewing, fever, and headache. Prevented by MMR vaccine.", c:'pathogen' },
+  { term:"Kawasaki Disease",    def:"A disease of UNKNOWN cause affecting children under 5. Causes fever, rash, and swelling of hands, feet, lips, mouth and throat. Named after Japanese doctor Tomisaku Kawasaki.", c:'pathogen' }
 ];
 
 // SCENARIOS — updated to harder difficulty (more plausible distractors, causation vs association, next steps)
@@ -1238,7 +1271,19 @@ const TF_DATA = [
   { s:"Malaria is caused by a bacterial infection spread through contaminated drinking water.", correct:false, explain:"FALSE — Malaria is caused by Plasmodium, a PROTOZOAN PARASITE (not bacteria!), and it's spread by FEMALE ANOPHELES MOSQUITO bites, not contaminated water. It's one of the most common vector-borne diseases worldwide.", c:'pathogen' },
   { s:"Rabies is almost always fatal once clinical symptoms appear in an unvaccinated person.", correct:true, explain:"TRUE — Once rabies symptoms appear, the fatality rate approaches 100%. This is why POST-EXPOSURE PROPHYLAXIS (PEP — a series of vaccine shots) must be given BEFORE symptoms appear if someone is bitten by a potentially rabid animal.", c:'pathogen' },
   { s:"Ringworm is caused by a parasitic worm burrowing under the skin.", correct:false, explain:"FALSE — Ringworm is a FUNGAL infection (Tinea species), not a worm! The name comes from the ring-shaped rash it creates. It spreads by contact, not by burrowing worms. Treated with antifungal medication, not antiparasitic drugs.", c:'pathogen' },
-  { s:"An R₀ value less than 1 means an outbreak is likely to grow and spread through a population.", correct:false, explain:"FALSE — R₀ < 1 means each infected person spreads it to LESS than one other person, so the outbreak is DYING OUT. R₀ > 1 = spreading. R₀ = 1 = stable (neither growing nor shrinking). R₀ < 1 = fading.", c:'epi_terms' }
+  { s:"An R₀ value less than 1 means an outbreak is likely to grow and spread through a population.", correct:false, explain:"FALSE — R₀ < 1 means each infected person spreads it to LESS than one other person, so the outbreak is DYING OUT. R₀ > 1 = spreading. R₀ = 1 = stable (neither growing nor shrinking). R₀ < 1 = fading.", c:'epi_terms' },
+
+  // ── NEW FROM STUDY GUIDE ─────────────────────────────────────────────
+  { s:"A carrier shows obvious symptoms of disease and is the same thing as an index case.", correct:false, explain:"FALSE — A CARRIER is infected but shows NO symptoms. They can unknowingly spread disease. The index case is simply the FIRST known case and may or may not show symptoms.", c:'transmission' },
+  { s:"The Prodromal stage of disease is when symptoms are most severe and a diagnosis can be confirmed.", correct:false, explain:"FALSE — That's the ILLNESS stage (Stage 3). The Prodromal stage (Stage 2) has only mild, vague, nonspecific symptoms — too early to diagnose the specific disease.", c:'epi_terms' },
+  { s:"Pertussis (whooping cough) is caused by a bacterium and can be prevented by the DTaP vaccine.", correct:true, explain:"TRUE — Pertussis is caused by Bordetella pertussis bacteria. The DTaP vaccine (Diphtheria, Tetanus, Pertussis) prevents it. It's especially dangerous for infants, who can turn blue during coughing fits.", c:'pathogen' },
+  { s:"Smallpox is the only human infectious disease that has been completely eradicated worldwide.", correct:true, explain:"TRUE — The last natural smallpox case occurred in 1977. WHO declared it eradicated in 1980. The smallpox vaccine was so effective that a global vaccination campaign wiped it out — a landmark public health achievement.", c:'pathogen' },
+  { s:"A Dead End Host can transmit the pathogen to another host and continue the chain of infection.", correct:false, explain:"FALSE — A Dead End Host is one where the chain of infection STOPS — the pathogen cannot be passed to another host. Example: humans infected with avian flu typically cannot spread it to other humans.", c:'transmission' },
+  { s:"In a cohort study, researchers start with sick and healthy people and look backward to find the original exposure.", correct:false, explain:"FALSE — That describes a CASE-CONTROL study (look backward). A COHORT study follows exposed and unexposed people FORWARD in time to see who gets sick. Opposite directions!", c:'investigation' },
+  { s:"Typhoid fever is caused by bacteria and is spread through food and water contaminated by infected feces.", correct:true, explain:"TRUE — Typhoid is caused by Salmonella typhi bacteria, spread through contaminated food/water. Classic sign: prolonged high fever lasting days. Common in areas with poor sanitation.", c:'pathogen' },
+  { s:"Ebola is primarily spread through the air, making it as contagious as measles.", correct:false, explain:"FALSE — Ebola spreads only through DIRECT CONTACT with bodily fluids of infected or deceased people, primates, or bats. It is NOT airborne. This is why Ebola outbreaks are devastating locally but rarely spread as widely as airborne diseases.", c:'pathogen' },
+  { s:"A cross-sectional study follows a group of people over several years to track who develops disease.", correct:false, explain:"FALSE — That describes a COHORT study. A cross-sectional study is a one-time 'snapshot' — it surveys a population at ONE point in time. Fast and cheap but cannot determine what came first: the exposure or the disease.", c:'investigation' },
+  { s:"Confounding occurs when a third variable creates or distorts a false association between an exposure and a disease.", correct:true, explain:"TRUE — A confounder is linked to both the exposure AND the outcome, creating a misleading result. Classic example: early studies linked coffee to heart disease, but smokers drink more coffee — smoking was the confounding variable.", c:'investigation' }
 ];
 
 const MATCH_DATA = [
@@ -1274,7 +1319,17 @@ const MATCH_DATA = [
   { cat:"Pathogen Type → Example Disease", term:"Protozoan Parasite", match:"Malaria, Giardia, Cryptosporidium, Toxoplasmosis", others:["Ringworm, Athlete's Foot, Valley Fever","Salmonella, E. coli, Listeria","Norovirus, Influenza, Measles","Botulism toxin, Staph aureus toxin"], c:'pathogen' },
   { cat:"Pathogen Type → Example Disease", term:"Fungi", match:"Ringworm (Tinea), Athlete's Foot, Valley Fever (Coccidioidomycosis)", others:["Malaria, Giardia, Cryptosporidium","Salmonella, E. coli, Listeria","Norovirus, Influenza, Measles","Rabies, Dengue, West Nile"], c:'pathogen' },
   { cat:"Chronic Disease Risk Factor → Associated Disease", term:"High LDL ('bad') cholesterol + saturated fat intake", match:"Heart Disease and Stroke (cardiovascular disease)", others:["Type 2 Diabetes","Lung Cancer","Osteoporosis","Kidney Disease"], c:'epi_terms' },
-  { cat:"Prevention Level → Real-World Example", term:"Secondary Prevention", match:"TB skin test to detect latent infection before symptoms appear", others:["Vaccination before exposure to measles","Physical therapy after a stroke to regain movement","Wearing sunscreen to prevent skin cancer","Hand washing to stop germ transmission"], c:'control' }
+  { cat:"Prevention Level → Real-World Example", term:"Secondary Prevention", match:"TB skin test to detect latent infection before symptoms appear", others:["Vaccination before exposure to measles","Physical therapy after a stroke to regain movement","Wearing sunscreen to prevent skin cancer","Hand washing to stop germ transmission"], c:'control' },
+
+  // ── NEW FROM STUDY GUIDE ─────────────────────────────────────────────
+  { cat:"Disease → Key Identifying Feature", term:"Pertussis", match:"Bacteria; severe hacking cough with a high-pitched 'whoop' on inhale; DTaP vaccine preventable", others:["Bacteria; lockjaw and painful jaw muscle contractions","Virus; mosquito-borne; causes paralysis of legs","Bacteria; prolonged high fever; contaminated water/food","Virus; bodily fluid contact; hemorrhagic bleeding"], c:'pathogen' },
+  { cat:"Disease → Key Identifying Feature", term:"Tetanus", match:"Bacteria; produces toxin causing lockjaw — painful neck and jaw muscle contractions; DTaP vaccine preventable", others:["Bacteria; whooping cough with whoop sound on inhale","Virus; salivary gland swelling; MMR vaccine preventable","Bacteria; prolonged high fever; contaminated food and water","Virus; direct contact with bodily fluids; unexplained bleeding"], c:'pathogen' },
+  { cat:"Disease → Key Identifying Feature", term:"Ebola", match:"Virus; spread by direct contact with bodily fluids; causes hemorrhagic fever with unexplained bleeding and bruising", others:["Bacteria; whooping cough; DTaP vaccine","Virus; salivary gland swelling; MMR vaccine","Bacteria; lockjaw and muscle contractions","Virus; fecal-oral spread; can cause paralysis"], c:'pathogen' },
+  { cat:"Disease → Key Identifying Feature", term:"Polio", match:"Virus; fecal-oral spread; can cause paralysis in limbs (usually legs); largely eradicated by vaccine", others:["Virus; bodily fluid contact; hemorrhagic fever","Bacteria; prolonged high fever; contaminated food/water","Bacteria; lockjaw; enters through wounds","Virus; mosquito-borne; liver infection and jaundice"], c:'pathogen' },
+  { cat:"Five Stages of Disease → What Happens", term:"Prodromal", match:"Stage 2: immune system activates; mild, vague, nonspecific symptoms appear; too early to diagnose", others:["Stage 1: pathogen multiplies silently; no symptoms yet","Stage 3: most severe, specific symptoms; diagnosis possible now","Stage 4: immune system winning; pathogen count drops; symptoms improve","Stage 5: host recovers and returns to normal functioning"], c:'epi_terms' },
+  { cat:"Study Type → Key Feature", term:"Cohort Study", match:"Follows exposed vs unexposed groups FORWARD in time; calculates true Relative Risk; good for common diseases", others:["Compares sick to healthy people, looking BACKWARD to find exposure; uses Odds Ratio","One-time snapshot of a population at a single point in time; fast and cheap","Uses group-level data; prone to ecological fallacy","Randomly assigns treatment; gold standard for causation"], c:'investigation' },
+  { cat:"Study Type → Key Feature", term:"Cross-Sectional Study", match:"'Snapshot in time' — surveys a population at ONE point; fast and cheap; cannot prove which came first", others:["Follows exposed vs unexposed groups forward in time","Compares sick vs. healthy controls; looks backward at exposures","Uses group-level data instead of individual data","Randomly assigns participants to exposure groups"], c:'investigation' },
+  { cat:"Bias Type → Definition", term:"Recall Bias", match:"Sick people (cases) remember past exposures more vividly than healthy controls — inflates apparent risk in case-control studies", others:["Study population doesn't represent the target population","A third variable distorts the true relationship between exposure and outcome","Systematic error in how data is collected or recorded","Error in choosing which cases are included in the study"], c:'investigation' }
 ];
 
 const WRITTEN_DATA = [
@@ -1310,6 +1365,14 @@ const WRITTEN_DATA = [
   { q:"List 4 chronic (non-communicable) diseases. For each, name TWO major risk factors and ONE prevention strategy.",
     hint:"Think about the big ones: heart disease, cancer, diabetes, stroke, obesity. Risk factors can be modifiable (lifestyle) or non-modifiable (genetics).",
     ans:"1. HEART DISEASE:\n   Risk factors: High LDL cholesterol / saturated fat intake; High blood pressure; Smoking; Obesity; Physical inactivity\n   Prevention: Eat less saturated fat; Exercise regularly; Don't smoke; Control blood pressure\n\n2. TYPE 2 DIABETES:\n   Risk factors: Obesity (especially abdominal fat); Physical inactivity; Family history; Poor diet (high sugar/refined carbs)\n   Prevention: Maintain healthy weight; Regular physical activity; Balanced diet\n\n3. STROKE:\n   Risk factors: High blood pressure (#1 risk factor); High cholesterol; Smoking; Atrial fibrillation; Obesity\n   Prevention: Control blood pressure with medication and diet; Don't smoke; Regular exercise\n\n4. LUNG CANCER:\n   Risk factors: Smoking (causes ~85% of lung cancers); Radon gas exposure; Air pollution; Secondhand smoke\n   Prevention: Never smoke; Avoid secondhand smoke; Test home for radon\n\nNote: Unlike infectious diseases, chronic diseases are NOT spread person-to-person but share many modifiable risk factors." },
+
+  { q:"Describe the five stages of disease progression. What happens to the pathogen and the host during each stage? During which stage(s) can a host be contagious before knowing they are sick?",
+    hint:"Stage names in order: Incubation → Prodromal → Illness → Decline → Convalescence",
+    ans:"The 5 Stages of Disease:\n\n1. INCUBATION: The pathogen enters the host and starts multiplying silently. The host has NO symptoms yet — they don't know they're sick. Duration varies widely (flu: 1–4 days; Listeria: 1–4 weeks).\n\n2. PRODROMAL: The immune system detects the invasion and starts fighting. The host feels mild, vague symptoms (fatigue, low fever) — too nonspecific for diagnosis. The host may already be contagious here!\n\n3. ILLNESS: Pathogen burden peaks. Symptoms are now obvious, severe, and disease-specific — this is when a formal diagnosis is possible. Host typically feels worst during this stage.\n\n4. DECLINE: The immune system gains the upper hand. Pathogen count falls. Symptoms gradually improve. The host may still be contagious.\n\n5. CONVALESCENCE: Symptoms resolve and the host returns to normal functioning. Some diseases leave permanent damage (e.g., rheumatic heart disease after strep, or paralysis from polio).\n\nContagion note: A host can be contagious during INCUBATION and PRODROMAL — before they show obvious symptoms or receive a diagnosis. This is why outbreaks are hard to stop!" },
+
+  { q:"What is the difference between a Sign and a Symptom of disease? Give two examples of each. Why does this distinction matter for outbreak investigations?",
+    hint:"Signs = objective and measurable by others. Symptoms = subjective and only felt by the patient.",
+    ans:"SIGNS — Objective, measurable, observable by someone other than the patient:\n• Body temperature / fever (measured by thermometer)\n• Heart rate (measured by pulse or monitor)\n• Blood pressure\n• Visible rash (observed by clinician)\n• Weight change\n\nSYMPTOMS — Subjective, felt only by the patient, cannot be directly measured:\n• Headache\n• Nausea\n• Pain\n• Fatigue / energy level\n• Loss of appetite\n\nWHY IT MATTERS IN INVESTIGATIONS:\nWhen disease detectives create a CASE DEFINITION, they use specific signs (objective) plus key symptoms (reported by patients). Signs are more reliable for comparing cases — two doctors measuring a 103°F fever are measuring the same thing. But two patients' descriptions of 'moderate pain' might mean very different things.\n\nSigns (blood tests, cultures, clinical measurements) give investigators objective data that can be standardized across all cases in an outbreak." },
 
   { q:"Explain how vaccines work to protect both individuals AND populations. Why does herd immunity require different vaccination percentages for different diseases?",
     hint:"Think about how the immune system 'remembers.' Then think about R₀ — how does it affect how many people you need to vaccinate?",
@@ -3422,7 +3485,7 @@ function startMockTest(mode) {
 
   // Shuffle and slice MCQ pool
   const shuffled = [...MOCK_TEST_QUESTIONS].sort(() => Math.random() - 0.5);
-  _mockPool = mode === 'regional' ? shuffled.slice(0, 30) : shuffled.slice(0, 60);
+  _mockPool = mode === 'regional' ? shuffled.slice(0, 30) : shuffled.slice(0, 35);
 
   // Shuffle SA pool for state mode
   _mockSAPool = [...MOCK_SA_QUESTIONS].sort(() => Math.random() - 0.5);
@@ -3434,7 +3497,7 @@ function startMockTest(mode) {
   });
 
   // Start timer
-  _mockTimeLeft = mode === 'regional' ? 30 * 60 : 50 * 60;
+  _mockTimeLeft = mode === 'regional' ? 30 * 60 : 35 * 60;
   _mockStartTime = Date.now();
   updateMockTimer();
   _mockTimer = setInterval(updateMockTimer, 1000);
@@ -3592,8 +3655,7 @@ function showMockResults() {
   document.getElementById('mock-res-title').textContent = pct >= 85 ? 'State-Ready!' : pct >= 70 ? 'Strong Performance!' : pct >= 50 ? 'Keep Practicing!' : 'Study Those Weak Areas!';
   document.getElementById('mock-res-score').textContent = `${_mockScore}/${mcqTotal}`;
 
-  let labelText = `MCQ: ${pct}% correct`;
-  if (_mockMode === 'state') labelText += ` · SA: ${_mockSAScore}/16 correct`;
+  let labelText = `Score: ${pct}% correct`;
   document.getElementById('mock-res-label').textContent = labelText;
   document.getElementById('mock-res-time').textContent = `⏱ Time used: ${em}:${es.toString().padStart(2,'0')}`;
 
