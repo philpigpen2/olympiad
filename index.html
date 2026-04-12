@@ -3741,6 +3741,22 @@ const SPEAK_API_URL = 'https://olympiad-api-theta.vercel.app/api/speak';
 let _ttsEnabled = true;
 let _noraAudio = null;       // currently playing Audio instance
 let _ttsAbortCtrl = null;    // AbortController for the in-flight TTS fetch
+let _audioUnlocked = false;  // iOS/Android require a sync user-gesture play before async plays work
+
+// Call synchronously inside any user gesture to satisfy browser autoplay policy
+function _unlockAudio() {
+  if (_audioUnlocked) return;
+  _audioUnlocked = true;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const buf = ctx.createBuffer(1, 1, 22050);
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.connect(ctx.destination);
+    src.start(0);
+    ctx.resume().then(() => ctx.close());
+  } catch(e) {}
+}
 
 async function noraSpeakText(text) {
   if (!_ttsEnabled) return;
@@ -3782,6 +3798,7 @@ function toggleTTS() {
 }
 
 function openChatPanel(context) {
+  _unlockAudio(); // must run synchronously inside this tap gesture
   _chatContext = context || { q: '', topic: 'Disease Detectives' };
   _chatHistory = [];
   _chatPending = false;
@@ -3838,7 +3855,7 @@ function _appendChatMsg(role, text) {
       'align-self:flex-end',
       'line-height:1'
     ].join(';');
-    spk.onclick = () => noraSpeakText(bubble.textContent);
+    spk.onclick = () => { _unlockAudio(); noraSpeakText(bubble.textContent); };
     el.appendChild(spk);
   }
   document.getElementById('chat-messages').appendChild(el);
