@@ -1,0 +1,400 @@
+{
+  "meta": {
+    "description": "Disease Detectives Study Guide — student-created guide used by first-place Science Olympiad team",
+    "source": "Student-created, last updated Aug 2024. Shared after 1st place finish.",
+    "total_pages": 38,
+    "pages_photographed": "all 38 pages",
+    "pages_not_photographed": "none — complete set photographed 2026-04-12",
+    "date_added": "2026-04-12",
+    "date_completed": "2026-04-12",
+    "page_summary": {
+      "1": "What is Epidemiology / Four Reasons / Ten Steps of Outbreak Investigation",
+      "2": "Epidemiologic Triad / Host types / Chain of Infection / Modes of Transmission / Fomite",
+      "3": "Chain of Infection example (Strep Throat) / Signs vs Symptoms / Five Stages intro",
+      "4": "Five Stages of Disease (detailed) / Types of Disease: Bacteria, Virus, Fungi, Parasites",
+      "5": "Parasite types: Helminth (flatworms, roundworms, tapeworms), Ectoparasite, Protozoa / Antibiotics vs viruses",
+      "6": "Vaccines and immunity / Mosquito-borne disease prevention (West Nile / DEET)",
+      "7": "Prevention: Droplet / Food-borne / Fecal-Oral / Miscellaneous (hand washing)",
+      "8": "Identifying disease vs outbreak / Epidemic / Pandemic / Cluster / Time-Place-Person / Epi-curve types intro",
+      "9": "Epi-curve diagrams: Point source (mayo picnic) / Continuous common source (John Snow 1854 cholera)",
+      "10": "Epi-curve: Propagated/progressive source with COVID example diagram",
+      "11": "Place: Spot Map (COVID geographic example) / Person: Line List table",
+      "12": "Case Definition (4 criteria) / What is a Study? Observational vs Controlled experiment / Indep vs Dep variables",
+      "13": "Dep/Indep variables / Causation vs Correlation / Data analysis: Mean/Median/Mode / Incidence / Prevalence / Mortality / Case-Fatality Rate / Attack Rate",
+      "14": "2x2 Table and Data Analysis: full formulas for AR, Relative Risk, Odds Ratio with 2x2 grid",
+      "15": "Other Topics: Common Georgia health problems (Diabetes T1/T2, hypertension, cholesterol, BMI, depression, COPD, coronary artery disease)",
+      "16": "Other Topics: Injury Prevention and Basic First Aid (CPR, Heimlich, RICE, SIDS, TBI, burns, bloodborne illness from tattoos)",
+      "17": "Appendix A: Statistical Studies — Analytic vs Descriptive / Ecological Study / Cross-Sectional Study pros/cons",
+      "18": "Case-Control Study / Case-Crossover Study / Cohort Study — definitions, pros, cons, biases",
+      "19": "Bias: Confounding / Information / Recall / Selection — definitions",
+      "20": "Appendix B: Hill's Criteria of Causation (all 9 principles)",
+      "21": "Appendix C: Helpful Websites (CDC, Outbreak Toolkit)",
+      "22": "Appendix D: Ten Steps of Outbreak Investigation flash cards (steps 1-10)",
+      "23": "Flash Cards - Statistical Calculations: Odds Ratio (ad/bc formula), Relative Risk, Attack Rate",
+      "24": "Flash Cards - Epi curve types: Incidence, Prevalence, Single point, Continuous common source, Propagated/progressive",
+      "25": "Flash Cards - Chain of Infection (6 steps: Infectious Agent, Reservoir, Portal of Exit, Mode of Transmission, Portal of Entry, Susceptible Host)",
+      "26": "Flash Cards - Hill's Criteria of Causation (Strength of Association, Consistency, Specificity, Temporality, Biologic Gradient, Experimental Evidence)",
+      "27": "Flash Cards - Hill's Criteria (continued): Biologic Plausibility, Coherence, Analogy",
+      "28": "Flash Cards - Epidemiology Definitions: Epidemic, Outbreak, Pandemic, Cluster, Case Definition",
+      "29": "Flash Cards - Epidemiologic Triad: Agent/Host/Environment + Time/Place/Person",
+      "30": "Flash Cards - Five Stages of Disease: Incubation, Prodromal, Illness, Decline, Convalescence",
+      "31": "Flash Cards - Diseases: Hepatitis A, Hepatitis B, HIV/AIDS, E. coli, West Nile Virus, Lyme Disease, Kawasaki Disease, Campylobacter",
+      "32": "Flash Cards - Diseases: Rocky Mountain Spotted Fever, Malaria, Cholera, Salmonella, Influenza, Plague, Smallpox, Shigella",
+      "33": "Flash Cards - Diseases: Ebola, Rubella, Hantavirus, Measles, Botulism, Chicken Pox, Ringworm",
+      "34": "Flash Cards - Diseases: Athlete's Foot, Lice, Tetanus, Staph, Anthrax, Avian Flu, MERS, Chikungunya",
+      "35": "Flash Cards - Diseases: Crimean-Congo Hemorrhagic Fever, Dengue Fever, Yellow Fever, Typhoid, Tuberculosis, Diphtheria, Pneumonia",
+      "36": "Flash Cards - Diseases: Leprosy, Syphilis, Common Cold, Mumps, COVID-19, Polio, Amoebiasis, Chagas disease, Toxoplasmosis",
+      "37": "Flash Cards - Diseases: Trichinosis, Candidiasis, Cryptococcal meningitis, Histoplasmosis, Zika, Aspergillosis, Giardia",
+      "38": "Flash Cards - Diseases: Pertussis, Cryptosporidium, Salmonella (partial/duplicate)"
+    }
+  },
+  "sections": [
+    {
+      "page": 1,
+      "title": "What is Epidemiology / Ten Steps of an Outbreak Investigation",
+      "content": "Epidemiology = study of disease (who, where, when, why). Four reasons Epidemiologists study outbreaks: 1) Control and Prevention, 2) Research, 3) Treatment and cure, 4) Tracking — discovering how/where/when/why an outbreak occurred.",
+      "ten_steps": [
+        "Prepare for fieldwork — gather information and supplies",
+        "Establish existence of an outbreak — are cases above expected baseline?",
+        "Verify the diagnosis — confirm what pathogen is causing illness",
+        "Define and identify the cases — create case definition, count cases",
+        "Develop a hypothesis — how/where/when/why; identify likely source",
+        "Evaluate the hypothesis — run a study, check if hypothesis is correct",
+        "Refine hypothesis",
+        "Implement control and prevention measures",
+        "Communicate findings to public and/or medical community"
+      ]
+    },
+    {
+      "page": 2,
+      "title": "Epidemiologic Triad / Chain of Transmission",
+      "content": "What is required for survival: Host (the organism with the agent), Agent (bacteria/virus/fungus/protozoa), Environment (where agent and host interact). Chain of Transmission: 1) Infectious Agent, 2) Reservoir, 3) Portal of Exit, 4) Mode of Transmission, 5) Portal of Entry, 6) Susceptible Host.",
+      "transmission_modes": {
+        "indirect": ["Vector borne (live carrier: mosquitoes, fleas, ticks)", "Vehicle borne (inanimate/non-living: food, water, blood, bedding)", "Fomites (agent carried in tiny fluid bubbles from cough/sneeze)"],
+        "droplet_spread": "Agent carried in tiny fluid bubbles through the air from a cough or sneeze",
+        "fomite_note": "A fomite is an inanimate object (handkerchief, bedding, surgical scalpel, comb). All fomites are vehicles but not all vehicles are fomites."
+      }
+    },
+    {
+      "page": 3,
+      "title": "Signs vs Symptoms / Five Stages of Disease / Chain of Infection Example",
+      "signs_vs_symptoms": {
+        "signs": "Objective and measurable. Observed by someone other than the host (e.g., temperature/fever, heart rate, blood pressure, breathing rate, blood test results)",
+        "symptoms": "Subjective and cannot be easily measured by someone else. What the host feels (e.g., nausea, loss of appetite, pain, energy level)"
+      },
+      "chain_example_strep": {
+        "1_infectious_agent": "Bacteria that causes strep throat",
+        "2_reservoir": "Throat and mouth of a host",
+        "3_portal_of_exit": "Mouth of host by cough or sneeze",
+        "4_mode_of_transmission": "Indirect transfer through vehicle-borne droplet spread",
+        "5_portal_of_entry": "Nose or mouth of the new host",
+        "6_susceptible_host": "New home for strep throat bacteria. Will grow if host is susceptible."
+      },
+      "five_stages": "An infectious disease progresses in five stages. Related to number of pathogen particles present in host and severity of signs and symptoms. Host may be contagious at any of the five stages."
+    },
+    {
+      "page": 4,
+      "title": "Types of Diseases",
+      "disease_types": ["1. Viruses", "2. Bacteria", "3. Parasites", "4. Fungi", "5. Prions"],
+      "bacteria": "Single-celled living organisms. Can reproduce on their own. Most can be treated with antibiotics. Penicillin — first antibiotic, created by Alexander Fleming in 1928. Made from mold.",
+      "virus": "Smaller than bacteria. Simply genetic material (DNA or RNA) packaged inside a protein coat. Not truly alive. Can only live/reproduce inside a living cell. Viruses die quickly outside a host. Cause serious diseases like smallpox or HIV/AIDS."
+    },
+    {
+      "page": 5,
+      "title": "Fungi / Parasites",
+      "fungi": "Multi-celled, plant-like organisms. Gets nutrition from plants, food, and humans. Found in soil, air, and water. Can cause disease through inhalation of spores. Antibiotics are NOT effective against fungi — antifungal medicines needed.",
+      "parasite": "Organism that lives on or in a host and gets food from the host. Three main types: Helminths, Protozoa, Ectoparasites.",
+      "helminths": "Multicellular parasitic worms. Examples: roundworms, tapeworms, flatworms. Can be seen by the naked eye. Live in host's body (gastrointestinal tract, lymphatic system). Three groups: Nematodes (roundworms), Trematodes (flukes), Cestodes (tapeworms).",
+      "protozoa": "Microscopic, one-celled organisms. Can be free-living or parasitic. Can multiply in humans — permits serious infections from just a single organism."
+    },
+    {
+      "page": 6,
+      "title": "Parasites/Vectors / Disease Prevention / Vaccines",
+      "vectors": "Arthropod vectors (mosquitoes, ticks, fleas, mites) attach or burrow into skin, transmitting disease from one organism to another. The vector serves as both a transmission vehicle and intermediate host.",
+      "disease_prevention": {
+        "immunity": "A person will not get the disease if exposed.",
+        "vaccines": "Stimulate the immune system to create immunity to an agent. Made from inactivated or weakened form of the agent. Immunity from a vaccine generally lasts a lifetime.",
+        "dtap_mmr": "DTaP = Diphtheria, Tetanus, Pertussis. MMR = Measles, Mumps, Rubella.",
+        "placebo": "A harmless substance given to the control group. The experimental group receives the actual vaccine or treatment."
+      },
+      "mosquito_prevention": [
+        "Use approved insect repellent as directed",
+        "Wear long-sleeved shirts and pants when mosquitoes are most active",
+        "Ensure good screens in windows and doors",
+        "Stay away from areas heavily populated by mosquitoes",
+        "Eliminate standing water (cans, tires, buckets, clogged gutters, saucers under pots)",
+        "Any method that reduces skin exposure to mosquitoes"
+      ]
+    },
+    {
+      "page": 7,
+      "title": "Prevention Methods by Route",
+      "droplet_spread_prevention": [
+        "Cover mouth when coughing and sneezing",
+        "Wash hands",
+        "Use tissues when coughing/sneezing",
+        "Frequently disinfect commonly touched surfaces",
+        "Stay away from others if you are sick"
+      ],
+      "food_borne_prevention": [
+        "Cook all food thoroughly to appropriate temperature",
+        "Prevent cross-contamination: wash surfaces, keep refrigerator clean, use separate cutting boards for meat and vegetables",
+        "Wash hands regularly",
+        "Keep fridge and freezer at correct temperature",
+        "Wash all fruits and vegetables before eating",
+        "High-risk foods: beef, chicken, pork, eggs/mayo, salad"
+      ],
+      "fecal_oral_prevention": [
+        "Wash hands after using the restroom",
+        "Clean surfaces touched by small children frequently",
+        "Make sure children wear fresh diapers",
+        "Disinfect bathroom surfaces regularly",
+        "Pool water can be contaminated with fecal matter"
+      ],
+      "miscellaneous_prevention": [
+        "Wash hands after visiting petting zoo (reptiles, amphibians, livestock)",
+        "Basically: prevent disease by washing your hands!"
+      ]
+    },
+    {
+      "page": 8,
+      "title": "Identifying Disease vs Outbreak / Epidemic Curve Types",
+      "terminology": {
+        "outbreak": "Disease appears more often than expected in a given area of people, in a specific group, within a specific timeframe.",
+        "epidemic": "Same as outbreak. Media prefers 'outbreak' to avoid alarming people.",
+        "pandemic": "An epidemic occurring over a very wide area (several countries or continents) and usually affecting a large proportion of the population.",
+        "cluster": "An aggregation (total number) of cases of a disease closely grouped in terms of time, place, or both, with a number that exceeds what would be expected."
+      },
+      "epidemic_defined_by": "Time/Place/Person Triad: TIME = length/duration; PLACE = geographic extent (spot map); PERSON = affected population",
+      "epi_curves": "Histograms measuring number of cases at a given time. Y-axis = cases, X-axis = time. Help determine where and when disease spread.",
+      "point_source": "Point source epidemic occurs when a group of people are exposed to the same thing over a limited, well-defined period of time. Example: food poisoning at a picnic from unrefrigerated mayonnaise."
+    },
+    {
+      "page": 9,
+      "title": "Epi Curve Types Continued",
+      "continuous_common_source": "Exposure to the source is prolonged over an extended period of time; may occur over more than one incubation period. Epi-curve rises dramatically, plateaus until source is removed, then drops sharply. Example: John Snow 1854 London cholera from a contaminated water pump.",
+      "john_snow": "Doctor John Snow is credited with discovering the source of the cholera epidemic. Once the Broad Street pump was decommissioned, the cholera epidemic ended in that area."
+    },
+    {
+      "page": 10,
+      "title": "Propagated Source / Line List",
+      "propagated_source": "Propagated (progressive) epidemics occur when a case of disease serves later as a source of infection for subsequent cases. Epi-curve shows a series of successively larger peaks reflecting person-to-person spread, until susceptible pool is exhausted or control measures implemented. Example: COVID.",
+      "line_list": "People's socio-demographic characteristics may increase/decrease their risk for developing an illness. Analyzing case demographics (age, sex, ethnic group, religious community) may provide insight into the source. Line list has columns: Case ID No., Age, Sex, Onset Date, Symptoms."
+    },
+    {
+      "page": 11,
+      "title": "Spot Map / Person-Line List",
+      "spot_map": "Literal maps of the area affected by a disease with cases marked. Can help determine where an epidemic began, where it may travel next, or where it is most/least concentrated.",
+      "spot_map_example": "COVID community transmission map showing High/Substantial/Moderate/Low levels by county."
+    },
+    {
+      "page": 12,
+      "title": "Case Definition / What is a Study / Independent vs Dependent Variables",
+      "case_definition_criteria": [
+        "Clinical description — signs and symptoms of the disease",
+        "Time — was person present during the time of the epidemic",
+        "Place — was person present within the boundaries of the epidemic",
+        "Person — does person have characteristics matching the outbreak population"
+      ],
+      "what_is_a_study": "Systematic and controlled collection of data through a scientific process of experimentation on human populations. Types: Experimental study, Controlled experiment.",
+      "independent_variable": "Stands alone and is unaffected by the other variables in a study. Determines if it leads to a change in the dependent variable.",
+      "dependent_variable": "The value changes based on outside forces. Allows researchers to determine the relationship between independent and dependent variables."
+    },
+    {
+      "page": 13,
+      "title": "Causation vs Correlation / Data Analysis / Incidence vs Mortality",
+      "causation_vs_correlation": "Correlation does not prove causation. Correlation means two factors are related but one does not necessarily cause the other. Example: high BMI is correlated with heart disease but BMI is not a causation of heart disease.",
+      "data_analysis": {
+        "mean": "Average of numbers in data set",
+        "median": "Middle value — half the numbers are less, half are greater; if even count, average the two middle numbers",
+        "mode": "Number that occurs most frequently; if two occur equally, list all"
+      },
+      "incidence_vs_mortality": {
+        "incidence_rate": "Proportion of population that develops condition during a specified period = 7/10,000",
+        "mortality_rate": "Deaths from disease / Population at risk × time",
+        "prevalence": "Proportion of population that has existing cases during a specified period",
+        "case_fatality_ratio": "Number of deaths from disease / Total number of cases of the disease"
+      },
+      "other_measures": ["Attack Rate", "Risk Ratio", "Odds Ratio"]
+    },
+    {
+      "page": 16,
+      "title": "Injury Prevention and Basic First Aid",
+      "childhood_injuries": [
+        "Motor vehicle accidents (MVA) — proper use of carseats",
+        "Playground injury",
+        "Firearm safety — proper storage of firearms",
+        "Medication poisoning / poisoning by eating non-food items",
+        "Traumatic brain injury (TBI) / Concussion prevention and treatment",
+        "Newborn safety — supporting head, Shaken Baby Syndrome, Sudden Infant Death Syndrome (SIDS)",
+        "Dental Care — brush/floss teeth, dental sealants",
+        "Bike Safety — wear helmet, ride on correct side of road, use hand signals",
+        "Sports injuries — know which equipment is used for each sport and what it protects against"
+      ],
+      "first_aid": {
+        "RICE": "Rest, Ice, Compression, Elevate — treatment for sprains"
+      },
+      "fire_safety": [
+        "Know your exits",
+        "Do not open doors without checking first for heat",
+        "Place towel under door to prevent smoke from entering",
+        "Sleep with doors closed at night",
+        "Grease fire — do NOT use water; put out by suffocating",
+        "Always have a fire extinguisher in the kitchen"
+      ],
+      "other_safety": {
+        "alcohol_bac": "0.08% BAC is the legal limit for driving",
+        "pool_safety": "Never swim alone",
+        "sun_safety": ["Wear sunscreen", "Cover skin with hat, long sleeves, long pants", "Go outside morning or evening when sun is less intense"],
+        "piercing_tattoo_risks": {
+          "bloodborne": ["Hep B and C", "HIV", "Tetanus"],
+          "other_risks": ["Allergic reaction (can occur years later)", "Skin infection (Staph, Cutaneous tuberculosis)", "Burning or swelling", "Granulomas (nodules of inflamed tissue)", "Keloids (overgrowths of scar tissue)"]
+        }
+      }
+    },
+    {
+      "page": "17-19 (unlabeled in photos)",
+      "title": "Statistical Studies / Other Topics in Georgia",
+      "study_types": {
+        "descriptive_vs_prospective": "Descriptive tells who/what/when/where. Retrospective goes backward (case-control). Prospective goes forward (cohort).",
+        "ecological_study": "Most common for Disease Detectives. Uses readily available population-level data. Pros: readily available data. Cons: no individual-level confounding factors, no individual exposure levels, ecological fallacy/bias.",
+        "cross_sectional_study": "A survey/health questionnaire — snapshot in time. Participants fill out survey about themselves at a specific point in time. Pros: inexpensive, useful for generating hypotheses, useful for public health planning, only collected once. Cons: cannot establish causality."
+      },
+      "georgia_health_topics": {
+        "obesity": {
+          "causes": "Increase in portion size / more processed food; decrease in physical activity",
+          "diabetes_connection": "Type 2 diabetes mostly occurs in people over 45, or in younger people with obesity or genetic reasons. Due to inability to produce/respond to insulin.",
+          "pre_diabetic": "State where pancreas functions less than before; body becomes resistant to insulin",
+          "bmi_formula": "BMI = weight / height² = w/(h²)"
+        },
+        "cholesterol": {
+          "description": "Waxy substance necessary for proper cell function",
+          "sources": "Found in high saturated fat food (meat, eggs, dairy, some shellfish)",
+          "risks": "High cholesterol is a risk factor for heart disease, heart attack, and stroke",
+          "ldl": "LDL (bad) cholesterol from industrial food processing raises heart disease risk"
+        },
+        "depression": "Persistent sadness or lack of interest in previously normal activities. Can affect sleep, appetite, and energy levels.",
+        "common_causes_of_death_georgia": ["Cancer", "Chronic Lower Respiratory Disease", "Accidents", "Stroke", "Alzheimer's", "Diabetes", "Flu/Pneumonia", "Septicemia", "Suicide"]
+      }
+    },
+    {
+      "page": 18,
+      "title": "Study Types: Case-Control / Case-Crossover / Cohort",
+      "case_control": {
+        "definition": "Compares two groups: cases (those with the disease) and controls (similar people without disease). Researchers study medical and lifestyle histories to learn what factors may be associated with the disease. Also called retrospective study.",
+        "pros": ["Can study rare diseases", "Relatively less expensive", "Relatively fast", "Lots of different exposures", "Don't need huge sample size"],
+        "cons": ["Possible time-order confusion", "Possible recall bias", "Only can deal with one disease at a time", "Hard to tell causality"]
+      },
+      "case_crossover": {
+        "definition": "Each case serves as own control. Used to investigate transient effects of intermittent exposure on onset of acute outcomes. 'Case window' (period of being a case) compared to 'control window' (period not being a case)."
+      },
+      "cohort_study": {
+        "definition": "A longitudinal study that samples a cohort, performing a cross-section at intervals through time. Compares people with and without exposures to see what happens over time.",
+        "pros": ["Good measure of exposure", "Can tell causality", "Able to study multiple diseases at once"],
+        "cons": ["Time consuming", "Expensive", "Not good for diseases that are rare or take long to develop"]
+      }
+    },
+    {
+      "page": 20,
+      "title": "Appendix B: Hill's Criteria of Causation",
+      "description": "9 principles for establishing epidemiologic evidence of a causal relationship between a presumed cause and an observed effect.",
+      "criteria": [
+        {"name": "Strength of association (effect size)", "description": "Small association does not mean not causal. Larger association = more likely causal."},
+        {"name": "Consistency (reproducibility)", "description": "Consistent findings by different persons in different places with different samples strengthens likelihood of causal effect."},
+        {"name": "Specificity", "description": "Causation likely if very specific population at specific site shows association with no other likely explanation."},
+        {"name": "Temporality", "description": "Effect must occur AFTER the cause. Expected delay between cause and effect must be observed."},
+        {"name": "Biological gradient (dose-response)", "description": "Greater exposure should generally lead to greater incidence of effect. However, sometimes mere presence of factor triggers effect."},
+        {"name": "Experimental Evidence", "description": "The condition can be altered (prevented or ameliorated) by appropriate experimental regimen."},
+        {"name": "Biologic Plausibility", "description": "Association agrees with currently accepted biological and pathological understanding."},
+        {"name": "Coherence", "description": "Association should be compatible with existing theory and knowledge."},
+        {"name": "Analogy", "description": "A finding of analogous associations between similar factors and similar diseases."}
+      ]
+    },
+    {
+      "page": "21 (Bias page)",
+      "title": "Bias in Epidemiology",
+      "definition": "Any systematic error in the design, conduct, or analysis of a study that results in a mistaken estimate of an exposure's effect on the risk of disease.",
+      "types": {
+        "confounding": "Suggests an association where none exists or masks a true association. The confounding factor is the cause of the effect revealed in the study; the effect revealed in the study is NOT the result of the factor being studied.",
+        "information": "When bias is introduced through an error in measurement or observation; any systematic difference from the truth in data collection. Major types: misclassification bias, observer bias, recall bias, reporting bias. Common in retrospective/observational studies.",
+        "recall": "When studied, some subjects may more easily recall specific habits related to a disease or condition than subjects not affected with the disease or condition.",
+        "selection": "Study population does not reflect the target population. The people chosen for the study are not the ideal population for the study."
+      }
+    },
+    {
+      "page": "38 (Appendix C)",
+      "title": "Appendix C: Helpful Websites",
+      "resources": [
+        "CDC Introduction to Epidemiology — cdc.gov/training/publichealth101/epidemiology.html",
+        "Epidemiology for the Uninitiated — cdc.gov/training/publichealth101/e-learning/epidemiology-uninitiated",
+        "BMI — bmi.com/about-bmi/resources-readers/publications",
+        "Outbreak Toolkit — outbreaktools.ca/"
+      ]
+    }
+  ],
+  "net_new_for_app": {
+    "note": "Items already present in index.html VOCAB/TF/MATCH arrays are excluded",
+    "vocab_to_add": [
+      {"term": "Signs (of Disease)", "def": "Objective, MEASURABLE indicators of disease that can be observed by someone other than the patient — like a doctor. Examples: temperature/fever, heart rate, blood pressure, breathing rate, blood test results.", "c": "epi_terms"},
+      {"term": "Symptoms (of Disease)", "def": "SUBJECTIVE experiences of disease that only the patient can feel. Cannot be easily measured by others. Examples: nausea, loss of appetite, pain, low energy. Signs = objective; Symptoms = subjective.", "c": "epi_terms"},
+      {"term": "Cluster", "def": "An aggregation of disease cases closely grouped by TIME, PLACE, or BOTH, with a count that EXCEEDS what would normally be expected. Not every cluster is an outbreak — a cluster investigation determines whether numbers are truly above expected levels.", "c": "epi_terms"},
+      {"term": "Continuous Common Source", "def": "An epidemic type where people are exposed to a source OVER AN EXTENDED PERIOD. The epi-curve rises, plateaus, then drops sharply when the source is removed. Example: John Snow's cholera pump in 1854 London.", "c": "investigation"},
+      {"term": "Ecological Study", "def": "The most common study type in Disease Detectives. Uses readily available population-level data (not individual-level). Pros: data is available and cheap. Con: ecological fallacy — patterns in groups may not apply to individuals.", "c": "investigation"},
+      {"term": "Cross-Sectional Study", "def": "A 'snapshot in time' health questionnaire study. Participants report on themselves at one specific moment. Good for generating hypotheses and public health planning. Cannot prove causation.", "c": "investigation"},
+      {"term": "Independent Variable", "def": "In a study, the factor that stands ALONE and is NOT affected by other variables. It's the one the researcher controls or measures. Example: whether or not someone was vaccinated.", "c": "investigation"},
+      {"term": "Dependent Variable", "def": "In a study, the factor that CHANGES based on outside forces. It's what you're trying to predict or explain. Example: whether or not someone got sick. The dependent variable DEPENDS on the independent variable.", "c": "investigation"},
+      {"term": "Confounding (Bias)", "def": "A type of bias where a THIRD variable creates a false apparent association between an exposure and outcome. The confounding factor is the real cause — the apparent cause is just along for the ride. Example: shoe size and reading ability are correlated, but the real cause is age.", "c": "investigation"},
+      {"term": "Recall Bias", "def": "A study bias where sick people (cases) are more likely to remember and report past exposures than healthy people (controls). This can exaggerate apparent associations. Common in case-control studies.", "c": "investigation"},
+      {"term": "Selection Bias", "def": "A study bias where the people chosen for the study do NOT accurately represent the target population. The study sample is not ideal — so results may not apply to the broader group.", "c": "investigation"},
+      {"term": "Information Bias", "def": "A study bias introduced by errors in measuring or recording data — including misclassification, observer error, recall errors, and reporting errors. Results in systematic differences from the truth in data collection.", "c": "investigation"},
+      {"term": "Hill's Criteria of Causation", "def": "9 principles used to establish a CAUSAL relationship between an exposure and disease: Strength, Consistency, Specificity, Temporality, Biological gradient (dose-response), Experimental evidence, Biologic plausibility, Coherence, and Analogy.", "c": "investigation"},
+      {"term": "Case Fatality Ratio (CFR)", "def": "The proportion of CONFIRMED CASES that result in death. Formula: Deaths ÷ Total Cases × 100. A CFR of 2% means 2 out of every 100 confirmed cases die. Different from mortality rate (which uses population, not cases).", "c": "epi_terms"},
+      {"term": "Helminth", "def": "A multicellular PARASITIC WORM. Three main types: Nematodes (roundworms), Trematodes (flukes), Cestodes (tapeworms). Large enough to be seen with the naked eye. Lives in the host's gastrointestinal tract or lymphatic system.", "c": "pathogen"},
+      {"term": "Ectoparasite", "def": "A parasite that lives on the OUTSIDE of the host's body (as opposed to inside). Examples: fleas, lice, ticks, mites. Can transmit diseases to the host through bites or burrowing. Vectors like ticks are ectoparasites.", "c": "pathogen"},
+      {"term": "RICE", "def": "A first aid acronym for treating SPRAINS: Rest the injured area, Ice to reduce swelling, Compression with a bandage, Elevation above heart level. Reduces pain and swelling. Remember: RICE = sprain treatment!", "c": "control"},
+      {"term": "Blood Alcohol Content (BAC)", "def": "A measure of the amount of alcohol in a person's bloodstream. Expressed as a percentage. The legal limit for driving in the US is 0.08%. At 0.08% BAC, coordination, reaction time, and judgment are impaired.", "c": "epi_terms"},
+      {"term": "SIDS (Sudden Infant Death Syndrome)", "def": "The unexpected, unexplained death of an apparently healthy baby under 1 year of age. Also called 'crib death.' Risk reduced by placing babies on their BACK to sleep, not sleeping on soft surfaces, and avoiding smoke exposure.", "c": "epi_terms"},
+      {"term": "Placebo", "def": "An inert (harmless) substance with NO medical effect given to the CONTROL GROUP in a study. The experimental group gets the real treatment. Participants don't know which group they're in (blind study). Allows comparison of drug effect vs no effect.", "c": "investigation"}
+    ],
+    "tf_to_add": [
+      {"s": "Signs of disease are objective and measurable by someone other than the patient.", "correct": true, "explain": "TRUE — Signs are OBJECTIVE and measurable (temperature, blood pressure, heart rate). SYMPTOMS are SUBJECTIVE (nausea, pain, energy level) — only the patient can feel them.", "c": "epi_terms"},
+      {"s": "RICE is a first aid treatment that stands for Rest, Ice, Compress, and Elevate — used for sprains.", "correct": true, "explain": "TRUE — RICE = Rest, Ice, Compression, Elevation. It reduces pain and swelling from sprains. Apply ice (not directly on skin), compress with a bandage, and elevate above heart level.", "c": "control"},
+      {"s": "The legal blood alcohol content (BAC) limit for driving in the United States is 0.10%.", "correct": false, "explain": "FALSE — The legal BAC limit for driving in the US is 0.08%. At this level, judgment, coordination, and reaction time are significantly impaired. In some states and for commercial drivers, the limit is even lower.", "c": "epi_terms"},
+      {"s": "Ecological studies are the most common type of study used in Disease Detectives competitions.", "correct": true, "explain": "TRUE — Ecological studies are the most common type in Disease Detectives because they use readily available population-level data. Drawback: ecological fallacy — patterns in groups may not apply to individuals.", "c": "investigation"},
+      {"s": "In research, the independent variable is the one that CHANGES based on other variables.", "correct": false, "explain": "FALSE — That describes the DEPENDENT variable. The INDEPENDENT variable stands alone and is not affected by other variables — it's the one researchers control or manipulate. The dependent variable is what changes as a result.", "c": "investigation"},
+      {"s": "Hill's Criteria for establishing causality includes exactly 9 principles.", "correct": true, "explain": "TRUE — Hill's Criteria has exactly 9 principles: Strength, Consistency, Specificity, Temporality, Biological gradient (dose-response), Experimental evidence, Biologic plausibility, Coherence, and Analogy. All 9 are used to evaluate whether an association is likely causal.", "c": "investigation"},
+      {"s": "Confounding bias occurs when a third variable creates a false apparent association between an exposure and disease.", "correct": true, "explain": "TRUE — Confounding happens when another factor (the confounder) is the real cause but makes the studied exposure appear to be the cause. Example: shoe size correlates with reading ability — but age is the confounder.", "c": "investigation"},
+      {"s": "A cluster requires disease cases to EXCEED the normally expected number grouped by time and/or place.", "correct": true, "explain": "TRUE — A cluster is NOT just a group of cases — the number must EXCEED what would normally be expected. Not every cluster becomes an outbreak — the investigation determines whether numbers are truly abnormal.", "c": "epi_terms"},
+      {"s": "In a continuous common source outbreak, the epidemic curve shows one sharp spike then rapid dropoff.", "correct": false, "explain": "FALSE — That describes a POINT SOURCE outbreak. A continuous common source shows a rise, then a PLATEAU, then a sharp dropoff when the source is removed (like John Snow removing the pump handle). Point source = sharp peak; continuous = plateau.", "c": "investigation"},
+      {"s": "You should use water to extinguish a grease fire in the kitchen.", "correct": false, "explain": "FALSE — NEVER use water on a grease fire! Water causes grease fires to explode and spread violently. Smother the fire (cover with a lid), use a chemical fire extinguisher, or use baking soda. Always have a fire extinguisher in the kitchen.", "c": "control"},
+      {"s": "The Case Fatality Ratio (CFR) measures the proportion of confirmed cases that result in death.", "correct": true, "explain": "TRUE — CFR = Deaths ÷ Total Confirmed Cases × 100. A CFR of 2% means 2 out of 100 confirmed cases die. COVID's CFR was roughly 1–2% in the US. Ebola's CFR is ~50–90%. Very different from mortality rate (which uses total population).", "c": "epi_terms"},
+      {"s": "A case-control study is also called a prospective study because it looks forward in time.", "correct": false, "explain": "FALSE — Case-control studies are RETROSPECTIVE — they look BACKWARD at past exposures. Prospective studies (like cohort studies) follow people FORWARD in time. Retrospective = start with sick/healthy people and look back. Prospective = start and look forward.", "c": "investigation"}
+    ],
+    "match_to_add": [
+      {"cat": "Study Type → Alternative Name", "term": "Case-control study", "match": "Retrospective study (looks backward at past exposures)", "others": ["Prospective study (follows forward in time)", "Ecological study (population-level data)", "Cross-sectional study (snapshot in time)"], "c": "investigation"},
+      {"cat": "Study Type → Characteristic", "term": "Ecological study", "match": "Uses readily available population-level data; most common in Disease Detectives", "others": ["Follows individuals forward in time to see who gets sick", "Snapshot in time health questionnaire", "Compares sick and healthy looking backward at exposures"], "c": "investigation"},
+      {"cat": "Epi Curve Type → Pattern", "term": "Continuous common source outbreak", "match": "Epi-curve rises, plateaus until source removed, then drops sharply", "others": ["Single sharp spike then near-zero within days (point source)", "Multiple rolling waves of cases over weeks (propagated)", "Flat consistent rate throughout (endemic)"], "c": "investigation"},
+      {"cat": "Historical Example", "term": "Dr. John Snow / Broad Street pump, 1854", "match": "Removed contaminated pump handle to stop London cholera epidemic — continuous common source", "others": ["Discovered penicillin from mold in 1928 (Alexander Fleming)", "Developed first vaccine using cowpox to prevent smallpox (Edward Jenner)", "Identified Salmonella in contaminated chicken (modern CDC investigation)"], "c": "investigation"},
+      {"cat": "Bias Type → Description", "term": "Recall bias", "match": "Cases remember past exposures MORE clearly than controls — common in case-control studies", "others": ["Study population doesn't represent target population (selection bias)", "Third factor creates false apparent association (confounding)", "Systematic measurement error in data collection (information bias)"], "c": "investigation"},
+      {"cat": "Epidemiology Metric", "term": "Case Fatality Ratio (CFR)", "match": "Deaths from disease ÷ Total confirmed cases × 100", "others": ["New cases ÷ Population at risk × 1,000 (incidence rate)", "All current cases ÷ Population at one point in time (prevalence)", "Sick ÷ Exposed × 100 (attack rate)"], "c": "epi_terms"},
+      {"cat": "First Aid → Treatment", "term": "Sprain treatment", "match": "RICE — Rest, Ice, Compress, Elevate", "others": ["CPR — Chest compressions and rescue breathing", "Stop, Drop, and Roll — fire on clothing", "FAST — Face drooping, Arm weakness, Speech, Time (stroke)"], "c": "control"}
+    ],
+    "written_to_add": [
+      {
+        "q": "Compare and contrast cohort studies and case-control studies. What type of research question does each answer? What is the key measure of association produced by each? When would you choose one over the other?",
+        "hint": "Cohort = follow forward in time (prospective). Case-control = look backward (retrospective). Cohort uses RR. Case-control uses OR.",
+        "ans": "COHORT STUDY (Prospective):\nStart with: Groups of EXPOSED and UNEXPOSED people who don't yet have the disease.\nFollow: Forward in time to see who gets sick.\nQuestion answered: 'Does this exposure cause this disease?'\nMeasure: Relative Risk (RR) — you can calculate true attack rates because you know who was and wasn't exposed.\nBest for: Common diseases, when exposure is clear, when you can follow people over time.\n\nCASE-CONTROL STUDY (Retrospective):\nStart with: CASES (sick people) and CONTROLS (similar healthy people).\nLook: Backward at past exposures and behaviors.\nQuestion answered: 'What exposure caused these people to get sick?'\nMeasure: Odds Ratio (OR) — you can't calculate true attack rates because you selected cases and controls separately.\nBest for: Rare diseases, fast investigations, studying many exposures at once.\n\nKey difference: Cohort = forward in time. Case-control = backward in time.\nRule of thumb: OR ≈ RR when the disease is rare."
+      },
+      {
+        "q": "Explain the difference between SIGNS and SYMPTOMS of disease. Give 2 examples of each. Why does this distinction matter to an epidemiologist conducting an outbreak investigation?",
+        "hint": "Signs = objective, measurable by others. Symptoms = subjective, only felt by the patient.",
+        "ans": "SIGNS are objective, measurable indicators of disease that can be observed and measured by someone OTHER than the patient:\n1. Temperature/fever (measured with thermometer)\n2. Heart rate (measured by stethoscope or pulse oximeter)\n3. Blood pressure (measured by cuff)\n4. Results of a blood test\n\nSYMPTOMS are subjective experiences that ONLY the patient can feel — cannot be easily measured by others:\n1. Nausea (only the patient feels sick to their stomach)\n2. Pain (only the patient experiences the discomfort)\n3. Low energy / fatigue\n4. Loss of appetite\n\nWHY IT MATTERS in an outbreak investigation:\nEpidemiologists use SIGNS as objective data for the case definition (measurable criteria). SYMPTOMS from patient interviews help identify common illness patterns. When interviewing outbreak cases, detectives ask about BOTH signs (confirmed by medical records) AND symptoms (reported by patients) to build a complete clinical picture and refine the case definition."
+      },
+      {
+        "q": "What is bias in epidemiology? Define three types of bias (confounding, recall, and selection) and give a specific real-world example of how each could affect a Disease Detectives investigation.",
+        "hint": "Bias = systematic error that distorts results. Confounding = third factor. Recall = sick people remember better. Selection = wrong people in study.",
+        "ans": "BIAS = Any systematic error in a study's design, conduct, or analysis that distorts the true estimate of an exposure's effect on disease.\n\n1. CONFOUNDING BIAS:\nDefinition: A third variable (the confounder) is the real cause but makes the studied exposure APPEAR to be the cause.\nExample: A Disease Detective notices that coffee drinkers have higher lung cancer rates. Is coffee the cause? NO — the confounder is SMOKING. Coffee drinkers historically smoked more, and smoking causes lung cancer. Without accounting for smoking, the study would falsely implicate coffee.\n\n2. RECALL BIAS:\nDefinition: Sick people (cases) tend to remember and report past exposures MORE carefully than healthy people (controls). This inflates apparent associations.\nExample: After a foodborne outbreak, sick students (cases) carefully recall every food they ate at the school lunch. Healthy students (controls) barely think about it and forget half of what they ate. The cases seem more 'exposed' to certain foods — but it might just be that they remembered better.\n\n3. SELECTION BIAS:\nDefinition: The people chosen for the study don't accurately represent the target population, making results non-generalizable.\nExample: A Disease Detective conducts a phone survey to study who got sick in an outbreak — but only people at home in the afternoon answer. Working adults are excluded. If working adults had different exposure patterns, the results won't represent the full affected population."
+      }
+    ]
+  }
+}
