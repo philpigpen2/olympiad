@@ -438,6 +438,9 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <span class="sess-type-label">SCENARIO</span>
     <div id="sess-sc-story" class="scenario-story" style="margin-bottom:14px"></div>
     <div class="question-text" id="sess-sc-question"></div>
+    <div style="margin-bottom:10px">
+      <textarea id="sess-sc-attempt" placeholder="✏️ My answer attempt (optional)..." style="width:100%;background:#16213e;border:2px solid #0f3460;color:#eaeaea;border-radius:12px;padding:10px 12px;font-size:0.9rem;font-family:inherit;resize:none;min-height:52px;line-height:1.5;box-sizing:border-box" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+    </div>
     <div class="choices" id="sess-sc-choices"></div>
     <div class="sess-feedback" id="sess-sc-feedback"></div>
     <button class="sess-next-btn" id="sess-sc-next" onclick="advanceSessQuestion(_sessLastCorrect)">Next →</button>
@@ -498,6 +501,9 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <div id="sess-ec-story" class="scenario-story" style="margin-bottom:12px"></div>
     <div id="sess-ec-chart" style="margin-bottom:14px"></div>
     <div class="question-text" id="sess-ec-question"></div>
+    <div style="margin-bottom:10px">
+      <textarea id="sess-ec-attempt" placeholder="✏️ My answer attempt (optional)..." style="width:100%;background:#16213e;border:2px solid #0f3460;color:#eaeaea;border-radius:12px;padding:10px 12px;font-size:0.9rem;font-family:inherit;resize:none;min-height:52px;line-height:1.5;box-sizing:border-box" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+    </div>
     <div class="choices" id="sess-ec-choices"></div>
     <div class="sess-feedback" id="sess-ec-feedback"></div>
     <button class="sess-next-btn" id="sess-ec-next" onclick="advanceSessQuestion(_sessLastCorrect)">Next →</button>
@@ -552,6 +558,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <div class="card" id="fc-card">
       <div class="card-face card-front">
         <div style="width:100%">
+          <div id="fc-category" style="font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:#f5a623;margin-bottom:10px;opacity:0.85"></div>
           <div class="card-term" id="fc-term"></div>
           <div class="card-hint" id="fc-hint" style="margin-top:16px">Write your answer below, then reveal</div>
         </div>
@@ -872,6 +879,9 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     </div>
     <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#f5a623;margin-bottom:8px" id="mock-topic-label">VOCABULARY</div>
     <div class="scenario-story" id="mock-question" style="font-size:1rem;font-weight:600;line-height:1.6;border-left-color:#f5a623"></div>
+    <div style="margin-bottom:10px">
+      <textarea id="mock-attempt" placeholder="✏️ My answer attempt (optional — type before selecting below)..." style="width:100%;background:#16213e;border:2px solid #0f3460;color:#eaeaea;border-radius:12px;padding:10px 12px;font-size:0.9rem;font-family:inherit;resize:none;min-height:52px;line-height:1.5;box-sizing:border-box" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+    </div>
     <div class="choices" id="mock-choices"></div>
     <div class="feedback" id="mock-feedback"></div>
     <button class="next-btn" id="mock-next-btn" onclick="nextMockQuestion()" style="display:none">Next →</button>
@@ -2189,6 +2199,8 @@ function loadSessSc(q) {
   document.getElementById('sess-sc-feedback').className = 'sess-feedback';
   document.getElementById('sess-sc-feedback').textContent = '';
   document.getElementById('sess-sc-next').className = 'sess-next-btn';
+  const scAttempt = document.getElementById('sess-sc-attempt');
+  if (scAttempt) { scAttempt.value = ''; scAttempt.style.height = 'auto'; scAttempt.disabled = false; }
 
   const choicesEl = document.getElementById('sess-sc-choices');
   choicesEl.innerHTML = '';
@@ -2210,6 +2222,8 @@ function sessSolveSc(idx, btn, qData) {
     if (i === qData.correct) b.classList.add('correct');
     else if (i === idx && !correct) b.classList.add('wrong');
   });
+  const scAt = document.getElementById('sess-sc-attempt');
+  if (scAt) scAt.disabled = true;
   const fb = document.getElementById('sess-sc-feedback');
   fb.textContent = (correct ? '✅ ' : '❌ ') + qData.explain;
   fb.className = 'sess-feedback show ' + (correct ? 'correct' : 'wrong');
@@ -2374,6 +2388,8 @@ function loadSessEc(q) {
   document.getElementById('sess-ec-feedback').className = 'sess-feedback';
   document.getElementById('sess-ec-feedback').textContent = '';
   document.getElementById('sess-ec-next').className = 'sess-next-btn';
+  const ecAttempt = document.getElementById('sess-ec-attempt');
+  if (ecAttempt) { ecAttempt.value = ''; ecAttempt.style.height = 'auto'; ecAttempt.disabled = false; }
   const choicesEl = document.getElementById('sess-ec-choices');
   choicesEl.innerHTML = '';
   qData.choices.forEach((c, i) => {
@@ -2389,6 +2405,8 @@ function loadSessEc(q) {
 function sessSolveEc(idx, btn, qData) {
   const correct = idx === qData.correct;
   _sessLastCorrect = correct;
+  const ecAt = document.getElementById('sess-ec-attempt');
+  if (ecAt) ecAt.disabled = true;
   document.querySelectorAll('#sess-ec-choices .choice-btn').forEach((b, i) => {
     b.onclick = null;
     if (i === qData.correct) b.classList.add('correct');
@@ -2533,6 +2551,12 @@ function showCard() {
   const v = VOCAB[fcIndices[fcPos]];
   document.getElementById('fc-term').textContent = v.term;
   document.getElementById('fc-def').textContent = v.def;
+  const _catLabels = {
+    'epi_terms':'Epidemiology Concept','transmission':'Disease Transmission',
+    'pathogen':'Pathogen / Disease','control':'Prevention & Control',
+    'investigation':'Investigation Method','stats':'Statistics & Math'
+  };
+  document.getElementById('fc-category').textContent = _catLabels[v.c] || v.c;
 
   const pct = Math.round(((fcPos + 1) / VOCAB.length) * 100);
   document.getElementById('fc-label').textContent = `Card ${fcPos+1} of ${VOCAB.length}`;
@@ -3546,6 +3570,8 @@ function loadMockQuestion() {
   document.getElementById('mock-feedback').className = 'feedback';
   document.getElementById('mock-feedback').textContent = '';
   document.getElementById('mock-next-btn').style.display = 'none';
+  const attemptEl = document.getElementById('mock-attempt');
+  if (attemptEl) { attemptEl.value = ''; attemptEl.style.height = 'auto'; attemptEl.disabled = false; }
 
   const choicesEl = document.getElementById('mock-choices');
   choicesEl.innerHTML = '';
@@ -3578,6 +3604,8 @@ function answerMockMCQ(chosen, btn, q) {
   fb.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
   fb.textContent = (isCorrect ? '✓ Correct! ' : '✗ Not quite. ') + q.explain;
   document.getElementById('mock-next-btn').style.display = 'block';
+  const ae = document.getElementById('mock-attempt');
+  if (ae) ae.disabled = true;
 }
 
 function nextMockQuestion() {
