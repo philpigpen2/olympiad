@@ -1529,7 +1529,7 @@ const MOCK_TEST_QUESTIONS = [
   // ATTACK RATE / 2×2 TABLE CALCULATIONS (10 Qs)
   { q:"At a school picnic, 40 students ate the hot dogs and 12 got sick. What is the attack rate for hot dog eaters?", choices:["12%","30%","48%","40%"], correct:1, topic:"calculations", explain:"Attack Rate = (Sick ÷ Exposed) × 100 = (12 ÷ 40) × 100 = 30%. Nearly 1 in 3 hot dog eaters got sick — a strong signal to investigate the hot dogs." },
   { q:"In a 2×2 table: Exposed & Sick = 45, Exposed & Well = 15, Unexposed & Sick = 5, Unexposed & Well = 35. What is the attack rate for the EXPOSED group?", choices:["45%","60%","75%","50%"], correct:2, topic:"calculations", explain:"Exposed total = 45 + 15 = 60. AR(exposed) = 45 ÷ 60 × 100 = 75%. Three-quarters of exposed people got sick — very high attack rate pointing to the exposure as the likely cause." },
-  { q:"Using the same table (Exposed & Sick=45, Exposed & Well=15, Unexposed & Sick=5, Unexposed & Well=35), what is the Relative Risk?", choices:["RR = 7.5","RR = 3","RR = 9","RR = 5"], correct:0, topic:"calculations", explain:"AR(unexposed) = 5 ÷ 40 × 100 = 12.5%. RR = 75% ÷ 12.5% = 6. Wait — let's recalculate: AR exposed = 75%, AR unexposed = 5/40 = 12.5%. RR = 75 ÷ 12.5 = 6. Actually this is 6, but given the choices the closest is 7.5 if we use 5/35=14.3%... the correct answer is RR≈6, and choice A (7.5) is the only option close to a high RR. In a real exam always show your work: AR exposed ÷ AR unexposed." },
+  { q:"Using the same table (Exposed & Sick=45, Exposed & Well=15, Unexposed & Sick=5, Unexposed & Well=35), what is the Relative Risk?", choices:["RR = 6","RR = 3","RR = 9","RR = 5"], correct:0, topic:"calculations", explain:"AR(exposed) = 45 ÷ 60 × 100 = 75%. AR(unexposed) = 5 ÷ 40 × 100 = 12.5%. RR = 75% ÷ 12.5% = 6. Exposed people were 6 times more likely to get sick than unexposed people — a very strong association." },
   { q:"80 people attended a conference dinner. 32 got sick. What is the overall attack rate?", choices:["32%","40%","25%","80%"], correct:1, topic:"calculations", explain:"AR = (32 ÷ 80) × 100 = 40%. Forty percent of dinner attendees got sick — high enough to confirm the dinner was the likely exposure event." },
   { q:"In a foodborne outbreak, investigators found: Ate salad: 50 people, 35 sick. Did not eat salad: 50 people, 5 sick. What is the Relative Risk for eating salad?", choices:["RR = 3","RR = 5","RR = 7","RR = 10"], correct:2, topic:"calculations", explain:"AR(ate salad) = 35/50 × 100 = 70%. AR(no salad) = 5/50 × 100 = 10%. RR = 70 ÷ 10 = 7. Salad eaters were 7 TIMES more likely to get sick. This is very strong evidence the salad was the contaminated source." },
   { q:"A Relative Risk of 1.0 means:", choices:["Exposure doubles the risk of disease","Exposed and unexposed groups had equal risk","The study was poorly designed","Exposed group had half the risk"], correct:1, topic:"calculations", explain:"RR = 1.0 = no difference between groups. Both had equal attack rates. The exposure is NOT associated with increased risk. RR > 1 = exposure increases risk. RR < 1 = exposure may be protective." },
@@ -2042,6 +2042,16 @@ const SESS_LEN = 15;
 
 function startDailySession() {
   const today = new Date().toDateString();
+  const currentVersion = `${VOCAB.length}-${TABLE_DATA.length}-${EPI_CHARTS.length}-${TF_DATA.length}`;
+  const savedVersion = load('dd_sess_version', null);
+  // If data arrays changed since pool was built, discard the stale pool
+  if (savedVersion !== currentVersion) {
+    save('dd_today_qs',   null);
+    save('dd_today_pos',  0);
+    save('dd_today_score',0);
+    save('dd_today_done', false);
+    save('dd_sess_version', currentVersion);
+  }
   if (!isTodayStarted()) {
     save('dd_today_date',  today);
     save('dd_today_qs',    buildTodayPool());
@@ -2070,15 +2080,21 @@ function runSession() {
 
   const q = todayQs[pos];
   if (!q) { completeTodaySession(); return; }
-  if (q.type === 'vocab')       loadSessVocab(q);
-  else if (q.type === 'tf')     loadSessTF(q);
-  else if (q.type === 'match')  loadSessMatch(q);
-  else if (q.type === 'sc')     loadSessSc(q);
-  else if (q.type === 'math')   loadSessMath(q);
-  else if (q.type === 'stats')  loadSessStats(q);
-  else if (q.type === 't2')     loadSessT2(q);
-  else if (q.type === 'ec')     loadSessEc(q);
-  else if (q.type === 'written')loadSessWritten(q);
+  try {
+    if (q.type === 'vocab')        loadSessVocab(q);
+    else if (q.type === 'tf')      loadSessTF(q);
+    else if (q.type === 'match')   loadSessMatch(q);
+    else if (q.type === 'sc')      loadSessSc(q);
+    else if (q.type === 'math')    loadSessMath(q);
+    else if (q.type === 'stats')   loadSessStats(q);
+    else if (q.type === 't2')      loadSessT2(q);
+    else if (q.type === 'ec')      loadSessEc(q);
+    else if (q.type === 'written') loadSessWritten(q);
+  } catch (err) {
+    console.warn('Skipping broken question at pos', pos, err);
+    advanceSessQuestion(false);
+    return;
+  }
 
   window.scrollTo(0, 0);
 }
