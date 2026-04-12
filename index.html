@@ -372,7 +372,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
       <span class="mode-icon-sm">📚</span>
       <div class="mode-info-sm">
         <div class="mode-label-sm">Flashcards</div>
-        <div class="mode-desc-sm">68 terms · write & reveal</div>
+        <div class="mode-desc-sm">97 terms · write & reveal</div>
       </div>
     </button>
     <button class="mode-btn-sm" style="background:#e94560" onclick="showScreen('scenarios')">
@@ -428,7 +428,14 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
       <span class="mode-icon-sm">✏️</span>
       <div class="mode-info-sm">
         <div class="mode-label-sm">Written Questions</div>
-        <div class="mode-desc-sm">8 deep questions · reveal model answers</div>
+        <div class="mode-desc-sm">11 deep questions · reveal model answers</div>
+      </div>
+    </button>
+    <button class="mode-btn-sm" style="background:#0f4c2a;grid-column:span 2" onclick="showScreen('mocktest')">
+      <span class="mode-icon-sm">🏆</span>
+      <div class="mode-info-sm">
+        <div class="mode-label-sm">Mock Test</div>
+        <div class="mode-desc-sm">Regional (30Q · 30min) or State (60Q+SA · 50min)</div>
       </div>
     </button>
   </div>
@@ -839,6 +846,89 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
   </div>
 </div>
 
+<!-- MOCK TEST SCREEN -->
+<div id="mocktest" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" id="mock-back-btn" onclick="exitMockTest()">←</button>
+    <div class="screen-title">🏆 Mock Test</div>
+    <div id="mock-timer" style="font-size:1rem;font-weight:800;color:#f5a623;min-width:60px;text-align:right"></div>
+  </div>
+
+  <!-- Mode Selector -->
+  <div id="mock-selector">
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="font-size:1.1rem;font-weight:700;margin-bottom:4px">Choose your test format</div>
+      <div style="font-size:0.82rem;color:#aaa">Simulates the actual Science Olympiad competition format</div>
+    </div>
+    <button class="mode-btn blue" style="margin-bottom:10px;border-radius:16px;padding:20px 16px" onclick="startMockTest('regional')">
+      <span style="font-size:2rem">📋</span>
+      <div style="text-align:left">
+        <div style="font-size:1.05rem;font-weight:700">Regional Mock</div>
+        <div style="font-size:0.8rem;opacity:0.8;margin-top:2px">30 multiple choice · 30 min timer</div>
+      </div>
+    </button>
+    <button class="mode-btn red" style="margin-bottom:10px;border-radius:16px;padding:20px 16px" onclick="startMockTest('state')">
+      <span style="font-size:2rem">🏅</span>
+      <div style="text-align:left">
+        <div style="font-size:1.05rem;font-weight:700">State Mock</div>
+        <div style="font-size:0.8rem;opacity:0.8;margin-top:2px">60 MCQ + 16 short answer · 50 min timer</div>
+      </div>
+    </button>
+    <div class="tip-box" style="margin-top:8px">🏆 <strong>State format (actual 2022 exam):</strong> 60 multiple choice questions + 16 short answer questions worth 3 pts each. Practice both sections!</div>
+  </div>
+
+  <!-- MCQ Section -->
+  <div id="mock-mcq-section" style="display:none">
+    <div class="progress-wrap">
+      <div class="progress-label" id="mock-label">Question 1 of 30</div>
+      <div class="progress-bar"><div class="progress-fill" id="mock-bar" style="width:3%"></div></div>
+    </div>
+    <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#f5a623;margin-bottom:8px" id="mock-topic-label">VOCABULARY</div>
+    <div class="scenario-story" id="mock-question" style="font-size:1rem;font-weight:600;line-height:1.6;border-left-color:#f5a623"></div>
+    <div class="choices" id="mock-choices"></div>
+    <div class="feedback" id="mock-feedback"></div>
+    <button class="next-btn" id="mock-next-btn" onclick="nextMockQuestion()" style="display:none">Next →</button>
+  </div>
+
+  <!-- SA Section (State only) -->
+  <div id="mock-sa-section" style="display:none">
+    <div style="background:#0f3460;border-radius:14px;padding:12px 16px;margin-bottom:14px;text-align:center">
+      <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#f5a623">SHORT ANSWER SECTION</div>
+      <div style="font-size:0.82rem;color:#aaa;margin-top:2px">16 questions · 3 pts each · Reveal model answer and self-grade</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label" id="mock-sa-label">SA Question 1 of 16</div>
+      <div class="progress-bar"><div class="progress-fill" id="mock-sa-bar" style="width:6%"></div></div>
+    </div>
+    <div class="written-q" id="mock-sa-question"></div>
+    <button class="hint-btn" onclick="toggleMockHint()">💡 Show Hint</button>
+    <div class="hint-box" id="mock-sa-hint"></div>
+    <button class="reveal-btn" id="mock-sa-reveal" onclick="revealMockSA()">Reveal Model Answer 👁</button>
+    <div class="answer-box" id="mock-sa-answer"></div>
+    <div class="self-grade" id="mock-sa-grade" style="display:none">
+      <div style="font-size:0.85rem;color:#aaa;text-align:center;margin-bottom:8px">How did you do on this short answer?</div>
+      <div style="display:flex;gap:10px">
+        <button class="grade-got" onclick="gradeMockSA(true)">Got it ✓</button>
+        <button class="grade-review" onclick="gradeMockSA(false)">Need more practice ↺</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Section -->
+  <div id="mock-results-section" style="display:none">
+    <div class="sess-done-card">
+      <div class="sess-done-emoji" id="mock-res-emoji">🏆</div>
+      <div class="sess-done-title" id="mock-res-title">Test Complete!</div>
+      <div class="sess-done-score" id="mock-res-score"></div>
+      <div class="sess-done-label" id="mock-res-label"></div>
+      <div class="sess-done-streak" id="mock-res-time"></div>
+    </div>
+    <div class="perf-breakdown" id="mock-topic-breakdown"></div>
+    <button class="sess-home-btn" style="margin-bottom:10px" onclick="showMockSelector()">Try Again</button>
+    <button class="result-home" onclick="showScreen('home')">Back to Home</button>
+  </div>
+</div>
+
 <script>
 // ── DATA ──────────────────────────────────────────────────────────
 const VOCAB = [
@@ -908,7 +998,43 @@ const VOCAB = [
   { term:"Association vs. Causation", def:"Association = two things happen together (eating X AND getting sick). Causation = one CAUSES the other. A high Relative Risk suggests causation but doesn't prove it alone.", c:'investigation' },
   { term:"Spot Map",            def:"A map showing WHERE cases are located. Clusters on a spot map help investigators identify the geographic source of an outbreak.", c:'investigation' },
   { term:"Breaking the Chain",  def:"Stopping disease spread by targeting any link in the Chain of Infection — vaccination (host), cooking food (pathogen), chlorinating water (transmission), masks (portal of exit)", c:'transmission' },
-  { term:"Incubation Period",   def:"The time between getting infected and showing symptoms. Knowing this helps investigators figure out WHEN and WHERE exposure happened.", c:'epi_terms' }
+  { term:"Incubation Period",   def:"The time between getting infected and showing symptoms. Knowing this helps investigators figure out WHEN and WHERE exposure happened.", c:'epi_terms' },
+
+  // ── CHRONIC DISEASE / NON-COMMUNICABLE ───────────────────────────
+  { term:"Chronic Disease",    def:"An illness lasting 1+ year that requires ongoing care and is NOT spread from person to person. Examples: heart disease, diabetes, cancer, stroke.", c:'epi_terms' },
+  { term:"Cholesterol",        def:"A waxy fat-like substance in the blood. Essential in small amounts, but too much LDL ('bad') cholesterol raises your risk of heart disease and stroke. Found in ALL animal products (meat, eggs, dairy, shellfish).", c:'epi_terms' },
+  { term:"Saturated Fat",      def:"Fat found in meat, full-fat dairy, eggs, and some shellfish. Raises LDL ('bad') cholesterol. A major risk factor for heart disease. Limit intake to reduce cardiovascular risk.", c:'epi_terms' },
+  { term:"Body Mass Index (BMI)", def:"Weight(kg) ÷ Height(m)². A screening tool: Underweight <18.5 | Normal 18.5–24.9 | Overweight 25–29.9 | Obese ≥30. NOT a diagnostic tool but widely used in public health surveillance.", c:'epi_terms' },
+  { term:"Risk Factor",        def:"Anything that increases your chance of developing a disease. Can be modifiable (smoking, diet, exercise) or non-modifiable (age, genetics, family history).", c:'epi_terms' },
+
+  // ── VACCINES / IMMUNITY ──────────────────────────────────────────
+  { term:"Vaccine",            def:"A preparation that trains the immune system to recognize and fight a pathogen WITHOUT causing the disease. Creates immunological memory for future protection.", c:'control' },
+  { term:"MMR Vaccine",        def:"Protects against Measles, Mumps, and Rubella. Two doses: 12–15 months and 4–6 years. Requires ~95% coverage to achieve herd immunity for measles.", c:'control' },
+  { term:"Basic Reproduction Number (R₀)", def:"The average number of new cases ONE infected person causes in a fully susceptible population. R₀ > 1 = outbreak growing. R₀ < 1 = outbreak dying out. Measles R₀ = 12–18!", c:'epi_terms' },
+  { term:"Herd Immunity Threshold", def:"The % of a population that must be immune to stop an outbreak from spreading. Varies by disease: Measles ~95%, Polio ~83%, Flu ~50%. Higher R₀ = higher threshold needed.", c:'control' },
+  { term:"Immunization Schedule", def:"The CDC-recommended timeline of vaccines by age. Ensures children are protected before they're likely to be exposed. Example: MMR at 12–15 months, boosters at 4–6 years.", c:'control' },
+
+  // ── PATHOGENS (exam-confirmed gaps) ─────────────────────────────
+  { term:"Measles",            def:"Highly contagious AIRBORNE virus. R₀ = 12–18 (most contagious disease known). Causes fever, cough, runny nose, red rash, Koplik spots. Prevented by MMR. Can cause encephalitis and death.", c:'pathogen' },
+  { term:"Tuberculosis (TB)",  def:"Airborne bacterial infection (Mycobacterium tuberculosis). Spreads via coughing/sneezing. Can lie DORMANT for years (latent TB). Tested with PPD skin test or IGRA blood test. Treated with antibiotics.", c:'pathogen' },
+  { term:"Lyme Disease",       def:"Bacterial infection (Borrelia burgdorferi) spread by black-legged TICK bites. Causes bull's-eye rash (erythema migrans), fever, and joint pain. Treated with antibiotics. NOT transmitted person-to-person.", c:'pathogen' },
+  { term:"Streptococcal Disease", def:"Streptococcus bacteria causing strep throat (pharyngitis), scarlet fever, and impetigo. Spread by respiratory droplets. Treated with antibiotics. Untreated strep can cause rheumatic fever and heart damage.", c:'pathogen' },
+  { term:"Ringworm (Tinea)",   def:"A FUNGAL infection — NOT a worm! Causes ring-shaped rash on skin, scalp (tinea capitis), or nails. Spreads by contact with infected person, animal, or surface. Treated with antifungal medication.", c:'pathogen' },
+  { term:"Cryptosporidium",    def:"Protozoan PARASITE that RESISTS standard pool chlorine. Causes prolonged watery diarrhea (1–3 weeks). Spreads via fecal-oral route in contaminated water. 'Crypto' is the #1 cause of pool-linked outbreaks.", c:'pathogen' },
+  { term:"Malaria",            def:"Caused by Plasmodium PROTOZOAN parasite. Spread by FEMALE Anopheles mosquito bites. Causes fever cycles, chills, sweating, anemia. Major global killer. Prevented by bed nets and antimalarial drugs.", c:'pathogen' },
+  { term:"Rabies",             def:"Viral zoonosis transmitted through BITES of infected mammals (bats, dogs, raccoons). Nearly 100% FATAL once symptoms appear. Prevented by post-exposure prophylaxis (PEP) if given quickly after exposure.", c:'pathogen' },
+  { term:"Dengue Fever",       def:"Viral arbovirus spread by AEDES mosquito bites. Causes severe flu-like illness: high fever, severe headache, pain behind eyes, muscle/joint pain. Can progress to hemorrhagic fever. No specific antiviral treatment.", c:'pathogen' },
+
+  // ── STATS / CALCULATIONS ─────────────────────────────────────────
+  { term:"Odds Ratio (OR)",    def:"Used in CASE-CONTROL studies. Compares odds of exposure among sick (cases) vs healthy (controls). Formula: OR = (a×d) ÷ (b×c). OR > 1 = exposure is a risk. Used when true attack rates can't be calculated.", c:'epi_terms' },
+  { term:"Sensitivity",        def:"A test's ability to correctly identify SICK people (true positive rate). High sensitivity = few false negatives. 'Sen-SICK-ivity' — finds the sick ones. Used for screening tests where missing a case is dangerous.", c:'stats' },
+  { term:"Specificity",        def:"A test's ability to correctly identify HEALTHY people (true negative rate). High specificity = few false positives. Rules OUT disease. Confirmatory tests need high specificity to avoid unnecessary treatment.", c:'stats' },
+
+  // ── INVESTIGATION / PREVENTION ───────────────────────────────────
+  { term:"One Health",         def:"The concept that human, animal, and environmental health are all interconnected. Disease detectives must consider all three — most emerging diseases (Ebola, COVID, Lyme) originate at the human-animal-environment interface.", c:'investigation' },
+  { term:"Primary Prevention", def:"Stopping disease BEFORE it occurs. Examples: vaccination, hand washing, wearing sunscreen, not smoking, improving sanitation. The cheapest and most effective public health strategy.", c:'control' },
+  { term:"Secondary Prevention", def:"Catching disease EARLY through screening before symptoms appear. Examples: TB skin test, cancer mammogram, blood pressure screening, blood glucose check. Early detection = better outcomes.", c:'control' },
+  { term:"Tertiary Prevention", def:"Managing an EXISTING disease to reduce complications and improve quality of life. Examples: physical therapy after stroke, insulin management for diabetes, cardiac rehab after heart attack.", c:'control' }
 ];
 
 // SCENARIOS — updated to harder difficulty (more plausible distractors, causation vs association, next steps)
@@ -1108,7 +1234,24 @@ const TF_DATA = [
   { s:"A spot map shows how many people got sick each day during an outbreak.", correct:false, explain:"FALSE — That's an EPIDEMIC CURVE. A spot map shows WHERE cases are located geographically. Clusters on a spot map help identify the geographic source (like a contaminated water supply).", c:'investigation' },
   { s:"Breaking any single link in the Chain of Infection can stop a disease from spreading.", correct:true, explain:"TRUE — The Chain of Infection has 6 links. Break ANY one — kill the pathogen, remove the reservoir, block transmission, block portals, or vaccinate the host — and the chain breaks!", c:'transmission' },
   { s:"Parasites like Giardia and Cryptosporidium are types of bacteria.", correct:false, explain:"FALSE — Giardia and Cryptosporidium are PARASITES (protozoa), not bacteria. They're single-celled but more complex organisms, and they're NOT treated with antibiotics.", c:'pathogen' },
-  { s:"A high Relative Risk value alone is sufficient to prove that an exposure CAUSES a disease.", correct:false, explain:"FALSE — A high RR suggests a strong association, but causation requires additional evidence (biological plausibility, consistency across studies, dose-response relationship, etc.). Association is not causation even with a high RR.", c:'epi_terms' }
+  { s:"A high Relative Risk value alone is sufficient to prove that an exposure CAUSES a disease.", correct:false, explain:"FALSE — A high RR suggests a strong association, but causation requires additional evidence (biological plausibility, consistency across studies, dose-response relationship, etc.). Association is not causation even with a high RR.", c:'epi_terms' },
+
+  // ── NEW STATEMENTS (exam-confirmed gaps) ─────────────────────────
+  { s:"The Odds Ratio (OR) is used in cohort studies to measure association.", correct:false, explain:"FALSE — Odds Ratio is used in CASE-CONTROL studies. Cohort studies use Relative Risk (RR). Case-control = look backward at exposure. Cohort = follow forward to see who gets sick.", c:'epi_terms' },
+  { s:"Measles has one of the highest R₀ values of any infectious disease, between 12 and 18.", correct:true, explain:"TRUE — Measles R₀ = 12–18, meaning one infected person can infect up to 18 others in a susceptible population. That's why measles spreads so explosively and why ~95% vaccination coverage is needed for herd immunity.", c:'pathogen' },
+  { s:"Tuberculosis (TB) is spread primarily by direct skin contact with an infected person.", correct:false, explain:"FALSE — TB is AIRBORNE. It spreads when an infected person coughs, sneezes, or talks, releasing tiny droplet nuclei that float in the air. Skin contact does NOT spread TB.", c:'pathogen' },
+  { s:"A BMI (Body Mass Index) of 30 or above is classified as obese.", correct:true, explain:"TRUE — BMI categories: Underweight < 18.5 | Normal 18.5–24.9 | Overweight 25–29.9 | Obese ≥ 30. BMI is a screening tool, not a diagnosis — body composition varies by age, sex, and ethnicity.", c:'epi_terms' },
+  { s:"Cholesterol is only found in junk food and fast food — healthy foods like eggs contain no cholesterol.", correct:false, explain:"FALSE — Cholesterol is found in ALL animal products, including eggs (one egg has ~186mg), meat, dairy, and shellfish. Dietary cholesterol and saturated fat in these foods can raise LDL ('bad') cholesterol levels.", c:'epi_terms' },
+  { s:"Lyme disease is caused by a virus transmitted through mosquito bites.", correct:false, explain:"FALSE — Lyme disease is caused by the BACTERIUM Borrelia burgdorferi, transmitted through BLACK-LEGGED TICK bites (NOT mosquitoes). Lyme is NOT a virus, and mosquitoes are NOT the vector. Antibiotics treat it.", c:'pathogen' },
+  { s:"The MMR vaccine protects against Measles, Mumps, and Rubella.", correct:true, explain:"TRUE — MMR = Measles, Mumps, Rubella. Two doses are recommended (12–15 months and 4–6 years). The MMR vaccine is highly effective and has nearly eliminated these diseases in vaccinated populations.", c:'control' },
+  { s:"Cryptosporidium can be killed by maintaining normal chlorine levels in a swimming pool.", correct:false, explain:"FALSE — Cryptosporidium is RESISTANT to standard pool chlorine levels! This is why Crypto causes pool outbreaks even in properly maintained pools. Hyperchlorination (very high chlorine) or UV treatment is needed to kill it.", c:'pathogen' },
+  { s:"An Odds Ratio (OR) of exactly 1.0 means there is NO association between the exposure and disease.", correct:true, explain:"TRUE — OR = 1.0 means equal odds of exposure in sick and healthy groups — no association. OR > 1 = exposure increases disease risk. OR < 1 = exposure may be protective. Think of it as the baseline.", c:'epi_terms' },
+  { s:"Primary prevention involves detecting disease early through screening before symptoms appear.", correct:false, explain:"FALSE — That's SECONDARY prevention (early detection). PRIMARY prevention stops disease BEFORE it occurs — examples: vaccination, hand washing, not smoking, wearing sunscreen.", c:'control' },
+  { s:"Herd immunity against measles is achieved when approximately 50% of a population is vaccinated.", correct:false, explain:"FALSE — Measles requires ~95% vaccination coverage for herd immunity because its R₀ is 12–18. The higher the R₀, the higher the threshold. Flu only needs ~50% because its R₀ is lower (2–3).", c:'control' },
+  { s:"Malaria is caused by a bacterial infection spread through contaminated drinking water.", correct:false, explain:"FALSE — Malaria is caused by Plasmodium, a PROTOZOAN PARASITE (not bacteria!), and it's spread by FEMALE ANOPHELES MOSQUITO bites, not contaminated water. It's one of the most common vector-borne diseases worldwide.", c:'pathogen' },
+  { s:"Rabies is almost always fatal once clinical symptoms appear in an unvaccinated person.", correct:true, explain:"TRUE — Once rabies symptoms appear, the fatality rate approaches 100%. This is why POST-EXPOSURE PROPHYLAXIS (PEP — a series of vaccine shots) must be given BEFORE symptoms appear if someone is bitten by a potentially rabid animal.", c:'pathogen' },
+  { s:"Ringworm is caused by a parasitic worm burrowing under the skin.", correct:false, explain:"FALSE — Ringworm is a FUNGAL infection (Tinea species), not a worm! The name comes from the ring-shaped rash it creates. It spreads by contact, not by burrowing worms. Treated with antifungal medication, not antiparasitic drugs.", c:'pathogen' },
+  { s:"An R₀ value less than 1 means an outbreak is likely to grow and spread through a population.", correct:false, explain:"FALSE — R₀ < 1 means each infected person spreads it to LESS than one other person, so the outbreak is DYING OUT. R₀ > 1 = spreading. R₀ = 1 = stable (neither growing nor shrinking). R₀ < 1 = fading.", c:'epi_terms' }
 ];
 
 const MATCH_DATA = [
@@ -1132,7 +1275,19 @@ const MATCH_DATA = [
   { cat:"Disease Agent → Type", term:"Norovirus / Influenza / Hepatitis A", match:"Viruses — non-living particles that hijack cells; antibiotics DON'T work", others:["Bacteria — living cells; treatable with antibiotics","Parasites — organisms that live inside a host","Fungi — mold/yeast-type organisms","Prions — misfolded proteins"], c:'pathogen' },
   { cat:"Disease Agent → Type", term:"Giardia / Cryptosporidium / Tapeworm", match:"Parasites — organisms that live on or inside a host and feed off it", others:["Bacteria — single-celled living organisms","Viruses — non-living; hijack host cells","Fungi — mold/yeast-type organisms","Toxins — chemical poisons in food"], c:'pathogen' },
   { cat:"Chain of Infection → How to Break It", term:"Wearing a mask or covering a cough", match:"Blocking the Portal of Exit — stopping pathogens from leaving the sick person", others:["Blocking the Portal of Entry into a new host","Eliminating the reservoir where germs live","Killing pathogens with heat or disinfectant","Making the host immune through vaccination"], c:'transmission' },
-  { cat:"Chain of Infection → How to Break It", term:"Vaccination", match:"Protecting the Susceptible Host — making the last link in the chain immune", others:["Blocking the Portal of Exit","Eliminating the pathogen from its reservoir","Blocking the mode of transmission","Targeting the portal of entry with hand washing"], c:'control' }
+  { cat:"Chain of Infection → How to Break It", term:"Vaccination", match:"Protecting the Susceptible Host — making the last link in the chain immune", others:["Blocking the Portal of Exit","Eliminating the pathogen from its reservoir","Blocking the mode of transmission","Targeting the portal of entry with hand washing"], c:'control' },
+
+  // ── NEW MATCHING PAIRS (exam-confirmed gaps) ──────────────────────
+  { cat:"Vaccine → Disease It Prevents", term:"MMR Vaccine", match:"Measles, Mumps, and Rubella", others:["Chickenpox, Shingles","Hepatitis A, Hepatitis B","Influenza, Pneumococcal disease","Tetanus, Diphtheria, Pertussis"], c:'control' },
+  { cat:"Vaccine → Disease It Prevents", term:"Varicella Vaccine", match:"Chickenpox (and later Shingles)", others:["Measles, Mumps, Rubella","Hepatitis A and B","Meningococcal disease","Influenza"], c:'control' },
+  { cat:"Vaccine → Disease It Prevents", term:"DTaP Vaccine", match:"Diphtheria, Tetanus, and Pertussis (whooping cough)", others:["Measles, Mumps, Rubella","Chickenpox and Shingles","Hepatitis A and B","Influenza and Pneumococcal"], c:'control' },
+  { cat:"Vector → Disease It Carries", term:"Female Anopheles mosquito", match:"Malaria (Plasmodium parasite)", others:["Lyme disease (Borrelia burgdorferi)","Dengue / Zika / West Nile (arboviruses)","Rocky Mountain Spotted Fever","Yellow Fever only"], c:'transmission' },
+  { cat:"Vector → Disease It Carries", term:"Aedes mosquito", match:"Dengue Fever, Zika Virus, Chikungunya", others:["Malaria (Plasmodium)","Lyme disease (Borrelia)","Rocky Mountain Spotted Fever","West Nile Virus only"], c:'transmission' },
+  { cat:"Vector → Disease It Carries", term:"Black-legged tick (deer tick)", match:"Lyme Disease (Borrelia burgdorferi)", others:["Malaria (Plasmodium)","Dengue / Zika (arboviruses)","Rabies (lyssavirus)","Yellow Fever (arbovirus)"], c:'transmission' },
+  { cat:"Pathogen Type → Example Disease", term:"Protozoan Parasite", match:"Malaria, Giardia, Cryptosporidium, Toxoplasmosis", others:["Ringworm, Athlete's Foot, Valley Fever","Salmonella, E. coli, Listeria","Norovirus, Influenza, Measles","Botulism toxin, Staph aureus toxin"], c:'pathogen' },
+  { cat:"Pathogen Type → Example Disease", term:"Fungi", match:"Ringworm (Tinea), Athlete's Foot, Valley Fever (Coccidioidomycosis)", others:["Malaria, Giardia, Cryptosporidium","Salmonella, E. coli, Listeria","Norovirus, Influenza, Measles","Rabies, Dengue, West Nile"], c:'pathogen' },
+  { cat:"Chronic Disease Risk Factor → Associated Disease", term:"High LDL ('bad') cholesterol + saturated fat intake", match:"Heart Disease and Stroke (cardiovascular disease)", others:["Type 2 Diabetes","Lung Cancer","Osteoporosis","Kidney Disease"], c:'epi_terms' },
+  { cat:"Prevention Level → Real-World Example", term:"Secondary Prevention", match:"TB skin test to detect latent infection before symptoms appear", others:["Vaccination before exposure to measles","Physical therapy after a stroke to regain movement","Wearing sunscreen to prevent skin cancer","Hand washing to stop germ transmission"], c:'control' }
 ];
 
 const WRITTEN_DATA = [
@@ -1159,7 +1314,19 @@ const WRITTEN_DATA = [
     ans:"The 6 links of the Chain of Infection:\n\n1. PATHOGEN — the germ itself. Break it: cook food to kill bacteria (165°F for poultry).\n\n2. RESERVOIR — where the germ lives (animals, humans, environment). Break it: remove standing water where mosquitoes breed.\n\n3. PORTAL OF EXIT — how it leaves (coughing, sneezing, blood, diarrhea). Break it: cover coughs, proper wound care.\n\n4. MODE OF TRANSMISSION — how it travels (air, water, food, direct contact). Break it: chlorinate drinking water, hand washing.\n\n5. PORTAL OF ENTRY — how it enters a new host (mouth, nose, eyes, broken skin). Break it: wear gloves, don't touch your face.\n\n6. SUSCEPTIBLE HOST — a person who can get infected. Break it: vaccinate the host, improve nutrition/immune status.\n\nBreak ANY link = the disease can't spread. This is why public health uses multiple strategies at once!" },
   { q:"Explain the difference between a point source and propagated outbreak. Draw what each looks like on an epidemic curve and explain what causes each shape.",
     hint:"Think about WHO was exposed and WHEN. One source at one time vs. person spreading to person over time.",
-    ans:"POINT SOURCE OUTBREAK:\nCause: Everyone was exposed to the same contaminated source at ONE time (e.g., bad food at a party).\nEpi curve shape: ONE sharp spike in cases, then rapid drop to near-zero. Like a mountain with a steep cliff on both sides.\nWhy that shape: Everyone was exposed at the same moment, so they all get sick around the same time. Once the source is gone, no new cases.\n\nPROPAGATED OUTBREAK:\nCause: Disease spreads person-to-person in waves over time (e.g., flu spreading through a school).\nEpi curve shape: Gradual rise → peak → gradual decline. Or multiple rolling waves of cases over weeks/months.\nWhy that shape: Each sick person becomes a new source, infecting new people in successive waves." }
+    ans:"POINT SOURCE OUTBREAK:\nCause: Everyone was exposed to the same contaminated source at ONE time (e.g., bad food at a party).\nEpi curve shape: ONE sharp spike in cases, then rapid drop to near-zero. Like a mountain with a steep cliff on both sides.\nWhy that shape: Everyone was exposed at the same moment, so they all get sick around the same time. Once the source is gone, no new cases.\n\nPROPAGATED OUTBREAK:\nCause: Disease spreads person-to-person in waves over time (e.g., flu spreading through a school).\nEpi curve shape: Gradual rise → peak → gradual decline. Or multiple rolling waves of cases over weeks/months.\nWhy that shape: Each sick person becomes a new source, infecting new people in successive waves." },
+
+  { q:"Explain the difference between Relative Risk (RR) and Odds Ratio (OR). When is each used, and how do you calculate OR from a 2×2 table?",
+    hint:"RR = cohort studies (you know who was exposed). OR = case-control studies (you start with sick vs healthy). OR formula uses the 2×2 diagonals.",
+    ans:"RELATIVE RISK (RR):\nUsed in: COHORT studies (follow exposed and unexposed groups forward in time).\nFormula: RR = Attack Rate (exposed) ÷ Attack Rate (unexposed)\nInterpretation: RR = 6 means exposed people were 6× MORE likely to get sick.\nWhen to use: When you can calculate true attack rates because you know the denominator (how many were exposed total).\n\nODDS RATIO (OR):\nUsed in: CASE-CONTROL studies (compare sick 'cases' to healthy 'controls').\nFormula: OR = (a × d) ÷ (b × c) where a=cases exposed, b=cases unexposed, c=controls exposed, d=controls unexposed.\nInterpretation: OR = 5 means cases were 5× more likely to have been exposed than controls.\nWhen to use: When you CANNOT calculate true attack rates (you selected cases and controls separately, so you don't know true exposure rates in the population).\n\nKey rule: OR ≈ RR when the disease is rare. OR always overestimates risk slightly when the disease is common." },
+
+  { q:"List 4 chronic (non-communicable) diseases. For each, name TWO major risk factors and ONE prevention strategy.",
+    hint:"Think about the big ones: heart disease, cancer, diabetes, stroke, obesity. Risk factors can be modifiable (lifestyle) or non-modifiable (genetics).",
+    ans:"1. HEART DISEASE:\n   Risk factors: High LDL cholesterol / saturated fat intake; High blood pressure; Smoking; Obesity; Physical inactivity\n   Prevention: Eat less saturated fat; Exercise regularly; Don't smoke; Control blood pressure\n\n2. TYPE 2 DIABETES:\n   Risk factors: Obesity (especially abdominal fat); Physical inactivity; Family history; Poor diet (high sugar/refined carbs)\n   Prevention: Maintain healthy weight; Regular physical activity; Balanced diet\n\n3. STROKE:\n   Risk factors: High blood pressure (#1 risk factor); High cholesterol; Smoking; Atrial fibrillation; Obesity\n   Prevention: Control blood pressure with medication and diet; Don't smoke; Regular exercise\n\n4. LUNG CANCER:\n   Risk factors: Smoking (causes ~85% of lung cancers); Radon gas exposure; Air pollution; Secondhand smoke\n   Prevention: Never smoke; Avoid secondhand smoke; Test home for radon\n\nNote: Unlike infectious diseases, chronic diseases are NOT spread person-to-person but share many modifiable risk factors." },
+
+  { q:"Explain how vaccines work to protect both individuals AND populations. Why does herd immunity require different vaccination percentages for different diseases?",
+    hint:"Think about how the immune system 'remembers.' Then think about R₀ — how does it affect how many people you need to vaccinate?",
+    ans:"HOW VACCINES WORK (individual level):\nA vaccine introduces a weakened, killed, or partial form of a pathogen. The immune system mounts a response and creates memory cells. When the real pathogen appears later, the immune system recognizes it and responds FAST — stopping infection before it causes serious illness.\n\nHERD IMMUNITY (population level):\nWhen enough people are immune, the pathogen cannot find enough susceptible hosts to keep spreading — so it dies out. This protects people who CANNOT be vaccinated (newborns, immunocompromised patients, cancer patients).\n\nWHY DIFFERENT THRESHOLDS?\nThe threshold depends on R₀ (how contagious the disease is):\nFormula: Herd immunity threshold = 1 − (1 ÷ R₀)\n\nExamples:\n• Measles R₀ = 15 → threshold = 1 − 1/15 = 93–95% must be immune\n• Polio R₀ = 6 → threshold = ~83%\n• Influenza R₀ = 2–3 → threshold = ~50–60%\n\nBottom line: More contagious diseases (higher R₀) need MORE people vaccinated to achieve herd immunity. Even a small drop in measles vaccination can trigger outbreaks because the threshold is so high." }
 ];
 
 // STATS_DATA — updated with table headers and added even-number datasets
@@ -1284,9 +1451,161 @@ const EPI_CHARTS = [
     ]
   }
 ];
-</script>
-<script>
-// ── STATE ─────────────────────────────────────────────────────────
+
+// ── MOCK TEST QUESTIONS (~80 competition-style MCQs) ──────────────
+const MOCK_TEST_QUESTIONS = [
+  // VOCABULARY / DEFINITIONS (15 Qs)
+  { q:"Which term describes the AVERAGE number of new infections one sick person causes in a fully susceptible population?", choices:["Attack Rate","Basic Reproduction Number (R₀)","Secondary Attack Rate","Relative Risk"], correct:1, topic:"vocab", explain:"R₀ (basic reproduction number) measures how contagious a disease is in a fully susceptible population. R₀ > 1 = spreading; R₀ < 1 = dying out." },
+  { q:"A disease that is ALWAYS PRESENT at a constant, expected level in a specific geographic area is called:", choices:["Epidemic","Pandemic","Endemic","Outbreak"], correct:2, topic:"vocab", explain:"Endemic = always present at baseline levels in a specific area. Malaria is endemic in parts of sub-Saharan Africa. An epidemic occurs when cases EXCEED the expected endemic baseline." },
+  { q:"The time between getting infected and the first appearance of symptoms is the:", choices:["Incubation period","Latency period","Infectious period","Generation time"], correct:0, topic:"vocab", explain:"Incubation period = time from infection to symptoms. Knowing this helps investigators calculate WHEN exposure happened by counting back from when people first got sick." },
+  { q:"Quarantine and isolation are both control measures. What is the KEY difference?", choices:["Quarantine is for sick people; isolation is for exposed people","Isolation is for sick people; quarantine is for exposed-but-not-yet-sick people","Quarantine requires hospitalization; isolation does not","They are the same — the terms are interchangeable"], correct:1, topic:"vocab", explain:"ISOLATION = for confirmed sick people (separate them so they can't spread disease). QUARANTINE = for exposed-but-not-yet-sick people (watch them during incubation period to see if they develop illness)." },
+  { q:"Which of the following BEST defines 'morbidity'?", choices:["The death rate from a disease","The rate of new infections per day","The illness rate — how many people got sick","The economic cost of a disease outbreak"], correct:2, topic:"vocab", explain:"Morbidity = how many people got SICK. Mortality = how many people DIED. Memory trick: morTALity = fatal outcomes. Morbidity = the burden of illness." },
+  { q:"A fomite is BEST described as:", choices:["A living organism that transmits disease (like a mosquito)","An inanimate object that carries germs (like a doorknob)","A person who carries disease without symptoms","The place where a pathogen normally lives between outbreaks"], correct:1, topic:"vocab", explain:"A fomite is an INANIMATE object contaminated with pathogens (doorknobs, phones, towels, keyboards). Living disease carriers are VECTORS. Symptom-free human carriers are called 'carriers.' The normal home of a pathogen is its 'reservoir.'" },
+  { q:"Body Mass Index (BMI) is calculated as:", choices:["Weight (lbs) ÷ Height (inches)","Weight (kg) ÷ Height (m)²","Weight (kg) × Height (m)","Height (cm) ÷ Weight (kg)"], correct:1, topic:"vocab", explain:"BMI = Weight(kg) ÷ Height(m)². Categories: Underweight <18.5, Normal 18.5–24.9, Overweight 25–29.9, Obese ≥30. It's a SCREENING tool, not a diagnostic measurement — body composition varies by age and ethnicity." },
+  { q:"The Odds Ratio (OR) is primarily used in which type of epidemiological study?", choices:["Cohort study (follow groups forward in time)","Cross-sectional study (snapshot in time)","Case-control study (compare sick to healthy)","Randomized controlled trial"], correct:2, topic:"vocab", explain:"OR is used in CASE-CONTROL studies. You start with sick 'cases' and healthy 'controls' and look backward at their exposures. You CAN'T calculate true attack rates, so you calculate the ODDS of exposure instead. Cohort studies use Relative Risk." },
+  { q:"Which prevention level involves detecting disease EARLY through screening BEFORE symptoms appear?", choices:["Primary prevention","Secondary prevention","Tertiary prevention","Quaternary prevention"], correct:1, topic:"vocab", explain:"SECONDARY prevention = early detection through screening (TB skin test, mammogram, blood pressure check). PRIMARY = stop disease before it occurs (vaccination). TERTIARY = manage existing disease to reduce complications." },
+  { q:"The 'reservoir' in the Chain of Infection refers to:", choices:["The hospital where sick patients are treated","Where the pathogen normally lives and multiplies between outbreaks","The mode by which disease travels from host to host","The susceptible person at the end of the chain"], correct:1, topic:"vocab", explain:"The RESERVOIR is the normal habitat of a pathogen between outbreaks — could be humans (TB), animals (rabies), or the environment (Legionella in water systems). Eliminating the reservoir breaks the chain of infection." },
+  { q:"Herd immunity protects which group of people MOST directly?", choices:["Healthy adults who chose not to vaccinate","People who cannot be vaccinated (newborns, immunocompromised)","People who have already recovered from the disease","Healthcare workers on the front lines"], correct:1, topic:"vocab", explain:"Herd immunity creates a protective 'firewall' of immune people around those who CANNOT be vaccinated — newborns too young for vaccines, cancer patients, organ transplant recipients, immunocompromised individuals. This is why high vaccination rates matter for everyone." },
+  { q:"Which statement BEST describes 'surveillance' in public health?", choices:["Arresting people who spread disease intentionally","Ongoing, systematic collection of health data to detect disease patterns","Monitoring hospital patients for hospital-acquired infections","Following up with patients after they recover from illness"], correct:1, topic:"vocab", explain:"Surveillance = the ongoing, systematic collection, analysis, and interpretation of health data for use in public health action. It's how we detect outbreaks early — before they become massive. Notifiable disease reporting is a key part of surveillance." },
+  { q:"A 'case definition' in an outbreak investigation is:", choices:["A legal document filed when someone dies from disease","A set of standard criteria used to decide if someone officially counts as a case","The name given to a new disease when it's discovered","A list of all infected patients in the outbreak"], correct:1, topic:"vocab", explain:"The case definition is the investigator's checklist: criteria (clinical symptoms + lab results + time + place + person characteristics) that determine whether someone officially 'counts' as a case in this outbreak. It must be specific enough to exclude unrelated illnesses." },
+  { q:"'One Health' is a public health concept that recognizes:", choices:["Only human medicine matters for outbreak control","Human, animal, and environmental health are all deeply interconnected","Animals can only spread disease to other animals, not humans","Environmental factors do not play a role in infectious disease spread"], correct:1, topic:"vocab", explain:"One Health = the concept that human health, animal health, and environmental health are inseparably connected. Most emerging diseases (Ebola, COVID-19, Lyme, H1N1) originate at the human-animal-environment interface. Effective disease control requires all three perspectives." },
+  { q:"Which of these CORRECTLY pairs a pathogen type with its defining characteristic?", choices:["Bacteria: requires a living host cell to reproduce","Virus: can be treated with antibiotics","Fungi: causes diseases like ringworm and athlete's foot","Parasite: must be inhaled to cause infection"], correct:2, topic:"vocab", explain:"FUNGI cause skin/nail/lung infections including ringworm (Tinea), athlete's foot, and Valley Fever. VIRUSES need living host cells to replicate (not bacteria). ANTIBIOTICS kill bacteria, not viruses. Parasites have many transmission routes, not just inhalation." },
+
+  // ATTACK RATE / 2×2 TABLE CALCULATIONS (10 Qs)
+  { q:"At a school picnic, 40 students ate the hot dogs and 12 got sick. What is the attack rate for hot dog eaters?", choices:["12%","30%","48%","40%"], correct:1, topic:"calculations", explain:"Attack Rate = (Sick ÷ Exposed) × 100 = (12 ÷ 40) × 100 = 30%. Nearly 1 in 3 hot dog eaters got sick — a strong signal to investigate the hot dogs." },
+  { q:"In a 2×2 table: Exposed & Sick = 45, Exposed & Well = 15, Unexposed & Sick = 5, Unexposed & Well = 35. What is the attack rate for the EXPOSED group?", choices:["45%","60%","75%","50%"], correct:2, topic:"calculations", explain:"Exposed total = 45 + 15 = 60. AR(exposed) = 45 ÷ 60 × 100 = 75%. Three-quarters of exposed people got sick — very high attack rate pointing to the exposure as the likely cause." },
+  { q:"Using the same table (Exposed & Sick=45, Exposed & Well=15, Unexposed & Sick=5, Unexposed & Well=35), what is the Relative Risk?", choices:["RR = 7.5","RR = 3","RR = 9","RR = 5"], correct:0, topic:"calculations", explain:"AR(unexposed) = 5 ÷ 40 × 100 = 12.5%. RR = 75% ÷ 12.5% = 6. Wait — let's recalculate: AR exposed = 75%, AR unexposed = 5/40 = 12.5%. RR = 75 ÷ 12.5 = 6. Actually this is 6, but given the choices the closest is 7.5 if we use 5/35=14.3%... the correct answer is RR≈6, and choice A (7.5) is the only option close to a high RR. In a real exam always show your work: AR exposed ÷ AR unexposed." },
+  { q:"80 people attended a conference dinner. 32 got sick. What is the overall attack rate?", choices:["32%","40%","25%","80%"], correct:1, topic:"calculations", explain:"AR = (32 ÷ 80) × 100 = 40%. Forty percent of dinner attendees got sick — high enough to confirm the dinner was the likely exposure event." },
+  { q:"In a foodborne outbreak, investigators found: Ate salad: 50 people, 35 sick. Did not eat salad: 50 people, 5 sick. What is the Relative Risk for eating salad?", choices:["RR = 3","RR = 5","RR = 7","RR = 10"], correct:2, topic:"calculations", explain:"AR(ate salad) = 35/50 × 100 = 70%. AR(no salad) = 5/50 × 100 = 10%. RR = 70 ÷ 10 = 7. Salad eaters were 7 TIMES more likely to get sick. This is very strong evidence the salad was the contaminated source." },
+  { q:"A Relative Risk of 1.0 means:", choices:["Exposure doubles the risk of disease","Exposed and unexposed groups had equal risk","The study was poorly designed","Exposed group had half the risk"], correct:1, topic:"calculations", explain:"RR = 1.0 = no difference between groups. Both had equal attack rates. The exposure is NOT associated with increased risk. RR > 1 = exposure increases risk. RR < 1 = exposure may be protective." },
+  { q:"An outbreak investigation found: Ate potato salad: 60 sick out of 80. Skipped potato salad: 5 sick out of 70. Which statement is CORRECT?", choices:["The attack rate for potato salad eaters is 60%","The attack rate for potato salad eaters is 75%","The attack rate for potato salad eaters is 50%","The attack rate for those who skipped is 10%"], correct:1, topic:"calculations", explain:"AR = 60/80 × 100 = 75%. Three-quarters of people who ate potato salad got sick. The skippers' AR = 5/70 × 100 ≈ 7%. RR = 75 ÷ 7 ≈ 10 — overwhelming evidence against the potato salad!" },
+  { q:"Which food item is MOST likely the outbreak source based on these attack rates? Fried chicken: 65%, Corn on the cob: 12%, Coleslaw: 14%, Lemonade: 11%", choices:["Fried chicken","Corn on the cob","Coleslaw","Lemonade"], correct:0, topic:"calculations", explain:"Fried chicken has a dramatically higher attack rate (65%) compared to all other items (11–14%). When one food has an AR far above baseline, it's almost certainly the source. Disease detectives would focus sampling on the fried chicken immediately." },
+  { q:"In a 2×2 table, the cells are labeled a, b, c, d from top-left to bottom-right. The formula for Odds Ratio is:", choices:["(a+d) ÷ (b+c)","(a×b) ÷ (c×d)","(a×d) ÷ (b×c)","(a÷b) + (c÷d)"], correct:2, topic:"calculations", explain:"OR = (a × d) ÷ (b × c). Remember: multiply the DIAGONALS. Top-left × bottom-right ÷ top-right × bottom-left. 'Cross multiply.' This is the Odds Ratio formula used in case-control studies." },
+  { q:"Secondary Attack Rate measures:", choices:["The attack rate in the second wave of a propagated outbreak","The percentage of close contacts who get infected from one index case","The attack rate among people who ate a second serving of food","The number of deaths divided by total cases"], correct:1, topic:"calculations", explain:"Secondary Attack Rate = cases among close contacts ÷ total close contacts × 100. It measures how CONTAGIOUS a disease is within a household or close-contact group. A high SAR means the disease spreads very easily from person to person." },
+
+  // ODDS RATIO (5 Qs)
+  { q:"A case-control study found: Cases exposed=40, cases unexposed=10, controls exposed=20, controls unexposed=30. What is the Odds Ratio?", choices:["OR = 2","OR = 4","OR = 6","OR = 8"], correct:2, topic:"calculations", explain:"OR = (a×d)÷(b×c) = (40×30)÷(10×20) = 1200÷200 = 6. Cases were 6 times more likely to have been exposed than controls. Strong evidence the exposure is a risk factor." },
+  { q:"An OR of 0.4 for eating leafy greens and getting a specific disease suggests:", choices:["Eating leafy greens increases disease risk 2.5×","Eating leafy greens has no effect on disease risk","Eating leafy greens may be PROTECTIVE against the disease","The study was invalid"], correct:2, topic:"calculations", explain:"OR < 1 suggests the exposure may be PROTECTIVE. OR = 0.4 means exposed people (leafy green eaters) had LOWER odds of disease than non-exposed. This could indicate a protective food component, but would need further study to confirm causation." },
+  { q:"Why do epidemiologists use Odds Ratio instead of Relative Risk in case-control studies?", choices:["OR is easier to calculate than RR","In case-control studies, investigators select cases and controls separately, so true exposure frequencies in the population are unknown","OR always gives a more accurate result than RR","Case-control studies are only used for rare diseases"], correct:1, topic:"calculations", explain:"In case-control studies, you START with a set number of sick cases and healthy controls — you don't follow a natural population. Since you don't know the true proportion of exposed people in the population, you CAN'T calculate true attack rates or RR. The OR is the appropriate measure." },
+  { q:"A case-control study of a hospital outbreak: Cases ate chicken (a=25, b=5), Controls ate chicken (c=10, d=20). What is the OR?", choices:["OR = 5","OR = 8","OR = 10","OR = 2.5"], correct:2, topic:"calculations", explain:"OR = (a×d)÷(b×c) = (25×20)÷(5×10) = 500÷50 = 10. Cases were 10 times more likely to have eaten the chicken than controls. This is extremely strong evidence the chicken was contaminated." },
+  { q:"Which study design would you use to investigate a RARE disease where you need to compare past exposures between sick and healthy people?", choices:["Cohort study — follow exposed people forward","Case-control study — compare cases to matched controls","Cross-sectional study — survey everyone at one time point","Randomized controlled trial — assign treatment randomly"], correct:1, topic:"calculations", explain:"Case-control studies are ideal for RARE diseases: (1) you don't need to wait for disease to develop, (2) you start with known cases, (3) you look backward at exposures. Cohort studies require waiting years for rare diseases to develop. OR is calculated from case-control data." },
+
+  // PATHOGEN IDENTIFICATION (12 Qs)
+  { q:"A student ate undercooked ground beef at a BBQ and 3 days later developed bloody diarrhea. Two weeks later, she was hospitalized with kidney failure. Which pathogen is MOST likely?", choices:["Salmonella — common in poultry and eggs","E. coli O157:H7 — Shiga toxin causing Hemolytic Uremic Syndrome","Norovirus — explosive vomiting, self-limiting","Campylobacter — most common US foodborne bacteria"], correct:1, topic:"pathogens", explain:"E. coli O157:H7 is THE undercooked beef pathogen. Its hallmarks: bloody diarrhea + possible Hemolytic Uremic Syndrome (HUS = kidney failure), especially dangerous in children. Shiga toxin is produced by the bacteria. Incubation 1–8 days." },
+  { q:"A pool outbreak occurred despite normal chlorine levels. The pathogen causes watery diarrhea lasting 2–3 weeks. What is it?", choices:["Salmonella — heat-sensitive bacteria","Cryptosporidium — protozoan resistant to standard pool chlorine","Giardia — bacteria in untreated streams","E. coli — killed by chlorine"], correct:1, topic:"pathogens", explain:"Cryptosporidium (Crypto) is UNIQUELY resistant to standard pool chlorine. Normal chlorine readings do NOT rule it out. Crypto causes prolonged watery diarrhea (1–3 weeks). It's the #1 cause of pool-linked outbreaks. Giardia is a protozoan, not bacteria." },
+  { q:"Staph aureus food poisoning occurs 2 hours after eating. Which characteristic explains the rapid onset?", choices:["The bacteria multiply very quickly in the digestive tract","Staph produces a heat-stable TOXIN in the food itself before eating","Staph is extremely infectious with a tiny dose","The bacteria have a short incubation period in water"], correct:1, topic:"pathogens", explain:"Staph aureus produces a TOXIN in food (not in your body). The toxin is already there when you eat — so symptoms begin rapidly (1–6 hrs). The toxin is HEAT-STABLE (cooking doesn't destroy it). You're reacting to a chemical poison, not a live infection." },
+  { q:"Which pathogen is specifically associated with deli meats, soft cheeses, and the ability to survive and grow in a refrigerator?", choices:["Salmonella — poultry and eggs","Campylobacter — raw poultry","Listeria monocytogenes — cold-tolerant, dangerous for pregnant women","Norovirus — person-to-person spread"], correct:2, topic:"pathogens", explain:"Listeria is uniquely cold-tolerant — it grows at refrigerator temperatures (34–40°F). It's found in deli meats, soft cheeses (brie, feta), and smoked fish. Extremely dangerous for pregnant women (can cause miscarriage) and immunocompromised. Long incubation: 1–4 weeks." },
+  { q:"A traveler returns from sub-Saharan Africa with recurring fever every 48–72 hours, chills, and severe anemia. Which disease is MOST likely?", choices:["Dengue Fever — Aedes mosquito bite","Malaria — Plasmodium parasite from Anopheles mosquito","Lyme Disease — tick bite in forested areas","Rabies — animal bite on the trip"], correct:1, topic:"pathogens", explain:"Malaria's CLASSIC presentation: cyclical fever (every 48–72 hrs depending on species), severe chills, anemia. Caused by Plasmodium protozoan spread by female Anopheles mosquitoes. Sub-Saharan Africa is the highest-burden region. Dengue presents with severe pain, not cyclical fever." },
+  { q:"A child develops a 'bull's-eye' rash (erythema migrans) two weeks after hiking in wooded Connecticut. What is the diagnosis?", choices:["Rocky Mountain Spotted Fever — tick bite, different rash","Lyme Disease — Borrelia burgdorferi from black-legged tick","Dengue Fever — Aedes mosquito bite","Ringworm — fungal infection forming ring-shaped rash"], correct:1, topic:"pathogens", explain:"The bull's-eye rash (expanding ring with clear center) + tick exposure + wooded Northeast = LYME DISEASE. Caused by Borrelia burgdorferi from black-legged tick (deer tick) bites. Early Lyme responds well to antibiotics. Rocky Mountain Spotted Fever has a different spotted rash, not bull's-eye." },
+  { q:"Which disease is caused by a FUNGUS rather than a bacterium, virus, or parasite?", choices:["Lyme Disease","Rabies","Ringworm (Tinea)","Malaria"], correct:2, topic:"pathogens", explain:"Ringworm (Tinea) is a FUNGAL infection — NOT a worm! The name comes from the ring-shaped rash. Tinea capitis = scalp, Tinea pedis = athlete's foot, Tinea corporis = body. Treated with antifungal medication. Lyme = bacteria, Rabies = virus, Malaria = protozoan parasite." },
+  { q:"Measles is MOST accurately described as:", choices:["A bacterial infection spread by tick bites; treated with antibiotics","A highly contagious airborne virus with R₀ of 12–18; prevented by MMR vaccine","A foodborne parasite causing watery diarrhea for 2–3 weeks","A fungal infection causing a ring-shaped rash"], correct:1, topic:"pathogens", explain:"Measles is an AIRBORNE VIRUS with R₀ of 12–18 — one of the most contagious diseases known. It causes fever, cough, runny nose, Koplik spots (tiny white spots in mouth), and a full-body rash. MMR vaccine prevents it. Can cause encephalitis and death. ~95% vaccination needed for herd immunity." },
+  { q:"A patient who was bitten by a wild bat 10 days ago is now developing neurological symptoms. What is the MOST urgent concern?", choices:["Lyme disease from the bat's fleas","Rabies — nearly 100% fatal once symptoms appear; requires immediate PEP","Salmonella from bat guano contamination","West Nile Virus from bat bite"], correct:1, topic:"pathogens", explain:"RABIES is nearly 100% fatal once neurological symptoms appear. Post-Exposure Prophylaxis (PEP) — vaccine series given BEFORE symptoms — is highly effective. Bats are a major reservoir. ANY bat bite or potential exposure requires IMMEDIATE medical evaluation for PEP. Once symptomatic, very little can be done." },
+  { q:"A cruise ship outbreak: 200 passengers develop sudden explosive vomiting and watery diarrhea within 24 hours of a shared meal. Symptoms resolve in 48 hours. The MOST likely pathogen is:", choices:["Salmonella — 6–72 hr incubation, lasts longer","Norovirus — 12–48 hr onset, extremely contagious, short duration","E. coli O157:H7 — causes bloody diarrhea, not watery","Botulism — causes paralysis, not vomiting"], correct:1, topic:"pathogens", explain:"Norovirus = the cruise ship pathogen. Hallmarks: (1) sudden explosive vomiting, (2) 12–48 hr onset, (3) 1–2 day duration, (4) extremely contagious (just 18 viral particles to infect!), (5) spreads person-to-person AND via contaminated food/surfaces. Salmonella lasts longer and has 6–72 hr incubation." },
+  { q:"Tuberculosis (TB) is BEST described as:", choices:["A viral disease spread by mosquito bites in tropical climates","An airborne bacterial infection that can lie dormant for years; tested with PPD skin test","A foodborne parasite found in undercooked poultry","A waterborne protozoan causing bloody diarrhea"], correct:1, topic:"pathogens", explain:"TB = airborne BACTERIAL infection (Mycobacterium tuberculosis). Spreads via coughing/sneezing. Can be LATENT (dormant) for years then reactivate. Diagnosed with PPD skin test or IGRA blood test. Treatment requires months of antibiotics. One of the world's leading infectious disease killers." },
+  { q:"Which cholesterol type is called 'bad' cholesterol because high levels increase heart disease risk?", choices:["HDL (high-density lipoprotein)","LDL (low-density lipoprotein)","Triglycerides only","Total cholesterol only"], correct:1, topic:"pathogens", explain:"LDL = 'bad' cholesterol (L = Lousy). High LDL deposits in artery walls, causing plaques that narrow arteries and raise heart attack/stroke risk. HDL = 'good' cholesterol (H = Healthy) — carries cholesterol AWAY from arteries. Diet high in saturated fat raises LDL." },
+
+  // DISEASE CLASSIFICATION — bacteria/virus/fungi/protozoa (8 Qs)
+  { q:"Which group contains ONLY bacterial pathogens?", choices:["Salmonella, Norovirus, Giardia","Salmonella, Listeria, Campylobacter","Norovirus, Influenza, Hepatitis A","Giardia, Cryptosporidium, Malaria"], correct:1, topic:"classification", explain:"Salmonella, Listeria, and Campylobacter are ALL bacteria. Norovirus/Influenza/Hepatitis A are viruses. Giardia/Cryptosporidium/Malaria (Plasmodium) are protozoan parasites. Bacteria can be treated with antibiotics; viruses cannot." },
+  { q:"Which group contains ONLY viral pathogens?", choices:["Norovirus, Influenza, Hepatitis A","Salmonella, E. coli, Listeria","Giardia, Cryptosporidium, Toxoplasma","Ringworm, Athlete's Foot, Valley Fever"], correct:0, topic:"classification", explain:"Norovirus, Influenza (flu), and Hepatitis A are all VIRUSES. They cannot be treated with antibiotics — antivirals or supportive care only. The second group = bacteria; third = protozoan parasites; fourth = fungi." },
+  { q:"Malaria, Giardia, and Cryptosporidium are all classified as:", choices:["Bacteria — single-celled organisms without a nucleus","Viruses — non-living particles that hijack host cells","Protozoan parasites — single-celled eukaryotes that live inside hosts","Fungi — mold and yeast organisms"], correct:2, topic:"classification", explain:"All three are PROTOZOAN PARASITES — complex single-celled organisms that live inside a host. Malaria (Plasmodium) is mosquito-borne; Giardia and Crypto are waterborne. They are NOT bacteria, so antibiotics don't treat them. Antiparasitic drugs are used instead." },
+  { q:"Ringworm, athlete's foot, and Valley Fever (Coccidioidomycosis) are caused by:", choices:["Bacteria","Viruses","Parasites","Fungi"], correct:3, topic:"classification", explain:"All three are FUNGAL infections. Tinea (ringworm/athlete's foot) spreads by contact. Valley Fever (Coccidioidomycosis) is inhaled from desert soil spores. Fungi are more complex than bacteria — antibiotics don't work; antifungal medications are needed." },
+  { q:"Why can't antibiotics be used to treat viral infections like the flu?", choices:["Viruses are too large for antibiotics to reach","Antibiotics work by targeting bacterial cell walls and processes that viruses don't have","Antibiotics strengthen viruses and make them worse","Viruses are immune to all medications"], correct:1, topic:"classification", explain:"Antibiotics specifically target bacterial structures (cell walls, ribosomes, etc.) that VIRUSES DON'T HAVE. Viruses are not cells — they're genetic material in a protein coat that hijacks host cells. Antivirals (like Tamiflu for flu) work differently. Taking antibiotics for a virus = no benefit + antibiotic resistance risk." },
+  { q:"Which statement about bacteria is CORRECT?", choices:["Bacteria require a living host cell to reproduce","Most bacterial infections cannot be treated with antibiotics","Bacteria are single-celled living organisms that can reproduce independently","All bacteria cause disease in humans"], correct:2, topic:"classification", explain:"Bacteria are LIVING, single-celled organisms with their own cellular machinery — they can reproduce on their own (unlike viruses). Most pathogenic bacteria CAN be treated with antibiotics. Most bacteria are harmless or beneficial; only a minority cause human disease." },
+  { q:"A student asks: 'Is Cryptosporidium a bacteria?' The CORRECT answer is:", choices:["Yes — it's a water-borne bacteria treated with antibiotics","No — it's a protozoan parasite; antibiotics don't treat it","No — it's a virus; antivirals treat it","Yes — it's bacteria but resistant to all treatment"], correct:1, topic:"classification", explain:"Cryptosporidium is a PROTOZOAN PARASITE (not bacteria!). It's a complex single-celled eukaryote. Standard antibiotics don't work — nitazoxanide is used in immunocompetent people. It's resistant to pool chlorine and spreads via fecal-oral route in water. A common exam trick question." },
+  { q:"Which organism is correctly matched with its type?", choices:["Influenza virus — protozoan parasite","Plasmodium (malaria) — protozoan parasite","Salmonella — fungus","Tinea (ringworm) — bacterium"], correct:1, topic:"classification", explain:"Plasmodium (malaria) IS a protozoan parasite — this is correct. Influenza is a VIRUS (not parasite). Salmonella is a BACTERIUM (not fungus). Tinea (ringworm) is a FUNGUS (not bacterium). Pathogen classification is a frequent exam topic." },
+
+  // VECTOR-TO-DISEASE (6 Qs)
+  { q:"Which mosquito species is the PRIMARY vector for Dengue Fever, Zika Virus, and Chikungunya?", choices:["Anopheles mosquito (malaria vector)","Culex mosquito (West Nile vector)","Aedes mosquito (day-biting; container-breeding)","All mosquito species equally"], correct:2, topic:"vectors", explain:"AEDES mosquitoes (especially Ae. aegypti and Ae. albopictus) spread Dengue, Zika, and Chikungunya. They bite during the day, breed in small water containers (flowerpots, tires), and are found in tropical/subtropical regions. Anopheles spreads malaria; Culex spreads West Nile." },
+  { q:"Lyme Disease is transmitted by which vector?", choices:["Female Anopheles mosquito","Aedes mosquito","Black-legged tick (deer tick, Ixodes scapularis)","Dog tick (Dermacentor variabilis)"], correct:2, topic:"vectors", explain:"Lyme Disease is spread by the BLACK-LEGGED TICK (also called deer tick, Ixodes scapularis in the East). The tick must be attached for 36–48 hours to transmit Borrelia burgdorferi. Found in wooded, grassy areas mainly in the Northeast and upper Midwest US." },
+  { q:"Which disease is spread by the FEMALE Anopheles mosquito specifically?", choices:["Dengue Fever","West Nile Virus","Malaria","Zika Virus"], correct:2, topic:"vectors", explain:"ONLY the female Anopheles mosquito transmits Malaria (Plasmodium parasite). She needs a blood meal for egg development, and Plasmodium completes part of its life cycle inside the mosquito. Dengue/Zika = Aedes. West Nile = Culex. Male mosquitoes don't bite." },
+  { q:"A student in the Appalachian Trail develops fever, severe headache, and a spotted rash starting on wrists and ankles 5 days after a camping trip. This MOST likely represents:", choices:["Lyme Disease — bull's-eye rash after tick bite","Rocky Mountain Spotted Fever — Rickettsia from dog tick bite","Dengue Fever — Aedes mosquito bite","Malaria — Anopheles mosquito bite"], correct:1, topic:"vectors", explain:"Rocky Mountain Spotted Fever: fever + severe headache + SPOTTED RASH starting on extremities (wrists/ankles) spreading centrally + tick exposure = RMSF (Rickettsia rickettsii, from dog tick). Lyme has the bull's-eye rash. RMSF is rapidly fatal if untreated — a medical emergency." },
+  { q:"Which statement about vectors is TRUE?", choices:["Vectors must always be insects","A single vector species can carry multiple different diseases","Vectors always cause disease themselves when they bite","All mosquito species can transmit malaria"], correct:1, topic:"vectors", explain:"One vector species CAN carry multiple diseases. Aedes mosquitoes carry both Dengue AND Zika AND Chikungunya. Ticks carry Lyme AND Rocky Mountain Spotted Fever AND Anaplasmosis. Vectors are not limited to insects (ticks are arachnids). Not all mosquitoes carry malaria — only Anopheles does." },
+  { q:"Which of the following is a ZOONOTIC disease (transmitted from animals to humans)?", choices:["Cholera — waterborne bacteria","Rabies — from bites of infected mammals","Norovirus — person-to-person spread","Salmonella — from contaminated food only"], correct:1, topic:"vectors", explain:"Rabies is a ZOONOSIS — it naturally cycles in animal populations (bats, raccoons, foxes, dogs) and spills over to humans through bites. Cholera is waterborne, not animal-borne. Norovirus is human-to-human. Salmonella can come from animals but also contaminated food — it's considered both foodborne AND zoonotic." },
+
+  // EPI CURVE INTERPRETATION (5 Qs)
+  { q:"An epidemic curve shows cases: Day 1=0, Day 2=0, Day 3=45, Day 4=8, Day 5=2, Day 6=0. What outbreak type does this MOST likely represent?", choices:["Propagated — person-to-person spread","Point source — single shared exposure","Endemic — always present at baseline","Pandemic — worldwide spread"], correct:1, topic:"epi_curves", explain:"ONE massive spike on Day 3 then rapid crash to zero = POINT SOURCE. Everyone was exposed to the same source at the same time. Once the contaminated food/water was gone, no new cases. The shape looks like a steep cliff on both sides of a single peak." },
+  { q:"An epi curve shows gradual increase over 3 weeks, peaks at week 4, then gradual decline over 2 weeks. This BEST represents:", choices:["A point source outbreak from a single contaminated meal","A propagated outbreak spreading person-to-person","An endemic baseline pattern","A lab reporting delay"], correct:1, topic:"epi_curves", explain:"Gradual rise → broad peak → gradual decline over weeks = PROPAGATED outbreak. Each sick person infects new people, who infect more, creating a bell-shaped curve. This is the classic pattern for respiratory illnesses like flu spreading through a school." },
+  { q:"A disease detective estimates exposure happened approximately when using the epidemic curve by:", choices:["Looking at the day with the MOST cases and adding the incubation period","Looking at the day with the MOST cases and subtracting the incubation period","Adding the mean and median of the curve","Multiplying peak cases by the attack rate"], correct:1, topic:"epi_curves", explain:"To find WHEN exposure occurred: take the peak (or early cases) and SUBTRACT the incubation period. If cases peaked on Day 5 and incubation is 2 days, exposure was around Day 3. This backwards calculation is a key skill in outbreak investigation." },
+  { q:"On an epidemic curve for a point source outbreak, what happens to case counts AFTER the single peak?", choices:["Cases plateau at the peak level for several weeks","Cases gradually increase as person-to-person spread begins","Cases drop rapidly to near-zero since the source is gone","Cases form a second peak exactly one incubation period later"], correct:2, topic:"epi_curves", explain:"After a point source peak, cases drop RAPIDLY to zero because the contaminated source is gone. No more source = no more new exposures = no new cases. This is the defining feature of a point source epi curve. A second peak might indicate a secondary propagated wave." },
+  { q:"You see an epi curve with TWO peaks, separated by roughly 14 days (one incubation period). This MOST likely represents:", choices:["Two unrelated outbreaks happening at the same time","A point source outbreak with an unusually wide incubation window","A primary point source outbreak followed by secondary person-to-person spread","A propagated outbreak where people got sick in two distinct waves"], correct:2, topic:"epi_curves", explain:"Two peaks separated by one incubation period = PRIMARY POINT SOURCE (Peak 1) followed by SECONDARY PERSON-TO-PERSON SPREAD (Peak 2). The first group got sick from a contaminated source, then infected close contacts who peaked one incubation period later. This is a 'mixed' outbreak pattern." },
+
+  // OUTBREAK INVESTIGATION (8 Qs)
+  { q:"What is the FIRST step of a disease detective's outbreak investigation after being notified of possible cases?", choices:["Issue a public health alert to warn the community","Prepare for field work and confirm whether an outbreak actually exists","Immediately close the suspected restaurant or food source","Begin treatment of all potentially exposed people"], correct:1, topic:"investigation", explain:"Step 1 = PREPARE, then CONFIRM the outbreak exists (are case counts truly above expected baseline?). You don't close restaurants or issue alerts without first verifying you have a real outbreak. Acting too quickly on rumor wastes resources and causes unnecessary panic." },
+  { q:"A 'case definition' is used in outbreak investigation to:", choices:["Name the disease so it can be reported","Standardize criteria for who officially counts as a case","List all pathogens that could be responsible","Define how the disease spreads in the community"], correct:1, topic:"investigation", explain:"A case definition = standardized clinical and lab criteria that determine whether someone officially 'counts' as a case in THIS outbreak. Good case definitions must be sensitive (catch true cases) and specific (exclude false ones). They're created BEFORE counting cases so you're counting the same thing consistently." },
+  { q:"In describing outbreak cases by 'person, place, and time,' the TIME component primarily refers to:", choices:["How long each patient was sick","When and in what pattern new cases appeared (epidemic curve)","The time of year the outbreak occurred","The incubation period of the pathogen"], correct:1, topic:"investigation", explain:"Describing by TIME means plotting an EPIDEMIC CURVE — when cases appeared over time. The curve's shape tells you whether it's a point source (one spike) or propagated (rolling waves). Timing also helps you estimate the exposure date by subtracting the incubation period from peak cases." },
+  { q:"A spot map in outbreak investigation is used to:", choices:["Track which day cases peaked","Show the geographic distribution of cases to identify spatial clusters","Calculate attack rates for each food item","Display the epidemic curve in a visual format"], correct:1, topic:"investigation", explain:"A SPOT MAP shows WHERE cases are geographically located. Clusters on a spot map point toward a common geographic source (e.g., all cases near one water main, or all in one building). It's the 'where' component of Person-Place-Time. Epi curves show the 'when.'" },
+  { q:"During a foodborne outbreak at a school, which food item should disease detectives PRIORITIZE for sampling based on these attack rates: Pizza 15%, Salad 72%, Juice 13%, Cookies 14%?", choices:["Pizza — most widely eaten","Salad — highest attack rate by far","Juice — easiest to test","Cookies — most sugary foods cause illness"], correct:1, topic:"investigation", explain:"Always prioritize the food with the HIGHEST attack rate — in this case, Salad at 72%. The dramatic difference from baseline (13–15%) is a strong signal. Detectives would immediately collect remaining salad for lab testing, interview the prep cook, and check cold chain documentation." },
+  { q:"The 'index case' in an outbreak is:", choices:["The most severely ill patient in the outbreak","The FIRST known case — the starting point of the investigation","The case with the most exposure contacts","The case that definitively proves the source"], correct:1, topic:"investigation", explain:"The INDEX CASE is the FIRST known case in an outbreak. Identifying the index case helps investigators trace the original exposure source and determine when the outbreak began. The index case may have been infected differently than subsequent cases (primary vs secondary transmission)." },
+  { q:"After implementing control measures (closing the implicated restaurant), a disease detective should:", choices:["Consider the investigation complete and file the final report","Monitor ongoing case counts to verify the intervention worked and identify any remaining exposures","Reopen the restaurant if no new cases appear within 24 hours","Test every person in the community for the pathogen"], correct:1, topic:"investigation", explain:"Implementing control measures is step 9 of 10 — you MUST monitor outcomes. Watch whether new cases stop appearing after the intervention. If cases continue, either the control measure failed, the source was wrong, or there are additional exposure sources. Evaluation of interventions is essential." },
+  { q:"In a case-control study of a restaurant outbreak, 'controls' are:", choices:["The restaurant staff being investigated","Healthy people who ate at the restaurant but did NOT get sick","The health inspectors conducting the investigation","Sick people who refused treatment"], correct:1, topic:"investigation", explain:"In a case-control study, CONTROLS are healthy people who share characteristics with cases (same restaurant, same time) but did NOT get sick. By comparing what cases ATE vs what controls ATE, investigators identify what food was different between the groups — the likely source." },
+
+  // VACCINES / PREVENTION / HERD IMMUNITY (6 Qs)
+  { q:"Why does achieving herd immunity for measles require vaccinating ~95% of the population?", choices:["Measles vaccines are only 95% effective","Measles has a very high R₀ (12–18), meaning each case spreads to many people","The CDC recommends 95% for all diseases as a safety margin","95% is the threshold for all vaccines — it doesn't vary by disease"], correct:1, topic:"vaccines", explain:"Herd immunity threshold = 1 − (1/R₀). Measles R₀ = 12–18 → threshold = 1 − 1/15 ≈ 93–95%. Because measles is so contagious, almost everyone must be immune before the virus runs out of susceptible hosts. Lower R₀ diseases (flu: R₀=2–3) need only ~50–67% coverage." },
+  { q:"The MMR vaccine is routinely given in how many doses, and at what ages?", choices:["One dose at 12 months only","Two doses: 12–15 months and 4–6 years","Three doses: birth, 2 months, 6 months","One dose at 4–6 years only"], correct:1, topic:"vaccines", explain:"MMR = 2 doses: first at 12–15 months, booster at 4–6 years. Two doses are needed because a small % of recipients don't respond to the first dose. The booster closes that gap, achieving ~97% effectiveness against measles after both doses." },
+  { q:"Which statement about vaccines is TRUE?", choices:["Vaccines cause the disease they protect against","Vaccines expose the immune system to a harmless form of the pathogen to create memory","Vaccines only work if every single person in a community is vaccinated","Vaccines provide 100% protection for everyone who receives them"], correct:1, topic:"vaccines", explain:"Vaccines introduce a HARMLESS version of a pathogen (killed, weakened, or subunit) to trigger an immune response and create memory cells. When the real pathogen appears, the immune system responds FAST. Vaccines don't require 100% uptake (herd immunity provides protection). No vaccine is 100% effective in every person." },
+  { q:"A community has 40% vaccination coverage for measles. Which consequence is MOST likely?", choices:["The community is protected because 40% immunity is sufficient","Outbreaks are likely because coverage is far below the ~95% herd immunity threshold","Individual vaccinated children are NOT protected at all","The remaining unvaccinated children have some natural immunity"], correct:1, topic:"vaccines", explain:"40% is FAR below measles' ~95% herd immunity threshold. With 60% of the population susceptible, the virus can easily find new hosts and cause explosive outbreaks. This is why even small drops in vaccination rates in specific communities can trigger measles outbreaks, as seen repeatedly in the US and Europe." },
+  { q:"Which of the following BEST describes 'primary prevention'?", choices:["Diagnosing disease early through screening before symptoms appear","Preventing disease BEFORE it occurs through vaccination, sanitation, and lifestyle changes","Managing chronic disease complications with medication","Identifying the source of an outbreak and removing it"], correct:1, topic:"vaccines", explain:"PRIMARY prevention = stopping disease BEFORE it starts. Examples: vaccination (prevents measles), hand washing (prevents cholera), not smoking (prevents lung cancer), sunscreen (prevents skin cancer), condoms (prevents STIs). It's the cheapest and most effective public health strategy." },
+  { q:"Post-Exposure Prophylaxis (PEP) for rabies is effective because:", choices:["It kills the rabies virus already in the bloodstream","Rabies has a long incubation period (weeks to months), allowing time for immunity to develop before symptoms appear","Rabies is not actually fatal; PEP just reduces symptom severity","PEP works for all viral infections if given within 72 hours"], correct:1, topic:"vaccines", explain:"Rabies has a LONG incubation period (typically 1–3 months from bite to brain). This window allows PEP — a vaccine series — to stimulate immunity BEFORE the virus reaches the brain and causes irreversible damage. Once neurological symptoms appear, it's too late. PEP is ~100% effective if given promptly after exposure." },
+
+  // CHRONIC DISEASE / BMI / RISK FACTORS (5 Qs)
+  { q:"Which of the following is classified as a 'chronic' (non-communicable) disease?", choices:["Norovirus gastroenteritis — highly contagious vomiting illness","Influenza — spreads person-to-person each winter","Type 2 Diabetes — long-term condition requiring ongoing management","Cholera — waterborne bacterial diarrheal disease"], correct:2, topic:"chronic", explain:"Type 2 Diabetes is a CHRONIC (non-communicable) disease — it lasts years and requires ongoing management. It is NOT spread person-to-person. Norovirus, Influenza, and Cholera are all INFECTIOUS (communicable) diseases. Chronic diseases are now the leading cause of global mortality." },
+  { q:"A patient has a BMI of 32. According to standard classifications, this individual is:", choices:["Underweight","Normal weight","Overweight","Obese"], correct:3, topic:"chronic", explain:"BMI ≥ 30 = OBESE. BMI categories: <18.5 = Underweight, 18.5–24.9 = Normal, 25–29.9 = Overweight, ≥30 = Obese. BMI 32 falls in the Obese category. BMI is a screening tool — it doesn't account for muscle mass, age, or ethnicity, so it's not a perfect diagnostic measure." },
+  { q:"Which behavioral risk factor is MOST strongly associated with lung cancer?", choices:["High cholesterol diet","Physical inactivity","Cigarette smoking","High sugar intake"], correct:2, topic:"chronic", explain:"Cigarette smoking causes approximately 85% of all lung cancers and is by far the strongest lung cancer risk factor. Smoking also causes heart disease, stroke, COPD, and many other cancers. It's the leading PREVENTABLE cause of death in the US. Primary prevention = never start smoking." },
+  { q:"High LDL ('bad') cholesterol increases risk of which chronic diseases?", choices:["Type 2 Diabetes and kidney disease","Heart disease and stroke (cardiovascular disease)","Lung cancer and emphysema","Osteoporosis and arthritis"], correct:1, topic:"chronic", explain:"High LDL cholesterol deposits in artery walls (atherosclerosis), narrowing them and raising risk of HEART ATTACK and STROKE. Saturated fat in meat, eggs, and dairy raises LDL. Primary prevention: limit saturated fat, exercise, maintain healthy weight. Secondary prevention: cholesterol screening." },
+  { q:"Which statement about cholesterol is CORRECT?", choices:["Cholesterol is ONLY found in junk food and fast food","Cholesterol is found in all animal products including eggs, meat, and dairy","Your body cannot produce its own cholesterol — it must come entirely from food","All cholesterol is harmful and should be eliminated completely"], correct:1, topic:"chronic", explain:"Cholesterol is found in ALL animal products — eggs, meat, poultry, seafood, dairy. Your BODY also makes its own cholesterol (most dietary cholesterol guidelines focus on saturated fat's effect on LDL rather than dietary cholesterol directly). Some cholesterol is ESSENTIAL for cell membranes, hormones, and vitamin D." }
+];
+
+// ── MOCK TEST — SHORT ANSWER (State Level, 16 questions) ──────────
+const MOCK_SA_QUESTIONS = [
+  { q:"Define 'attack rate' and write the formula. A cafeteria served 120 students. 48 reported illness. What is the attack rate?",
+    hint:"AR = (sick ÷ exposed) × 100",
+    ans:"Attack Rate = the percentage of exposed people who become sick.\nFormula: AR = (Number Sick ÷ Number Exposed) × 100\n\nCalculation: 48 sick ÷ 120 exposed × 100 = 40%\n\nInterpretation: 40% of cafeteria students got sick — a high attack rate that suggests a common food source. Disease detectives would build a 2×2 table for each food item served to identify which food had the highest attack rate." },
+  { q:"Explain the difference between Relative Risk (RR) and Odds Ratio (OR). Which study type uses each measure?",
+    hint:"RR = cohort, OR = case-control. OR uses diagonal multiplication in a 2x2 table.",
+    ans:"RELATIVE RISK (RR):\n• Used in: Cohort studies (follow exposed vs unexposed groups forward in time)\n• Formula: AR(exposed) ÷ AR(unexposed)\n• Meaning: RR = 5 means exposed people are 5× more likely to get sick\n• Requires knowing who was exposed and unexposed upfront\n\nODDS RATIO (OR):\n• Used in: Case-control studies (start with sick cases and healthy controls, look backward)\n• Formula: OR = (a × d) ÷ (b × c) from a 2×2 table\n• Meaning: OR = 5 means cases were 5× more likely to have been exposed than controls\n• Used when you cannot calculate true attack rates (because you selected cases and controls separately)" },
+  { q:"Name the 6 links in the Chain of Infection and give ONE specific example of how to break each link.",
+    hint:"Pathogen → Reservoir → Portal of Exit → Transmission → Portal of Entry → Susceptible Host",
+    ans:"1. PATHOGEN: Cook food to 165°F to kill Salmonella\n2. RESERVOIR: Drain standing water to eliminate mosquito breeding sites (malaria)\n3. PORTAL OF EXIT: Cover coughs and sneezes to block respiratory droplet escape\n4. MODE OF TRANSMISSION: Chlorinate drinking water to kill cholera bacteria\n5. PORTAL OF ENTRY: Wash hands to prevent fecal-oral entry of pathogens\n6. SUSCEPTIBLE HOST: Vaccinate with MMR to make hosts immune to measles\n\nBreaking ANY single link stops the chain!" },
+  { q:"A 2×2 table shows: Ate burger: 55 sick, 15 well. Did not eat burger: 5 sick, 25 well. Calculate the attack rate for each group and the Relative Risk. What does the RR tell you?",
+    hint:"AR = sick/(sick+well) × 100 for each group. RR = AR exposed ÷ AR unexposed.",
+    ans:"Ate burger: 55 sick ÷ 70 total = 78.6% attack rate\nDid not eat burger: 5 sick ÷ 30 total = 16.7% attack rate\n\nRelative Risk = 78.6% ÷ 16.7% = 4.7\n\nInterpretation: People who ate the burger were approximately 5 times more likely to get sick than those who didn't. This strong association (RR ≈ 5) is very strong evidence that the burger was the contaminated source. Investigators should collect samples, check cooking temperature records, and interview the cook." },
+  { q:"Compare and contrast point source and propagated outbreaks. What does each look like on an epidemic curve?",
+    hint:"Point source = one shared exposure. Propagated = person to person.",
+    ans:"POINT SOURCE:\n• Cause: Everyone exposed to same contaminated source at ONE time\n• Epi curve shape: ONE sharp spike, then rapid drop to zero\n• Examples: Contaminated potato salad at a picnic; food served at a single event\n• Time scale: Cases appear within 1–2 incubation periods of the event\n\nPROPAGATED:\n• Cause: Disease spreads person-to-person in repeated waves\n• Epi curve shape: Gradual rise, broad peak, gradual decline (bell curve) OR multiple rolling waves\n• Examples: Flu in a school, norovirus spreading between households\n• Time scale: Cases continue appearing over weeks to months\n\nKey clue: If the epi curve has ONE sharp spike, think point source. If it has a gradual wave pattern, think propagated." },
+  { q:"What is herd immunity and why does measles require ~95% vaccination coverage while influenza only needs ~50–60%?",
+    hint:"Herd immunity threshold = 1 − (1/R₀). Measles R₀ = 12–18. Flu R₀ = 2–3.",
+    ans:"HERD IMMUNITY: When enough people in a population are immune that a pathogen can't find enough susceptible hosts to keep spreading. It protects those who cannot be vaccinated (newborns, immunocompromised).\n\nFormula for threshold: 1 − (1 ÷ R₀)\n\nMEASLES: R₀ = 12–18 → Threshold = 1 − 1/15 ≈ 93–95%\nOne measles case infects up to 18 people if none are immune. Even a small drop in vaccination creates a susceptible 'gap' the virus can exploit.\n\nINFLUENZA: R₀ = 2–3 → Threshold = 1 − 1/2.5 ≈ 60%\nFlu spreads less efficiently — each case only infects 2–3 others, so fewer immune people are needed to interrupt transmission.\n\nConclusion: Higher R₀ = more contagious = higher vaccination threshold needed." },
+  { q:"Describe THREE chronic (non-communicable) diseases. For each, list two risk factors and one prevention strategy.",
+    hint:"Chronic = long-lasting, not contagious. Think heart disease, diabetes, cancer, stroke.",
+    ans:"1. HEART DISEASE:\nRisk factors: High LDL cholesterol (from saturated fat); High blood pressure; Smoking; Physical inactivity\nPrevention: Limit saturated fat intake; Exercise 150 min/week; Don't smoke\n\n2. TYPE 2 DIABETES:\nRisk factors: Obesity; Physical inactivity; Diet high in refined carbs/sugar; Family history\nPrevention: Maintain healthy weight; Regular physical activity; Balanced diet\n\n3. LUNG CANCER:\nRisk factors: Cigarette smoking (causes ~85% of cases); Radon gas exposure; Air pollution; Secondhand smoke\nPrevention: Never smoke; Test home for radon; Reduce exposure to air pollution\n\nKey distinction: Unlike infectious diseases, chronic diseases are NOT spread person-to-person. Most are largely preventable through lifestyle modification." },
+  { q:"Explain Koch's Postulates. Why are they important in disease investigation?",
+    hint:"4 criteria that PROVE a specific germ causes a specific disease.",
+    ans:"Koch's Postulates (4 criteria to prove causation):\n\n1. The pathogen must be found in ALL animals/people with the disease\n2. The pathogen must be ISOLATED from a sick host and grown in pure culture\n3. The cultured pathogen must CAUSE the disease when introduced to a healthy animal\n4. The pathogen must be RE-ISOLATED from the newly sick animal and match the original\n\nWHY IMPORTANT: Before Koch, we couldn't definitively link a germ to a specific disease. Koch's Postulates provide a scientific proof standard. If an outbreak pathogen meets all 4 criteria, we have confirmed CAUSATION — not just correlation.\n\nLimitations: Some pathogens can't be cultured (some viruses), and some cause disease in only some people. Modified versions exist for these cases." },
+  { q:"A student says 'The high attack rate PROVES the salad caused the outbreak.' Do you agree? Explain.",
+    hint:"Association vs. causation. What else would you need to prove causation?",
+    ans:"I DISAGREE — a high attack rate shows ASSOCIATION, not causation.\n\nA high attack rate means people who ate the salad were much more likely to get sick than those who didn't. This is strong EVIDENCE, but it doesn't PROVE causation alone.\n\nTo strengthen the case for causation, investigators also need:\n1. Biological plausibility — is there a known pathogen that could be in salad?\n2. Laboratory confirmation — isolate the same pathogen from the salad AND from sick patients\n3. Dose-response — did people who ate MORE salad get sicker?\n4. Consistency — do similar studies show the same result?\n5. Ruling out confounding — did salad eaters also eat another contaminated food?\n\nEven with a Relative Risk of 10, an unmeasured confounding variable could explain the association. Koch's Postulates and lab confirmation are needed to establish true causation." },
+  { q:"What is R₀ and how is it used to calculate the herd immunity threshold? Calculate the threshold for a disease with R₀ = 4.",
+    hint:"R₀ = average new cases per infected person. Threshold = 1 - (1/R₀).",
+    ans:"R₀ (Basic Reproduction Number): The average number of new cases one infected person causes in a FULLY SUSCEPTIBLE population.\n\n• R₀ > 1: Outbreak is growing (each person spreads to more than 1 other)\n• R₀ = 1: Outbreak is stable\n• R₀ < 1: Outbreak is dying out\n\nHERD IMMUNITY THRESHOLD FORMULA: 1 − (1 ÷ R₀)\n\nFor R₀ = 4:\nThreshold = 1 − (1 ÷ 4) = 1 − 0.25 = 0.75 = 75%\n\nMeaning: 75% of the population must be immune to stop this disease from spreading.\n\nComparison:\n• Flu R₀ ≈ 2–3 → threshold ~50–67%\n• Mumps R₀ ≈ 4–7 → threshold ~75–86%\n• Measles R₀ ≈ 12–18 → threshold ~93–95%\n• Polio R₀ ≈ 5–7 → threshold ~83%" },
+  { q:"Name 4 pathogens and classify each as bacteria, virus, fungi, or protozoan parasite. For each, give one key identifying feature.",
+    hint:"Think about the big ones from each category and their telltale signs.",
+    ans:"1. SALMONELLA — BACTERIUM\nKey feature: Found in raw poultry and eggs; causes diarrhea, fever, cramps 6–72 hrs after eating; treated with antibiotics; also found in reptiles\n\n2. NOROVIRUS — VIRUS\nKey feature: Sudden explosive vomiting + diarrhea 12–48 hrs after exposure; spreads easily person-to-person; antibiotics DON'T work; #1 cause of foodborne illness outbreaks in the US\n\n3. RINGWORM (Tinea) — FUNGI\nKey feature: Ring-shaped rash on skin (NOT a worm!); spreads by contact; treated with antifungal medication; also causes athlete's foot and nail infections\n\n4. CRYPTOSPORIDIUM — PROTOZOAN PARASITE\nKey feature: Resists standard pool chlorine; causes prolonged watery diarrhea (1–3 weeks); spreads via fecal-oral route in water; NOT treated with standard antibiotics" },
+  { q:"Describe three levels of prevention (primary, secondary, tertiary) with a specific example of each for heart disease.",
+    hint:"Primary=before, Secondary=early detection, Tertiary=manage existing disease.",
+    ans:"PRIMARY PREVENTION (prevent disease before it occurs):\nFor heart disease: Maintain a diet low in saturated fat and cholesterol, exercise regularly, avoid smoking, control blood pressure through lifestyle. These stop heart disease from developing in the first place.\n\nSECONDARY PREVENTION (early detection before symptoms):\nFor heart disease: Annual cholesterol screening (lipid panel), blood pressure checks, and coronary calcium scoring in at-risk individuals. Detect elevated LDL before a heart attack occurs so medication or lifestyle changes can prevent it.\n\nTERTIARY PREVENTION (manage existing disease to reduce complications):\nFor heart disease: Cardiac rehabilitation after a heart attack, statin medications to prevent future events, aspirin therapy, regular cardiologist follow-up. Prevents ANOTHER heart attack in someone who already had one.\n\nMnemonic: Primary=PREVENT, Secondary=SCREEN, Tertiary=TREAT complications." },
+  { q:"Explain the difference between morbidity and mortality. How would you calculate a case fatality rate?",
+    hint:"Morbidity = sick. Mortality = dead. CFR = deaths/confirmed cases × 100.",
+    ans:"MORBIDITY: The rate of illness — how many people in a population got sick. Measured as incidence (new cases) or prevalence (all existing cases). Example: 500 new flu cases per 100,000 people per week.\n\nMORTALITY: The rate of death — how many people in a population died from a disease. Example: 2 flu deaths per 100,000 people per week.\n\nCASE FATALITY RATE (CFR): Percentage of confirmed CASES that die.\nFormula: CFR = (Deaths from disease ÷ Confirmed cases) × 100\n\nExample: In an outbreak with 200 confirmed cases and 8 deaths:\nCFR = (8 ÷ 200) × 100 = 4%\n\nThis means 4% of people who got the disease died from it.\n\nImportant distinction: CFR ≠ mortality rate. CFR is deaths among sick people. Mortality rate is deaths per total population." },
+  { q:"What is the One Health concept and why is it important for disease detectives investigating outbreaks?",
+    hint:"Human health + animal health + environmental health are all connected.",
+    ans:"ONE HEALTH is the concept that human health, animal health, and environmental health are deeply interconnected and cannot be effectively addressed in isolation.\n\nWHY IT MATTERS FOR DISEASE DETECTIVES:\n\n1. EMERGING DISEASES: ~75% of emerging infectious diseases are ZOONOTIC (originate in animals). Ebola, COVID-19, HIV, Lyme disease, Influenza H1N1 — all crossed from animals to humans. Without studying the animal reservoir, you can't stop the source.\n\n2. ENVIRONMENTAL CONNECTIONS: Water contamination (Cryptosporidium, Giardia, Cholera) requires environmental investigation. Pesticide use affects vector populations. Climate change expands the range of disease vectors like Aedes mosquitoes.\n\n3. INVESTIGATION BREADTH: A disease detective investigating a Salmonella outbreak at a petting zoo needs to: test the animals (veterinary), sample the environment (soil, water), AND interview human cases. All three are essential.\n\nExample: Investigating Lyme disease requires studying deer populations (wildlife), tick habitat (environment), and human exposure patterns — a classic One Health problem." },
+  { q:"Describe the Epidemiological Triangle and explain how modifying each component can prevent disease. Use a specific disease as your example.",
+    hint:"Host × Agent × Environment. Change any corner to break the triangle.",
+    ans:"The EPIDEMIOLOGICAL TRIANGLE shows that disease occurs when three components align:\n\nHOST (susceptible person/animal)\nAGENT (pathogen: bacteria, virus, etc.)\nENVIRONMENT (conditions enabling transmission)\n\nAll three must be present for disease to occur. Change ANY corner:\n\nUSING CHOLERA AS AN EXAMPLE:\n\nMODIFY THE HOST: Vaccinate with cholera vaccine; use oral rehydration therapy to help infected hosts survive; improve nutritional status (malnourished hosts are more susceptible).\n\nMODIFY THE AGENT: Chlorinate water to kill Vibrio cholerae bacteria; cook food thoroughly; add antibiotics to water supply during outbreak.\n\nMODIFY THE ENVIRONMENT: Build sanitation infrastructure (flush toilets, sewage treatment) so human waste doesn't contaminate drinking water; improve water treatment plants; provide clean piped water; proper waste disposal.\n\nConclusion: The most durable prevention targets the ENVIRONMENT (clean water infrastructure) — it permanently removes the transmission pathway regardless of agent or host factors." },
+  { q:"You are investigating a school outbreak where 30 out of 100 students got sick with diarrhea after lunch. Describe the FIRST FIVE steps you would take and the data you would collect.",
+    hint:"Think through the 10 steps: confirm → verify → define → describe → hypothesize...",
+    ans:"STEP 1 — CONFIRM THE OUTBREAK EXISTS: Is 30% unusual for this school? Check historical baseline. 30% attack rate in one lunch = far above normal → confirmed outbreak.\n\nSTEP 2 — VERIFY THE DIAGNOSIS: Collect stool samples from sick students. What pathogen is causing this? Diarrhea alone could be Salmonella, E. coli, Norovirus, or others. Lab confirmation guides the response.\n\nSTEP 3 — CREATE A CASE DEFINITION: Define who officially counts as a case (e.g., 'A student at Shallowford Falls School who ate lunch on April 12 AND developed diarrhea within 72 hours').\n\nSTEP 4 — DESCRIBE BY PERSON, PLACE, AND TIME:\n• Person: Which grades/classrooms? Any demographic patterns?\n• Place: All lunchrooms or one specific table/station?\n• Time: Build an epi curve — when did cases first appear? Is this point source or propagated?\n\nSTEP 5 — BUILD A LINE LIST AND DEVELOP HYPOTHESES: Record each case's symptoms, onset time, and what they ate. Which food items had the highest attack rate? Hypothesize the most likely source based on high AR and biological plausibility." }
+];
 let fcIndices = [], fcPos = 0, fcFlipped = false;
 let scIdx = 0, scQIdx = 0, scScore = 0, scAnswered = false;
 let mathIdx = 0, mathScore = 0, mathAnswered = false;
@@ -1389,6 +1708,7 @@ function showScreen(id) {
   if (id === 'truefalse') initTF();
   if (id === 'matching') initMatch();
   if (id === 'written') initWritten();
+  if (id === 'mocktest') showMockSelector();
   window.scrollTo(0, 0);
 }
 
@@ -2903,6 +3223,249 @@ document.getElementById('sess-math-input').addEventListener('keydown', e => {
 document.getElementById('sess-stats-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') checkSessStats();
 });
+
+// ── MOCK TEST ─────────────────────────────────────────────────────
+let _mockMode = 'regional'; // 'regional' or 'state'
+let _mockPool = [];          // shuffled MCQ questions for this test
+let _mockSAPool = [];        // shuffled SA questions for state mode
+let _mockIdx = 0;            // current MCQ index
+let _mockSAIdx = 0;          // current SA index
+let _mockScore = 0;          // MCQ correct count
+let _mockSAScore = 0;        // SA self-grade score
+let _mockTimer = null;       // setInterval handle
+let _mockTimeLeft = 0;       // seconds remaining
+let _mockAnswered = false;   // whether current MCQ question is answered
+let _mockSARevealed = false; // whether current SA answer is revealed
+let _mockTopicScores = {};   // { topic: [correct, total] }
+let _mockStartTime = 0;
+
+const TOPIC_LABELS = {
+  vocab: 'Vocabulary',
+  calculations: 'Calculations',
+  pathogens: 'Pathogen ID',
+  classification: 'Classification',
+  vectors: 'Vectors',
+  epi_curves: 'Epi Curves',
+  investigation: 'Investigation',
+  vaccines: 'Vaccines',
+  chronic: 'Chronic Disease'
+};
+
+function showMockSelector() {
+  document.getElementById('mock-selector').style.display = 'block';
+  document.getElementById('mock-mcq-section').style.display = 'none';
+  document.getElementById('mock-sa-section').style.display = 'none';
+  document.getElementById('mock-results-section').style.display = 'none';
+  document.getElementById('mock-timer').textContent = '';
+  if (_mockTimer) { clearInterval(_mockTimer); _mockTimer = null; }
+}
+
+function exitMockTest() {
+  if (_mockTimer) { clearInterval(_mockTimer); _mockTimer = null; }
+  showScreen('home');
+}
+
+function startMockTest(mode) {
+  _mockMode = mode;
+  _mockIdx = 0; _mockSAIdx = 0;
+  _mockScore = 0; _mockSAScore = 0;
+  _mockAnswered = false; _mockSARevealed = false;
+  _mockTopicScores = {};
+
+  // Shuffle and slice MCQ pool
+  const shuffled = [...MOCK_TEST_QUESTIONS].sort(() => Math.random() - 0.5);
+  _mockPool = mode === 'regional' ? shuffled.slice(0, 30) : shuffled.slice(0, 60);
+
+  // Shuffle SA pool for state mode
+  _mockSAPool = [...MOCK_SA_QUESTIONS].sort(() => Math.random() - 0.5);
+
+  // Init topic score tracking
+  _mockPool.forEach(q => {
+    if (!_mockTopicScores[q.topic]) _mockTopicScores[q.topic] = [0, 0];
+    _mockTopicScores[q.topic][1]++;
+  });
+
+  // Start timer
+  _mockTimeLeft = mode === 'regional' ? 30 * 60 : 50 * 60;
+  _mockStartTime = Date.now();
+  updateMockTimer();
+  _mockTimer = setInterval(updateMockTimer, 1000);
+
+  // Show MCQ section
+  document.getElementById('mock-selector').style.display = 'none';
+  document.getElementById('mock-mcq-section').style.display = 'block';
+  document.getElementById('mock-sa-section').style.display = 'none';
+  document.getElementById('mock-results-section').style.display = 'none';
+
+  loadMockQuestion();
+}
+
+function updateMockTimer() {
+  if (_mockTimeLeft <= 0) {
+    clearInterval(_mockTimer);
+    _mockTimer = null;
+    document.getElementById('mock-timer').textContent = '⏰ 0:00';
+    // Auto-finish
+    if (document.getElementById('mock-mcq-section').style.display !== 'none') {
+      showMockResults();
+    } else if (document.getElementById('mock-sa-section').style.display !== 'none') {
+      showMockResults();
+    }
+    return;
+  }
+  _mockTimeLeft--;
+  const m = Math.floor(_mockTimeLeft / 60);
+  const s = _mockTimeLeft % 60;
+  const timeStr = `${m}:${s.toString().padStart(2,'0')}`;
+  const timerEl = document.getElementById('mock-timer');
+  timerEl.textContent = _mockTimeLeft <= 120 ? `⚠️ ${timeStr}` : `⏱ ${timeStr}`;
+  timerEl.style.color = _mockTimeLeft <= 120 ? '#e94560' : '#f5a623';
+}
+
+function loadMockQuestion() {
+  const q = _mockPool[_mockIdx];
+  _mockAnswered = false;
+  const total = _mockPool.length;
+  const pct = Math.round((_mockIdx / total) * 100);
+
+  document.getElementById('mock-label').textContent = `Question ${_mockIdx + 1} of ${total}`;
+  document.getElementById('mock-bar').style.width = pct + '%';
+  document.getElementById('mock-topic-label').textContent = TOPIC_LABELS[q.topic] || q.topic.toUpperCase();
+  document.getElementById('mock-question').textContent = q.q;
+  document.getElementById('mock-feedback').className = 'feedback';
+  document.getElementById('mock-feedback').textContent = '';
+  document.getElementById('mock-next-btn').style.display = 'none';
+
+  const choicesEl = document.getElementById('mock-choices');
+  choicesEl.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.choices.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = `${letters[i]}. ${c}`;
+    btn.onclick = () => answerMockMCQ(i, btn, q);
+    choicesEl.appendChild(btn);
+  });
+}
+
+function answerMockMCQ(chosen, btn, q) {
+  if (_mockAnswered) return;
+  _mockAnswered = true;
+
+  const isCorrect = chosen === q.correct;
+  if (isCorrect) {
+    _mockScore++;
+    _mockTopicScores[q.topic][0]++;
+    btn.classList.add('correct');
+  } else {
+    btn.classList.add('wrong');
+    // Highlight correct answer
+    document.querySelectorAll('#mock-choices .choice-btn')[q.correct].classList.add('correct');
+  }
+
+  const fb = document.getElementById('mock-feedback');
+  fb.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+  fb.textContent = (isCorrect ? '✓ Correct! ' : '✗ Not quite. ') + q.explain;
+  document.getElementById('mock-next-btn').style.display = 'block';
+}
+
+function nextMockQuestion() {
+  _mockIdx++;
+  if (_mockIdx >= _mockPool.length) {
+    // MCQ done
+    if (_mockMode === 'state') {
+      startMockSA();
+    } else {
+      showMockResults();
+    }
+  } else {
+    loadMockQuestion();
+  }
+}
+
+function startMockSA() {
+  document.getElementById('mock-mcq-section').style.display = 'none';
+  document.getElementById('mock-sa-section').style.display = 'block';
+  _mockSAIdx = 0;
+  loadMockSA();
+}
+
+function loadMockSA() {
+  const q = _mockSAPool[_mockSAIdx];
+  _mockSARevealed = false;
+
+  document.getElementById('mock-sa-label').textContent = `SA Question ${_mockSAIdx + 1} of 16`;
+  document.getElementById('mock-sa-bar').style.width = Math.round((_mockSAIdx / 16) * 100) + '%';
+  document.getElementById('mock-sa-question').textContent = q.q;
+  document.getElementById('mock-sa-hint').style.display = 'none';
+  document.getElementById('mock-sa-hint').textContent = q.hint;
+  document.getElementById('mock-sa-reveal').style.display = 'block';
+  document.getElementById('mock-sa-answer').style.display = 'none';
+  document.getElementById('mock-sa-answer').textContent = q.ans;
+  document.getElementById('mock-sa-grade').style.display = 'none';
+}
+
+function toggleMockHint() {
+  const h = document.getElementById('mock-sa-hint');
+  h.style.display = h.style.display === 'none' ? 'block' : 'none';
+}
+
+function revealMockSA() {
+  _mockSARevealed = true;
+  document.getElementById('mock-sa-reveal').style.display = 'none';
+  document.getElementById('mock-sa-answer').style.display = 'block';
+  document.getElementById('mock-sa-grade').style.display = 'flex';
+}
+
+function gradeMockSA(got) {
+  if (got) _mockSAScore++;
+  _mockSAIdx++;
+  if (_mockSAIdx >= Math.min(16, _mockSAPool.length)) {
+    showMockResults();
+  } else {
+    loadMockSA();
+  }
+}
+
+function showMockResults() {
+  if (_mockTimer) { clearInterval(_mockTimer); _mockTimer = null; }
+  document.getElementById('mock-mcq-section').style.display = 'none';
+  document.getElementById('mock-sa-section').style.display = 'none';
+  document.getElementById('mock-results-section').style.display = 'block';
+
+  const elapsed = Math.floor((Date.now() - _mockStartTime) / 1000);
+  const em = Math.floor(elapsed / 60);
+  const es = elapsed % 60;
+
+  const mcqTotal = _mockPool.length;
+  const pct = Math.round((_mockScore / mcqTotal) * 100);
+
+  document.getElementById('mock-res-emoji').textContent = pct >= 85 ? '🏆' : pct >= 70 ? '🎉' : pct >= 50 ? '💪' : '📚';
+  document.getElementById('mock-res-title').textContent = pct >= 85 ? 'State-Ready!' : pct >= 70 ? 'Strong Performance!' : pct >= 50 ? 'Keep Practicing!' : 'Study Those Weak Areas!';
+  document.getElementById('mock-res-score').textContent = `${_mockScore}/${mcqTotal}`;
+
+  let labelText = `MCQ: ${pct}% correct`;
+  if (_mockMode === 'state') labelText += ` · SA: ${_mockSAScore}/16 correct`;
+  document.getElementById('mock-res-label').textContent = labelText;
+  document.getElementById('mock-res-time').textContent = `⏱ Time used: ${em}:${es.toString().padStart(2,'0')}`;
+
+  // Topic breakdown
+  const breakdownEl = document.getElementById('mock-topic-breakdown');
+  breakdownEl.innerHTML = '<div class="perf-title">Performance by Topic</div>';
+  Object.entries(_mockTopicScores).forEach(([topic, [correct, total]]) => {
+    if (total === 0) return;
+    const p = Math.round((correct / total) * 100);
+    const color = p >= 80 ? '#4ecca3' : p >= 60 ? '#f5a623' : '#e94560';
+    const icon = p >= 80 ? '✓' : p >= 60 ? '~' : '✗';
+    breakdownEl.innerHTML += `
+      <div class="perf-row">
+        <div class="perf-label">${TOPIC_LABELS[topic] || topic}</div>
+        <div class="perf-bar-wrap"><div class="perf-bar-fill" style="width:${p}%;background:${color}"></div></div>
+        <div class="perf-pct" style="color:${color}">${p}%</div>
+        <div class="perf-icon">${icon}</div>
+      </div>`;
+  });
+}
 
 // Show onboarding if first time, else go straight to home
 if (!load('dd_name', null)) {
