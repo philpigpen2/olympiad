@@ -435,12 +435,12 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 
   <!-- Scenario sub-section -->
   <div class="sess-section" id="sess-sc">
-    <span class="sess-type-label">SCENARIO</span>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <span class="sess-type-label" style="margin-bottom:0">SCENARIO</span>
+      <button onclick="openStudyPanel(_sessStudyCats)" style="background:none;border:1px solid #4ecca3;color:#4ecca3;border-radius:14px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer">📖 Study</button>
+    </div>
     <div id="sess-sc-story" class="scenario-story" style="margin-bottom:14px"></div>
     <div class="question-text" id="sess-sc-question"></div>
-    <div style="margin-bottom:10px">
-      <textarea id="sess-sc-attempt" placeholder="✏️ My answer attempt (optional)..." style="width:100%;background:#16213e;border:2px solid #0f3460;color:#eaeaea;border-radius:12px;padding:10px 12px;font-size:0.9rem;font-family:inherit;resize:none;min-height:52px;line-height:1.5;box-sizing:border-box" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
-    </div>
     <div class="choices" id="sess-sc-choices"></div>
     <div class="sess-feedback" id="sess-sc-feedback"></div>
     <button class="sess-next-btn" id="sess-sc-next" onclick="advanceSessQuestion(_sessLastCorrect)">Next →</button>
@@ -497,13 +497,13 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 
   <!-- Epi Curve sub-section -->
   <div class="sess-section" id="sess-ec">
-    <span class="sess-type-label">EPI CURVE</span>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <span class="sess-type-label" style="margin-bottom:0">EPI CURVE</span>
+      <button onclick="openStudyPanel(['investigation','epi_terms'])" style="background:none;border:1px solid #4ecca3;color:#4ecca3;border-radius:14px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer">📖 Study</button>
+    </div>
     <div id="sess-ec-story" class="scenario-story" style="margin-bottom:12px"></div>
     <div id="sess-ec-chart" style="margin-bottom:14px"></div>
     <div class="question-text" id="sess-ec-question"></div>
-    <div style="margin-bottom:10px">
-      <textarea id="sess-ec-attempt" placeholder="✏️ My answer attempt (optional)..." style="width:100%;background:#16213e;border:2px solid #0f3460;color:#eaeaea;border-radius:12px;padding:10px 12px;font-size:0.9rem;font-family:inherit;resize:none;min-height:52px;line-height:1.5;box-sizing:border-box" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
-    </div>
     <div class="choices" id="sess-ec-choices"></div>
     <div class="sess-feedback" id="sess-ec-feedback"></div>
     <button class="sess-next-btn" id="sess-ec-next" onclick="advanceSessQuestion(_sessLastCorrect)">Next →</button>
@@ -865,50 +865,40 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
       <span style="font-size:2rem">🏅</span>
       <div style="text-align:left">
         <div style="font-size:1.05rem;font-weight:700">State Mock</div>
-        <div style="font-size:0.8rem;opacity:0.8;margin-top:2px">35 questions · 35 min timer</div>
+        <div style="font-size:0.8rem;opacity:0.8;margin-top:2px">28 multiple choice + 7 short answer · 35 min</div>
       </div>
     </button>
     <div class="tip-box" style="margin-top:8px">🏆 <strong>State format:</strong> ~30–35 multiple choice questions. Harder topics: odds ratio, study design, epi curves, chronic disease, surveillance, and reading comprehension scenarios.</div>
   </div>
 
-  <!-- MCQ Section -->
+  <!-- Unified MCQ + SA Section -->
   <div id="mock-mcq-section" style="display:none">
     <div class="progress-wrap">
       <div class="progress-label" id="mock-label">Question 1 of 30</div>
       <div class="progress-bar"><div class="progress-fill" id="mock-bar" style="width:3%"></div></div>
     </div>
-    <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#f5a623;margin-bottom:8px" id="mock-topic-label">VOCABULARY</div>
-    <div class="scenario-story" id="mock-question" style="font-size:1rem;font-weight:600;line-height:1.6;border-left-color:#f5a623"></div>
-    <div style="margin-bottom:10px">
-      <textarea id="mock-attempt" placeholder="✏️ My answer attempt (optional — type before selecting below)..." style="width:100%;background:#16213e;border:2px solid #0f3460;color:#eaeaea;border-radius:12px;padding:10px 12px;font-size:0.9rem;font-family:inherit;resize:none;min-height:52px;line-height:1.5;box-sizing:border-box" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#f5a623" id="mock-topic-label">VOCABULARY</div>
+      <button id="mock-study-btn" onclick="openStudyPanel(TOPIC_TO_VOCAB_CAT[_mockPool[_mockIdx]?.type==='sa'?'investigation':_mockPool[_mockIdx]?.topic])" style="background:none;border:1px solid #4ecca3;color:#4ecca3;border-radius:14px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer;white-space:nowrap">📖 Study</button>
     </div>
+    <div class="scenario-story" id="mock-question" style="font-size:1rem;font-weight:600;line-height:1.6;border-left-color:#f5a623"></div>
     <div class="choices" id="mock-choices"></div>
     <div class="feedback" id="mock-feedback"></div>
-    <button class="next-btn" id="mock-next-btn" onclick="nextMockQuestion()" style="display:none">Next →</button>
-  </div>
-
-  <!-- SA Section (State only) -->
-  <div id="mock-sa-section" style="display:none">
-    <div style="background:#0f3460;border-radius:14px;padding:12px 16px;margin-bottom:14px;text-align:center">
-      <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#f5a623">SHORT ANSWER SECTION</div>
-      <div style="font-size:0.82rem;color:#aaa;margin-top:2px">16 questions · 3 pts each · Reveal model answer and self-grade</div>
-    </div>
-    <div class="progress-wrap">
-      <div class="progress-label" id="mock-sa-label">SA Question 1 of 16</div>
-      <div class="progress-bar"><div class="progress-fill" id="mock-sa-bar" style="width:6%"></div></div>
-    </div>
-    <div class="written-q" id="mock-sa-question"></div>
-    <button class="hint-btn" onclick="toggleMockHint()">💡 Show Hint</button>
-    <div class="hint-box" id="mock-sa-hint"></div>
-    <button class="reveal-btn" id="mock-sa-reveal" onclick="revealMockSA()">Reveal Model Answer 👁</button>
-    <div class="answer-box" id="mock-sa-answer"></div>
-    <div class="self-grade" id="mock-sa-grade" style="display:none">
-      <div style="font-size:0.85rem;color:#aaa;text-align:center;margin-bottom:8px">How did you do on this short answer?</div>
-      <div style="display:flex;gap:10px">
-        <button class="grade-got" onclick="gradeMockSA(true)">Got it ✓</button>
-        <button class="grade-review" onclick="gradeMockSA(false)">Need more practice ↺</button>
+    <!-- Inline SA UI (shown instead of choices for short answer questions) -->
+    <div id="mock-sa-inline" style="display:none">
+      <button class="hint-btn" onclick="toggleMockHint()">💡 Show Hint</button>
+      <div class="hint-box" id="mock-sa-hint" style="display:none"></div>
+      <button class="reveal-btn" id="mock-sa-reveal" onclick="revealMockSA()">Reveal Model Answer 👁</button>
+      <div class="answer-box" id="mock-sa-answer" style="display:none"></div>
+      <div class="self-grade" id="mock-sa-grade" style="display:none">
+        <div style="font-size:0.85rem;color:#aaa;text-align:center;margin-bottom:8px">How did you do on this question?</div>
+        <div style="display:flex;gap:10px">
+          <button class="grade-got" onclick="gradeMockSAInline(true)">Got it ✓</button>
+          <button class="grade-review" onclick="gradeMockSAInline(false)">Need more practice ↺</button>
+        </div>
       </div>
     </div>
+    <button class="next-btn" id="mock-next-btn" onclick="nextMockQuestion()" style="display:none">Next →</button>
   </div>
 
   <!-- Results Section -->
@@ -1676,6 +1666,7 @@ let tfIdx = 0, tfScore = 0, tfAnswered = false;
 let matchIdx = 0, matchScore = 0, matchAnswered = false;
 let writIdx = 0, writScore = 0;
 let _sessLastCorrect = false;
+let _sessStudyCats = null; // vocab categories for the Study panel in scenario questions
 
 // ── STORAGE ───────────────────────────────────────────────────────
 function load(k, def) { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } }
@@ -2193,15 +2184,14 @@ function sessSolveMatch(chosen, btn, p) {
 function loadSessSc(q) {
   const sc = SCENARIOS[q.idx];
   const qData = sc.questions[q.qIdx];
+  // Set study panel categories based on scenario concept
+  _sessStudyCats = sc.concept ? TOPIC_TO_VOCAB_CAT[sc.concept] || [sc.concept] : ['epi_terms','investigation'];
   document.getElementById('sess-sc-story').innerHTML =
     `<div class="scenario-emoji">${sc.emoji}</div><div class="scenario-name">${sc.title}</div>${sc.story}`;
   document.getElementById('sess-sc-question').textContent = `Q${q.qIdx + 1}: ${qData.q}`;
   document.getElementById('sess-sc-feedback').className = 'sess-feedback';
   document.getElementById('sess-sc-feedback').textContent = '';
   document.getElementById('sess-sc-next').className = 'sess-next-btn';
-  const scAttempt = document.getElementById('sess-sc-attempt');
-  if (scAttempt) { scAttempt.value = ''; scAttempt.style.height = 'auto'; scAttempt.disabled = false; }
-
   const choicesEl = document.getElementById('sess-sc-choices');
   choicesEl.innerHTML = '';
   qData.choices.forEach((c, i) => {
@@ -2222,8 +2212,6 @@ function sessSolveSc(idx, btn, qData) {
     if (i === qData.correct) b.classList.add('correct');
     else if (i === idx && !correct) b.classList.add('wrong');
   });
-  const scAt = document.getElementById('sess-sc-attempt');
-  if (scAt) scAt.disabled = true;
   const fb = document.getElementById('sess-sc-feedback');
   fb.textContent = (correct ? '✅ ' : '❌ ') + qData.explain;
   fb.className = 'sess-feedback show ' + (correct ? 'correct' : 'wrong');
@@ -2388,8 +2376,6 @@ function loadSessEc(q) {
   document.getElementById('sess-ec-feedback').className = 'sess-feedback';
   document.getElementById('sess-ec-feedback').textContent = '';
   document.getElementById('sess-ec-next').className = 'sess-next-btn';
-  const ecAttempt = document.getElementById('sess-ec-attempt');
-  if (ecAttempt) { ecAttempt.value = ''; ecAttempt.style.height = 'auto'; ecAttempt.disabled = false; }
   const choicesEl = document.getElementById('sess-ec-choices');
   choicesEl.innerHTML = '';
   qData.choices.forEach((c, i) => {
@@ -2405,8 +2391,6 @@ function loadSessEc(q) {
 function sessSolveEc(idx, btn, qData) {
   const correct = idx === qData.correct;
   _sessLastCorrect = correct;
-  const ecAt = document.getElementById('sess-ec-attempt');
-  if (ecAt) ecAt.disabled = true;
   document.querySelectorAll('#sess-ec-choices .choice-btn').forEach((b, i) => {
     b.onclick = null;
     if (i === qData.correct) b.classList.add('correct');
@@ -3461,17 +3445,15 @@ document.getElementById('sess-stats-input').addEventListener('keydown', e => {
 
 // ── MOCK TEST ─────────────────────────────────────────────────────
 let _mockMode = 'regional'; // 'regional' or 'state'
-let _mockPool = [];          // shuffled MCQ questions for this test
-let _mockSAPool = [];        // shuffled SA questions for state mode
-let _mockIdx = 0;            // current MCQ index
-let _mockSAIdx = 0;          // current SA index
+let _mockPool = [];          // shuffled mixed questions (MCQ + SA) for this test
+let _mockIdx = 0;            // current question index
 let _mockScore = 0;          // MCQ correct count
-let _mockSAScore = 0;        // SA self-grade score
+let _mockSAScore = 0;        // SA self-grade count
 let _mockTimer = null;       // setInterval handle
 let _mockTimeLeft = 0;       // seconds remaining
-let _mockAnswered = false;   // whether current MCQ question is answered
+let _mockAnswered = false;   // whether current question is answered/graded
 let _mockSARevealed = false; // whether current SA answer is revealed
-let _mockTopicScores = {};   // { topic: [correct, total] }
+let _mockTopicScores = {};   // { topic: [correct, total] } (MCQ only)
 let _mockStartTime = 0;
 
 const TOPIC_LABELS = {
@@ -3489,7 +3471,6 @@ const TOPIC_LABELS = {
 function showMockSelector() {
   document.getElementById('mock-selector').style.display = 'block';
   document.getElementById('mock-mcq-section').style.display = 'none';
-  document.getElementById('mock-sa-section').style.display = 'none';
   document.getElementById('mock-results-section').style.display = 'none';
   document.getElementById('mock-timer').textContent = '';
   if (_mockTimer) { clearInterval(_mockTimer); _mockTimer = null; }
@@ -3502,20 +3483,27 @@ function exitMockTest() {
 
 function startMockTest(mode) {
   _mockMode = mode;
-  _mockIdx = 0; _mockSAIdx = 0;
+  _mockIdx = 0;
   _mockScore = 0; _mockSAScore = 0;
   _mockAnswered = false; _mockSARevealed = false;
   _mockTopicScores = {};
 
-  // Shuffle and slice MCQ pool
-  const shuffled = [...MOCK_TEST_QUESTIONS].sort(() => Math.random() - 0.5);
-  _mockPool = mode === 'regional' ? shuffled.slice(0, 30) : shuffled.slice(0, 35);
+  if (mode === 'regional') {
+    // Regional: 30 MCQ only
+    const shuffled = [...MOCK_TEST_QUESTIONS].sort(() => Math.random() - 0.5);
+    _mockPool = shuffled.slice(0, 30);
+  } else {
+    // State: 28 MCQ + 7 SA, shuffled together into one pool of 35
+    const shuffledMCQ = [...MOCK_TEST_QUESTIONS].sort(() => Math.random() - 0.5);
+    const shuffledSA = [...MOCK_SA_QUESTIONS].sort(() => Math.random() - 0.5);
+    const mcqPick = shuffledMCQ.slice(0, 28);
+    const saPick = shuffledSA.slice(0, 7).map(q => ({...q, type: 'sa'}));
+    _mockPool = [...mcqPick, ...saPick].sort(() => Math.random() - 0.5);
+  }
 
-  // Shuffle SA pool for state mode
-  _mockSAPool = [...MOCK_SA_QUESTIONS].sort(() => Math.random() - 0.5);
-
-  // Init topic score tracking
+  // Init topic score tracking (MCQ questions only)
   _mockPool.forEach(q => {
+    if (q.type === 'sa') return;
     if (!_mockTopicScores[q.topic]) _mockTopicScores[q.topic] = [0, 0];
     _mockTopicScores[q.topic][1]++;
   });
@@ -3526,10 +3514,9 @@ function startMockTest(mode) {
   updateMockTimer();
   _mockTimer = setInterval(updateMockTimer, 1000);
 
-  // Show MCQ section
+  // Show unified question section
   document.getElementById('mock-selector').style.display = 'none';
   document.getElementById('mock-mcq-section').style.display = 'block';
-  document.getElementById('mock-sa-section').style.display = 'none';
   document.getElementById('mock-results-section').style.display = 'none';
 
   loadMockQuestion();
@@ -3540,12 +3527,7 @@ function updateMockTimer() {
     clearInterval(_mockTimer);
     _mockTimer = null;
     document.getElementById('mock-timer').textContent = '⏰ 0:00';
-    // Auto-finish
-    if (document.getElementById('mock-mcq-section').style.display !== 'none') {
-      showMockResults();
-    } else if (document.getElementById('mock-sa-section').style.display !== 'none') {
-      showMockResults();
-    }
+    showMockResults();
     return;
   }
   _mockTimeLeft--;
@@ -3560,29 +3542,46 @@ function updateMockTimer() {
 function loadMockQuestion() {
   const q = _mockPool[_mockIdx];
   _mockAnswered = false;
+  _mockSARevealed = false;
   const total = _mockPool.length;
   const pct = Math.round((_mockIdx / total) * 100);
 
   document.getElementById('mock-label').textContent = `Question ${_mockIdx + 1} of ${total}`;
   document.getElementById('mock-bar').style.width = pct + '%';
-  document.getElementById('mock-topic-label').textContent = TOPIC_LABELS[q.topic] || q.topic.toUpperCase();
-  document.getElementById('mock-question').textContent = q.q;
   document.getElementById('mock-feedback').className = 'feedback';
   document.getElementById('mock-feedback').textContent = '';
   document.getElementById('mock-next-btn').style.display = 'none';
-  const attemptEl = document.getElementById('mock-attempt');
-  if (attemptEl) { attemptEl.value = ''; attemptEl.style.height = 'auto'; attemptEl.disabled = false; }
 
-  const choicesEl = document.getElementById('mock-choices');
-  choicesEl.innerHTML = '';
-  const letters = ['A', 'B', 'C', 'D'];
-  q.choices.forEach((c, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'choice-btn';
-    btn.textContent = `${letters[i]}. ${c}`;
-    btn.onclick = () => answerMockMCQ(i, btn, q);
-    choicesEl.appendChild(btn);
-  });
+  if (q.type === 'sa') {
+    // Short Answer question
+    document.getElementById('mock-topic-label').textContent = 'SHORT ANSWER';
+    document.getElementById('mock-question').textContent = q.q;
+    document.getElementById('mock-choices').innerHTML = '';
+    document.getElementById('mock-choices').style.display = 'none';
+    document.getElementById('mock-sa-inline').style.display = 'block';
+    document.getElementById('mock-sa-hint').style.display = 'none';
+    document.getElementById('mock-sa-hint').textContent = q.hint || '';
+    document.getElementById('mock-sa-reveal').style.display = 'block';
+    document.getElementById('mock-sa-answer').style.display = 'none';
+    document.getElementById('mock-sa-answer').textContent = q.ans;
+    document.getElementById('mock-sa-grade').style.display = 'none';
+  } else {
+    // Multiple Choice question
+    document.getElementById('mock-topic-label').textContent = TOPIC_LABELS[q.topic] || q.topic.toUpperCase();
+    document.getElementById('mock-question').textContent = q.q;
+    document.getElementById('mock-choices').style.display = '';
+    document.getElementById('mock-sa-inline').style.display = 'none';
+    const choicesEl = document.getElementById('mock-choices');
+    choicesEl.innerHTML = '';
+    const letters = ['A', 'B', 'C', 'D'];
+    q.choices.forEach((c, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      btn.textContent = `${letters[i]}. ${c}`;
+      btn.onclick = () => answerMockMCQ(i, btn, q);
+      choicesEl.appendChild(btn);
+    });
+  }
 }
 
 function answerMockMCQ(chosen, btn, q) {
@@ -3604,44 +3603,15 @@ function answerMockMCQ(chosen, btn, q) {
   fb.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
   fb.textContent = (isCorrect ? '✓ Correct! ' : '✗ Not quite. ') + q.explain;
   document.getElementById('mock-next-btn').style.display = 'block';
-  const ae = document.getElementById('mock-attempt');
-  if (ae) ae.disabled = true;
 }
 
 function nextMockQuestion() {
   _mockIdx++;
   if (_mockIdx >= _mockPool.length) {
-    // MCQ done
-    if (_mockMode === 'state') {
-      startMockSA();
-    } else {
-      showMockResults();
-    }
+    showMockResults();
   } else {
     loadMockQuestion();
   }
-}
-
-function startMockSA() {
-  document.getElementById('mock-mcq-section').style.display = 'none';
-  document.getElementById('mock-sa-section').style.display = 'block';
-  _mockSAIdx = 0;
-  loadMockSA();
-}
-
-function loadMockSA() {
-  const q = _mockSAPool[_mockSAIdx];
-  _mockSARevealed = false;
-
-  document.getElementById('mock-sa-label').textContent = `SA Question ${_mockSAIdx + 1} of 16`;
-  document.getElementById('mock-sa-bar').style.width = Math.round((_mockSAIdx / 16) * 100) + '%';
-  document.getElementById('mock-sa-question').textContent = q.q;
-  document.getElementById('mock-sa-hint').style.display = 'none';
-  document.getElementById('mock-sa-hint').textContent = q.hint;
-  document.getElementById('mock-sa-reveal').style.display = 'block';
-  document.getElementById('mock-sa-answer').style.display = 'none';
-  document.getElementById('mock-sa-answer').textContent = q.ans;
-  document.getElementById('mock-sa-grade').style.display = 'none';
 }
 
 function toggleMockHint() {
@@ -3656,38 +3626,40 @@ function revealMockSA() {
   document.getElementById('mock-sa-grade').style.display = 'flex';
 }
 
-function gradeMockSA(got) {
+function gradeMockSAInline(got) {
   if (got) _mockSAScore++;
-  _mockSAIdx++;
-  if (_mockSAIdx >= Math.min(16, _mockSAPool.length)) {
-    showMockResults();
-  } else {
-    loadMockSA();
-  }
+  document.getElementById('mock-sa-grade').style.display = 'none';
+  document.getElementById('mock-next-btn').style.display = 'block';
 }
 
 function showMockResults() {
   if (_mockTimer) { clearInterval(_mockTimer); _mockTimer = null; }
   document.getElementById('mock-mcq-section').style.display = 'none';
-  document.getElementById('mock-sa-section').style.display = 'none';
   document.getElementById('mock-results-section').style.display = 'block';
 
   const elapsed = Math.floor((Date.now() - _mockStartTime) / 1000);
   const em = Math.floor(elapsed / 60);
   const es = elapsed % 60;
 
-  const mcqTotal = _mockPool.length;
-  const pct = Math.round((_mockScore / mcqTotal) * 100);
+  const mcqQs = _mockPool.filter(q => q.type !== 'sa');
+  const saQs = _mockPool.filter(q => q.type === 'sa');
+  const mcqTotal = mcqQs.length;
+  const saTotal = saQs.length;
+  const pct = mcqTotal > 0 ? Math.round((_mockScore / mcqTotal) * 100) : 0;
 
   document.getElementById('mock-res-emoji').textContent = pct >= 85 ? '🏆' : pct >= 70 ? '🎉' : pct >= 50 ? '💪' : '📚';
   document.getElementById('mock-res-title').textContent = pct >= 85 ? 'State-Ready!' : pct >= 70 ? 'Strong Performance!' : pct >= 50 ? 'Keep Practicing!' : 'Study Those Weak Areas!';
-  document.getElementById('mock-res-score').textContent = `${_mockScore}/${mcqTotal}`;
 
-  let labelText = `Score: ${pct}% correct`;
-  document.getElementById('mock-res-label').textContent = labelText;
+  if (saTotal > 0) {
+    document.getElementById('mock-res-score').textContent = `${_mockScore}/${mcqTotal} MCQ`;
+    document.getElementById('mock-res-label').textContent = `${pct}% multiple choice correct · ${_mockSAScore}/${saTotal} short answer`;
+  } else {
+    document.getElementById('mock-res-score').textContent = `${_mockScore}/${mcqTotal}`;
+    document.getElementById('mock-res-label').textContent = `Score: ${pct}% correct`;
+  }
   document.getElementById('mock-res-time').textContent = `⏱ Time used: ${em}:${es.toString().padStart(2,'0')}`;
 
-  // Topic breakdown
+  // Topic breakdown (MCQ topics only)
   const breakdownEl = document.getElementById('mock-topic-breakdown');
   breakdownEl.innerHTML = '<div class="perf-title">Performance by Topic</div>';
   Object.entries(_mockTopicScores).forEach(([topic, [correct, total]]) => {
@@ -3719,6 +3691,63 @@ if (!load('dd_name', null)) {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js');
 }
+
+// ── STUDY PANEL ────────────────────────────────────────────────────
+const TOPIC_TO_VOCAB_CAT = {
+  vocab:          null,                        // open general
+  calculations:   ['epi_terms','stats'],
+  pathogens:      ['pathogen'],
+  classification: ['pathogen'],
+  vectors:        ['transmission'],
+  epi_curves:     ['investigation','epi_terms'],
+  investigation:  ['investigation'],
+  vaccines:       ['control'],
+  chronic:        ['epi_terms']
+};
+
+let _studyPanelCats = null; // categories to show in the panel
+
+function openStudyPanel(cats) {
+  _studyPanelCats = cats || null;
+  const catArr = cats ? (Array.isArray(cats) ? cats : [cats]) : null;
+  const terms = catArr ? VOCAB.filter(v => catArr.includes(v.c)) : VOCAB.slice(0, 20);
+  if (terms.length === 0) {
+    // fallback to all terms if no matches
+    return openStudyPanel(null);
+  }
+  document.getElementById('study-panel-content').innerHTML = terms.map(v => {
+    const catLabel = ({
+      'epi_terms':'Epidemiology Concept','transmission':'Disease Transmission',
+      'pathogen':'Pathogen / Disease','control':'Prevention & Control',
+      'investigation':'Investigation Method','stats':'Statistics & Math'
+    })[v.c] || v.c || '';
+    return `<div style="margin-bottom:14px;padding:14px;background:#16213e;border-radius:12px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+        <div style="font-weight:800;font-size:0.95rem;color:#4ecca3">${v.term}</div>
+        <div style="font-size:0.65rem;font-weight:700;color:#f5a623;text-transform:uppercase;letter-spacing:0.08em;white-space:nowrap;margin-left:8px">${catLabel}</div>
+      </div>
+      <div style="font-size:0.88rem;line-height:1.6;color:#eaeaea">${v.def}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('study-panel').style.display = 'block';
+  document.getElementById('study-panel-overlay').style.display = 'block';
+}
+
+function closeStudyPanel() {
+  document.getElementById('study-panel').style.display = 'none';
+  document.getElementById('study-panel-overlay').style.display = 'none';
+}
 </script>
+
+<!-- Study Panel -->
+<div id="study-panel-overlay" onclick="closeStudyPanel()" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.65);z-index:9998"></div>
+<div id="study-panel" style="display:none;position:fixed;bottom:0;left:0;right:0;max-height:78vh;background:#0f3460;border-radius:24px 24px 0 0;overflow-y:auto;padding:20px 16px 36px;z-index:9999;box-shadow:0 -4px 30px rgba(0,0,0,0.6)">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+    <div style="font-weight:800;font-size:1.05rem;color:#f5a623">📖 Study This Topic</div>
+    <button onclick="closeStudyPanel()" style="background:none;border:none;color:#eaeaea;font-size:1.5rem;cursor:pointer;padding:4px 8px;line-height:1">✕</button>
+  </div>
+  <div id="study-panel-content"></div>
+</div>
+
 </body>
 </html>
