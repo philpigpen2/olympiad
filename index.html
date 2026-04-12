@@ -928,7 +928,6 @@ const VOCAB = [
   { term:"Endemic",         def:"A disease that is ALWAYS present in a certain place or population", c:'epi_terms' },
   { term:"Pandemic",        def:"An epidemic that spreads across the WHOLE WORLD", c:'epi_terms' },
   { term:"Outbreak",        def:"A sudden surprise jump in disease cases in a specific area", c:'epi_terms' },
-  { term:"Incubation Period",def:"The waiting time between catching a germ and starting to feel sick", c:'epi_terms' },
   { term:"Transmission",    def:"How a disease travels from one person (or animal) to another", c:'transmission' },
   { term:"Vector",          def:"An animal that carries and spreads disease — like a mosquito or tick!", c:'transmission' },
   { term:"Host",            def:"The person or animal that a germ lives and grows inside", c:'transmission' },
@@ -1052,7 +1051,7 @@ const VOCAB = [
 
   // ── DISEASES (study guide disease flashcard pages) ─────────────────
   { term:"Pertussis",           def:"Bacteria causing WHOOPING COUGH — a severe hacking cough followed by a 'whoop' sound on inhale. Prevented by DTaP vaccine. Very dangerous for infants.", c:'pathogen' },
-  { term:"West Nile Virus",     def:"Mosquito-borne virus with NO specific treatment or vaccine. Most people have no symptoms; severe cases cause headache, fever, swollen lymph nodes. Prevention: DEET repellent and drain standing water.", c:'pathogen' },
+  { term:"West Nile Virus",     def:"Mosquito-borne virus with NO specific treatment or vaccine. Most people have no symptoms; severe cases cause neuroinvasive disease including encephalitis, meningitis, and rarely paralysis. Prevention: DEET repellent and drain standing water.", c:'pathogen' },
   { term:"Tetanus",             def:"Bacteria producing a toxin that causes LOCKJAW — painful muscle contractions in the neck and jaw. Enters through wounds. Prevented by DTaP vaccine.", c:'pathogen' },
   { term:"Typhoid",             def:"Bacteria causing prolonged HIGH FEVER (lasting days), fatigue, headache, nausea, and abdominal pain. Spread through contaminated food and water in areas with poor sanitation.", c:'pathogen' },
   { term:"Smallpox",            def:"Highly contagious virus ERADICATED worldwide in 1980 through global vaccination — one of medicine's greatest achievements. Caused distinctive skin pustules.", c:'pathogen' },
@@ -1161,10 +1160,10 @@ const TABLE_DATA = [
   {
     type:"full",
     title:"The School Banquet", emoji:"🎓",
-    scenario:"100 students attended a school banquet. The next day, 55 students reported illness. Investigators interviewed everyone about what they ate and tracked who got sick. This table shows the FULL 2×2 data for each food item.",
+    scenario:"100 students attended a school banquet. The next day, 52 students reported illness. Investigators interviewed everyone about what they ate and tracked who got sick. This table shows the FULL 2×2 data for each food item.",
     foods:[
       { food:"🥗 Caesar Salad",    ateSick:48, ateWell:12, notEatSick:4,  notEatWell:36 },
-      { food:"🍗 Grilled Chicken", ateSick:20, ateWell:50, notEatSick:32, notEatWell:18 },
+      { food:"🍗 Grilled Chicken", ateSick:20, ateWell:50, notEatSick:19, notEatWell:11 },
       { food:"🍝 Pasta Primavera", ateSick:16, ateWell:44, notEatSick:35, notEatWell:5  },
       { food:"🥖 Bread Rolls",     ateSick:22, ateWell:38, notEatSick:28, notEatWell:12 },
       { food:"🍮 Chocolate Mousse",ateSick:45, ateWell:15, notEatSick:5,  notEatWell:35 }
@@ -1215,7 +1214,7 @@ const TABLE_DATA = [
   {
     type:"full",
     title:"The Hospital Cafeteria", emoji:"🏥",
-    scenario:"An outbreak investigation was launched after 45 hospital staff reported gastrointestinal illness. The cafeteria served 150 people that day. Investigators built a full 2×2 table for each menu item.",
+    scenario:"An outbreak investigation was launched after 42 hospital staff reported gastrointestinal illness. The cafeteria served 150 people that day. Investigators built a full 2×2 table for each menu item.",
     foods:[
       { food:"🥗 Garden Salad",    ateSick:6,  ateWell:54, notEatSick:36, notEatWell:54 },
       { food:"🍲 Turkey Soup",     ateSick:38, ateWell:22, notEatSick:4,  notEatWell:86 },
@@ -1535,7 +1534,7 @@ const MOCK_TEST_QUESTIONS = [
   { q:"A Relative Risk of 1.0 means:", choices:["Exposure doubles the risk of disease","Exposed and unexposed groups had equal risk","The study was poorly designed","Exposed group had half the risk"], correct:1, topic:"calculations", explain:"RR = 1.0 = no difference between groups. Both had equal attack rates. The exposure is NOT associated with increased risk. RR > 1 = exposure increases risk. RR < 1 = exposure may be protective." },
   { q:"An outbreak investigation found: Ate potato salad: 60 sick out of 80. Skipped potato salad: 5 sick out of 70. Which statement is CORRECT?", choices:["The attack rate for potato salad eaters is 60%","The attack rate for potato salad eaters is 75%","The attack rate for potato salad eaters is 50%","The attack rate for those who skipped is 10%"], correct:1, topic:"calculations", explain:"AR = 60/80 × 100 = 75%. Three-quarters of people who ate potato salad got sick. The skippers' AR = 5/70 × 100 ≈ 7%. RR = 75 ÷ 7 ≈ 10 — overwhelming evidence against the potato salad!" },
   { q:"Which food item is MOST likely the outbreak source based on these attack rates? Fried chicken: 65%, Corn on the cob: 12%, Coleslaw: 14%, Lemonade: 11%", choices:["Fried chicken","Corn on the cob","Coleslaw","Lemonade"], correct:0, topic:"calculations", explain:"Fried chicken has a dramatically higher attack rate (65%) compared to all other items (11–14%). When one food has an AR far above baseline, it's almost certainly the source. Disease detectives would focus sampling on the fried chicken immediately." },
-  { q:"In a 2×2 table, the cells are labeled a, b, c, d from top-left to bottom-right. The formula for Odds Ratio is:", choices:["(a+d) ÷ (b+c)","(a×b) ÷ (c×d)","(a×d) ÷ (b×c)","(a÷b) + (c÷d)"], correct:2, topic:"calculations", explain:"OR = (a × d) ÷ (b × c). Remember: multiply the DIAGONALS. Top-left × bottom-right ÷ top-right × bottom-left. 'Cross multiply.' This is the Odds Ratio formula used in case-control studies." },
+  { q:"In a case-control study 2×2 table, the cells are: a = cases exposed, b = cases unexposed, c = controls exposed, d = controls unexposed. Which formula correctly calculates the Odds Ratio?", choices:["(a+d) ÷ (b+c)","(a×b) ÷ (c×d)","(a×d) ÷ (b×c)","(a÷b) + (c÷d)"], correct:2, topic:"calculations", explain:"OR = (a × d) ÷ (b × c) — multiply the diagonals. Cases exposed × controls unexposed, divided by cases unexposed × controls exposed. Used in case-control studies to measure how strongly an exposure is linked to disease." },
   { q:"Secondary Attack Rate measures:", choices:["The attack rate in the second wave of a propagated outbreak","The percentage of close contacts who get infected from one index case","The attack rate among people who ate a second serving of food","The number of deaths divided by total cases"], correct:1, topic:"calculations", explain:"Secondary Attack Rate = cases among close contacts ÷ total close contacts × 100. It measures how CONTAGIOUS a disease is within a household or close-contact group. A high SAR means the disease spreads very easily from person to person." },
 
   // ODDS RATIO (5 Qs)
@@ -2092,7 +2091,7 @@ function runSession() {
     else if (q.type === 'written') loadSessWritten(q);
   } catch (err) {
     console.warn('Skipping broken question at pos', pos, err);
-    advanceSessQuestion(false);
+    advanceSessQuestion(0);
     return;
   }
 
@@ -2475,7 +2474,9 @@ function getQConcept(q) {
 }
 
 function advanceSessQuestion(correct) {
-  if (correct) save('dd_today_score', load('dd_today_score', 0) + 1);
+  // correct: true/1 = +1, false/-1 = -1, 0 = skip/blank (no penalty)
+  const delta = (correct === true || correct === 1) ? 1 : (correct === 0) ? 0 : -1;
+  save('dd_today_score', load('dd_today_score', 0) + delta);
 
   // Track per-concept performance
   const todayQs = load('dd_today_qs', []);
@@ -2486,7 +2487,7 @@ function advanceSessQuestion(correct) {
     const t  = getQConcept(q);
     if (!sp[t]) sp[t] = {correct:0, total:0};
     sp[t].total++;
-    if (correct) sp[t].correct++;
+    if (delta > 0) sp[t].correct++;
     save('dd_sess_perf', sp);
   }
 
@@ -2522,7 +2523,8 @@ function completeTodaySession() {
   document.querySelectorAll('.sess-section').forEach(s => s.classList.remove('active'));
   document.getElementById('sess-done').classList.add('active');
   const r = getStreakRank(streak);
-  document.getElementById('sess-done-score').textContent = `${score}/15`;
+  const scoreSign = score > 0 ? '+' : '';
+  document.getElementById('sess-done-score').textContent = `${scoreSign}${score} pts`;
   document.getElementById('sess-done-streak').textContent = `🔥 ${streak} day streak`;
   const badge = document.getElementById('sess-rank-badge');
   badge.textContent = `${r.pip} ${r.label} · ${r.title}`;
@@ -3470,7 +3472,9 @@ let _mockMode = 'regional'; // 'regional' or 'state'
 let _mockPool = [];          // shuffled mixed questions (MCQ + SA) for this test
 let _mockIdx = 0;            // current question index
 let _mockScore = 0;          // MCQ correct count
-let _mockSAScore = 0;        // SA self-grade count
+let _mockWrong = 0;          // MCQ wrong count
+let _mockSAScore = 0;        // SA got-it count
+let _mockSAWrong = 0;        // SA missed count
 let _mockTimer = null;       // setInterval handle
 let _mockTimeLeft = 0;       // seconds remaining
 let _mockAnswered = false;   // whether current question is answered/graded
@@ -3506,7 +3510,7 @@ function exitMockTest() {
 function startMockTest(mode) {
   _mockMode = mode;
   _mockIdx = 0;
-  _mockScore = 0; _mockSAScore = 0;
+  _mockScore = 0; _mockSAScore = 0; _mockWrong = 0; _mockSAWrong = 0;
   _mockAnswered = false; _mockSARevealed = false;
   _mockTopicScores = {};
 
@@ -3618,6 +3622,7 @@ function answerMockMCQ(chosen, btn, q) {
     _mockTopicScores[q.topic][0]++;
     btn.classList.add('correct');
   } else {
+    _mockWrong++;
     btn.classList.add('wrong');
     // Highlight correct answer
     document.querySelectorAll('#mock-choices .choice-btn')[q.correct].classList.add('correct');
@@ -3653,6 +3658,7 @@ function revealMockSA() {
 
 function gradeMockSAInline(got) {
   if (got) _mockSAScore++;
+  else _mockSAWrong++;
   document.getElementById('mock-sa-grade').style.display = 'none';
   document.getElementById('mock-next-btn').style.display = 'block';
 }
@@ -3671,16 +3677,22 @@ function showMockResults() {
   const mcqTotal = mcqQs.length;
   const saTotal = saQs.length;
   const pct = mcqTotal > 0 ? Math.round((_mockScore / mcqTotal) * 100) : 0;
+  const mcqNet = _mockScore - _mockWrong;
+  const saNet  = _mockSAScore - _mockSAWrong;
+  const totalNet = mcqNet + (saTotal > 0 ? saNet : 0);
+  const netSign = totalNet > 0 ? '+' : '';
 
   document.getElementById('mock-res-emoji').textContent = pct >= 85 ? '🏆' : pct >= 70 ? '🎉' : pct >= 50 ? '💪' : '📚';
   document.getElementById('mock-res-title').textContent = pct >= 85 ? 'State-Ready!' : pct >= 70 ? 'Strong Performance!' : pct >= 50 ? 'Keep Practicing!' : 'Study Those Weak Areas!';
 
   if (saTotal > 0) {
-    document.getElementById('mock-res-score').textContent = `${_mockScore}/${mcqTotal} MCQ`;
-    document.getElementById('mock-res-label').textContent = `${pct}% multiple choice correct · ${_mockSAScore}/${saTotal} short answer`;
+    document.getElementById('mock-res-score').textContent = `${netSign}${totalNet} pts`;
+    document.getElementById('mock-res-label').textContent =
+      `MCQ: ${_mockScore} correct, ${_mockWrong} wrong · SA: ${_mockSAScore} got it, ${_mockSAWrong} missed`;
   } else {
-    document.getElementById('mock-res-score').textContent = `${_mockScore}/${mcqTotal}`;
-    document.getElementById('mock-res-label').textContent = `Score: ${pct}% correct`;
+    document.getElementById('mock-res-score').textContent = `${netSign}${totalNet} pts`;
+    document.getElementById('mock-res-label').textContent =
+      `${_mockScore} correct · ${_mockWrong} wrong · ${pct}% accuracy`;
   }
   document.getElementById('mock-res-time').textContent = `⏱ Time used: ${em}:${es.toString().padStart(2,'0')}`;
 
@@ -3724,6 +3736,40 @@ let _chatHistory = [];   // [{role:'user'|'assistant', content:string}]
 let _chatContext = null; // {q, topic} — current question context
 let _chatPending = false;
 
+// ── NORA TTS ──────────────────────────────────────────────────────
+let _ttsEnabled = true;
+let _ttsVoice = null;
+
+(function _initVoices() {
+  if (!window.speechSynthesis) return;
+  const pick = () => {
+    const vs = window.speechSynthesis.getVoices();
+    _ttsVoice = vs.find(v => /Samantha|Victoria|Karen|Susan|Zira/i.test(v.name))
+             || vs.find(v => v.lang.startsWith('en') && /female/i.test(v.name))
+             || vs.find(v => v.lang.startsWith('en-'))
+             || null;
+  };
+  pick();
+  window.speechSynthesis.onvoiceschanged = pick;
+})();
+
+function noraSpeakText(text) {
+  if (!_ttsEnabled || !window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const clean = text.replace(/[*_#`~]/g, '').replace(/\n+/g, ' ').trim();
+  const utt = new SpeechSynthesisUtterance(clean);
+  utt.rate = 1.0;
+  utt.pitch = 1.15;
+  if (_ttsVoice) utt.voice = _ttsVoice;
+  window.speechSynthesis.speak(utt);
+}
+
+function toggleTTS() {
+  _ttsEnabled = !_ttsEnabled;
+  if (!_ttsEnabled && window.speechSynthesis) window.speechSynthesis.cancel();
+  document.getElementById('chat-tts-btn').textContent = _ttsEnabled ? '🔊' : '🔇';
+}
+
 function openChatPanel(context) {
   _chatContext = context || { q: '', topic: 'Disease Detectives' };
   _chatHistory = [];
@@ -3742,15 +3788,16 @@ function openChatPanel(context) {
 function closeChatPanel() {
   document.getElementById('chat-panel').style.display = 'none';
   document.getElementById('chat-overlay').style.display = 'none';
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
 }
 
 function _appendChatMsg(role, text) {
   const isUser = role === 'user';
   const el = document.createElement('div');
-  el.style.cssText = `display:flex;justify-content:${isUser ? 'flex-end' : 'flex-start'}`;
+  el.style.cssText = `display:flex;justify-content:${isUser ? 'flex-end' : 'flex-start'};align-items:flex-end;gap:6px`;
   const bubble = document.createElement('div');
   bubble.style.cssText = [
-    'max-width:85%',
+    'max-width:82%',
     'padding:10px 14px',
     `border-radius:${isUser ? '16px 16px 4px 16px' : '4px 16px 16px 16px'}`,
     `background:${isUser ? '#f5a623' : '#16213e'}`,
@@ -3761,6 +3808,15 @@ function _appendChatMsg(role, text) {
   ].join(';');
   bubble.innerHTML = text.replace(/\n/g, '<br>');
   el.appendChild(bubble);
+  // Replay speaker button on Nora messages
+  if (!isUser) {
+    const spk = document.createElement('button');
+    spk.textContent = '🔊';
+    spk.title = 'Replay';
+    spk.style.cssText = 'background:none;border:none;font-size:1rem;cursor:pointer;padding:2px;opacity:0.5;flex-shrink:0;align-self:flex-end';
+    spk.onclick = () => noraSpeakText(bubble.textContent);
+    el.appendChild(spk);
+  }
   document.getElementById('chat-messages').appendChild(el);
   el.scrollIntoView({ behavior: 'smooth', block: 'end' });
   return bubble;
@@ -3786,6 +3842,7 @@ async function _callChatAPI(userText, hiddenFromUser) {
     const reply = data.reply || 'Sorry, I had trouble responding. Please try again!';
     _chatHistory.push({ role: 'assistant', content: reply });
     typingBubble.innerHTML = reply.replace(/\n/g, '<br>');
+    noraSpeakText(reply);
   } catch {
     typingBubble.textContent = 'No internet connection. Please check your connection and try again.';
   }
@@ -3814,8 +3871,12 @@ function sendChat() {
   <div style="display:flex;justify-content:space-between;align-items:center;
               padding:16px 16px 10px;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,0.08)">
     <div style="font-weight:800;font-size:1rem;color:#f5a623">🦠 Ask Nora the Norovirus</div>
-    <button onclick="closeChatPanel()"
-      style="background:none;border:none;color:#aaa;font-size:1.5rem;cursor:pointer;padding:4px 8px;line-height:1">✕</button>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button id="chat-tts-btn" onclick="toggleTTS()" title="Toggle Nora's voice"
+        style="background:none;border:none;font-size:1.3rem;cursor:pointer;padding:4px;line-height:1">🔊</button>
+      <button onclick="closeChatPanel()"
+        style="background:none;border:none;color:#aaa;font-size:1.5rem;cursor:pointer;padding:4px 8px;line-height:1">✕</button>
+    </div>
   </div>
   <!-- Question context pill -->
   <div style="padding:8px 14px;flex-shrink:0">
