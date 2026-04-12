@@ -3741,7 +3741,6 @@ const SPEAK_API_URL = 'https://olympiad-api-theta.vercel.app/api/speak';
 let _ttsEnabled = true;
 let _noraAudio = null;       // currently playing Audio instance
 let _ttsAbortCtrl = null;    // AbortController for the in-flight TTS fetch
-let _ttsPanelOpen = false;   // guard: don't play if panel is already closed
 
 async function noraSpeakText(text) {
   if (!_ttsEnabled) return;
@@ -3759,9 +3758,9 @@ async function noraSpeakText(text) {
       body: JSON.stringify({ text: clean }),
       signal: ctrl.signal
     });
-    if (!res.ok || ctrl.signal.aborted || !_ttsPanelOpen) return;
+    if (!res.ok) return;
     const blob = await res.blob();
-    if (ctrl.signal.aborted || !_ttsPanelOpen) return;
+    if (ctrl.signal.aborted) return;
     const url = URL.createObjectURL(blob);
     _noraAudio = new Audio(url);
     _noraAudio.play();
@@ -3786,7 +3785,6 @@ function openChatPanel(context) {
   _chatContext = context || { q: '', topic: 'Disease Detectives' };
   _chatHistory = [];
   _chatPending = false;
-  _ttsPanelOpen = true;
   const qText = _chatContext.q || '';
   document.getElementById('chat-context-text').textContent =
     qText.length > 90 ? qText.slice(0, 90) + '…' : qText || 'Current question';
@@ -3799,7 +3797,6 @@ function openChatPanel(context) {
 }
 
 function closeChatPanel() {
-  _ttsPanelOpen = false;
   if (_ttsAbortCtrl) { _ttsAbortCtrl.abort(); _ttsAbortCtrl = null; }
   if (_noraAudio)    { _noraAudio.pause(); _noraAudio = null; }
   document.getElementById('chat-panel').style.display = 'none';
