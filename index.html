@@ -3726,7 +3726,10 @@ if (!load('dd_name', null)) {
 }
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js?v28');
+  navigator.serviceWorker.register('./sw.js').then(() => {
+    // Auto-reload when a new service worker takes control so users always get the latest version
+    navigator.serviceWorker.addEventListener('controllerchange', () => window.location.reload());
+  });
 }
 
 // ── ASK CLAUDE CHAT PANEL ──────────────────────────────────────────
@@ -3942,7 +3945,7 @@ function sendChat() {
 </div>
 
 <div style="text-align:center;padding:18px 0 28px;color:rgba(255,255,255,0.2);font-size:0.7rem;letter-spacing:0.05em">
-  v27
+  v28
 </div>
 
 </body>
