@@ -366,69 +366,12 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 
   <button class="change-name-btn" onclick="showScreen('onboard')">Not you? Change name</button>
 
-  <div class="free-practice-label">— Free Practice —</div>
-  <div class="mode-grid">
-    <button class="mode-btn-sm" style="background:#0f3460" onclick="showScreen('flashcards')">
+  <div class="mode-grid" style="margin-top:8px">
+    <button class="mode-btn-sm" style="background:#0f3460;grid-column:span 2" onclick="showScreen('flashcards')">
       <span class="mode-icon-sm">📚</span>
       <div class="mode-info-sm">
         <div class="mode-label-sm">Flashcards</div>
         <div class="mode-desc-sm">97 terms · write & reveal</div>
-      </div>
-    </button>
-    <button class="mode-btn-sm" style="background:#e94560" onclick="showScreen('scenarios')">
-      <span class="mode-icon-sm">🕵️</span>
-      <div class="mode-info-sm">
-        <div class="mode-label-sm">Scenarios</div>
-        <div class="mode-desc-sm">8 mysteries</div>
-      </div>
-    </button>
-    <button class="mode-btn-sm" style="background:#1a6b4a" onclick="showScreen('math')">
-      <span class="mode-icon-sm">🧮</span>
-      <div class="mode-info-sm">
-        <div class="mode-label-sm">Attack Rate</div>
-        <div class="mode-desc-sm">8 problems</div>
-      </div>
-    </button>
-    <button class="mode-btn-sm" style="background:#581c87" onclick="showScreen('table2x2')">
-      <span class="mode-icon-sm">📊</span>
-      <div class="mode-info-sm">
-        <div class="mode-label-sm">2×2 Tables</div>
-        <div class="mode-desc-sm">6 tables</div>
-      </div>
-    </button>
-    <button class="mode-btn-sm" style="background:#0e7490" onclick="showScreen('epichart')">
-      <span class="mode-icon-sm">📈</span>
-      <div class="mode-info-sm">
-        <div class="mode-label-sm">Epi Curves</div>
-        <div class="mode-desc-sm">5 outbreak graphs</div>
-      </div>
-    </button>
-    <button class="mode-btn-sm" style="background:#b45309" onclick="showScreen('statsmath')">
-      <span class="mode-icon-sm">🔢</span>
-      <div class="mode-info-sm">
-        <div class="mode-label-sm">Stats Math</div>
-        <div class="mode-desc-sm">Mean · Median · Mode</div>
-      </div>
-    </button>
-    <button class="mode-btn-sm" style="background:#92400e" onclick="showScreen('truefalse')">
-      <span class="mode-icon-sm">✅</span>
-      <div class="mode-info-sm">
-        <div class="mode-label-sm">True / False</div>
-        <div class="mode-desc-sm">27 statements</div>
-      </div>
-    </button>
-    <button class="mode-btn-sm" style="background:#312e81" onclick="showScreen('matching')">
-      <span class="mode-icon-sm">🔗</span>
-      <div class="mode-info-sm">
-        <div class="mode-label-sm">Matching</div>
-        <div class="mode-desc-sm">21 rounds</div>
-      </div>
-    </button>
-    <button class="mode-btn-sm" style="background:#1e3a5f;grid-column:span 2" onclick="showScreen('written')">
-      <span class="mode-icon-sm">✏️</span>
-      <div class="mode-info-sm">
-        <div class="mode-label-sm">Written Questions</div>
-        <div class="mode-desc-sm">11 deep questions · reveal model answers</div>
       </div>
     </button>
     <button class="mode-btn-sm" style="background:#0f4c2a;grid-column:span 2" onclick="showScreen('mocktest')">
@@ -531,6 +474,50 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <button class="sess-check-btn" id="sess-stats-check" onclick="checkSessStats()">Check Answer ✓</button>
     <div class="sess-feedback" id="sess-stats-feedback"></div>
     <button class="sess-next-btn" id="sess-stats-next" onclick="advanceSessQuestion(_sessLastCorrect)">Next →</button>
+  </div>
+
+  <!-- 2x2 Table sub-section -->
+  <div class="sess-section" id="sess-t2">
+    <span class="sess-type-label">2×2 TABLE</span>
+    <div id="sess-t2-story" class="scenario-story" style="margin-bottom:12px"></div>
+    <div id="sess-t2-table-wrap" style="margin-bottom:14px"></div>
+    <div class="question-text" id="sess-t2-question"></div>
+    <div class="choices" id="sess-t2-choices" style="display:none"></div>
+    <div class="t2-input-wrap" id="sess-t2-input-wrap" style="display:none">
+      <input class="sess-num-input" id="sess-t2-input" type="number" min="0" max="100" placeholder="?">
+      <span class="pct-label">%</span>
+    </div>
+    <button class="sess-check-btn" id="sess-t2-check" onclick="checkSessT2()" style="display:none">Check Answer ✓</button>
+    <div class="sess-feedback" id="sess-t2-feedback"></div>
+    <button class="sess-next-btn" id="sess-t2-next" onclick="advanceSessQuestion(_sessLastCorrect)">Next →</button>
+  </div>
+
+  <!-- Epi Curve sub-section -->
+  <div class="sess-section" id="sess-ec">
+    <span class="sess-type-label">EPI CURVE</span>
+    <div id="sess-ec-story" class="scenario-story" style="margin-bottom:12px"></div>
+    <div id="sess-ec-chart" style="margin-bottom:14px"></div>
+    <div class="question-text" id="sess-ec-question"></div>
+    <div class="choices" id="sess-ec-choices"></div>
+    <div class="sess-feedback" id="sess-ec-feedback"></div>
+    <button class="sess-next-btn" id="sess-ec-next" onclick="advanceSessQuestion(_sessLastCorrect)">Next →</button>
+  </div>
+
+  <!-- Written Response sub-section -->
+  <div class="sess-section" id="sess-written">
+    <span class="sess-type-label">WRITTEN RESPONSE</span>
+    <div class="question-text" id="sess-written-question"></div>
+    <button class="sess-reveal-btn" id="sess-written-hint-btn" onclick="toggleSessWrittenHint()" style="margin-bottom:8px">Show Hint 💡</button>
+    <div class="sess-def-box" id="sess-written-hint"></div>
+    <button class="sess-reveal-btn" id="sess-written-reveal-btn" onclick="revealSessWritten()">Reveal Model Answer 👁</button>
+    <div class="sess-def-box" id="sess-written-answer"></div>
+    <div class="sess-grade-wrap" id="sess-written-grade">
+      <div class="sess-grade-label">How did you do?</div>
+      <div class="sess-grade-btns">
+        <button class="sess-grade-got" onclick="gradeSessWritten(true)">✅ Got it</button>
+        <button class="sess-grade-miss" onclick="gradeSessWritten(false)">❌ Missed it</button>
+      </div>
+    </div>
   </div>
 
   <!-- Done sub-section -->
@@ -1906,8 +1893,8 @@ function renderPerfBreakdown(sessPerf, cumPerf) {
 function buildTodayPool() {
   const cumPerf = load('dd_perf', {});
 
-  // Base allocations (total = 15)
-  const alloc = {vocab:3, tf:2, match:2, sc:2, math:3, stats:3};
+  // Base allocations (total = 15, all 9 question types included)
+  const alloc = {vocab:3, tf:2, match:2, sc:1, math:2, stats:2, t2:1, ec:1, written:1};
 
   // Detect weak concepts (below 60% with enough data) sorted weakest first
   const weakConcepts = PERF_TYPES
@@ -1946,6 +1933,9 @@ function buildTodayPool() {
   const vocabIdxs = VOCAB.map((_,i) => i);
   const tfIdxs    = TF_DATA.map((_,i) => i);
   const matchIdxs = MATCH_DATA.map((_,i) => i);
+  const t2Idxs    = TABLE_DATA.map((_,i) => i);
+  const ecIdxs    = EPI_CHARTS.map((_,i) => i);
+  const writIdxs  = WRITTEN_DATA.map((_,i) => i);
   const scRefs    = [];
   SCENARIOS.forEach((sc,si) => sc.questions.forEach((_,qi) => scRefs.push({si,qi})));
 
@@ -1955,6 +1945,17 @@ function buildTodayPool() {
   for (let i = 0; i < alloc.sc;    i++) { const r = drawBag('sc', scRefs); pool.push({type:'sc', idx:r.si, qIdx:r.qi}); }
   for (let i = 0; i < alloc.math;  i++) pool.push({type:'math',  gen: genMath()});
   for (let i = 0; i < alloc.stats; i++) pool.push({type:'stats', gen: genStats()});
+  for (let i = 0; i < alloc.t2; i++) {
+    const idx = drawBag('sess_t2', t2Idxs);
+    const qi = Math.floor(Math.random() * TABLE_DATA[idx].questions.length);
+    pool.push({type:'t2', idx, qIdx:qi});
+  }
+  for (let i = 0; i < alloc.ec; i++) {
+    const idx = drawBag('sess_ec', ecIdxs);
+    const qi = Math.floor(Math.random() * EPI_CHARTS[idx].questions.length);
+    pool.push({type:'ec', idx, qIdx:qi});
+  }
+  for (let i = 0; i < alloc.written; i++) pool.push({type:'written', idx: drawBag('sess_written', writIdxs)});
 
   return shuffle(pool);
 }
@@ -2001,12 +2002,15 @@ function runSession() {
 
   const q = todayQs[pos];
   if (!q) { completeTodaySession(); return; }
-  if (q.type === 'vocab')  loadSessVocab(q);
-  else if (q.type === 'tf')    loadSessTF(q);
-  else if (q.type === 'match') loadSessMatch(q);
-  else if (q.type === 'sc')    loadSessSc(q);
-  else if (q.type === 'math')  loadSessMath(q);
-  else if (q.type === 'stats') loadSessStats(q);
+  if (q.type === 'vocab')       loadSessVocab(q);
+  else if (q.type === 'tf')     loadSessTF(q);
+  else if (q.type === 'match')  loadSessMatch(q);
+  else if (q.type === 'sc')     loadSessSc(q);
+  else if (q.type === 'math')   loadSessMath(q);
+  else if (q.type === 'stats')  loadSessStats(q);
+  else if (q.type === 't2')     loadSessT2(q);
+  else if (q.type === 'ec')     loadSessEc(q);
+  else if (q.type === 'written')loadSessWritten(q);
 
   window.scrollTo(0, 0);
 }
@@ -2229,9 +2233,153 @@ function checkSessStats() {
   document.getElementById('sess-stats-next').className = 'sess-next-btn show';
 }
 
+function loadSessT2(q) {
+  const d = TABLE_DATA[q.idx];
+  const qData = d.questions[q.qIdx];
+  document.getElementById('sess-t2-story').innerHTML =
+    `<div class="scenario-emoji">${d.emoji}</div><div class="scenario-name">${d.title}</div>${d.scenario}`;
+  document.getElementById('sess-t2-table-wrap').innerHTML =
+    d.type === 'full' ? renderFullTable(d) : (d.type === 'linelist' ? renderLineList(d) : render2x2Table(d));
+  document.getElementById('sess-t2-question').textContent = qData.q;
+  document.getElementById('sess-t2-feedback').className = 'sess-feedback';
+  document.getElementById('sess-t2-feedback').textContent = '';
+  document.getElementById('sess-t2-next').className = 'sess-next-btn';
+  const choicesWrap = document.getElementById('sess-t2-choices');
+  const inputWrap   = document.getElementById('sess-t2-input-wrap');
+  const checkBtn    = document.getElementById('sess-t2-check');
+  if (qData.type === 'choice') {
+    inputWrap.style.display = 'none';
+    checkBtn.style.display = 'none';
+    choicesWrap.style.display = '';
+    choicesWrap.innerHTML = '';
+    qData.choices.forEach((c, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      btn.textContent = c;
+      btn.onclick = () => sessSolveT2Choice(i, btn, qData);
+      choicesWrap.appendChild(btn);
+    });
+  } else {
+    choicesWrap.style.display = 'none';
+    inputWrap.style.display = 'flex';
+    checkBtn.style.display = 'block';
+    document.getElementById('sess-t2-input').value = '';
+    document.getElementById('sess-t2-input').disabled = false;
+    checkBtn.disabled = false;
+  }
+  document.getElementById('sess-t2').classList.add('active');
+}
+
+function sessSolveT2Choice(idx, btn, qData) {
+  const correct = idx === qData.correct;
+  _sessLastCorrect = correct;
+  document.querySelectorAll('#sess-t2-choices .choice-btn').forEach((b, i) => {
+    b.onclick = null;
+    if (i === qData.correct) b.classList.add('correct');
+    else if (i === idx && !correct) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('sess-t2-feedback');
+  fb.textContent = (correct ? '✅ ' : '❌ ') + qData.explain;
+  fb.className = 'sess-feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('sess-t2-next').className = 'sess-next-btn show';
+}
+
+function checkSessT2() {
+  const pos     = load('dd_today_pos', 0);
+  const todayQs = load('dd_today_qs', []);
+  const q       = todayQs[pos];
+  const qData   = TABLE_DATA[q.idx].questions[q.qIdx];
+  const userVal = parseInt(document.getElementById('sess-t2-input').value, 10);
+  if (isNaN(userVal)) { alert('Enter a number!'); return; }
+  const correct = Math.abs(userVal - qData.answer) <= 1;
+  _sessLastCorrect = correct;
+  document.getElementById('sess-t2-input').disabled = true;
+  document.getElementById('sess-t2-check').disabled = true;
+  const fb = document.getElementById('sess-t2-feedback');
+  fb.textContent = (correct ? '✅ Correct! ' : `❌ Answer: ${qData.answer}%. `) + qData.explain;
+  fb.className = 'sess-feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('sess-t2-next').className = 'sess-next-btn show';
+}
+
+function loadSessEc(q) {
+  const d = EPI_CHARTS[q.idx];
+  const qData = d.questions[q.qIdx];
+  document.getElementById('sess-ec-story').innerHTML =
+    `<div class="scenario-emoji">${d.emoji}</div><div class="scenario-name">${d.title}</div>${d.scenario}`;
+  document.getElementById('sess-ec-chart').innerHTML = renderEpiChart(d);
+  document.getElementById('sess-ec-question').textContent = `Q${q.qIdx + 1}: ${qData.q}`;
+  document.getElementById('sess-ec-feedback').className = 'sess-feedback';
+  document.getElementById('sess-ec-feedback').textContent = '';
+  document.getElementById('sess-ec-next').className = 'sess-next-btn';
+  const choicesEl = document.getElementById('sess-ec-choices');
+  choicesEl.innerHTML = '';
+  qData.choices.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c;
+    btn.onclick = () => sessSolveEc(i, btn, qData);
+    choicesEl.appendChild(btn);
+  });
+  document.getElementById('sess-ec').classList.add('active');
+}
+
+function sessSolveEc(idx, btn, qData) {
+  const correct = idx === qData.correct;
+  _sessLastCorrect = correct;
+  document.querySelectorAll('#sess-ec-choices .choice-btn').forEach((b, i) => {
+    b.onclick = null;
+    if (i === qData.correct) b.classList.add('correct');
+    else if (i === idx && !correct) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('sess-ec-feedback');
+  fb.textContent = (correct ? '✅ ' : '❌ ') + qData.explain;
+  fb.className = 'sess-feedback show ' + (correct ? 'correct' : 'wrong');
+  document.getElementById('sess-ec-next').className = 'sess-next-btn show';
+}
+
+function loadSessWritten(q) {
+  const w = WRITTEN_DATA[q.idx];
+  document.getElementById('sess-written-question').textContent = w.q;
+  const hintEl = document.getElementById('sess-written-hint');
+  hintEl.textContent = w.hint || '';
+  hintEl.className = 'sess-def-box';
+  document.getElementById('sess-written-hint-btn').textContent = 'Show Hint 💡';
+  const answerEl = document.getElementById('sess-written-answer');
+  answerEl.textContent = w.ans || '';
+  answerEl.className = 'sess-def-box';
+  document.getElementById('sess-written-reveal-btn').style.display = 'block';
+  document.getElementById('sess-written-grade').className = 'sess-grade-wrap';
+  document.getElementById('sess-written').classList.add('active');
+}
+
+function toggleSessWrittenHint() {
+  const el  = document.getElementById('sess-written-hint');
+  const btn = document.getElementById('sess-written-hint-btn');
+  if (el.classList.contains('show')) {
+    el.classList.remove('show');
+    btn.textContent = 'Show Hint 💡';
+  } else {
+    el.classList.add('show');
+    btn.textContent = 'Hide Hint';
+  }
+}
+
+function revealSessWritten() {
+  document.getElementById('sess-written-reveal-btn').style.display = 'none';
+  document.getElementById('sess-written-answer').className = 'sess-def-box show';
+  document.getElementById('sess-written-grade').className = 'sess-grade-wrap show';
+}
+
+function gradeSessWritten(gotIt) {
+  advanceSessQuestion(gotIt);
+}
+
 function getQConcept(q) {
-  if (q.type === 'math')  return 'epi_calc';
-  if (q.type === 'stats') return 'stats';
+  if (q.type === 'math')    return 'epi_calc';
+  if (q.type === 'stats')   return 'stats';
+  if (q.type === 't2')      return 'epi_calc';
+  if (q.type === 'ec')      return 'investigation';
+  if (q.type === 'written') return 'epi_terms';
   if (q.type === 'sc')    return (SCENARIOS[q.idx] && SCENARIOS[q.idx].concept) || 'investigation';
   if (q.type === 'vocab') return (VOCAB[q.idx] && VOCAB[q.idx].c) || 'epi_terms';
   if (q.type === 'tf')    return (TF_DATA[q.idx] && TF_DATA[q.idx].c) || 'epi_terms';
