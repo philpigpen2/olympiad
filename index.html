@@ -3743,18 +3743,16 @@ let _noraAudio = null;       // currently playing Audio instance
 let _ttsAbortCtrl = null;    // AbortController for the in-flight TTS fetch
 let _audioUnlocked = false;  // iOS/Android require a sync user-gesture play before async plays work
 
-// Call synchronously inside any user gesture to satisfy browser autoplay policy
+// Minimal silent WAV (44-byte RIFF header, 0 samples) — unlocks HTMLAudioElement on iOS/Android
+const _SILENT_WAV = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
+
+// Call synchronously inside any user gesture to satisfy browser autoplay policy for new Audio()
 function _unlockAudio() {
   if (_audioUnlocked) return;
   _audioUnlocked = true;
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const buf = ctx.createBuffer(1, 1, 22050);
-    const src = ctx.createBufferSource();
-    src.buffer = buf;
-    src.connect(ctx.destination);
-    src.start(0);
-    ctx.resume().then(() => ctx.close());
+    const sil = new Audio(_SILENT_WAV);
+    sil.play().catch(() => {});
   } catch(e) {}
 }
 
@@ -3779,7 +3777,7 @@ async function noraSpeakText(text) {
     if (ctrl.signal.aborted) return;
     const url = URL.createObjectURL(blob);
     _noraAudio = new Audio(url);
-    _noraAudio.play();
+    _noraAudio.play().catch(err => console.warn('Nora autoplay blocked:', err));
     _noraAudio.onended = () => { URL.revokeObjectURL(url); _noraAudio = null; };
   } catch (err) {
     if (err.name !== 'AbortError') console.warn('Nora TTS error:', err);
