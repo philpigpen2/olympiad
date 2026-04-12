@@ -437,7 +437,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
   <div class="sess-section" id="sess-sc">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
       <span class="sess-type-label" style="margin-bottom:0">SCENARIO</span>
-      <button onclick="openChatPanel(_chatContext)" style="background:none;border:1px solid #4ecca3;color:#4ecca3;border-radius:14px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer">💬 Ask Claude</button>
+      <button onclick="openChatPanel(_chatContext)" style="background:none;border:1px solid #4ecca3;color:#4ecca3;border-radius:14px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer">💬 Learn about this</button>
     </div>
     <div id="sess-sc-story" class="scenario-story" style="margin-bottom:14px"></div>
     <div class="question-text" id="sess-sc-question"></div>
@@ -499,7 +499,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
   <div class="sess-section" id="sess-ec">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
       <span class="sess-type-label" style="margin-bottom:0">EPI CURVE</span>
-      <button onclick="openChatPanel(_chatContext)" style="background:none;border:1px solid #4ecca3;color:#4ecca3;border-radius:14px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer">💬 Ask Claude</button>
+      <button onclick="openChatPanel(_chatContext)" style="background:none;border:1px solid #4ecca3;color:#4ecca3;border-radius:14px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer">💬 Learn about this</button>
     </div>
     <div id="sess-ec-story" class="scenario-story" style="margin-bottom:12px"></div>
     <div id="sess-ec-chart" style="margin-bottom:14px"></div>
@@ -879,7 +879,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
       <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#f5a623" id="mock-topic-label">VOCABULARY</div>
-      <button id="mock-study-btn" onclick="openChatPanel({q:_mockPool[_mockIdx]?.q||'',topic:TOPIC_LABELS[_mockPool[_mockIdx]?.topic]||'Disease Detectives'})" style="background:none;border:1px solid #4ecca3;color:#4ecca3;border-radius:14px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer;white-space:nowrap">💬 Ask Claude</button>
+      <button id="mock-study-btn" onclick="openChatPanel({q:_mockPool[_mockIdx]?.q||'',topic:TOPIC_LABELS[_mockPool[_mockIdx]?.topic]||'Disease Detectives'})" style="background:none;border:1px solid #4ecca3;color:#4ecca3;border-radius:14px;padding:4px 10px;font-size:0.72rem;font-weight:700;cursor:pointer;white-space:nowrap">💬 Learn about this</button>
     </div>
     <div class="scenario-story" id="mock-question" style="font-size:1rem;font-weight:600;line-height:1.6;border-left-color:#f5a623"></div>
     <div class="choices" id="mock-choices"></div>
@@ -3787,7 +3787,7 @@ function sendChat() {
 }
 </script>
 
-<!-- Ask Claude Chat Panel -->
+<!-- Learn About This Chat Panel -->
 <div id="chat-overlay" onclick="closeChatPanel()"
   style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9998"></div>
 <div id="chat-panel"
@@ -3797,7 +3797,7 @@ function sendChat() {
   <!-- Header -->
   <div style="display:flex;justify-content:space-between;align-items:center;
               padding:16px 16px 10px;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,0.08)">
-    <div style="font-weight:800;font-size:1rem;color:#f5a623">💬 Ask Claude</div>
+    <div style="font-weight:800;font-size:1rem;color:#f5a623">💬 Learn about this</div>
     <button onclick="closeChatPanel()"
       style="background:none;border:none;color:#aaa;font-size:1.5rem;cursor:pointer;padding:4px 8px;line-height:1">✕</button>
   </div>
