@@ -3739,84 +3739,46 @@ let _chatHistory = [];   // [{role:'user'|'assistant', content:string}]
 let _chatContext = null; // {q, topic} — current question context
 let _chatPending = false;
 
-// ── NORA TTS (ElevenLabs via Vercel proxy) ────────────────────────
-const SPEAK_API_URL = 'https://olympiad-api-theta.vercel.app/api/speak';
+// ── NORA TTS (Web Speech API) ────────────────────────────────────────
 let _ttsEnabled = true;
-let _noraSource  = null;     // currently playing AudioBufferSourceNode
-let _audioCtx    = null;     // shared AudioContext (created once on first gesture)
-let _audioUnlocked = false;  // true once AudioContext has been resumed in a gesture
-let _ttsAbortCtrl = null;    // AbortController for the in-flight TTS fetch
+let _speechUnlocked = false;
 
-// Call synchronously inside any user gesture — resumes AudioContext so source.start()
-// works from async callbacks for the rest of the page's lifetime (iOS-safe).
-function _unlockAudio() {
-  if (_audioUnlocked) return;
-  try {
-    if (!_audioCtx) {
-      _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    _audioCtx.resume().then(() => {
-      // 1-sample silent buffer: iOS 13/14 rejects zero-length buffers
-      const buf = _audioCtx.createBuffer(1, 1, 22050);
-      const src = _audioCtx.createBufferSource();
-      src.buffer = buf;
-      src.connect(_audioCtx.destination);
-      src.start(0);
-      _audioUnlocked = true;
-    }).catch(() => {});
-  } catch(e) {}
+// Call synchronously inside a user gesture to unlock speech synthesis on iOS.
+// iOS blocks the first speechSynthesis.speak() unless it's in a gesture handler.
+// Queuing a near-silent utterance here primes the pipeline for async calls later.
+function _unlockSpeech() {
+  if (_speechUnlocked || !window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(' ');
+  u.volume = 0.001;
+  window.speechSynthesis.speak(u);
+  _speechUnlocked = true;
 }
 
-async function noraSpeakText(text) {
-  if (!_ttsEnabled) return;
-  if (_ttsAbortCtrl) { _ttsAbortCtrl.abort(); _ttsAbortCtrl = null; }
-  if (_noraSource)   { try { _noraSource.stop(); } catch(e) {} _noraSource = null; }
+function noraSpeakText(text) {
+  if (!_ttsEnabled || !window.speechSynthesis) return;
   const clean = text.replace(/[*_#`~]/g, '').replace(/\n+/g, ' ').trim();
   if (!clean) return;
-  if (!_audioCtx) {
-    _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-  const ctrl = new AbortController();
-  _ttsAbortCtrl = ctrl;
-  try {
-    const res = await fetch(SPEAK_API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: clean }),
-      signal: ctrl.signal
-    });
-    if (!res.ok) return;
-    const arrayBuf = await res.arrayBuffer();
-    if (ctrl.signal.aborted) return;
-    _audioCtx.decodeAudioData(arrayBuf, (audioBuffer) => {
-      if (ctrl.signal.aborted) return;
-      const src = _audioCtx.createBufferSource();
-      src.buffer = audioBuffer;
-      src.connect(_audioCtx.destination);
-      src.onended = () => { if (_noraSource === src) _noraSource = null; };
-      src.start(0);
-      _noraSource = src;
-    }, (err) => {
-      console.warn('Nora TTS decode error:', err);
-    });
-  } catch (err) {
-    if (err.name !== 'AbortError') console.warn('Nora TTS error:', err);
-  } finally {
-    if (_ttsAbortCtrl === ctrl) _ttsAbortCtrl = null;
-  }
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(clean);
+  utt.rate = 1.05;
+  utt.pitch = 1.15;
+  const voices = window.speechSynthesis.getVoices();
+  const preferred = ['Samantha', 'Victoria', 'Karen', 'Moira', 'Tessa'];
+  const picked = preferred.reduce((fn, n) => fn || voices.find(v => v.name.includes(n)), null)
+    || voices.find(v => /^en[-_]/.test(v.lang)) || null;
+  if (picked) utt.voice = picked;
+  window.speechSynthesis.speak(utt);
 }
 
 function toggleTTS() {
   _ttsEnabled = !_ttsEnabled;
-  if (!_ttsEnabled) {
-    if (_ttsAbortCtrl) { _ttsAbortCtrl.abort(); _ttsAbortCtrl = null; }
-    if (_noraSource)   { try { _noraSource.stop(); } catch(e) {} _noraSource = null; }
-  }
+  if (!_ttsEnabled && window.speechSynthesis) window.speechSynthesis.cancel();
   document.getElementById('chat-tts-btn').textContent = _ttsEnabled ? '🔊' : '🔇';
 }
 
 function openChatPanel(context) {
-  _unlockAudio(); // must run synchronously inside this tap gesture
+  _unlockSpeech(); // must run synchronously inside this tap gesture
   _chatContext = context || { q: '', topic: 'Disease Detectives' };
   _chatHistory = [];
   _chatPending = false;
@@ -3832,8 +3794,7 @@ function openChatPanel(context) {
 }
 
 function closeChatPanel() {
-  if (_ttsAbortCtrl) { _ttsAbortCtrl.abort(); _ttsAbortCtrl = null; }
-  if (_noraSource)   { try { _noraSource.stop(); } catch(e) {} _noraSource = null; }
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
   document.getElementById('chat-panel').style.display = 'none';
   document.getElementById('chat-overlay').style.display = 'none';
 }
@@ -3873,7 +3834,7 @@ function _appendChatMsg(role, text) {
       'align-self:flex-end',
       'line-height:1'
     ].join(';');
-    spk.onclick = () => { _unlockAudio(); noraSpeakText(bubble.textContent); };
+    spk.onclick = () => { _unlockSpeech(); noraSpeakText(bubble.textContent); };
     el.appendChild(spk);
   }
   document.getElementById('chat-messages').appendChild(el);
@@ -3962,7 +3923,7 @@ function sendChat() {
 </div>
 
 <div style="text-align:center;padding:18px 0 28px;color:rgba(255,255,255,0.2);font-size:0.7rem;letter-spacing:0.05em">
-  v29
+  v30
 </div>
 
 </body>
