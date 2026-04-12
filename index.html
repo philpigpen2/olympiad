@@ -3736,40 +3736,37 @@ let _chatHistory = [];   // [{role:'user'|'assistant', content:string}]
 let _chatContext = null; // {q, topic} — current question context
 let _chatPending = false;
 
-// ── NORA TTS ──────────────────────────────────────────────────────
+// ── NORA TTS (ElevenLabs via Vercel proxy) ────────────────────────
+const SPEAK_API_URL = 'https://olympiad-api-theta.vercel.app/api/speak';
 let _ttsEnabled = true;
-let _ttsVoice = null;
+let _noraAudio = null;   // current playing Audio instance
 
-(function _initVoices() {
-  if (!window.speechSynthesis) return;
-  const pick = () => {
-    const vs = window.speechSynthesis.getVoices();
-    _ttsVoice = vs.find(v => /Samantha|Victoria|Karen|Susan|Zira/i.test(v.name))
-             || vs.find(v => v.lang.startsWith('en') && /female/i.test(v.name))
-             || vs.find(v => v.lang.startsWith('en-'))
-             || null;
-  };
-  pick();
-  window.speechSynthesis.onvoiceschanged = pick;
-})();
-
-function noraSpeakText(text) {
-  if (!_ttsEnabled || !window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  // iOS: resume if paused (can happen after page backgrounding)
-  if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+async function noraSpeakText(text) {
+  if (!_ttsEnabled) return;
+  // Stop any currently playing audio
+  if (_noraAudio) { _noraAudio.pause(); _noraAudio = null; }
   const clean = text.replace(/[*_#`~]/g, '').replace(/\n+/g, ' ').trim();
   if (!clean) return;
-  const utt = new SpeechSynthesisUtterance(clean);
-  utt.rate = 1.0;
-  utt.pitch = 1.15;
-  if (_ttsVoice) utt.voice = _ttsVoice;
-  window.speechSynthesis.speak(utt);
+  try {
+    const res = await fetch(SPEAK_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: clean })
+    });
+    if (!res.ok) return;
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    _noraAudio = new Audio(url);
+    _noraAudio.play();
+    _noraAudio.onended = () => URL.revokeObjectURL(url);
+  } catch (err) {
+    console.warn('Nora TTS error:', err);
+  }
 }
 
 function toggleTTS() {
   _ttsEnabled = !_ttsEnabled;
-  if (!_ttsEnabled && window.speechSynthesis) window.speechSynthesis.cancel();
+  if (!_ttsEnabled && _noraAudio) { _noraAudio.pause(); _noraAudio = null; }
   document.getElementById('chat-tts-btn').textContent = _ttsEnabled ? '🔊' : '🔇';
 }
 
@@ -3784,12 +3781,6 @@ function openChatPanel(context) {
   document.getElementById('chat-input').value = '';
   document.getElementById('chat-panel').style.display = 'flex';
   document.getElementById('chat-overlay').style.display = 'block';
-  // Unlock speech synthesis on iOS — must happen synchronously inside user gesture
-  if (window.speechSynthesis && _ttsEnabled) {
-    const unlock = new SpeechSynthesisUtterance('');
-    unlock.volume = 0;
-    window.speechSynthesis.speak(unlock);
-  }
   // Auto-fire opening explanation from Claude
   _callChatAPI('Can you explain the key concept I need to understand to answer this question? Please keep it simple — I\'m in middle school.', true);
 }
@@ -3797,7 +3788,7 @@ function openChatPanel(context) {
 function closeChatPanel() {
   document.getElementById('chat-panel').style.display = 'none';
   document.getElementById('chat-overlay').style.display = 'none';
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  if (_noraAudio) { _noraAudio.pause(); _noraAudio = null; }
 }
 
 function _appendChatMsg(role, text) {
