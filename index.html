@@ -886,7 +886,12 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <div class="feedback" id="mock-feedback"></div>
     <!-- Inline SA UI (shown instead of choices for short answer questions) -->
     <div id="mock-sa-inline" style="display:none">
-      <button class="hint-btn" onclick="toggleMockHint()">💡 Show Hint</button>
+      <div style="font-size:0.8rem;color:#aaa;margin-bottom:6px">Write your answer:</div>
+      <textarea id="mock-sa-input" rows="4" placeholder="Type your answer here…"
+        style="width:100%;background:#16213e;border:1px solid rgba(255,255,255,0.15);border-radius:12px;
+               color:#eaeaea;padding:12px;font-size:0.9rem;resize:vertical;font-family:inherit;
+               box-sizing:border-box;outline:none"></textarea>
+      <button class="hint-btn" onclick="toggleMockHint()" style="margin-top:10px">💡 Show Hint</button>
       <div class="hint-box" id="mock-sa-hint" style="display:none"></div>
       <button class="reveal-btn" id="mock-sa-reveal" onclick="revealMockSA()">Reveal Model Answer 👁</button>
       <div class="answer-box" id="mock-sa-answer" style="display:none"></div>
@@ -3560,6 +3565,8 @@ function loadMockQuestion() {
     document.getElementById('mock-choices').innerHTML = '';
     document.getElementById('mock-choices').style.display = 'none';
     document.getElementById('mock-sa-inline').style.display = 'block';
+    document.getElementById('mock-sa-input').value = '';
+    document.getElementById('mock-sa-input').disabled = false;
     document.getElementById('mock-sa-hint').style.display = 'none';
     document.getElementById('mock-sa-hint').textContent = q.hint || '';
     document.getElementById('mock-sa-reveal').style.display = 'block';
@@ -3622,6 +3629,7 @@ function toggleMockHint() {
 
 function revealMockSA() {
   _mockSARevealed = true;
+  document.getElementById('mock-sa-input').disabled = true;
   document.getElementById('mock-sa-reveal').style.display = 'none';
   document.getElementById('mock-sa-answer').style.display = 'block';
   document.getElementById('mock-sa-grade').style.display = 'flex';
