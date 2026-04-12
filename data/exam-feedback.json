@@ -1,0 +1,394 @@
+{
+  "meta": {
+    "description": "Transcribed post-competition feedback from Disease Detectives events (Cobb County Regional 2011-2024, State of Georgia 2019/2022/2024)",
+    "images_source": "IMG_5113-IMG_5134 + IMG_5xxx (27 images total)",
+    "last_updated": "2026-04-12",
+    "purpose": "Source of truth for exam topic coverage, used to build Sigma Sleuth mock test questions"
+  },
+  "exam_formats": {
+    "regional_cobb": {
+      "description": "Cobb County Regional Meet",
+      "question_count": "25-40 questions",
+      "format": "Primarily multiple choice + matching/word bank. Some years include 2x2 tables, calculation questions, reading comprehension scenarios.",
+      "time": "~30 minutes",
+      "years_sampled": [2011, 2012, 2014, 2015, 2018, 2019, 2022, 2023, 2024]
+    },
+    "state_georgia": {
+      "description": "State of Georgia Meet",
+      "question_count": "60 multiple choice + 16 short answer (3 pts each)",
+      "format": "Paper test with separate question packet and answer sheet. More complex scenarios, odds ratio, chronic disease, graph interpretation.",
+      "time": "~50 minutes",
+      "years_sampled": [2019, 2022, 2024]
+    }
+  },
+  "confirmed_exam_topics": [
+    {
+      "topic": "Vocabulary / word bank matching",
+      "frequency": "every_year",
+      "level": "both",
+      "notes": "Word bank format common at regional; pure definition matching at state"
+    },
+    {
+      "topic": "Pathogen-to-disease matching (Salmonella, E.coli, Campylobacter, Strep)",
+      "frequency": "every_year",
+      "level": "both"
+    },
+    {
+      "topic": "Attack rate / 2x2 table calculations",
+      "frequency": "every_year",
+      "level": "both"
+    },
+    {
+      "topic": "Odds ratio calculation",
+      "frequency": "confirmed_2022_state",
+      "level": "state",
+      "notes": "Multiple students flagged OR as a topic they didn't know well"
+    },
+    {
+      "topic": "BMI calculation and interpretation",
+      "frequency": "confirmed_multiple",
+      "level": "both",
+      "notes": "Appeared at regional and state levels"
+    },
+    {
+      "topic": "Epi curve interpretation (point source vs propagated)",
+      "frequency": "confirmed_multiple",
+      "level": "both",
+      "notes": "2024 feedback specifically called out propagated/progressive epi curves"
+    },
+    {
+      "topic": "Vaccine questions (MMR, when to vaccinate, schedules)",
+      "frequency": "confirmed_2022_state",
+      "level": "state",
+      "notes": "MMR vaccine specifically mentioned; vaccine graph interpretation appeared on state exam"
+    },
+    {
+      "topic": "Vitamins and minerals (zinc, calcium, vitamin D) and their role in disease",
+      "frequency": "confirmed_2011",
+      "level": "regional",
+      "notes": "Student noted this was a gap area for state prep"
+    },
+    {
+      "topic": "Cholesterol - waxy substance, saturated fat sources, heart disease risk",
+      "frequency": "confirmed_2012",
+      "level": "regional",
+      "notes": "Sabrina's 2012 sheet specifically asked 'what is that waxy substance?' - answer: cholesterol"
+    },
+    {
+      "topic": "Chronic diseases (heart disease, stroke, cancer, diabetes)",
+      "frequency": "confirmed_multiple",
+      "level": "both",
+      "notes": "Rate of incidence smoker vs non-smoker / breast cancer risk factors appeared on 2022-2024 exams"
+    },
+    {
+      "topic": "Protozoa vs bacteria vs virus vs fungi classification",
+      "frequency": "confirmed_multiple",
+      "level": "both",
+      "notes": "E. coli specifically called out in 2024 notes; general classification confirmed at state 2022"
+    },
+    {
+      "topic": "Zoonoses / vector-borne diseases",
+      "frequency": "confirmed_multiple",
+      "level": "both",
+      "notes": "Zoonosis appeared in 2019 state (Shubham noted 'zoonoses match the pairs') and 2024 state feedback multiple times"
+    },
+    {
+      "topic": "Outbreak investigation scenarios (reading comprehension style)",
+      "frequency": "confirmed_multiple",
+      "level": "both",
+      "notes": "2011: 'reading like an article and answering'; 2024 state: 'reading like an article or story and answering accordingly'"
+    },
+    {
+      "topic": "Short answer / free response",
+      "frequency": "state_only",
+      "level": "state",
+      "notes": "16 short answer questions worth 3 pts each at state level"
+    },
+    {
+      "topic": "Lyme disease",
+      "frequency": "confirmed_2019",
+      "level": "regional",
+      "notes": "Shubham's 2019 state feedback listed 'Lyme' as a disease to study"
+    },
+    {
+      "topic": "Measles / MMR",
+      "frequency": "confirmed_2019",
+      "level": "state",
+      "notes": "Measles outbreak scenarios appeared on state 2019"
+    },
+    {
+      "topic": "TB / Tuberculosis",
+      "frequency": "confirmed_state",
+      "level": "state",
+      "notes": "TB scenario + odds ratio confirmed on state exam (student recalled 'scenario about TB, figure out odds ratio')"
+    },
+    {
+      "topic": "Vector identification - many to one",
+      "frequency": "confirmed_2011",
+      "level": "regional",
+      "notes": "Student noted 'table of vectors - many to one' as something needed for state prep"
+    },
+    {
+      "topic": "Organ/body systems linked to diseases",
+      "frequency": "confirmed_2019",
+      "level": "both",
+      "notes": "Reading comp about organ/body systems appeared in 2019 regional"
+    },
+    {
+      "topic": "Rate of incidence calculation for different groups",
+      "frequency": "confirmed_2024",
+      "level": "both",
+      "notes": "Image 28 notes: 'rate of incidence for each group of [something]: smoker vs non-smoker / breast cancer vs no cancer'"
+    },
+    {
+      "topic": "Bar graph reading - geographic data (cases per county)",
+      "frequency": "confirmed_2024",
+      "level": "both",
+      "notes": "Image 28 notes: 'bar graph of cases of disease per county; which 2 counties make up 60% of cases'"
+    },
+    {
+      "topic": "Cohort study design",
+      "frequency": "confirmed_2024",
+      "level": "both",
+      "notes": "Image 28 notes explicitly listed 'cohort study' as a topic that appeared on the exam"
+    },
+    {
+      "topic": "Agent/Host/Environment (Epi Triangle) + Time/Place/Person",
+      "frequency": "confirmed_2024",
+      "level": "both",
+      "notes": "Image 28: 'Agent/Host/Environment; Time/Place/Person; Case definition' - all appeared on same exam"
+    },
+    {
+      "topic": "Symptom identification - given symptoms, name the disease",
+      "frequency": "confirmed_2022",
+      "level": "both",
+      "notes": "Brady's 2022 feedback: 'identify: fever + chills = what illness?'"
+    },
+    {
+      "topic": "Cancer risk factors (breast cancer specifically)",
+      "frequency": "confirmed_2022_2024",
+      "level": "both",
+      "notes": "Appeared in both 2022 regional (Brady) and 2024 image 28 notes"
+    },
+    {
+      "topic": "Food safety / food preparation prevention",
+      "frequency": "confirmed_multiple",
+      "level": "both",
+      "notes": "Image 28: 'food preparation/food poisoning prevention'. 2024 state: 'food safety for children in outdoor settings'"
+    },
+    {
+      "topic": "Modes of transmission - different vector types",
+      "frequency": "confirmed_2024",
+      "level": "both",
+      "notes": "Image 28: 'modes of transmission - different types of vectors'"
+    },
+    {
+      "topic": "Surveillance",
+      "frequency": "confirmed_2024_state",
+      "level": "state",
+      "notes": "2024 state feedback: 'score surveillance, zoonosis, reading comp about food safety'"
+    }
+  ],
+  "student_gap_areas": [
+    "Odds ratio (most commonly flagged as unknown)",
+    "Vitamins and minerals linked to disease prevention",
+    "Many-to-one vector mapping",
+    "Cholesterol as chronic disease risk factor",
+    "Vaccine schedules and immunization timing",
+    "Protozoa vs fungi vs bacteria classification under pressure",
+    "Graph interpretation (geographic/county data)",
+    "BMI calculation and classification",
+    "Organ systems linked to specific diseases",
+    "Rate of incidence vs attack rate distinction",
+    "Cohort study design and when to use it",
+    "Cancer risk factors (non-infectious chronic disease)",
+    "Symptom-to-pathogen identification"
+  ],
+  "feedback_by_year": [
+    {
+      "year": 2011,
+      "level": "regional",
+      "meet": "Cobb County",
+      "students": ["Ishaan Ritchie", "Shawn D"],
+      "format_described": "3-part test: word problems/statistics, matching common diseases (multiple choice), own table questions. Each team at own table.",
+      "questions_recalled": ["2 ways to get E.coli", "RICE acronym", "BMI"],
+      "state_prep_suggestions": ["Table of vitamins and common composites (zinc, calcium)", "Table of vectors - many to one", "Reading comp about organ/body systems", "Salmonella detail"]
+    },
+    {
+      "year": 2012,
+      "level": "regional",
+      "meet": "Cobb County",
+      "students": ["Sabrina G", "Adrian Bazocca"],
+      "questions_recalled": [
+        "What is that waxy substance found in your body? (Cholesterol)",
+        "Cholesterol - also found in foods high in saturated fat (meat, eggs, shellfish)",
+        "High cholesterol is a risk factor for heart disease, heart attack, and stroke",
+        "What diseases can you get from another's lifestyle/behavior",
+        "What disease can you get from smoking",
+        "BMI of body",
+        "What disease can you get from disease (comorbidities)"
+      ]
+    },
+    {
+      "year": 2014,
+      "level": "regional",
+      "meet": "Cobb County",
+      "questions_recalled": [
+        "Best immunization for a baby girl",
+        "When to get a tetanus shot (stepped on a rusty nail)",
+        "E. coli, Strep - name the disease from description",
+        "Type A food-borne illness (bean)"
+      ]
+    },
+    {
+      "year": 2015,
+      "level": "regional",
+      "meet": "Cobb County",
+      "students": ["Malli Curtis", "Elma Neb"],
+      "format_described": "Multiple choice + one free response. Short answer for tiebreaker.",
+      "questions_recalled": [
+        "What symptoms could you get from eating raw meat?",
+        "Salmonella symptoms",
+        "Best disease people could get from food",
+        "Lyme disease match/categorize"
+      ]
+    },
+    {
+      "year": 2018,
+      "level": "regional",
+      "meet": "Cobb County - March 24",
+      "students": ["Andrew Ward"],
+      "format_described": "5 stations: Call 911, Brain/Blood/Heart, Number/Check/Make-up, Research, Remedies",
+      "study_recommendations": ["Full vaccine names", "Bacteria names (Campylobacter, E. coli)"]
+    },
+    {
+      "year": 2019,
+      "level": "regional",
+      "meet": "Cobb County - March 23",
+      "students": ["Parkes Warty", "Shabnam & Andrew"],
+      "format_described": "3 stations, 50 speed answers, 9 tough factual questions",
+      "study_recommendations": ["Disease packet/resource book", "In-depth research on specific diseases", "Zoonosis vocab", "Free response format practice"]
+    },
+    {
+      "year": 2019,
+      "level": "state",
+      "meet": "State of Georgia - May 11",
+      "students": ["Shabnam Babye"],
+      "format_described": "35 questions, 2 short responses, match the pairs",
+      "questions_recalled": [
+        "Vocab words for disease detective like outbreak clusters",
+        "Measles outbreak questions",
+        "Zoonoses - match the pairs"
+      ],
+      "study_recommendations": ["Practice more short responses", "Vocab words for disease detective terms", "Measle outbreak", "Zoonoses, match the pairs"]
+    },
+    {
+      "year": 2022,
+      "level": "regional",
+      "meet": "Cobb County - March 19",
+      "students": ["Brady Schmale", "Grayson Hill"],
+      "format_described": "About 30 questions; multiple choice dominant; 2x2 table questions; answer sheet + question packet",
+      "questions_recalled": [
+        "2x2 table calculations",
+        "Risk factor questions (breast cancer)",
+        "Comparing exposure to cancer risk",
+        "Identify disease from symptoms: fever + chills = what illness?",
+        "Better chills = what illness? (symptom identification)"
+      ],
+      "study_recommendations": [
+        "2x2 table practice",
+        "Study more risk factors",
+        "More detail on bar graph reading",
+        "Interpreting data to local situations",
+        "Vocabulary better defined",
+        "Bacteria, fungi, and protozoa classification"
+      ]
+    },
+    {
+      "year": 2022,
+      "level": "state",
+      "meet": "State of Georgia - May 7",
+      "students": ["Brady Schmale", "Grayson Hill"],
+      "format_described": "Paper test: 60 multiple choice + 16 short answer questions (3 pts each)",
+      "questions_recalled": [
+        "Scenario about TB",
+        "Figure out odds ratio",
+        "MMR vaccine (chest diseases covered)",
+        "Graph interpretation (chronic heart disease)",
+        "Virus/bacteria/protozoan for given diseases",
+        "Who of the following is [at risk/immune]",
+        "Vaccines: what happens to the immune response on a graph"
+      ],
+      "study_recommendations": [
+        "Odds ratio (most flagged gap)",
+        "Bacteria vs protozoa vs fungi",
+        "Vaccines",
+        "Odds ratio on the graph (immunity curve interpretation)"
+      ]
+    },
+    {
+      "year": 2023,
+      "level": "regional",
+      "meet": "Cobb County - March 11",
+      "students": ["Ellis & Ben Schnizler"],
+      "format_described": "40 questions total; mostly short choice + interpretation calculations; 12 questions on specific areas",
+      "study_recommendations": [
+        "Parasites, bacteria, viruses coverage",
+        "More outbreak investigation topics",
+        "Symptoms and effects details",
+        "Change in outbreak patterns",
+        "All seasons/locations coverage"
+      ]
+    },
+    {
+      "year": 2024,
+      "level": "regional",
+      "meet": "Cobb Regional - March 16",
+      "students": ["Ben & Ellis Schnizler"],
+      "format_described": "25 total questions; multiple choice; in-depth",
+      "questions_recalled": [
+        "IT numbers/data to average the outbreak by location",
+        "Disease transmission types",
+        "Dos/list type questions",
+        "Food safety for children in outdoor settings (reading comprehension)"
+      ],
+      "study_recommendations": ["Multiple choice closer to state format", "In-depth food safety"]
+    },
+    {
+      "year": 2024,
+      "level": "state",
+      "meet": "State of Georgia - May 4",
+      "students": ["Ellis & Ben Schnizler"],
+      "format_described": "32 questions (multiple choice - fill in the sheet)",
+      "questions_recalled": [
+        "Surveillance questions",
+        "Zoonosis",
+        "Reading comprehension about food safety/food contamination",
+        "Bacteria/virus - to cause disease distinction"
+      ],
+      "study_recommendations": [
+        "Study surveillance more",
+        "Zoonosis in depth",
+        "Reading comprehension scenarios (article/story format)",
+        "Food safety"
+      ]
+    },
+    {
+      "year": 2024,
+      "level": "unknown",
+      "meet": "Cobb County (image 28 - detailed topic list)",
+      "format_described": "Detailed handwritten list of topics that appeared on exam",
+      "questions_recalled": [
+        "Rate of incidence for each group: smoker vs non-smoker, breast cancer vs no cancer",
+        "Virus vs bacteria vs protozoa etc. (E. coli specifically)",
+        "Food preparation/food poisoning prevention",
+        "Modes of transmission - different types of vectors",
+        "Zoonosis",
+        "Cohort study",
+        "Epi-curve specifically propagated/progressive",
+        "Agent/Host/Environment; Time/Place/Person; Case definition",
+        "Bar graph of cases of disease per county; Which 2 counties make up 60% of cases"
+      ]
+    }
+  ]
+}
