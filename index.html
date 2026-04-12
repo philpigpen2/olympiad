@@ -3742,30 +3742,40 @@ let _chatPending = false;
 // ── NORA TTS (ElevenLabs via Vercel proxy) ────────────────────────
 const SPEAK_API_URL = 'https://olympiad-api-theta.vercel.app/api/speak';
 let _ttsEnabled = true;
-let _noraAudio = null;       // currently playing Audio instance
+let _noraSource  = null;     // currently playing AudioBufferSourceNode
+let _audioCtx    = null;     // shared AudioContext (created once on first gesture)
+let _audioUnlocked = false;  // true once AudioContext has been resumed in a gesture
 let _ttsAbortCtrl = null;    // AbortController for the in-flight TTS fetch
-let _audioUnlocked = false;  // iOS/Android require a sync user-gesture play before async plays work
 
-// Minimal silent WAV (44-byte RIFF header, 0 samples) — unlocks HTMLAudioElement on iOS/Android
-const _SILENT_WAV = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
-
-// Call synchronously inside any user gesture to satisfy browser autoplay policy for new Audio()
+// Call synchronously inside any user gesture — resumes AudioContext so source.start()
+// works from async callbacks for the rest of the page's lifetime (iOS-safe).
 function _unlockAudio() {
   if (_audioUnlocked) return;
-  _audioUnlocked = true;
   try {
-    const sil = new Audio(_SILENT_WAV);
-    sil.play().catch(() => {});
+    if (!_audioCtx) {
+      _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    _audioCtx.resume().then(() => {
+      // 1-sample silent buffer: iOS 13/14 rejects zero-length buffers
+      const buf = _audioCtx.createBuffer(1, 1, 22050);
+      const src = _audioCtx.createBufferSource();
+      src.buffer = buf;
+      src.connect(_audioCtx.destination);
+      src.start(0);
+      _audioUnlocked = true;
+    }).catch(() => {});
   } catch(e) {}
 }
 
 async function noraSpeakText(text) {
   if (!_ttsEnabled) return;
-  // Abort any in-flight fetch and stop any playing audio
   if (_ttsAbortCtrl) { _ttsAbortCtrl.abort(); _ttsAbortCtrl = null; }
-  if (_noraAudio)    { _noraAudio.pause(); _noraAudio = null; }
+  if (_noraSource)   { try { _noraSource.stop(); } catch(e) {} _noraSource = null; }
   const clean = text.replace(/[*_#`~]/g, '').replace(/\n+/g, ' ').trim();
   if (!clean) return;
+  if (!_audioCtx) {
+    _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
   const ctrl = new AbortController();
   _ttsAbortCtrl = ctrl;
   try {
@@ -3776,12 +3786,19 @@ async function noraSpeakText(text) {
       signal: ctrl.signal
     });
     if (!res.ok) return;
-    const blob = await res.blob();
+    const arrayBuf = await res.arrayBuffer();
     if (ctrl.signal.aborted) return;
-    const url = URL.createObjectURL(blob);
-    _noraAudio = new Audio(url);
-    _noraAudio.play().catch(err => console.warn('Nora autoplay blocked:', err));
-    _noraAudio.onended = () => { URL.revokeObjectURL(url); _noraAudio = null; };
+    _audioCtx.decodeAudioData(arrayBuf, (audioBuffer) => {
+      if (ctrl.signal.aborted) return;
+      const src = _audioCtx.createBufferSource();
+      src.buffer = audioBuffer;
+      src.connect(_audioCtx.destination);
+      src.onended = () => { if (_noraSource === src) _noraSource = null; };
+      src.start(0);
+      _noraSource = src;
+    }, (err) => {
+      console.warn('Nora TTS decode error:', err);
+    });
   } catch (err) {
     if (err.name !== 'AbortError') console.warn('Nora TTS error:', err);
   } finally {
@@ -3793,7 +3810,7 @@ function toggleTTS() {
   _ttsEnabled = !_ttsEnabled;
   if (!_ttsEnabled) {
     if (_ttsAbortCtrl) { _ttsAbortCtrl.abort(); _ttsAbortCtrl = null; }
-    if (_noraAudio)    { _noraAudio.pause(); _noraAudio = null; }
+    if (_noraSource)   { try { _noraSource.stop(); } catch(e) {} _noraSource = null; }
   }
   document.getElementById('chat-tts-btn').textContent = _ttsEnabled ? '🔊' : '🔇';
 }
@@ -3816,7 +3833,7 @@ function openChatPanel(context) {
 
 function closeChatPanel() {
   if (_ttsAbortCtrl) { _ttsAbortCtrl.abort(); _ttsAbortCtrl = null; }
-  if (_noraAudio)    { _noraAudio.pause(); _noraAudio = null; }
+  if (_noraSource)   { try { _noraSource.stop(); } catch(e) {} _noraSource = null; }
   document.getElementById('chat-panel').style.display = 'none';
   document.getElementById('chat-overlay').style.display = 'none';
 }
@@ -3945,7 +3962,7 @@ function sendChat() {
 </div>
 
 <div style="text-align:center;padding:18px 0 28px;color:rgba(255,255,255,0.2);font-size:0.7rem;letter-spacing:0.05em">
-  v28
+  v29
 </div>
 
 </body>
