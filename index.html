@@ -515,7 +515,13 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <div class="question-text" id="sess-written-question"></div>
     <button class="sess-reveal-btn" id="sess-written-hint-btn" onclick="toggleSessWrittenHint()" style="margin-bottom:8px">Show Hint 💡</button>
     <div class="sess-def-box" id="sess-written-hint"></div>
-    <button class="sess-reveal-btn" id="sess-written-reveal-btn" onclick="revealSessWritten()">Reveal Model Answer 👁</button>
+    <textarea id="sess-written-input" rows="4" placeholder="Write your answer here…"
+      oninput="const b=document.getElementById('sess-written-reveal-btn');b.disabled=this.value.trim().length<10;"
+      style="width:100%;background:#16213e;border:1px solid rgba(255,255,255,0.15);border-radius:12px;
+             color:#eaeaea;padding:12px;font-size:0.9rem;resize:vertical;font-family:inherit;
+             box-sizing:border-box;outline:none;margin-top:8px;margin-bottom:8px"></textarea>
+    <div class="sess-def-box" id="sess-written-feedback"></div>
+    <button class="sess-reveal-btn" id="sess-written-reveal-btn" onclick="revealSessWritten()" disabled>Submit Answer ✓</button>
     <div class="sess-def-box" id="sess-written-answer"></div>
     <div class="sess-grade-wrap" id="sess-written-grade">
       <div class="sess-grade-label">How did you do?</div>
@@ -753,7 +759,13 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
   <div class="written-q" id="writ-question"></div>
   <button class="hint-btn" onclick="toggleHint()">💡 Show Hint</button>
   <div class="hint-box" id="writ-hint"></div>
-  <button class="reveal-btn" id="writ-reveal" onclick="revealAnswer()">Reveal Model Answer 👁</button>
+  <textarea id="writ-input" rows="4" placeholder="Write your answer here…"
+    oninput="const b=document.getElementById('writ-reveal');b.disabled=this.value.trim().length<10;"
+    style="width:100%;background:#16213e;border:1px solid rgba(255,255,255,0.15);border-radius:12px;
+           color:#eaeaea;padding:12px;font-size:0.9rem;resize:vertical;font-family:inherit;
+           box-sizing:border-box;outline:none;margin-top:8px;margin-bottom:8px"></textarea>
+  <div class="answer-box" id="writ-feedback" style="display:none"></div>
+  <button class="reveal-btn" id="writ-reveal" onclick="revealAnswer()" disabled>Submit Answer ✓</button>
   <div class="answer-box" id="writ-answer"></div>
   <div class="self-grade" id="writ-grade" style="display:none">
     <div style="font-size:0.85rem;color:#aaa;text-align:center;margin-bottom:8px">How did you do?</div>
@@ -888,12 +900,14 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     <div id="mock-sa-inline" style="display:none">
       <div style="font-size:0.8rem;color:#aaa;margin-bottom:6px">Write your answer:</div>
       <textarea id="mock-sa-input" rows="4" placeholder="Type your answer here…"
+        oninput="const b=document.getElementById('mock-sa-submit');b.disabled=this.value.trim().length<10;"
         style="width:100%;background:#16213e;border:1px solid rgba(255,255,255,0.15);border-radius:12px;
                color:#eaeaea;padding:12px;font-size:0.9rem;resize:vertical;font-family:inherit;
                box-sizing:border-box;outline:none"></textarea>
       <button class="hint-btn" onclick="toggleMockHint()" style="margin-top:10px">💡 Show Hint</button>
       <div class="hint-box" id="mock-sa-hint" style="display:none"></div>
-      <button class="reveal-btn" id="mock-sa-reveal" onclick="revealMockSA()">Reveal Model Answer 👁</button>
+      <div id="mock-sa-feedback" style="display:none;margin-top:12px;padding:12px;background:#0f3460;border-radius:12px;font-size:0.9rem;line-height:1.6"></div>
+      <button class="reveal-btn" id="mock-sa-submit" onclick="submitMockSA()" disabled>Submit Answer ✓</button>
       <div class="answer-box" id="mock-sa-answer" style="display:none"></div>
       <div class="self-grade" id="mock-sa-grade" style="display:none">
         <div style="font-size:0.85rem;color:#aaa;text-align:center;margin-bottom:8px">How did you do on this question?</div>
@@ -1669,6 +1683,7 @@ let stIdx = 0, stScore = 0, stAnswered = false;
 let tfIdx = 0, tfScore = 0, tfAnswered = false;
 let matchIdx = 0, matchScore = 0, matchAnswered = false;
 let writIdx = 0, writScore = 0;
+let _sessWrittenQ = null;
 let _sessLastCorrect = false;
 
 // ── STORAGE ───────────────────────────────────────────────────────
@@ -2425,6 +2440,7 @@ function sessSolveEc(idx, btn, qData) {
 
 function loadSessWritten(q) {
   const w = WRITTEN_DATA[q.idx];
+  _sessWrittenQ = w;
   document.getElementById('sess-written-question').textContent = w.q;
   const hintEl = document.getElementById('sess-written-hint');
   hintEl.textContent = w.hint || '';
@@ -2433,7 +2449,16 @@ function loadSessWritten(q) {
   const answerEl = document.getElementById('sess-written-answer');
   answerEl.textContent = w.ans || '';
   answerEl.className = 'sess-def-box';
-  document.getElementById('sess-written-reveal-btn').style.display = 'block';
+  const inp = document.getElementById('sess-written-input');
+  inp.value = '';
+  inp.disabled = false;
+  const feedbackEl = document.getElementById('sess-written-feedback');
+  feedbackEl.textContent = '';
+  feedbackEl.className = 'sess-def-box';
+  const revealBtn = document.getElementById('sess-written-reveal-btn');
+  revealBtn.style.display = 'block';
+  revealBtn.disabled = true;
+  revealBtn.textContent = 'Submit Answer ✓';
   document.getElementById('sess-written-grade').className = 'sess-grade-wrap';
   document.getElementById('sess-written').classList.add('active');
 }
@@ -2450,10 +2475,36 @@ function toggleSessWrittenHint() {
   }
 }
 
-function revealSessWritten() {
-  document.getElementById('sess-written-reveal-btn').style.display = 'none';
-  document.getElementById('sess-written-answer').className = 'sess-def-box show';
-  document.getElementById('sess-written-grade').className = 'sess-grade-wrap show';
+async function revealSessWritten() {
+  const btn = document.getElementById('sess-written-reveal-btn');
+  const inp = document.getElementById('sess-written-input');
+  const studentAnswer = inp.value.trim();
+  if (!studentAnswer || studentAnswer.length < 10) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Nora is reading your answer…';
+  inp.disabled = true;
+
+  const w = _sessWrittenQ;
+  try {
+    const result = await Promise.race([
+      _gradeShortAnswer(w.q, studentAnswer, w.ans),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 8000))
+    ]);
+    const verdictMap = { strong: '✅ Strong', partial: '🟡 Partial', needs_work: '❌ Needs Work' };
+    const feedbackEl = document.getElementById('sess-written-feedback');
+    feedbackEl.textContent = `${verdictMap[result.verdict]} — ${result.feedback}`;
+    feedbackEl.className = 'sess-def-box show';
+    document.getElementById('sess-written-answer').className = 'sess-def-box show';
+    btn.style.display = 'none';
+    document.getElementById('sess-written-grade').className = 'sess-grade-wrap';
+    const score = result.verdict === 'strong' ? true : result.verdict === 'needs_work' ? false : 0;
+    setTimeout(() => advanceSessQuestion(score), 2500);
+  } catch {
+    btn.style.display = 'none';
+    document.getElementById('sess-written-answer').className = 'sess-def-box show';
+    document.getElementById('sess-written-grade').className = 'sess-grade-wrap show';
+  }
 }
 
 function gradeSessWritten(gotIt) {
@@ -3307,8 +3358,17 @@ function loadWritten() {
   document.getElementById('writ-answer').style.display = 'none';
   document.getElementById('writ-answer').textContent = p.ans;
   document.getElementById('writ-grade').style.display = 'none';
-  document.getElementById('writ-reveal').style.display = 'block';
+  const revBtn = document.getElementById('writ-reveal');
+  revBtn.style.display = 'block';
+  revBtn.disabled = true;
+  revBtn.textContent = 'Submit Answer ✓';
   document.querySelector('.hint-btn').style.display = 'block';
+  const inp = document.getElementById('writ-input');
+  inp.value = '';
+  inp.disabled = false;
+  const fb = document.getElementById('writ-feedback');
+  fb.style.display = 'none';
+  fb.innerHTML = '';
 
   const pct = Math.round(((writIdx + 1) / WRITTEN_DATA.length) * 100);
   document.getElementById('writ-label').textContent = `Question ${writIdx + 1} of ${WRITTEN_DATA.length}`;
@@ -3320,11 +3380,35 @@ function toggleHint() {
   h.style.display = h.style.display === 'none' ? 'block' : 'none';
 }
 
-function revealAnswer() {
-  document.getElementById('writ-answer').style.display = 'block';
-  document.getElementById('writ-grade').style.display = 'flex';
-  document.getElementById('writ-reveal').style.display = 'none';
+async function revealAnswer() {
+  const btn = document.getElementById('writ-reveal');
+  const inp = document.getElementById('writ-input');
+  const studentAnswer = inp.value.trim();
+  if (!studentAnswer || studentAnswer.length < 10) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Nora is reading your answer…';
+  inp.disabled = true;
   document.querySelector('.hint-btn').style.display = 'none';
+
+  const p = WRITTEN_DATA[writIdx];
+  try {
+    const result = await Promise.race([
+      _gradeShortAnswer(p.q, studentAnswer, p.ans),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 8000))
+    ]);
+    const verdictMap = { strong: '✅ Strong', partial: '🟡 Partial', needs_work: '❌ Needs Work' };
+    const fb = document.getElementById('writ-feedback');
+    fb.innerHTML = `<strong>${verdictMap[result.verdict]}</strong> — ${result.feedback}`;
+    fb.style.display = 'block';
+    document.getElementById('writ-answer').style.display = 'block';
+    btn.style.display = 'none';
+    document.getElementById('writ-grade').style.display = 'flex';
+  } catch {
+    document.getElementById('writ-answer').style.display = 'block';
+    document.getElementById('writ-grade').style.display = 'flex';
+    btn.style.display = 'none';
+  }
   window.scrollTo(0, document.body.scrollHeight);
 }
 
@@ -3589,7 +3673,12 @@ function loadMockQuestion() {
     document.getElementById('mock-sa-input').disabled = false;
     document.getElementById('mock-sa-hint').style.display = 'none';
     document.getElementById('mock-sa-hint').textContent = q.hint || '';
-    document.getElementById('mock-sa-reveal').style.display = 'block';
+    const saSubmitBtn = document.getElementById('mock-sa-submit');
+    saSubmitBtn.style.display = 'block';
+    saSubmitBtn.disabled = true;
+    saSubmitBtn.textContent = 'Submit Answer ✓';
+    document.getElementById('mock-sa-feedback').style.display = 'none';
+    document.getElementById('mock-sa-feedback').innerHTML = '';
     document.getElementById('mock-sa-answer').style.display = 'none';
     document.getElementById('mock-sa-answer').textContent = q.ans;
     document.getElementById('mock-sa-grade').style.display = 'none';
@@ -3648,10 +3737,41 @@ function toggleMockHint() {
   h.style.display = h.style.display === 'none' ? 'block' : 'none';
 }
 
-function revealMockSA() {
+async function submitMockSA() {
+  const btn = document.getElementById('mock-sa-submit');
+  const inp = document.getElementById('mock-sa-input');
+  const studentAnswer = inp.value.trim();
+  if (!studentAnswer || studentAnswer.length < 10) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Nora is reading your answer…';
+  inp.disabled = true;
+
+  const q = _mockPool[_mockIdx];
+  try {
+    const result = await Promise.race([
+      _gradeShortAnswer(q.q, studentAnswer, q.ans),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 8000))
+    ]);
+    const verdictMap = { strong: '✅ Strong', partial: '🟡 Partial', needs_work: '❌ Needs Work' };
+    const fb = document.getElementById('mock-sa-feedback');
+    fb.innerHTML = `<strong>${verdictMap[result.verdict]}</strong><br>${result.feedback}`;
+    fb.style.display = 'block';
+    document.getElementById('mock-sa-answer').style.display = 'block';
+    btn.style.display = 'none';
+    if (result.verdict === 'strong') _mockSAScore++;
+    else if (result.verdict === 'needs_work') _mockSAWrong++;
+    _mockSARevealed = true;
+    document.getElementById('mock-next-btn').style.display = 'block';
+  } catch {
+    _revealMockSAFallback();
+  }
+}
+
+function _revealMockSAFallback() {
   _mockSARevealed = true;
   document.getElementById('mock-sa-input').disabled = true;
-  document.getElementById('mock-sa-reveal').style.display = 'none';
+  document.getElementById('mock-sa-submit').style.display = 'none';
   document.getElementById('mock-sa-answer').style.display = 'block';
   document.getElementById('mock-sa-grade').style.display = 'flex';
 }
@@ -3840,6 +3960,35 @@ function _appendChatMsg(role, text) {
   document.getElementById('chat-messages').appendChild(el);
   el.scrollIntoView({ behavior: 'smooth', block: 'end' });
   return bubble;
+}
+
+async function _gradeShortAnswer(question, studentAnswer, modelAnswer) {
+  const prompt = `You are grading a Science Olympiad Disease Detectives answer from a middle school student.
+
+Question: ${question}
+Model Answer Key: ${modelAnswer}
+Student's Answer: ${studentAnswer}
+
+Respond with ONLY this JSON (no other text, no markdown):
+{"verdict":"strong","feedback":"..."}
+
+Use verdict "strong" if the student captured the main ideas and key facts, "partial" if they got some key points but missed at least one important concept, or "needs_work" if they missed the core concept or gave an incorrect answer.
+
+For feedback: 2-3 sentences, specific to what THIS student wrote. Mention what they got right first (if anything), then what they missed. Be encouraging. Don't just repeat the model answer — explain why the missing parts matter.`;
+
+  const res = await fetch(CHAT_API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      messages: [{ role: 'user', content: prompt }],
+      questionContext: { gradeMode: true }
+    })
+  });
+  const data = await res.json();
+  const reply = data.reply || '';
+  const match = reply.match(/\{[\s\S]*?\}/);
+  if (!match) throw new Error('no JSON in response');
+  return JSON.parse(match[0]);
 }
 
 async function _callChatAPI(userText, hiddenFromUser) {
