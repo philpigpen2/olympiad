@@ -1031,7 +1031,7 @@ const VOCAB = [
   { term:"Dengue Fever",       def:"Viral arbovirus spread by AEDES mosquito bites. Causes severe flu-like illness: high fever, severe headache, pain behind eyes, muscle/joint pain. Can progress to hemorrhagic fever. No specific antiviral treatment.", c:'pathogen' },
 
   // ── STATS / CALCULATIONS ─────────────────────────────────────────
-  { term:"Odds Ratio (OR)",    def:"Used in CASE-CONTROL studies. Compares odds of exposure among sick (cases) vs healthy (controls). Formula: OR = (a×d) ÷ (b×c). OR > 1 = exposure is a risk. Used when true attack rates can't be calculated.", c:'epi_terms' },
+  { term:"Odds Ratio (OR)",    def:"Used in CASE-CONTROL studies. 'Odds' = (times it happened) ÷ (times it didn't) — NOT a percentage! Step 1: odds of exposure in CASES = cases exposed ÷ cases unexposed. Step 2: odds of exposure in CONTROLS = controls exposed ÷ controls unexposed. Step 3: OR = Step 1 ÷ Step 2 = (a×d)÷(b×c) where a=exposed cases, b=exposed controls, c=unexposed cases, d=unexposed controls. OR > 1 = RISK factor. OR < 1 = PROTECTIVE factor. OR = 1 = no association. Example: 60 exposed cases, 20 unexposed cases → odds in cases = 60÷20 = 3. Used when you selected fixed numbers of cases/controls and can't calculate true attack rates.", c:'epi_terms' },
   { term:"Sensitivity",        def:"A test's ability to correctly identify SICK people (true positive rate). High sensitivity = few false negatives. 'Sen-SICK-ivity' — finds the sick ones. Used for screening tests where missing a case is dangerous.", c:'stats' },
   { term:"Specificity",        def:"A test's ability to correctly identify HEALTHY people (true negative rate). High specificity = few false positives. Rules OUT disease. Confirmatory tests need high specificity to avoid unnecessary treatment.", c:'stats' },
 
@@ -1242,6 +1242,30 @@ const TABLE_DATA = [
       { type:"input", q:"What is the attack rate (%) for people who ate Garden Salad?", answer:10, explain:"6 sick ÷ 60 who ate salad × 100 = 10%. Low — salad is not the source." },
       { type:"choice", q:"Both Turkey Soup (63%) and Custard Pudding (64%) show high attack rates. A detective notices both were made by the same chef that morning. What is the MOST important next step?", choices:["Immediately shut down the entire hospital cafeteria","Test the turkey soup and pudding for pathogens AND interview/test the chef for illness","Ask all sick staff to drink more water","Wait to see if more people get sick before acting"], correct:1, explain:"When two foods share a high AR AND a common handler, test BOTH foods and screen the food worker — they may be an asymptomatic carrier spreading illness. Acting fast with targeted testing is the detective move!" }
     ]
+  },
+  {
+    type:"casecontrol",
+    title:"The Park Well", emoji:"🪣",
+    scenario:"A county health department investigated a Hepatitis A outbreak. Epidemiologists couldn't follow thousands of residents forward in time, so instead they recruited 50 sick patients (cases) and 50 healthy neighbors (controls) and asked each one question: did you drink from the well at Community Park?",
+    exposedLabel:"💧 Drank from park well", unexposedLabel:"🚫 Did not drink from well",
+    a:40, b:10, c:10, d:40,
+    questions:[
+      { type:"choice", q:"Investigators deliberately recruited 50 sick cases AND 50 healthy controls. This makes it a case-control study, NOT a cohort study. Why?", choices:["Because the disease is too rare to follow people forward and wait for cases to appear","Because cohort studies require a water source","Because 50 people is too small for any other design","Because Hepatitis A can only be studied this way"], correct:0, explain:"Case-control studies are ideal when a disease is rare or investigation time is limited. Instead of following a large population forward (cohort), you START with known sick cases and match them to healthy controls, then look BACKWARD for the exposure. Much faster and cheaper — but you lose the ability to calculate true attack rates." },
+      { type:"input", q:"Using the standard formula OR = (a×d)÷(b×c), calculate the Odds Ratio. (a=exposed cases, b=exposed controls, c=unexposed cases, d=unexposed controls)", answer:16, unit:"", explain:"OR = (40×40)÷(10×10) = 1600÷100 = 16. Cases were 16 times more likely to have drunk from the well than controls. This is extremely strong evidence the well was the source." },
+      { type:"choice", q:"OR = 16 is a very strong association. Can you also calculate a Relative Risk (RR) from this same case-control table?", choices:["Yes — just divide the exposed row attack rate by the unexposed row attack rate","No — you deliberately selected 50 cases and 50 controls, so the proportions don't reflect true exposure rates in the community","Yes — OR and RR are always the same calculation","No — you need lab results first"], correct:1, explain:"You CANNOT calculate true RR from a case-control study. You hand-picked 50 sick and 50 healthy people — those proportions don't represent the real population. The well users in the community might be 90% of residents or 10% of residents; you'd have no way to know from this table. That's exactly why we use OR instead." }
+    ]
+  },
+  {
+    type:"casecontrol",
+    title:"The Gym Towels", emoji:"🏋️",
+    scenario:"A MRSA skin infection outbreak hit a local gym. Investigators recruited 60 infected members (cases) and 60 healthy members (controls). They asked about two exposures: (1) using the shared towel rack by the locker room, and (2) using the hand sanitizer dispenser at the gym entrance.",
+    exposedLabel:"🧻 Used shared towel rack", unexposedLabel:"👜 Brought own towel",
+    a:45, b:15, c:15, d:45,
+    questions:[
+      { type:"input", q:"For shared towel use: a=45 (exposed cases), b=15 (exposed controls), c=15 (unexposed cases), d=45 (unexposed controls). Calculate OR = (a×d)÷(b×c).", answer:9, unit:"", explain:"OR = (45×45)÷(15×15) = 2025÷225 = 9. Cases were 9 times more likely to have used the shared towels than controls. Strong evidence — the towel rack is contaminating people with MRSA." },
+      { type:"choice", q:"A second analysis checked hand sanitizer use. Among cases: 15 used sanitizer, 45 didn't. Among controls: 45 used sanitizer, 15 didn't. OR = (15×15)÷(45×45) ≈ 0.11. What does OR < 1 mean here?", choices:["Hand sanitizer increased MRSA risk 11×","Hand sanitizer was PROTECTIVE — users were much less likely to be among the cases","There was no association between sanitizer and MRSA","OR < 1 means the study had an error"], correct:1, explain:"OR < 1 = protective exposure! OR = 0.11 means cases were only 11% as likely to have used sanitizer as controls. Controls (healthy people) used sanitizer 9× more often than cases. Hand sanitizer was strongly protective. This is how investigators identify BOTH risk factors (OR > 1) AND protective factors (OR < 1) in one study." },
+      { type:"choice", q:"OR for shared towels = 9 (risk). OR for hand sanitizer = 0.11 (protective). What are the TWO most evidence-based actions for the gym to take?", choices:["Remove the hand sanitizer station since it's associated with healthy people only","Enforce bring-your-own-towel policy AND make hand sanitizer mandatory at the gym entrance","Close the gym permanently — multiple exposures mean the whole facility is contaminated","Test all members for MRSA before any other action"], correct:1, explain:"The evidence points directly to two actions: (1) eliminate shared towels — OR=9 shows they're the primary vehicle. (2) promote hand sanitizer — OR=0.11 shows it's strongly protective. Together these attack the problem from both ends: removing the risk factor AND reinforcing the protective factor." }
+    ]
   }
 ];
 
@@ -1284,6 +1308,8 @@ const TF_DATA = [
   { s:"The MMR vaccine protects against Measles, Mumps, and Rubella.", correct:true, explain:"TRUE — MMR = Measles, Mumps, Rubella. Two doses are recommended (12–15 months and 4–6 years). The MMR vaccine is highly effective and has nearly eliminated these diseases in vaccinated populations.", c:'control' },
   { s:"Cryptosporidium can be killed by maintaining normal chlorine levels in a swimming pool.", correct:false, explain:"FALSE — Cryptosporidium is RESISTANT to standard pool chlorine levels! This is why Crypto causes pool outbreaks even in properly maintained pools. Hyperchlorination (very high chlorine) or UV treatment is needed to kill it.", c:'pathogen' },
   { s:"An Odds Ratio (OR) of exactly 1.0 means there is NO association between the exposure and disease.", correct:true, explain:"TRUE — OR = 1.0 means equal odds of exposure in sick and healthy groups — no association. OR > 1 = exposure increases disease risk. OR < 1 = exposure may be protective. Think of it as the baseline.", c:'epi_terms' },
+  { s:"An Odds Ratio of 0.25 means the exposure is a strong RISK FACTOR for disease.", correct:false, explain:"FALSE — OR < 1 means the exposure is PROTECTIVE, not a risk factor! OR = 0.25 means cases were 4× LESS likely to have been exposed than controls. Think of it this way: OR > 1 = risky, OR < 1 = protective, OR = 1 = neutral. Common examples: vaccines and hand-washing typically produce OR < 1.", c:'epi_terms' },
+  { s:"In a case-control study, the odds of exposure among cases = (cases exposed) ÷ (cases unexposed).", correct:true, explain:"TRUE — Odds = happens ÷ doesn't happen (not a percentage). If 60 cases were exposed and 20 were unexposed, odds = 60÷20 = 3. This is Step 1 of calculating OR. Step 2: calculate odds in controls the same way. Step 3: OR = odds in cases ÷ odds in controls.", c:'epi_terms' },
   { s:"Primary prevention involves detecting disease early through screening before symptoms appear.", correct:false, explain:"FALSE — That's SECONDARY prevention (early detection). PRIMARY prevention stops disease BEFORE it occurs — examples: vaccination, hand washing, not smoking, wearing sunscreen.", c:'control' },
   { s:"Herd immunity against measles is achieved when approximately 50% of a population is vaccinated.", correct:false, explain:"FALSE — Measles requires ~95% vaccination coverage for herd immunity because its R₀ is 12–18. The higher the R₀, the higher the threshold. Flu only needs ~50% because its R₀ is lower (2–3).", c:'control' },
   { s:"Malaria is caused by a bacterial infection spread through contaminated drinking water.", correct:false, explain:"FALSE — Malaria is caused by Plasmodium, a PROTOZOAN PARASITE (not bacteria!), and it's spread by FEMALE ANOPHELES MOSQUITO bites, not contaminated water. It's one of the most common vector-borne diseases worldwide.", c:'pathogen' },
@@ -1557,6 +1583,12 @@ const MOCK_TEST_QUESTIONS = [
   { q:"Why do epidemiologists use Odds Ratio instead of Relative Risk in case-control studies?", choices:["OR is easier to calculate than RR","In case-control studies, investigators select cases and controls separately, so true exposure frequencies in the population are unknown","OR always gives a more accurate result than RR","Case-control studies are only used for rare diseases"], correct:1, topic:"calculations", explain:"In case-control studies, you START with a set number of sick cases and healthy controls — you don't follow a natural population. Since you don't know the true proportion of exposed people in the population, you CAN'T calculate true attack rates or RR. The OR is the appropriate measure." },
   { q:"A case-control study of a hospital outbreak: Cases ate chicken (a=25, b=5), Controls ate chicken (c=10, d=20). What is the OR?", choices:["OR = 5","OR = 8","OR = 10","OR = 2.5"], correct:2, topic:"calculations", explain:"OR = (a×d)÷(b×c) = (25×20)÷(5×10) = 500÷50 = 10. Cases were 10 times more likely to have eaten the chicken than controls. This is extremely strong evidence the chicken was contaminated." },
   { q:"Which study design would you use to investigate a RARE disease where you need to compare past exposures between sick and healthy people?", choices:["Cohort study — follow exposed people forward","Case-control study — compare cases to matched controls","Cross-sectional study — survey everyone at one time point","Randomized controlled trial — assign treatment randomly"], correct:1, topic:"calculations", explain:"Case-control studies are ideal for RARE diseases: (1) you don't need to wait for disease to develop, (2) you start with known cases, (3) you look backward at exposures. Cohort studies require waiting years for rare diseases to develop. OR is calculated from case-control data." },
+  // ODDS RATIO — additional questions (concept + protective + numeric)
+  { q:"In a case-control study, 80 cases were exposed and 20 were unexposed. What are the ODDS of exposure among cases?", choices:["4","75%","0.25","100"], correct:0, topic:"calculations", explain:"Odds = (times it happened) ÷ (times it didn't) = exposed ÷ unexposed = 80÷20 = 4. Odds are NOT a percentage! Probability = 80÷100 = 80%, but odds = 80÷20 = 4. This is why OR is called an ODDS ratio — you're dividing two odds (cases vs controls), not two probabilities." },
+  { q:"A case-control study of influenza found OR = 0.15 for mask-wearing. What does this mean?", choices:["Masks increased disease risk 15×","Masks were strongly protective — wearers much less likely to be cases","There was no association between masks and disease","The study design was invalid — OR cannot be below 1"], correct:1, topic:"calculations", explain:"OR < 1 = protective exposure. OR = 0.15 means cases were only 15% as likely to have worn masks as controls — a very strong protective effect. The further OR falls below 1.0, the stronger the protection. Flip it: controls were ~7× more likely to have worn masks than cases." },
+  { q:"A case-control study gives OR = 1.05 for eating bread rolls at a banquet outbreak. The detective should conclude:", choices:["Bread rolls were the likely source","OR near 1.0 = no meaningful association; rolls probably NOT the source","This definitively proves bread rolls were safe","Not enough data to say anything"], correct:1, topic:"calculations", explain:"OR = 1.05 is essentially 1.0 — cases and controls ate rolls at almost identical rates. No association between bread and disease. Focus on foods with OR much greater than 1. Note: OR near 1.0 is not proof of safety, just absence of a detectable association in this dataset." },
+  { q:"A case-control study of a foodborne outbreak: exposed cases (a)=30, exposed controls (b)=10, unexposed cases (c)=10, unexposed controls (d)=30. What is the Odds Ratio?", choices:["OR = 3","OR = 6","OR = 9","OR = 12"], correct:2, topic:"calculations", explain:"OR = (a×d)÷(b×c) = (30×30)÷(10×10) = 900÷100 = 9. Cases were 9 times more likely to have been exposed than controls — very strong evidence this food was the source. Always cross-multiply the diagonals of the standard case-control 2×2 table." },
+  { q:"A case-control study of influenza: vaccinated cases=5, unvaccinated cases=45, vaccinated controls=45, unvaccinated controls=5. What is the OR for vaccine exposure?", choices:["OR ≈ 81","OR ≈ 0.01","OR ≈ 9","OR = 1.0"], correct:1, topic:"calculations", explain:"a=5 (exposed cases), b=45 (exposed controls), c=45 (unexposed cases), d=5 (unexposed controls). OR = (5×5)÷(45×45) = 25÷2025 ≈ 0.01. The vaccine was extremely protective — vaccinated people were almost never among the cases. OR < 1 = protective; OR near 0 = very strong protection." },
 
   // PATHOGEN IDENTIFICATION (12 Qs)
   { q:"A student ate undercooked ground beef at a BBQ and 3 days later developed bloody diarrhea. Two weeks later, she was hospitalized with kidney failure. Which pathogen is MOST likely?", choices:["Salmonella — common in poultry and eggs","E. coli O157:H7 — Shiga toxin causing Hemolytic Uremic Syndrome","Norovirus — explosive vomiting, self-limiting","Campylobacter — most common US foodborne bacteria"], correct:1, topic:"pathogens", explain:"E. coli O157:H7 is THE undercooked beef pathogen. Its hallmarks: bloody diarrhea + possible Hemolytic Uremic Syndrome (HUS = kidney failure), especially dangerous in children. Shiga toxin is produced by the bacteria. Incubation 1–8 days." },
@@ -2338,7 +2370,7 @@ function loadSessT2(q) {
   document.getElementById('sess-t2-story').innerHTML =
     `<div class="scenario-emoji">${d.emoji}</div><div class="scenario-name">${d.title}</div>${d.scenario}`;
   document.getElementById('sess-t2-table-wrap').innerHTML =
-    d.type === 'full' ? renderFullTable(d) : (d.type === 'linelist' ? renderLineList(d) : render2x2Table(d));
+    d.type === 'full' ? renderFullTable(d) : d.type === 'linelist' ? renderLineList(d) : d.type === 'casecontrol' ? renderCaseControlTable(d) : render2x2Table(d);
   document.getElementById('sess-t2-question').textContent = qData.q;
   document.getElementById('sess-t2-feedback').className = 'sess-feedback';
   document.getElementById('sess-t2-feedback').textContent = '';
@@ -2395,7 +2427,8 @@ function checkSessT2() {
   document.getElementById('sess-t2-input').disabled = true;
   document.getElementById('sess-t2-check').disabled = true;
   const fb = document.getElementById('sess-t2-feedback');
-  fb.textContent = (correct ? '✅ Correct! ' : `❌ Answer: ${qData.answer}%. `) + qData.explain;
+  const sessUnit = qData.unit !== undefined ? qData.unit : '%';
+  fb.textContent = (correct ? '✅ Correct! ' : `❌ Answer: ${qData.answer}${sessUnit}. `) + qData.explain;
   fb.className = 'sess-feedback show ' + (correct ? 'correct' : 'wrong');
   document.getElementById('sess-t2-next').className = 'sess-next-btn show';
 }
@@ -2935,6 +2968,39 @@ function render2x2Table(d) {
   </div>`;
 }
 
+function renderCaseControlTable(d) {
+  const totalExp   = d.a + d.b;
+  const totalUnexp = d.c + d.d;
+  return `<div class="table-2x2-wrap">
+    <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#f5a623;text-align:center;margin-bottom:6px">⚗️ Case-Control Study Table</div>
+    <table class="table-2x2">
+      <thead>
+        <tr>
+          <th class="hdr-blank"></th>
+          <th class="hdr-sick">😷 Cases<br><span style="font-weight:400;font-size:0.7rem">(Sick)</span></th>
+          <th class="hdr-well">😊 Controls<br><span style="font-weight:400;font-size:0.7rem">(Healthy)</span></th>
+          <th class="hdr-total">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-exposed">${d.exposedLabel}</td>
+          <td class="cell-sick"><strong>${d.a}</strong><br><span style="font-size:0.65rem;color:#f5a623;font-weight:700">(a)</span></td>
+          <td class="cell-well"><strong>${d.b}</strong><br><span style="font-size:0.65rem;color:#aaa;font-weight:700">(b)</span></td>
+          <td class="cell-total">${totalExp}</td>
+        </tr>
+        <tr>
+          <td class="row-unexposed">${d.unexposedLabel}</td>
+          <td class="cell-sick"><strong>${d.c}</strong><br><span style="font-size:0.65rem;color:#aaa;font-weight:700">(c)</span></td>
+          <td class="cell-well"><strong>${d.d}</strong><br><span style="font-size:0.65rem;color:#f5a623;font-weight:700">(d)</span></td>
+          <td class="cell-total">${totalUnexp}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="font-size:0.72rem;text-align:center;color:#aaa;margin-top:5px">OR = <span style="color:#f5a623;font-weight:700">(a × d)</span> ÷ <span style="color:#8b8bca;font-weight:700">(b × c)</span></div>
+  </div>`;
+}
+
 function init2x2() {
   t2Idx = 0; t2QIdx = 0; t2Score = 0;
   load2x2Scenario();
@@ -2944,7 +3010,7 @@ function load2x2Scenario() {
   const d = TABLE_DATA[t2Idx];
   document.getElementById('t2-story').innerHTML =
     `<div class="scenario-emoji">${d.emoji}</div><div class="scenario-name">${d.title}</div>${d.scenario}`;
-  document.getElementById('t2-table-wrap').innerHTML = d.type === 'full' ? renderFullTable(d) : (d.type === 'linelist' ? renderLineList(d) : render2x2Table(d));
+  document.getElementById('t2-table-wrap').innerHTML = d.type === 'full' ? renderFullTable(d) : d.type === 'linelist' ? renderLineList(d) : d.type === 'casecontrol' ? renderCaseControlTable(d) : render2x2Table(d);
   document.getElementById('t2-question-wrap').style.display = 'block';
   document.getElementById('t2-result').style.display = 'none';
 
@@ -3004,7 +3070,8 @@ function check2x2() {
   document.getElementById('t2-check').disabled = true;
 
   const fb = document.getElementById('t2-feedback');
-  fb.textContent = (correct ? '✅ Correct! ' : `❌ The answer is ${q.answer}%. `) + q.explain;
+  const unit = q.unit !== undefined ? q.unit : '%';
+  fb.textContent = (correct ? '✅ Correct! ' : `❌ The answer is ${q.answer}${unit}. `) + q.explain;
   fb.className = 'feedback show ' + (correct ? 'correct' : 'wrong');
   document.getElementById('t2-next').className = 'next-btn show';
 }
