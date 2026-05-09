@@ -857,6 +857,7 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
   <div class="screen-header">
     <button class="back-btn" id="mock-back-btn" onclick="exitMockTest()">←</button>
     <div class="screen-title">🏆 Mock Test</div>
+    <button id="mock-pause-btn" style="display:none;background:none;border:1px solid #aaa;color:#aaa;border-radius:12px;padding:3px 10px;font-size:0.75rem;font-weight:700;cursor:pointer;margin-right:6px" onclick="toggleMockPause()">⏸ Pause</button>
     <div id="mock-timer" style="font-size:1rem;font-weight:800;color:#f5a623;min-width:60px;text-align:right"></div>
   </div>
 
@@ -885,6 +886,12 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
 
   <!-- Unified MCQ + SA Section -->
   <div id="mock-mcq-section" style="display:none">
+    <div id="mock-pause-overlay" style="display:none;text-align:center;padding:40px 20px">
+      <div style="font-size:3rem">⏸</div>
+      <div style="font-size:1.2rem;font-weight:700;margin:12px 0 8px">Test Paused</div>
+      <div style="font-size:0.85rem;color:#aaa;margin-bottom:24px">Timer is stopped. Pick up right where you left off.</div>
+      <button class="sess-home-btn" onclick="toggleMockPause()">▶ Continue Test</button>
+    </div>
     <div class="progress-wrap">
       <div class="progress-label" id="mock-label">Question 1 of 30</div>
       <div class="progress-bar"><div class="progress-fill" id="mock-bar" style="width:3%"></div></div>
@@ -3677,6 +3684,7 @@ let _mockSAScore = 0;        // SA got-it count
 let _mockSAWrong = 0;        // SA missed count
 let _mockTimer = null;       // setInterval handle
 let _mockTimeLeft = 0;       // seconds remaining
+let _mockPaused = false;
 let _mockAnswered = false;   // whether current question is answered/graded
 let _mockSARevealed = false; // whether current SA answer is revealed
 let _mockTopicScores = {};   // { topic: [correct, total] } (MCQ only)
@@ -3699,12 +3707,32 @@ function showMockSelector() {
   document.getElementById('mock-mcq-section').style.display = 'none';
   document.getElementById('mock-results-section').style.display = 'none';
   document.getElementById('mock-timer').textContent = '';
+  document.getElementById('mock-pause-btn').style.display = 'none';
   if (_mockTimer) { clearInterval(_mockTimer); _mockTimer = null; }
+  _mockPaused = false;
 }
 
 function exitMockTest() {
   if (_mockTimer) { clearInterval(_mockTimer); _mockTimer = null; }
+  _mockPaused = false;
+  document.getElementById('mock-pause-btn').style.display = 'none';
   showScreen('home');
+}
+
+function toggleMockPause() {
+  const overlay = document.getElementById('mock-pause-overlay');
+  const btn = document.getElementById('mock-pause-btn');
+  if (_mockPaused) {
+    _mockPaused = false;
+    _mockTimer = setInterval(updateMockTimer, 1000);
+    overlay.style.display = 'none';
+    btn.textContent = '⏸ Pause';
+  } else {
+    _mockPaused = true;
+    if (_mockTimer) { clearInterval(_mockTimer); _mockTimer = null; }
+    overlay.style.display = 'block';
+    btn.textContent = '▶ Resume';
+  }
 }
 
 function startMockTest(mode) {
@@ -3744,6 +3772,10 @@ function startMockTest(mode) {
   document.getElementById('mock-selector').style.display = 'none';
   document.getElementById('mock-mcq-section').style.display = 'block';
   document.getElementById('mock-results-section').style.display = 'none';
+  document.getElementById('mock-pause-overlay').style.display = 'none';
+  document.getElementById('mock-pause-btn').style.display = 'inline-block';
+  document.getElementById('mock-pause-btn').textContent = '⏸ Pause';
+  _mockPaused = false;
 
   loadMockQuestion();
 }
@@ -3901,6 +3933,8 @@ function gradeMockSAInline(got) {
 
 function showMockResults() {
   if (_mockTimer) { clearInterval(_mockTimer); _mockTimer = null; }
+  _mockPaused = false;
+  document.getElementById('mock-pause-btn').style.display = 'none';
   document.getElementById('mock-mcq-section').style.display = 'none';
   document.getElementById('mock-results-section').style.display = 'block';
 
