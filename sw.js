@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sigma-sleuth-v34';
+const CACHE_NAME = 'sigma-sleuth-v35';
 const ASSETS = [
   './',
   './index.html',
