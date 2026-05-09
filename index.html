@@ -930,7 +930,8 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
       <div class="sess-done-streak" id="mock-res-time"></div>
     </div>
     <div class="perf-breakdown" id="mock-topic-breakdown"></div>
-    <button class="sess-home-btn" style="margin-bottom:10px" onclick="showMockSelector()">Try Again</button>
+    <button class="sess-home-btn" style="margin-bottom:10px" onclick="startMockTest(_mockMode)">Restart Same Test</button>
+    <button class="sess-home-btn" style="margin-bottom:10px;background:#1a3a5c" onclick="showMockSelector()">Change Mode</button>
     <button class="result-home" onclick="showScreen('home')">Back to Home</button>
   </div>
 </div>
