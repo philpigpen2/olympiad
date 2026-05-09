@@ -364,26 +364,32 @@ body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-i
     </div>
   </div>
 
-  <button class="change-name-btn" onclick="showScreen('onboard')">Not you? Change name</button>
+  <button class="mode-btn red" style="width:100%;border-radius:16px;padding:18px 16px" onclick="startMockTest('state')">
+    <span style="font-size:1.5rem">🏅</span>
+    <div style="text-align:left">
+      <div style="font-size:1.05rem;font-weight:700">State Mock Test</div>
+      <div style="font-size:0.8rem;opacity:0.8;margin-top:2px">28 MCQ + 7 short answer · 35 min</div>
+    </div>
+  </button>
 
   <div class="mode-grid" style="margin-top:8px">
-    <button class="mode-btn-sm" style="background:#0f3460;grid-column:span 2" onclick="showScreen('flashcards')">
+    <button class="mode-btn-sm blue" onclick="startMockTest('regional')">
+      <span class="mode-icon-sm">📋</span>
+      <div class="mode-info-sm">
+        <div class="mode-label-sm">Regional Mock</div>
+        <div class="mode-desc-sm">30Q · 30 min</div>
+      </div>
+    </button>
+    <button class="mode-btn-sm" style="background:#0f3460" onclick="showScreen('flashcards')">
       <span class="mode-icon-sm">📚</span>
       <div class="mode-info-sm">
         <div class="mode-label-sm">Flashcards</div>
         <div class="mode-desc-sm">120 terms · write & reveal</div>
       </div>
     </button>
-    <button class="mode-btn-sm" style="background:#0f4c2a;grid-column:span 2" onclick="showScreen('mocktest')">
-      <span class="mode-icon-sm">🏆</span>
-      <div class="mode-info-sm">
-        <div class="mode-label-sm">Mock Test</div>
-        <div class="mode-desc-sm">Regional (30Q · 30min) or State (35Q · 35min)</div>
-      </div>
-    </button>
   </div>
 
-  <div class="tip-box">🏆 <strong>Competition tip:</strong> Accuracy beats speed. The fastest finishers don't always win — slow down and double-check every answer.</div>
+  <button class="change-name-btn" onclick="showScreen('onboard')">Not you? Change name</button>
 </div>
 
 <!-- SESSION SCREEN -->
